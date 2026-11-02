@@ -74,6 +74,6 @@ tmux -L kit kill-server
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 01 — Primeros pasos y modelo cliente-servidor](../week-01-primeros_pasos_y_modelo_cliente_servidor/README.md) | **Semana 02 — Ventanas y paneles** | Semana 03 — Sesiones, targets y sockets |
+| [← Semana 01 — Primeros pasos y modelo cliente-servidor](../week-01-primeros_pasos_y_modelo_cliente_servidor/README.md) | **Semana 02 — Ventanas y paneles** | [Semana 03 — Sesiones, targets y sockets →](../week-03-sesiones_targets_y_sockets/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)

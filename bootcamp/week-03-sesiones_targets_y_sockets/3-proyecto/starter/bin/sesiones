@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# sesiones — lista las sesiones de tmux y salta entre ellas.
+#
+# Uso: sesiones [ls]                 lista, la usada más recientemente primero
+#      sesiones ir NOMBRE            salta a la sesión (attach o switch-client)
+#      sesiones nueva NOMBRE [DIR]   la crea si no existe y salta a ella
+#      sesiones grupo BASE NUEVA     crea NUEVA en el grupo de BASE
+# Salida: 0 bien, 1 la sesión no existe o no hay servidor, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+uso() {
+  sed -n '4,8s/^# \{0,1\}//p' "$0" >&2
+  exit 2
+}
+
+error() { echo "sesiones: $*" >&2; exit 1; }
+
+listar() {
+  # TODO 1: lista las sesiones con list-sessions -F (no arranca un servidor:
+  #         si falla, error "no hay servidor..."). Ordena por
+  #         #{session_activity}, la más reciente primero, y empata por nombre.
+  # TODO 2: imprime "NOMBRE (N ventanas)", con "1 ventana" en singular.
+  # TODO 3: si $TMUX apunta a este servidor (el socket va antes de la primera
+  #         coma; compáralo con #{socket_path}), añade " *" a la sesión actual.
+  echo "sesiones ls: sin implementar" >&2
+  exit 99
+}
+
+ir() {
+  # TODO 4: comprueba que la sesión "$1" existe con coincidencia exacta
+  #         (has-session -t "=$1"); si no, error con las disponibles.
+  #         Dentro de tmux ($TMUX no vacío): switch-client. Fuera: attach-session.
+  echo "sesiones ir: sin implementar ($1)" >&2
+  exit 99
+}
+
+nueva() {
+  # TODO 5: rechaza (salida 2) un nombre vacío o con "." o ":"; crea la sesión
+  #         en segundo plano en "${2:-$PWD}" si no existe; después ir "$1".
+  echo "sesiones nueva: sin implementar ($*)" >&2
+  exit 99
+}
+
+grupo() {
+  # TODO 6: si no existe la base, o ya existe la nueva, error. Si no:
+  #         new-session -d -t "=$1" -s "$2"
+  echo "sesiones grupo: sin implementar ($*)" >&2
+  exit 99
+}
+
+case "${1:-ls}:$#" in
+  ls:0 | ls:1) listar ;;
+  ir:2)        ir "$2" ;;
+  nueva:2)     nueva "$2" ;;
+  nueva:3)     nueva "$2" "$3" ;;
+  grupo:3)     grupo "$2" "$3" ;;
+  *)           uso ;;
+esac

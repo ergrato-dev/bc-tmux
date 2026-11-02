@@ -1,0 +1,146 @@
+{
+  "semana": "03",
+  "titulo": "Sesiones, targets y sockets",
+  "checks": [
+    {
+      "id": "ls-sin-servidor",
+      "descripcion": "Sin servidor, sesiones sale con 1",
+      "cmd": "TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones",
+      "assert": "exit=1",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 1"
+    },
+    {
+      "id": "ls-no-arranca",
+      "descripcion": "Sin servidor, sesiones no arranca ninguno",
+      "cmd": "TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones >/dev/null 2>&1 ; {tmux} has-session",
+      "assert": "exit!=0",
+      "pista": "2-practicas/lab-01-varias-sesiones/README.md, paso 6"
+    },
+    {
+      "id": "ls-una-linea",
+      "descripcion": "Una línea por sesión",
+      "cmd": "{tmux} -f /dev/null new-session -d -s api ; {tmux} -f /dev/null new-session -d -s web ; {tmux} -f /dev/null new-session -d -s notas ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones | grep -c .",
+      "assert": "stdout~^3$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 1"
+    },
+    {
+      "id": "ls-formato",
+      "descripcion": "Cada línea dice el nombre y cuántas ventanas tiene",
+      "cmd": "{tmux} -f /dev/null new-session -d -s api ; {tmux} new-window -d -t api: ; {tmux} -f /dev/null new-session -d -s web ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones",
+      "assert": "stdout~^api [(]2 ventanas[)]$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 2"
+    },
+    {
+      "id": "ls-singular",
+      "descripcion": "Una sola ventana se escribe en singular",
+      "cmd": "{tmux} -f /dev/null new-session -d -s web ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones",
+      "assert": "stdout~^web [(]1 ventana[)]$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 2"
+    },
+    {
+      "id": "ls-orden",
+      "descripcion": "La sesión usada más recientemente va primero",
+      "cmd": "{tmux} -f /dev/null new-session -d -s uno ; sleep 1.2 ; {tmux} -f /dev/null new-session -d -s dos ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones | head -1",
+      "assert": "stdout~^dos ",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 3"
+    },
+    {
+      "id": "ls-marca-actual",
+      "descripcion": "Dentro de tmux, la sesión actual lleva un asterisco",
+      "cmd": "{tmux} -f /dev/null new-session -d -s api ; {tmux} -f /dev/null new-session -d -s web ; p=$({tmux} display -p -t web: '#{pane_id}') ; s=$({tmux} display -p '#{socket_path}') ; TMUX=\"$s,1,0\" TMUX_PANE=$p TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones | grep '[*]'",
+      "assert": "stdout~^web [(]1 ventana[)] [*]$",
+      "pista": "1-teoria/02-targets-y-sockets.md, sección La variable TMUX"
+    },
+    {
+      "id": "ls-otro-servidor",
+      "descripcion": "Con TMUX de otro servidor, no marca ninguna",
+      "cmd": "{tmux} -f /dev/null new-session -d -s api ; {tmux} -f /dev/null new-session -d -s web ; p=$({tmux} display -p -t web: '#{pane_id}') ; s=$({tmux} display -p '#{socket_path}') ; TMUX=\"/tmp/otro,1,0\" TMUX_PANE=$p TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones",
+      "assert": "stdout!~[*]",
+      "pista": "1-teoria/02-targets-y-sockets.md, sección La variable TMUX"
+    },
+    {
+      "id": "ir-fuera",
+      "descripcion": "Fuera de tmux, ir conecta un cliente con attach",
+      "cmd": "rm -f /tmp/espia.log ; {tmux} -f /dev/null new-session -d -s api ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones ir api && grep -q attach /tmp/espia.log && ! grep -q switch /tmp/espia.log",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 4"
+    },
+    {
+      "id": "ir-dentro",
+      "descripcion": "Dentro de tmux, ir cambia de sesión con switch-client",
+      "cmd": "rm -f /tmp/espia.log ; {tmux} -f /dev/null new-session -d -s api ; {tmux} -f /dev/null new-session -d -s web ; p=$({tmux} display -p -t web: '#{pane_id}') ; s=$({tmux} display -p '#{socket_path}') ; TMUX=\"$s,1,0\" TMUX_PANE=$p TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones ir api && grep -q switch /tmp/espia.log && ! grep -q attach /tmp/espia.log",
+      "assert": "exit0",
+      "pista": "2-practicas/lab-03-moverte-entre-sesiones/README.md, paso 5"
+    },
+    {
+      "id": "ir-exacto",
+      "descripcion": "ir api no salta a api-2",
+      "cmd": "rm -f /tmp/espia.log ; {tmux} -f /dev/null new-session -d -s api-2 ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones ir api ; rc=$? ; test ! -s /tmp/espia.log && exit $rc",
+      "assert": "exit=1",
+      "pista": "2-practicas/lab-02-targets/README.md, paso 4"
+    },
+    {
+      "id": "ir-sugiere",
+      "descripcion": "Si la sesión no existe, lista las disponibles",
+      "cmd": "rm -f /tmp/espia.log ; {tmux} -f /dev/null new-session -d -s api-2 ; {tmux} -f /dev/null new-session -d -s web ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones ir nada 2>&1 | paste -sd' ' -",
+      "assert": "stdout~api-2.*web|web.*api-2",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 4"
+    },
+    {
+      "id": "nueva-crea",
+      "descripcion": "nueva crea la sesión en el directorio indicado",
+      "cmd": "rm -f /tmp/espia.log ; {tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones nueva api /tmp >/dev/null ; sleep 0.3 ; {tmux} display -p -t api: '#{pane_current_path}'",
+      "assert": "stdout~^/tmp$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 5"
+    },
+    {
+      "id": "nueva-salta",
+      "descripcion": "nueva salta a la sesión que crea",
+      "cmd": "rm -f /tmp/espia.log ; {tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones nueva api /tmp >/dev/null ; grep api /tmp/espia.log",
+      "assert": "stdout~attach",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 5"
+    },
+    {
+      "id": "nueva-idempotente",
+      "descripcion": "nueva dos veces deja una sola sesión y sale con 0",
+      "cmd": "rm -f /tmp/espia.log ; {tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones nueva api /tmp && TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones nueva api /tmp && {tmux} list-sessions -F '#{session_name}' | grep -cx api",
+      "assert": "stdout~^1$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 5"
+    },
+    {
+      "id": "nueva-nombre-invalido",
+      "descripcion": "nueva rechaza nombres con punto o dos puntos",
+      "cmd": "rm -f /tmp/espia.log ; {tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones nueva a.b ; rc=$? ; {tmux} has-session -t =a_b 2>/dev/null && exit 9 ; exit $rc",
+      "assert": "exit=2",
+      "pista": "2-practicas/lab-02-targets/README.md, paso 6"
+    },
+    {
+      "id": "grupo-comparte",
+      "descripcion": "grupo crea una sesión que comparte las ventanas de la base",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones grupo base copia >/dev/null ; {tmux} new-window -d -t base: -n extra ; {tmux} list-windows -t copia: -F '#{window_name}'",
+      "assert": "stdout~^extra$",
+      "pista": "2-practicas/lab-04-grupos-de-sesiones/README.md, paso 2"
+    },
+    {
+      "id": "grupo-sin-base",
+      "descripcion": "grupo sale con 1 si la base no existe",
+      "cmd": "{tmux} -f /dev/null new-session -d -s otra ; TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones grupo base copia ; rc=$? ; {tmux} has-session -t =copia 2>/dev/null && exit 9 ; exit $rc",
+      "assert": "exit=1",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 6"
+    },
+    {
+      "id": "uso",
+      "descripcion": "Una orden desconocida sale con 2",
+      "cmd": "TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones volar",
+      "assert": "exit=2",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 7"
+    },
+    {
+      "id": "bin-completo-y-limpio",
+      "descripcion": "Los scripts de bin/ no tienen TODOs y pasan shellcheck",
+      "cmd": "! grep -n TODO {proyecto}/bin/* && shellcheck {proyecto}/bin/*",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Calidad"
+    }
+  ]
+}

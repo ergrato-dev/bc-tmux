@@ -16,7 +16,7 @@ está en construcción (sin enlace hasta que exista la carpeta).
 |:--:|---|:--:|
 | [01](week-01-primeros_pasos_y_modelo_cliente_servidor/README.md) | Primeros pasos y modelo cliente-servidor | ✅ |
 | [02](week-02-ventanas_y_paneles/README.md) | Ventanas y paneles | ✅ |
-| 03 | Sesiones, targets y sockets | ⬜ |
+| [03](week-03-sesiones_targets_y_sockets/README.md) | Sesiones, targets y sockets | ✅ |
 | 04 | Copy mode, buffers y portapapeles | ⬜ |
 
 ### Fase 2 — Configuración (S05-08, 40 h)

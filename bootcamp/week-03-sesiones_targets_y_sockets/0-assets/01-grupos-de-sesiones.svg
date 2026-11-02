@@ -1,0 +1,46 @@
+<svg viewBox="0 0 900 400" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Las sesiones api y api-2 forman un grupo que comparte las ventanas @1, @2 y @3; cada sesión tiene su propia ventana actual y su propio cliente</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+  </defs>
+  <rect width="900" height="400" fill="#0d1117"/>
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- clients -->
+    <rect x="90" y="20" width="200" height="44" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="190" y="47" fill="#79c0ff" text-anchor="middle">cliente 1 (monitor izq.)</text>
+    <rect x="610" y="20" width="200" height="44" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="710" y="47" fill="#79c0ff" text-anchor="middle">cliente 2 (monitor der.)</text>
+    <line x1="190" y1="64" x2="190" y2="98" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="710" y1="64" x2="710" y2="98" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- sessions -->
+    <rect x="90" y="102" width="200" height="60" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="190" y="128" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">sesión api</text>
+    <text x="190" y="148" fill="#8b949e" text-anchor="middle" font-size="12">ventana actual: @1</text>
+    <rect x="610" y="102" width="200" height="60" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="710" y="128" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">sesión api-2</text>
+    <text x="710" y="148" fill="#8b949e" text-anchor="middle" font-size="12">ventana actual: @2</text>
+
+    <!-- group box -->
+    <rect x="60" y="190" width="780" height="140" rx="8" fill="none" stroke="#30363d" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="80" y="214" fill="#d2a8ff" font-size="13">grupo api: las mismas ventanas, no copias</text>
+
+    <rect x="140" y="232" width="160" height="70" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="220" y="262" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">@1 editor</text>
+    <text x="220" y="284" fill="#8b949e" text-anchor="middle" font-size="12">la mira api</text>
+    <rect x="370" y="232" width="160" height="70" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="450" y="262" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">@2 logs</text>
+    <text x="450" y="284" fill="#8b949e" text-anchor="middle" font-size="12">la mira api-2</text>
+    <rect x="600" y="232" width="160" height="70" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="680" y="262" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">@3 tests</text>
+    <text x="680" y="284" fill="#8b949e" text-anchor="middle" font-size="12">nadie la mira</text>
+
+    <line x1="190" y1="162" x2="215" y2="228" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <line x1="700" y1="162" x2="465" y2="228" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+    <text x="450" y="362" fill="#8b949e" text-anchor="middle" font-size="13">Crear o cerrar una ventana cambia las dos sesiones. Cerrar api-2 no cierra api.</text>
+    <text x="450" y="384" fill="#f78166" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">tmux new-session -d -t api -s api-2</text>
+  </g>
+</svg>

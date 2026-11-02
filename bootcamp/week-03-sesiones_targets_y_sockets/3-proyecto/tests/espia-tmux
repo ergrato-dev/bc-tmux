@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# espia-tmux — para el autograding. Sin terminal no se puede conectar un
+# cliente, así que attach-session y switch-client se anotan en $ESPIA_LOG en
+# vez de ejecutarse. El resto de comandos pasan al tmux real.
+set -euo pipefail
+
+args=("$@")
+i=0
+# Salta las opciones globales (-L x, -S x, -f x, -u ...) hasta el comando.
+while (( i < ${#args[@]} )) && [[ "${args[i]}" == -* ]]; do
+  case "${args[i]}" in -L|-S|-f|-c|-T) i=$(( i + 2 )) ;; *) i=$(( i + 1 )) ;; esac
+done
+
+case "${args[i]:-}" in
+  attach|attach-session|a|at|switch-client|switchc)
+    echo "${args[*]:i}" >>"${ESPIA_LOG:?define ESPIA_LOG}"
+    exit 0
+    ;;
+esac
+exec tmux "$@"

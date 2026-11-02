@@ -78,7 +78,7 @@ bootcamp/week-NN-nombre_del_tema/
 |--------|------|-----------------|
 | [01 — Primeros pasos y modelo cliente-servidor](bootcamp/week-01-primeros_pasos_y_modelo_cliente_servidor/README.md) | Servidor/cliente, sesión → ventana → panel, prefix, detach/attach | `tmux-kit` con `bin/check-version` y `bin/kit-tree` |
 | [02 — Ventanas y paneles](bootcamp/week-02-ventanas_y_paneles/README.md) | split, navegación, resize, zoom, layouts, `break-pane`/`join-pane` | `bin/kit-layout`: ventana de trabajo de 3 paneles y layouts guardados |
-| 03 — Sesiones, targets y sockets | `choose-tree`, `switch-client`, targets, grupos de sesiones, `-L`/`-S` | Script para listar y saltar entre sesiones |
+| [03 — Sesiones, targets y sockets](bootcamp/week-03-sesiones_targets_y_sockets/README.md) | `choose-tree`, `switch-client`, targets, grupos de sesiones, `-L`/`-S` | `bin/sesiones`: listar, saltar, crear y agrupar sesiones |
 | 04 — Copy mode, buffers y portapapeles | copy-mode vi, buffers, `set-clipboard`, OSC 52, `capture-pane` | Portapapeles en local y por SSH |
 | 05 — Configuración y alcance de opciones | `tmux.conf` XDG, alcances, herencia, `source-file`, config modular | `tmux.conf` + `conf.d/` con recarga en caliente |
 | 06 — Key bindings, tablas y navegación | `bind`, `-r`, `-n`, tablas propias, navegación con Neovim | Modo resize + navegación con Neovim |
