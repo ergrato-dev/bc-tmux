@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# kit-copiar — copia su entrada estándar al portapapeles del sistema.
+#
+# Uso: ... | kit-copiar
+# Elige el método según dónde se ejecuta:
+#   - por SSH, o sin portapapeles gráfico: OSC 52 (lo pega tu terminal local)
+#   - macOS: pbcopy · WSL: win32yank.exe o clip.exe · Wayland: wl-copy
+#   - X11: xclip o xsel
+# Salida: 0 copiado, 1 falta la herramienta de tu sistema, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+falta() { echo "kit-copiar: $1" >&2; exit 1; }
+hay() { command -v "$1" >/dev/null 2>&1; }
+
+(( $# == 0 )) || { sed -n '4,9s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+osc52() {
+  # TODO 1: dentro de tmux ($TMUX no vacío): tmx load-buffer -w -
+  #         Fuera: printf '\033]52;c;%s\a' con la entrada en base64 sin
+  #         saltos de línea, a "${KIT_TTY:-/dev/tty}".
+  echo "kit-copiar: OSC 52 sin implementar" >&2
+  exit 99
+}
+
+# TODO 2: elige el método en este orden y llama a la herramienta:
+#   SSH_CONNECTION o SSH_TTY  -> osc52
+#   uname = Darwin            -> pbcopy
+#   WSL_DISTRO_NAME           -> win32yank.exe -i, si no clip.exe, si no falta
+#   WAYLAND_DISPLAY           -> wl-copy, si no falta "instala wl-clipboard ..."
+#   DISPLAY                   -> xclip -selection clipboard, si no
+#                                xsel --clipboard --input, si no falta
+#   nada de lo anterior       -> osc52
+echo "kit-copiar: sin implementar" >&2
+exit 99

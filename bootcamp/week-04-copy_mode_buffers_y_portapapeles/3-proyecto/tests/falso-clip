@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# falso-clip — para el autograding. Se enlaza con el nombre de una herramienta
+# de portapapeles (wl-copy, xclip, xsel, pbcopy, clip.exe, win32yank.exe) y
+# guarda lo que recibe junto a sí: NOMBRE.datos (stdin) y NOMBRE.args.
+set -euo pipefail
+dir=$(dirname "$0")
+nombre=$(basename "$0")
+printf '%s\n' "$*" >"$dir/$nombre.args"
+cat >"$dir/$nombre.datos"

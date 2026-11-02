@@ -1,0 +1,60 @@
+<svg viewBox="0 0 900 470" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Camino de una copia en tmux: copy mode crea un buffer; desde el buffer, set-clipboard envía OSC 52 a tu terminal y copy-pipe entrega el texto a copy-command; las dos ramas llegan al portapapeles del sistema</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+  </defs>
+  <rect width="900" height="470" fill="#0d1117"/>
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- copy mode -->
+    <rect x="30" y="195" width="170" height="64" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="115" y="222" fill="#f0f6fc" text-anchor="middle">copy mode</text>
+    <text x="115" y="243" fill="#8b949e" text-anchor="middle" font-size="12">seleccionas con v</text>
+    <line x1="200" y1="227" x2="276" y2="227" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="238" y="216" fill="#f78166" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">y</text>
+
+    <!-- buffer -->
+    <rect x="280" y="195" width="170" height="64" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="365" y="222" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">buffer0</text>
+    <text x="365" y="243" fill="#8b949e" text-anchor="middle" font-size="12">pila de buffers de tmux</text>
+
+    <!-- paste back -->
+    <line x1="365" y1="259" x2="365" y2="326" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="375" y="298" fill="#f78166" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">prefix ]</text>
+    <rect x="280" y="330" width="170" height="56" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="365" y="354" fill="#f0f6fc" text-anchor="middle">otro panel</text>
+    <text x="365" y="373" fill="#8b949e" text-anchor="middle" font-size="12">solo dentro de tmux</text>
+
+    <!-- branch OSC 52 -->
+    <path d="M450,210 L480,210 L480,110 L506,110" fill="none" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="488" y="160" fill="#d2a8ff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">set-clipboard</text>
+    <rect x="510" y="80" width="160" height="60" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="590" y="106" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">OSC 52</text>
+    <text x="590" y="126" fill="#8b949e" text-anchor="middle" font-size="12">viaja con el texto</text>
+    <line x1="670" y1="110" x2="696" y2="110" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="700" y="80" width="170" height="60" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="785" y="106" fill="#79c0ff" text-anchor="middle">tu terminal</text>
+    <text x="785" y="126" fill="#8b949e" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">clipboard</text>
+
+    <!-- branch copy-command -->
+    <path d="M450,244 L480,244 L480,340 L506,340" fill="none" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="488" y="300" fill="#d2a8ff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">copy-pipe</text>
+    <rect x="510" y="310" width="160" height="60" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="590" y="336" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">copy-command</text>
+    <text x="590" y="356" fill="#8b949e" text-anchor="middle" font-size="12">stdin, sin tty</text>
+    <line x1="670" y1="340" x2="696" y2="340" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="700" y="310" width="170" height="60" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="785" y="336" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">pbcopy · wl-copy</text>
+    <text x="785" y="356" fill="#8b949e" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">xclip · win32yank.exe</text>
+
+    <!-- clipboard -->
+    <line x1="785" y1="140" x2="785" y2="191" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="785" y1="310" x2="785" y2="263" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="700" y="195" width="170" height="64" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="785" y="222" fill="#f0f6fc" text-anchor="middle">portapapeles</text>
+    <text x="785" y="243" fill="#8b949e" text-anchor="middle" font-size="12">del sistema: Ctrl+V</text>
+
+    <text x="30" y="438" fill="#e3b341" font-size="13">Las dos ramas pueden ocurrir a la vez: con set-clipboard en external u on, copy-pipe también envía el OSC 52.</text>
+  </g>
+</svg>

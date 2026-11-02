@@ -74,6 +74,6 @@ tmux -L kit kill-server
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 02 — Ventanas y paneles](../week-02-ventanas_y_paneles/README.md) | **Semana 03 — Sesiones, targets y sockets** | Semana 04 — Copy mode, buffers y portapapeles |
+| [← Semana 02 — Ventanas y paneles](../week-02-ventanas_y_paneles/README.md) | **Semana 03 — Sesiones, targets y sockets** | [Semana 04 — Copy mode, buffers y portapapeles →](../week-04-copy_mode_buffers_y_portapapeles/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)

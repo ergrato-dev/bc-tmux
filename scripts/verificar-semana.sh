@@ -189,7 +189,7 @@ verificar_semana() {
   fi
 
   local dir
-  dir=$(find bootcamp -maxdepth 1 -type d -name "week-${semana}-*" | head -1)
+  dir=$(find "$RAIZ/bootcamp" -maxdepth 1 -type d -name "week-${semana}-*" | head -1)
   if [[ -z "$dir" ]]; then
     rojo "No existe la carpeta de la Semana $semana."
     exit 1

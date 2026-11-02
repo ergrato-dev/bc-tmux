@@ -1,0 +1,42 @@
+<svg viewBox="0 0 900 400" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>OSC 52 por SSH: tmux en el servidor remoto envía la secuencia por la conexión SSH hasta tu terminal, que llena el portapapeles local; wl-copy en el remoto llenaría un portapapeles que nadie ve</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f85149"/>
+    </marker>
+  </defs>
+  <rect width="900" height="400" fill="#0d1117"/>
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- local -->
+    <rect x="30" y="30" width="320" height="330" rx="8" fill="none" stroke="#30363d" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="50" y="56" fill="#d2a8ff" font-size="13">tu máquina</text>
+    <rect x="55" y="80" width="270" height="70" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="190" y="110" fill="#79c0ff" text-anchor="middle">tu terminal</text>
+    <text x="190" y="132" fill="#8b949e" text-anchor="middle" font-size="12">Windows Terminal, iTerm2, kitty</text>
+    <line x1="190" y1="150" x2="190" y2="236" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="200" y="198" fill="#8b949e" font-size="12">decodifica el base64</text>
+    <rect x="55" y="240" width="270" height="70" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="190" y="270" fill="#f0f6fc" text-anchor="middle">portapapeles local</text>
+    <text x="190" y="292" fill="#8b949e" text-anchor="middle" font-size="12">aquí pegas con Ctrl+V</text>
+
+    <!-- remote -->
+    <rect x="550" y="30" width="320" height="330" rx="8" fill="none" stroke="#30363d" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="570" y="56" fill="#d2a8ff" font-size="13">servidor remoto</text>
+    <rect x="575" y="80" width="270" height="70" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="710" y="110" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">tmux server</text>
+    <text x="710" y="132" fill="#8b949e" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">set-clipboard on</text>
+    <line x1="710" y1="150" x2="710" y2="236" stroke="#f85149" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-red)"/>
+    <text x="720" y="198" fill="#f85149" font-size="12">copy-command local</text>
+    <rect x="575" y="240" width="270" height="70" rx="6" fill="#161b22" stroke="#f85149" stroke-width="2"/>
+    <text x="710" y="270" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">wl-copy / xclip</text>
+    <text x="710" y="292" fill="#f85149" text-anchor="middle" font-size="12">portapapeles remoto: nadie lo ve</text>
+
+    <!-- ssh -->
+    <line x1="575" y1="115" x2="329" y2="115" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="450" y="100" fill="#79c0ff" text-anchor="middle" font-size="13">conexión SSH</text>
+    <text x="450" y="138" fill="#8b949e" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">texto + OSC 52</text>
+  </g>
+</svg>

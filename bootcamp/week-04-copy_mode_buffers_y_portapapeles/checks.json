@@ -1,0 +1,139 @@
+{
+  "semana": "04",
+  "titulo": "Copy mode, buffers y portapapeles",
+  "checks": [
+    {
+      "id": "conf-mode-keys",
+      "descripcion": "copy mode usa las teclas de vi",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -gwv mode-keys",
+      "assert": "stdout~^vi$",
+      "pista": "2-practicas/lab-01-moverte-por-el-historial/README.md, paso 2"
+    },
+    {
+      "id": "conf-historial",
+      "descripcion": "history-limit es de al menos 10000 líneas",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -gv history-limit | awk '$1>=10000 {ok=1} END {exit !ok}'",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 1"
+    },
+    {
+      "id": "conf-set-clipboard",
+      "descripcion": "set-clipboard está en on",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -sv set-clipboard",
+      "assert": "stdout~^on$",
+      "pista": "2-practicas/lab-06-portapapeles-roto/README.md, paso 3"
+    },
+    {
+      "id": "conf-copy-command",
+      "descripcion": "copy-command apunta a bin/kit-copiar del kit",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -sv copy-command",
+      "assert": "stdout~3-proyecto/(starter|solucion)/bin/kit-copiar$",
+      "pista": "1-teoria/02-portapapeles-y-osc52.md, sección copy-command"
+    },
+    {
+      "id": "conf-teclas",
+      "descripcion": "v selecciona, C-v hace rectángulo e y copia con copy-pipe",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} list-keys -T copy-mode-vi | grep -cE ' (v +send-keys -X begin-selection|C-v +send-keys -X rectangle-toggle|y +send-keys -X copy-pipe-and-cancel)$'",
+      "assert": "stdout~^3$",
+      "pista": "2-practicas/lab-02-seleccionar-y-copiar/README.md, paso 5"
+    },
+    {
+      "id": "conf-de-punta-a-punta",
+      "descripcion": "Copiar con y en copy mode llega al portapapeles",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso wl-copy) ; env -i PATH=$f HOME=/tmp WAYLAND_DISPLAY=w {tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} send-keys 'echo xyzzy' Enter ; sleep 0.5 ; {tmux} copy-mode ; {tmux} send -X search-backward xyzzy ; {tmux} send -X begin-selection ; {tmux} send -X next-word-end ; {tmux} send-keys y ; sleep 0.5 ; cat $f/wl-copy.datos",
+      "assert": "stdout~^xyzzy$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 1"
+    },
+    {
+      "id": "kc-wayland",
+      "descripcion": "En Wayland copia con wl-copy",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso wl-copy) ; printf hola | env -i PATH=$f HOME=/tmp WAYLAND_DISPLAY=w {proyecto}/bin/kit-copiar ; cat $f/wl-copy.datos",
+      "assert": "stdout~^hola$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 3"
+    },
+    {
+      "id": "kc-wayland-sin-herramienta",
+      "descripcion": "En Wayland sin wl-copy sale con 1 y dice qué instalar",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso ) ; printf hola | env -i PATH=$f HOME=/tmp WAYLAND_DISPLAY=w {proyecto}/bin/kit-copiar 2>&1 | paste -sd' ' - ; echo rc=${PIPESTATUS[0]}",
+      "assert": "stdout~wl-clipboard",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 4"
+    },
+    {
+      "id": "kc-wayland-sin-herramienta-rc",
+      "descripcion": "En Wayland sin wl-copy el código de salida es 1",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso ) ; printf hola | env -i PATH=$f HOME=/tmp WAYLAND_DISPLAY=w {proyecto}/bin/kit-copiar 2>/dev/null",
+      "assert": "exit=1",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 4"
+    },
+    {
+      "id": "kc-xclip",
+      "descripcion": "En X11 copia con xclip en CLIPBOARD, no en PRIMARY",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso xclip) ; printf hola | env -i PATH=$f HOME=/tmp DISPLAY=:0 {proyecto}/bin/kit-copiar ; grep -qE -- '-sel(ection)? c' $f/xclip.args && cat $f/xclip.datos",
+      "assert": "stdout~^hola$",
+      "pista": "2-practicas/lab-05-portapapeles-del-sistema/README.md, paso 4"
+    },
+    {
+      "id": "kc-xsel",
+      "descripcion": "En X11 sin xclip usa xsel",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso xsel) ; printf hola | env -i PATH=$f HOME=/tmp DISPLAY=:0 {proyecto}/bin/kit-copiar ; cat $f/xsel.datos",
+      "assert": "stdout~^hola$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 3"
+    },
+    {
+      "id": "kc-macos",
+      "descripcion": "En macOS copia con pbcopy",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso pbcopy darwin) ; printf hola | env -i PATH=$f HOME=/tmp DISPLAY=:0 {proyecto}/bin/kit-copiar ; cat $f/pbcopy.datos",
+      "assert": "stdout~^hola$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 3"
+    },
+    {
+      "id": "kc-wsl",
+      "descripcion": "En WSL copia con clip.exe",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso clip.exe) ; printf hola | env -i PATH=$f HOME=/tmp WSL_DISTRO_NAME=Ubuntu {proyecto}/bin/kit-copiar ; cat $f/clip.exe.datos",
+      "assert": "stdout~^hola$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 3"
+    },
+    {
+      "id": "kc-wsl-utf8",
+      "descripcion": "En WSL prefiere win32yank.exe, que respeta la ñ",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso clip.exe win32yank.exe) ; printf hola | env -i PATH=$f HOME=/tmp WSL_DISTRO_NAME=Ubuntu {proyecto}/bin/kit-copiar ; test ! -e $f/clip.exe.datos && cat $f/win32yank.exe.datos",
+      "assert": "stdout~^hola$",
+      "pista": "2-practicas/lab-05-portapapeles-del-sistema/README.md, paso 3"
+    },
+    {
+      "id": "kc-ssh",
+      "descripcion": "Por SSH usa OSC 52 aunque haya herramientas locales",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso wl-copy) ; printf hola | env -i PATH=$f HOME=/tmp WAYLAND_DISPLAY=w SSH_CONNECTION=x KIT_TTY=/tmp/kc-tty {proyecto}/bin/kit-copiar ; test ! -e $f/wl-copy.datos && cat /tmp/kc-tty",
+      "assert": "stdout~]52;c;aG9sYQ==",
+      "pista": "1-teoria/02-portapapeles-y-osc52.md, sección OSC 52"
+    },
+    {
+      "id": "kc-sin-grafico",
+      "descripcion": "Sin entorno gráfico usa OSC 52",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso ) ; printf hola | env -i PATH=$f HOME=/tmp KIT_TTY=/tmp/kc-tty2 {proyecto}/bin/kit-copiar ; cat /tmp/kc-tty2",
+      "assert": "stdout~]52;c;aG9sYQ==",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 2"
+    },
+    {
+      "id": "kc-dentro-de-tmux",
+      "descripcion": "Dentro de tmux, OSC 52 pasa por load-buffer -w",
+      "cmd": "{tmux} -f /dev/null new-session -d ; s=$({tmux} display -p '#{socket_path}') ; f=$({semana}/3-proyecto/tests/path-falso ) ; printf hola | env -i PATH=$f HOME=/tmp SSH_CONNECTION=x TMUX_SOCKET=bc-check TMUX=$s,1,0 {proyecto}/bin/kit-copiar ; {tmux} show-buffer",
+      "assert": "stdout~^hola$",
+      "pista": "2-practicas/lab-06-portapapeles-roto/README.md, paso 5"
+    },
+    {
+      "id": "kc-uso",
+      "descripcion": "Con argumentos, kit-copiar sale con 2",
+      "cmd": "f=$({semana}/3-proyecto/tests/path-falso ) ; printf hola | env -i PATH=$f HOME=/tmp  {proyecto}/bin/kit-copiar algo",
+      "assert": "exit=2",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 5"
+    },
+    {
+      "id": "bin-completo-y-limpio",
+      "descripcion": "Los scripts de bin/ no tienen TODOs y pasan shellcheck",
+      "cmd": "! grep -n TODO {proyecto}/bin/* {proyecto}/tmux.conf && shellcheck {proyecto}/bin/*",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Calidad"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# path-falso — para el autograding. Crea un directorio temporal que sirve de
+# PATH único: enlaza todos los ejecutables de tu PATH salvo las herramientas
+# de portapapeles reales, y añade las falsas que pidas. Imprime el directorio.
+# Uso: path-falso [wl-copy|xclip|xsel|pbcopy|clip.exe|win32yank.exe|darwin]...
+#      "darwin" añade un uname que responde Darwin (macOS).
+set -euo pipefail
+
+reales='^(wl-copy|xclip|xsel|pbcopy|clip\.exe|win32yank\.exe)$'
+dir=$(mktemp -d)
+aqui=$(cd "$(dirname "$0")" && pwd)
+
+IFS=: read -ra rutas <<<"$PATH"
+for ruta in "${rutas[@]}"; do
+  [[ -d "$ruta" ]] || continue
+  for exe in "$ruta"/*; do
+    nombre=$(basename "$exe")
+    [[ -x "$exe" && ! -e "$dir/$nombre" ]] || continue
+    [[ "$nombre" =~ $reales ]] && continue
+    ln -s "$exe" "$dir/$nombre"
+  done
+done
+
+for falsa in "$@"; do
+  if [[ "$falsa" == darwin ]]; then
+    rm -f "$dir/uname"
+    printf '#!/bin/sh\necho Darwin\n' >"$dir/uname"
+    chmod +x "$dir/uname"
+  else
+    ln -s "$aqui/falso-clip" "$dir/$falsa"
+  fi
+done
+echo "$dir"
