@@ -1,0 +1,13 @@
+# Laboratorio de bc-tmux. Uso: docs/setup-entorno.md
+#   docker compose build
+#   docker compose run --rm lab          # shell dentro del laboratorio
+#   ./scripts/verificar-semana.sh NN     # usa este contenedor por defecto
+services:
+  lab:
+    build: lab
+    image: bc-tmux-lab:3.4
+    hostname: bc-tmux-lab
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/bc-tmux

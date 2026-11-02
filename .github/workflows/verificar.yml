@@ -1,0 +1,39 @@
+name: Verificar contenido
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Principio de minimo privilegio: solo lectura
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # ubuntu-24.04 trae tmux 3.4 por apt: la misma version que el laboratorio.
+      - name: Instalar tmux
+        run: sudo apt-get update && sudo apt-get install -y tmux
+
+      - name: Estructura, enlaces y configs starter
+        run: ./scripts/verificar-enlaces.sh
+
+      - name: shellcheck de scripts/
+        run: shellcheck -S warning scripts/*.sh
+
+      - name: Construir el laboratorio
+        run: docker compose build
+
+      # Cada solucion de referencia tiene que pasar el autograding de su semana.
+      # Cuando las soluciones se muden al repo del instructor, este paso va con ellas.
+      - name: Las soluciones pasan su checks.json
+        run: |
+          shopt -s nullglob
+          for f in bootcamp/week-*/checks.json; do
+            semana=$(basename "$(dirname "$f")" | cut -d- -f2)
+            ENTREGA=solucion ./scripts/verificar-semana.sh "$semana"
+          done

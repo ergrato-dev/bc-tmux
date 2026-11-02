@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# kit-tree — dibuja la jerarquía servidor > sesión > ventana > panel.
+#
+# Uso: kit-tree                      servidor actual (o el de por defecto)
+#      TMUX_SOCKET=lab kit-tree      servidor arrancado con tmux -L lab
+#
+# Sale con 1 si no hay servidor. Nunca arranca uno.
+set -euo pipefail
+
+# Sin TMUX_SOCKET, tmux elige el servidor como siempre: el de $TMUX si estás
+# dentro de tmux, el socket "default" si no.
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+# TODO 1: obtén los ids de sesión con tmx list-sessions -F '#{session_id}'.
+#         Los ids ($0, @1, %2) son únicos; los nombres pueden confundirse.
+#         Si falla, no hay servidor: avisa por stderr y sal con 1.
+#         Ojo: new-session arrancaría un servidor; list-sessions no.
+
+# TODO 2: imprime "socket: <ruta>" con display-message -p y #{socket_path}.
+
+# TODO 3: por cada sesión, una línea:
+#         sesion <nombre> ventanas=<n> clientes=<n>
+
+# TODO 4: por cada ventana de la sesión (list-windows -F '#{window_id}'):
+#           ventana <indice>:<nombre> paneles=<n>        (2 espacios delante)
+#         y por cada panel (list-panes -F):
+#             panel <indice> <id> <comando>              (4 espacios delante)
+
+echo "kit-tree: sin implementar" >&2
+tmx -V >/dev/null
+exit 99

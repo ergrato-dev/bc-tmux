@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# fake-tmux — imita `tmux -V` para que el autograding pruebe check-version con
+# versiones que no tienes instaladas. Uso: FAKE_TMUX_VERSION=3.2a fake-tmux -V
+set -euo pipefail
+
+if [[ "${1:-}" != "-V" ]]; then
+  echo "fake-tmux: solo entiende -V" >&2
+  exit 1
+fi
+echo "tmux ${FAKE_TMUX_VERSION:?define FAKE_TMUX_VERSION}"

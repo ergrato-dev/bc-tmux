@@ -1,0 +1,30 @@
+# Python (semana 11)
+__pycache__/
+*.pyc
+.venv/
+
+# Logs de tmux (tmux -vvv, pipe-pane)
+tmux-client-*.log
+tmux-server-*.log
+*.log
+
+# Plugins clonados por TPM en los labs
+plugins/
+
+# Sesiones guardadas por tmux-resurrect
+resurrect/
+
+# Editors
+.DS_Store
+.idea/
+*.swp
+*.swo
+*~
+
+# Secrets (nunca commitear)
+.env
+.env.*
+!.env.example
+secrets/
+*.key
+*.pem

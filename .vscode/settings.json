@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+    "*.conf": "properties",
+    "tmux.conf": "properties"
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#1a7f37",
+    "activityBar.foreground": "#e7e7e7",
+    "statusBar.background": "#116329",
+    "statusBar.foreground": "#e7e7e7",
+    "titleBar.activeBackground": "#116329",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#11632999",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  }
+}

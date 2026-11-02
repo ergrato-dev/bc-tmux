@@ -1,0 +1,84 @@
+<svg viewBox="0 0 900 440" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Jerarquía de tmux: el servidor contiene sesiones, cada sesión ventanas y cada ventana paneles; cada objeto con su id ($, @, %) y su target</title>
+  <rect width="900" height="440" fill="#0d1117"/>
+
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- Level labels -->
+    <text x="20" y="62" fill="#8b949e" font-size="12">SERVIDOR</text>
+    <text x="20" y="152" fill="#8b949e" font-size="12">SESIONES</text>
+    <text x="20" y="252" fill="#8b949e" font-size="12">VENTANAS</text>
+    <text x="20" y="362" fill="#8b949e" font-size="12">PANELES</text>
+
+    <!-- Connectors (drawn first, behind boxes) -->
+    <g stroke="#30363d" stroke-width="2" fill="none">
+      <path d="M480,80 L480,100 L330,100 L330,125"/>
+      <path d="M480,80 L480,100 L720,100 L720,125"/>
+      <path d="M330,175 L330,200 L210,200 L210,225"/>
+      <path d="M330,175 L330,200 L450,200 L450,225"/>
+      <path d="M720,175 L720,225"/>
+      <path d="M210,275 L210,305 L150,305 L150,335"/>
+      <path d="M210,275 L210,305 L270,305 L270,335"/>
+      <path d="M450,275 L450,335"/>
+      <path d="M720,275 L720,335"/>
+    </g>
+
+    <!-- Server -->
+    <rect x="380" y="35" width="200" height="45" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="480" y="56" fill="#3fb950" text-anchor="middle" font-weight="700">tmux server</text>
+    <text x="480" y="72" fill="#8b949e" text-anchor="middle" font-size="12"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">-L default</text>
+
+    <!-- Sessions -->
+    <rect x="240" y="125" width="180" height="50" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="330" y="147" fill="#f0f6fc" text-anchor="middle">sesión api</text>
+    <text x="330" y="165" fill="#58a6ff" text-anchor="middle" font-size="12"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">$0 · api</text>
+
+    <rect x="630" y="125" width="180" height="50" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="720" y="147" fill="#f0f6fc" text-anchor="middle">sesión notas</text>
+    <text x="720" y="165" fill="#58a6ff" text-anchor="middle" font-size="12"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">$1 · notas</text>
+
+    <!-- Windows -->
+    <rect x="120" y="225" width="180" height="50" rx="6" fill="#161b22" stroke="#d2a8ff" stroke-width="2"/>
+    <text x="210" y="247" fill="#f0f6fc" text-anchor="middle">ventana editor</text>
+    <text x="210" y="265" fill="#d2a8ff" text-anchor="middle" font-size="12"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">@0 · api:0</text>
+
+    <rect x="360" y="225" width="180" height="50" rx="6" fill="#161b22" stroke="#d2a8ff" stroke-width="2"/>
+    <text x="450" y="247" fill="#f0f6fc" text-anchor="middle">ventana logs</text>
+    <text x="450" y="265" fill="#d2a8ff" text-anchor="middle" font-size="12"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">@1 · api:1</text>
+
+    <rect x="630" y="225" width="180" height="50" rx="6" fill="#161b22" stroke="#d2a8ff" stroke-width="2"/>
+    <text x="720" y="247" fill="#f0f6fc" text-anchor="middle">ventana bash</text>
+    <text x="720" y="265" fill="#d2a8ff" text-anchor="middle" font-size="12"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">@2 · notas:0</text>
+
+    <!-- Panes -->
+    <rect x="90" y="335" width="120" height="50" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="150" y="357" fill="#f0f6fc" text-anchor="middle" font-size="13">nvim</text>
+    <text x="150" y="375" fill="#3fb950" text-anchor="middle" font-size="12"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">%0 · api:0.0</text>
+
+    <rect x="215" y="335" width="120" height="50" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="275" y="357" fill="#f0f6fc" text-anchor="middle" font-size="13">bash</text>
+    <text x="275" y="375" fill="#8b949e" text-anchor="middle" font-size="12"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">%1 · api:0.1</text>
+
+    <rect x="390" y="335" width="120" height="50" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="450" y="357" fill="#f0f6fc" text-anchor="middle" font-size="13">tail -f</text>
+    <text x="450" y="375" fill="#8b949e" text-anchor="middle" font-size="12"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">%2 · api:1.0</text>
+
+    <rect x="660" y="335" width="120" height="50" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="720" y="357" fill="#f0f6fc" text-anchor="middle" font-size="13">vim</text>
+    <text x="720" y="375" fill="#8b949e" text-anchor="middle" font-size="12"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">%3 · notas:0.0</text>
+
+    <!-- Legend -->
+    <text x="450" y="420" fill="#8b949e" text-anchor="middle" font-size="12">
+      El id ($ @ %) no cambia mientras el objeto exista; el target (sesión:ventana.panel) cambia si renombras o reordenas.
+    </text>
+  </g>
+</svg>
