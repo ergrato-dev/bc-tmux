@@ -23,7 +23,7 @@ está en construcción (sin enlace hasta que exista la carpeta).
 
 | Semana | Tema | Estado |
 |:--:|---|:--:|
-| 05 | Configuración y alcance de opciones | ⬜ |
+| [05](week-05-configuracion_y_alcance_de_opciones/README.md) | Configuración y alcance de opciones | ✅ |
 | 06 | Key bindings, tablas y navegación | ⬜ |
 | 07 | Formats y status line | ⬜ |
 | 08 | Terminal, color y depuración | ⬜ |

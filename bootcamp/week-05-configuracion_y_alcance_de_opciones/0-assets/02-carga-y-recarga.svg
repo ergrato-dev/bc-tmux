@@ -1,0 +1,49 @@
+<svg viewBox="0 0 900 380" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Carga y recarga de la config: al arrancar, el servidor parte de los valores por defecto y lee todos los archivos que existan; prefix r ejecuta tmux.conf y sus módulos encima del estado actual, sin volver a los valores por defecto</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+  </defs>
+  <rect width="900" height="380" fill="#0d1117"/>
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <text x="20" y="40" fill="#d2a8ff" font-size="13">Arrancar el servidor (tmux new, con el servidor parado)</text>
+    <rect x="20" y="56" width="155" height="54" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="97" y="88" fill="#f0f6fc" text-anchor="middle">valores por defecto</text>
+    <line x1="175" y1="83" x2="191" y2="83" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="195" y="56" width="155" height="54" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="272" y="88" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">/etc/tmux.conf</text>
+    <line x1="350" y1="83" x2="366" y2="83" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="370" y="56" width="155" height="54" rx="6" fill="#161b22" stroke="#e3b341" stroke-width="2"/>
+    <text x="447" y="80" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">~/.tmux.conf</text>
+    <text x="447" y="100" fill="#e3b341" text-anchor="middle" font-size="12">si existe, también</text>
+    <line x1="525" y1="83" x2="541" y2="83" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="545" y="56" width="155" height="54" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="622" y="80" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">~/.config/tmux/</text>
+    <text x="622" y="99" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">tmux.conf</text>
+    <line x1="700" y1="83" x2="716" y2="83" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="720" y="56" width="160" height="54" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="800" y="88" fill="#79c0ff" text-anchor="middle">estado del servidor</text>
+
+    <text x="20" y="190" fill="#d2a8ff" font-size="13">Recargar: prefix r (source-file), con el servidor vivo</text>
+    <rect x="20" y="206" width="155" height="54" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="97" y="238" fill="#79c0ff" text-anchor="middle">estado actual</text>
+    <line x1="175" y1="233" x2="191" y2="233" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="195" y="206" width="155" height="54" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="272" y="238" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">tmux.conf</text>
+    <line x1="350" y1="233" x2="366" y2="233" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="370" y="206" width="155" height="54" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="447" y="230" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">conf.d/10-*.conf</text>
+    <text x="447" y="249" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">conf.d/20-*.conf</text>
+    <line x1="525" y1="233" x2="541" y2="233" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="545" y="206" width="155" height="54" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="622" y="230" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">local.conf</text>
+    <text x="622" y="249" fill="#8b949e" text-anchor="middle" font-size="12">-q: si existe</text>
+    <line x1="700" y1="233" x2="716" y2="233" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="720" y="206" width="160" height="54" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="800" y="238" fill="#79c0ff" text-anchor="middle">estado nuevo</text>
+
+    <text x="20" y="310" fill="#f85149" font-size="13">No vuelve a los valores por defecto: lo que borras de la config sigue activo (set -gu, unbind).</text>
+    <text x="20" y="336" fill="#e3b341" font-size="13">Se ejecuta encima: cada set -ga añade otra vez, en cada recarga.</text>
+  </g>
+</svg>

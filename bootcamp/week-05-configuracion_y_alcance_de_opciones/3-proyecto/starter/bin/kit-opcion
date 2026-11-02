@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# kit-opcion — dice qué valor tiene una opción y de qué nivel sale.
+#
+# Uso: kit-opcion OPCION [TARGET]
+# TARGET es un panel (api:1.2, %3); dentro de tmux, por defecto el actual.
+# Imprime "VALOR (NIVEL)", con NIVEL: panel, ventana, sesión, global o servidor.
+# Salida: 0 encontrada, 1 la opción o el target no existen, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+uso() { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+(( $# >= 1 && $# <= 2 )) || uso
+opcion=$1
+target=${2:-${TMUX_PANE:-}}
+[[ -n "$target" ]] || { echo "kit-opcion: fuera de tmux, indica el TARGET" >&2; exit 2; }
+
+# TODO 10: valida el target con list-panes -t (sale con 1 si no existe).
+# TODO 11: función valor FLAGS...: busca $opcion en la lista de "show FLAGS"
+#          (sin nombre de opción: con nombre, show ignora -p, -w y -s) e
+#          imprime su valor; falla si no aparece.
+# TODO 12: prueba los niveles en orden: -s (servidor), -p -t (panel),
+#          -w -t (ventana), -t (sesión), -gw o -g (global). Imprime
+#          "VALOR (NIVEL)"; si ninguno la tiene, sale con 1.
+echo "kit-opcion: sin implementar ($opcion en $target)" >&2
+exit 1

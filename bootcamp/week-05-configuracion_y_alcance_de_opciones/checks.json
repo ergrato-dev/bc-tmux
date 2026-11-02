@@ -1,0 +1,132 @@
+{
+  "semana": "05",
+  "titulo": "Configuración y alcance de opciones",
+  "checks": [
+    {
+      "id": "conf-parsea",
+      "descripcion": "tmux.conf carga sin errores",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} source-file {proyecto}/tmux.conf",
+      "assert": "exit0",
+      "pista": "2-practicas/lab-01-donde-vive-la-config/README.md, paso 5"
+    },
+    {
+      "id": "entrada-sin-opciones",
+      "descripcion": "tmux.conf no define opciones ni teclas: carga conf.d/",
+      "cmd": "grep -q source-file {proyecto}/tmux.conf && ! grep -E '^[[:space:]]*(set|setw|set-option|set-window-option|bind|bind-key|unbind|unbind-key)[[:space:]]' {proyecto}/tmux.conf | grep -v '@kit-dir'",
+      "assert": "exit0",
+      "pista": "2-practicas/lab-05-config-modular/README.md, paso 2"
+    },
+    {
+      "id": "opciones-en-10",
+      "descripcion": "Las opciones viven en conf.d/10-opciones.conf",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} source-file {proyecto}/conf.d/10-opciones.conf ; {tmux} show -gv base-index",
+      "assert": "stdout~^1$",
+      "pista": "2-practicas/lab-05-config-modular/README.md, paso 2"
+    },
+    {
+      "id": "teclas-en-20",
+      "descripcion": "Las teclas viven en conf.d/20-bindings.conf",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} source-file {proyecto}/conf.d/20-bindings.conf ; {tmux} list-keys -T prefix r",
+      "assert": "stdout~source-file",
+      "pista": "2-practicas/lab-05-config-modular/README.md, paso 2"
+    },
+    {
+      "id": "desde-otro-directorio",
+      "descripcion": "La config carga entera aunque arranques tmux desde otro directorio",
+      "cmd": "cd / && {tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -gv base-index",
+      "assert": "stdout~^1$",
+      "pista": "2-practicas/lab-05-config-modular/README.md, paso 3"
+    },
+    {
+      "id": "prefix-propio",
+      "descripcion": "El prefix ya no es C-b",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -gv prefix | grep -vx C-b",
+      "assert": "exit0",
+      "pista": "2-practicas/lab-02-prefix-propio/README.md, paso 3"
+    },
+    {
+      "id": "prefix-send-prefix",
+      "descripcion": "El prefix pulsado dos veces llega al programa del panel",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; p=$({tmux} show -gv prefix) ; {tmux} list-keys -T prefix \"$p\"",
+      "assert": "stdout~send-prefix",
+      "pista": "2-practicas/lab-02-prefix-propio/README.md, paso 3"
+    },
+    {
+      "id": "c-b-libre",
+      "descripcion": "C-b ya no tiene ninguna función en la tabla prefix",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} list-keys -T prefix C-b",
+      "assert": "stdout~unknown key",
+      "pista": "2-practicas/lab-02-prefix-propio/README.md, paso 3"
+    },
+    {
+      "id": "escape-time",
+      "descripcion": "escape-time es de 20 ms o menos",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -sv escape-time | awk '$1<=20 {ok=1} END {exit !ok}'",
+      "assert": "exit0",
+      "pista": "2-practicas/lab-03-alcances-y-herencia/README.md, paso 5"
+    },
+    {
+      "id": "recarga-funciona",
+      "descripcion": "prefix r recarga la config del kit desde cualquier directorio",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} set -g base-index 7 ; cd / ; c=$({tmux} list-keys -T prefix r | sed -E 's/^bind-key +-T prefix +r +//') ; eval \"{tmux} $c\" ; {tmux} show -gv base-index",
+      "assert": "stdout~^1$",
+      "pista": "2-practicas/lab-04-recarga-en-caliente/README.md, paso 2"
+    },
+    {
+      "id": "recarga-idempotente",
+      "descripcion": "Recargar la config dos veces no cambia ninguna opción ni tecla",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; d=$(mktemp -d) ; v() { {tmux} show -s ; {tmux} show -g ; {tmux} show -gw ; {tmux} list-keys ; } ; {tmux} source-file {proyecto}/tmux.conf ; v > $d/a ; {tmux} source-file {proyecto}/tmux.conf ; v > $d/b ; diff $d/a $d/b",
+      "assert": "exit0",
+      "pista": "2-practicas/lab-04-recarga-en-caliente/README.md, paso 4"
+    },
+    {
+      "id": "update-environment",
+      "descripcion": "update-environment incluye WAYLAND_DISPLAY",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -g update-environment",
+      "assert": "stdout~WAYLAND_DISPLAY",
+      "pista": "2-practicas/lab-04-recarga-en-caliente/README.md, paso 4"
+    },
+    {
+      "id": "copy-command-sigue",
+      "descripcion": "copy-command sigue apuntando a bin/kit-copiar",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; c=$({tmux} show -sv copy-command) ; test -x \"$c\" && echo \"$c\"",
+      "assert": "stdout~3-proyecto/(starter|solucion)/bin/kit-copiar$",
+      "pista": "2-practicas/lab-05-config-modular/README.md, paso 4"
+    },
+    {
+      "id": "ko-panel",
+      "descripcion": "kit-opcion dice que un valor viene del panel",
+      "cmd": "{tmux} -f /dev/null new-session -d -s s -n w ; {tmux} split-window -d -t s:w ; {tmux} set -p -t s:w.1 remain-on-exit on ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-opcion remain-on-exit s:w.1",
+      "assert": "stdout~^on .panel.$",
+      "pista": "2-practicas/lab-03-alcances-y-herencia/README.md, paso 6"
+    },
+    {
+      "id": "ko-ventana",
+      "descripcion": "kit-opcion dice que un valor viene de la ventana",
+      "cmd": "{tmux} -f /dev/null new-session -d -s s -n w ; {tmux} set -w -t s:w automatic-rename off ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-opcion automatic-rename s:w.0",
+      "assert": "stdout~^off .ventana.$",
+      "pista": "2-practicas/lab-03-alcances-y-herencia/README.md, paso 6"
+    },
+    {
+      "id": "ko-global",
+      "descripcion": "kit-opcion dice que un valor heredado viene de global",
+      "cmd": "{tmux} -f /dev/null new-session -d -s s -n w ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-opcion pane-base-index s:w.0",
+      "assert": "stdout~^0 .global.$",
+      "pista": "2-practicas/lab-03-alcances-y-herencia/README.md, paso 6"
+    },
+    {
+      "id": "ko-servidor",
+      "descripcion": "kit-opcion reconoce las opciones de servidor",
+      "cmd": "{tmux} -f /dev/null new-session -d -s s -n w ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-opcion escape-time s:w.0",
+      "assert": "stdout~^500 .servidor.$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 5"
+    },
+    {
+      "id": "bin-completo-y-limpio",
+      "descripcion": "tmux.conf, conf.d/ y bin/ no tienen TODOs y bin/ pasa shellcheck",
+      "cmd": "! grep -rn TODO {proyecto}/tmux.conf {proyecto}/conf.d {proyecto}/bin && shellcheck {proyecto}/bin/*",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Calidad"
+    }
+  ]
+}

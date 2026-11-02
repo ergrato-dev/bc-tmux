@@ -73,6 +73,6 @@ printf 'año' | 3-proyecto/starter/bin/kit-copiar     # Ctrl+V pega "año"
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 03 — Sesiones, targets y sockets](../week-03-sesiones_targets_y_sockets/README.md) | **Semana 04 — Copy mode, buffers y portapapeles** | Semana 05 — Configuración y alcance de opciones |
+| [← Semana 03 — Sesiones, targets y sockets](../week-03-sesiones_targets_y_sockets/README.md) | **Semana 04 — Copy mode, buffers y portapapeles** | [Semana 05 — Configuración y alcance de opciones →](../week-05-configuracion_y_alcance_de_opciones/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)
