@@ -112,6 +112,7 @@ bind r source-file ~/.config/tmux/tmux.conf \; display "config recargada"
 - Todo script que crea sesiones es **idempotente** (`has-session` antes de `new-session`).
 - Todo script de `bin/` habla con tmux mediante `tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }`: sin variables usa el servidor de siempre; el autograding exporta `TMUX_SOCKET=bc-check`.
 - Para apuntar a una sesión desde un script se usan ids (`$0`, `@1`, `%2`) o `nombre:`; `-t "=nombre"` no sirve con comandos que esperan un panel (`display-message` devuelve campos vacíos).
+- `display-message -p -t X` **no falla** si `X` no existe: sale con 0 y usa otro objeto. Para validar un target se usa `list-panes -t X` (sí falla).
 - Nunca `send-keys` con texto sin citar que venga de una variable externa (inyección de comandos).
 
 ## Estándares de idioma

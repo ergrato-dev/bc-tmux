@@ -1,0 +1,118 @@
+{
+  "semana": "02",
+  "titulo": "Ventanas y paneles",
+  "checks": [
+    {
+      "id": "new-crea-sesion",
+      "descripcion": "kit-layout new crea la sesión si no existe",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null && {tmux} has-session -t =api",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 1"
+    },
+    {
+      "id": "tres-paneles",
+      "descripcion": "La ventana trabajo tiene tres paneles",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; {tmux} display-message -p -t api:trabajo '#{window_panes}'",
+      "assert": "stdout~^3$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 2"
+    },
+    {
+      "id": "titulos",
+      "descripcion": "Los paneles se titulan editor, shell y logs",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; {tmux} list-panes -t api:trabajo -F '#{pane_title}' | sort | paste -sd, -",
+      "assert": "stdout~^editor,logs,shell$",
+      "pista": "2-practicas/lab-01-split-y-navegacion/README.md, paso 5"
+    },
+    {
+      "id": "editor-izquierda",
+      "descripcion": "El editor ocupa la columna izquierda con un 55-65 % del ancho",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; {tmux} list-panes -t api:trabajo -F '#{pane_title} #{pane_left} #{pane_width} #{window_width}' | awk '$1==\"editor\" && $2==0 && $3/$4>=0.55 && $3/$4<=0.65 {ok=1} END {exit !ok}'",
+      "assert": "exit0",
+      "pista": "2-practicas/lab-03-layouts/README.md, paso 4"
+    },
+    {
+      "id": "shell-sobre-logs",
+      "descripcion": "shell y logs se apilan a la derecha, shell arriba",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; {tmux} list-panes -t api:trabajo -F '#{pane_title} #{pane_left} #{pane_top}' | awk '$1==\"shell\" {sl=$2; st=$3} $1==\"logs\" {ll=$2; lt=$3} END {exit !(sl>0 && sl==ll && st<lt)}'",
+      "assert": "exit0",
+      "pista": "2-practicas/lab-03-layouts/README.md, paso 4"
+    },
+    {
+      "id": "editor-activo",
+      "descripcion": "El panel activo al terminar es el editor",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; {tmux} list-panes -t api:trabajo -F '#{pane_active} #{pane_title}'",
+      "assert": "stdout~^1 editor$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 5"
+    },
+    {
+      "id": "directorio",
+      "descripcion": "Los tres paneles empiezan en el directorio indicado",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api /tmp >/dev/null ; sleep 0.3 ; {tmux} list-panes -t api:trabajo -F '#{pane_current_path}' | grep -cx /tmp",
+      "assert": "stdout~^3$",
+      "pista": "2-practicas/lab-01-split-y-navegacion/README.md, paso 3"
+    },
+    {
+      "id": "sesion-existente",
+      "descripcion": "En una sesión existente, añade la ventana sin tocar las demás",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new base >/dev/null ; {tmux} list-windows -t base -F '#{window_name}' | sort | paste -sd, -",
+      "assert": "stdout~^[^,]+,trabajo$|^trabajo,[^,]+$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 1"
+    },
+    {
+      "id": "no-duplica-falla",
+      "descripcion": "Si la ventana trabajo ya existe, kit-layout new sale con 1",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api",
+      "assert": "exit=1",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 3"
+    },
+    {
+      "id": "no-duplica-ventana",
+      "descripcion": "Tras dos ejecuciones sigue habiendo una sola ventana trabajo",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null 2>&1 ; {tmux} list-windows -t api -F '#{window_name}' | grep -cx trabajo",
+      "assert": "stdout~^1$",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 3"
+    },
+    {
+      "id": "save-formato",
+      "descripcion": "kit-layout save escribe un layout de tmux válido",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; f=$(mktemp) ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout save api:trabajo \"$f\" >/dev/null && cat \"$f\"",
+      "assert": "stdout~^[0-9a-f]{4},[0-9]+x[0-9]+,",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 6"
+    },
+    {
+      "id": "load-restaura",
+      "descripcion": "kit-layout load devuelve la ventana al layout guardado",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; f=$(mktemp) ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout save api:trabajo \"$f\" >/dev/null && {tmux} select-layout -t api:trabajo tiled && TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout load api:trabajo \"$f\" >/dev/null && test \"$({tmux} display-message -p -t api:trabajo '#{window_layout}')\" = \"$(cat \"$f\")\"",
+      "assert": "exit0",
+      "pista": "2-practicas/lab-03-layouts/README.md, paso 6"
+    },
+    {
+      "id": "load-rechaza-paneles",
+      "descripcion": "kit-layout load sale con 1 si el número de paneles no coincide",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; f=$(mktemp) ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout save api:trabajo \"$f\" >/dev/null ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout load base:0 \"$f\"",
+      "assert": "exit=1",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 7"
+    },
+    {
+      "id": "save-ventana-inexistente",
+      "descripcion": "kit-layout save sale con 1 si la ventana no existe",
+      "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout save base:9 /dev/null",
+      "assert": "exit=1",
+      "pista": "1-teoria/02-layouts-y-reorganizacion.md, sección Guardar un layout"
+    },
+    {
+      "id": "uso",
+      "descripcion": "kit-layout sin argumentos sale con 2",
+      "cmd": "TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout",
+      "assert": "exit=2",
+      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 8"
+    },
+    {
+      "id": "bin-completo-y-limpio",
+      "descripcion": "Los scripts de bin/ no tienen TODOs y pasan shellcheck",
+      "cmd": "! grep -n TODO {proyecto}/bin/* && shellcheck {proyecto}/bin/*",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Calidad"
+    }
+  ]
+}

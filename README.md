@@ -77,7 +77,7 @@ bootcamp/week-NN-nombre_del_tema/
 | Semana | Tema | Proyecto semanal (`tmux-kit`) |
 |--------|------|-----------------|
 | [01 — Primeros pasos y modelo cliente-servidor](bootcamp/week-01-primeros_pasos_y_modelo_cliente_servidor/README.md) | Servidor/cliente, sesión → ventana → panel, prefix, detach/attach | `tmux-kit` con `bin/check-version` y `bin/kit-tree` |
-| 02 — Ventanas y paneles | split, navegación, resize, zoom, layouts, `break-pane`/`join-pane` | Layout de trabajo de 3 paneles |
+| [02 — Ventanas y paneles](bootcamp/week-02-ventanas_y_paneles/README.md) | split, navegación, resize, zoom, layouts, `break-pane`/`join-pane` | `bin/kit-layout`: ventana de trabajo de 3 paneles y layouts guardados |
 | 03 — Sesiones, targets y sockets | `choose-tree`, `switch-client`, targets, grupos de sesiones, `-L`/`-S` | Script para listar y saltar entre sesiones |
 | 04 — Copy mode, buffers y portapapeles | copy-mode vi, buffers, `set-clipboard`, OSC 52, `capture-pane` | Portapapeles en local y por SSH |
 | 05 — Configuración y alcance de opciones | `tmux.conf` XDG, alcances, herencia, `source-file`, config modular | `tmux.conf` + `conf.d/` con recarga en caliente |

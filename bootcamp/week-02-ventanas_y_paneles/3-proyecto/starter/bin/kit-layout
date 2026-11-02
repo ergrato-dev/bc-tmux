@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# kit-layout — ventana de trabajo de tres paneles, y guardar/cargar layouts.
+#
+# Uso: kit-layout new SESION [DIR]       crea la ventana "trabajo" (editor, shell, logs)
+#      kit-layout save VENTANA ARCHIVO   guarda el layout de una ventana
+#      kit-layout load VENTANA ARCHIVO   aplica un layout guardado
+#
+# Salida: 0 bien, 1 error de tmux o de estado, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+uso() { sed -n '4,6p' "$0" | sed 's/^# //' >&2; exit 2; }
+error() { echo "kit-layout: $*" >&2; exit 1; }
+
+# TODO: paneles_en_layout LAYOUT — cuántos paneles describe un layout guardado.
+#       Cada panel aparece como ANCHOxALTO,X,Y,ID; los contenedores no llevan ID.
+
+cmd_new() {
+  local sesion="$1" dir="${2:-$PWD}"
+  # TODO 1: si la sesión existe (has-session -t "=$sesion"), crea en ella la
+  #         ventana "trabajo"; si ya tiene una, error. Si no existe, crea la
+  #         sesión con esa ventana. Guarda el id del panel con -P -F '#{pane_id}'.
+  # TODO 2: parte el panel en tres (editor | shell / logs) usando siempre ids y
+  #         -c "$dir" para que todos empiecen en el directorio.
+  # TODO 3: títulos editor, shell y logs (select-pane -T).
+  # TODO 4: main-pane-width 60% y layout main-vertical; deja activo el editor.
+  echo "kit-layout new: sin implementar ($sesion $dir)" >&2; exit 99
+}
+
+cmd_save() {
+  # TODO 5: guarda #{window_layout} de la ventana en el archivo. Ojo:
+  #         display-message no falla si la ventana no existe; valídala antes
+  #         con list-panes -t, que sí falla.
+  echo "kit-layout save: sin implementar ($*)" >&2; exit 99
+}
+
+cmd_load() {
+  # TODO 6: lee el layout, valida su formato y que el número de paneles coincide
+  #         con #{window_panes}; después select-layout.
+  echo "kit-layout load: sin implementar ($*)" >&2; exit 99
+}
+
+case "${1:-}" in
+  new)  shift; (( $# == 1 || $# == 2 )) || uso; cmd_new "$@" ;;
+  save) shift; (( $# == 2 )) || uso; cmd_save "$@" ;;
+  load) shift; (( $# == 2 )) || uso; cmd_load "$@" ;;
+  *)    uso ;;
+esac

@@ -1,0 +1,44 @@
+<svg viewBox="0 0 900 380" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>break-pane saca el panel %2 de la ventana codigo a una ventana nueva y join-pane lo devuelve; el id y el programa se conservan y el índice cambia</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+  </defs>
+  <rect width="900" height="380" fill="#0d1117"/>
+
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- Left: window codigo with two panes -->
+    <text x="190" y="40" fill="#f0f6fc" text-anchor="middle">ventana codigo (@0)</text>
+    <rect x="40" y="55" width="300" height="180" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <rect x="48" y="63" width="140" height="164" rx="3" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="118" y="135" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">top</text>
+    <text x="118" y="157" fill="#8b949e" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">%0 · índice 0</text>
+    <rect x="194" y="63" width="138" height="164" rx="3" fill="#0d1117" stroke="#3fb950" stroke-width="2"/>
+    <text x="263" y="135" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">contador</text>
+    <text x="263" y="157" fill="#3fb950" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">%2 · índice 1</text>
+
+    <!-- Right: window logs with one pane -->
+    <text x="710" y="40" fill="#f0f6fc" text-anchor="middle">ventana logs (@3, nueva)</text>
+    <rect x="560" y="55" width="300" height="180" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <rect x="568" y="63" width="284" height="164" rx="3" fill="#0d1117" stroke="#3fb950" stroke-width="2"/>
+    <text x="710" y="135" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">contador (sigue contando)</text>
+    <text x="710" y="157" fill="#3fb950" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">%2 · índice 0</text>
+
+    <!-- break-pane arrow (top) -->
+    <path d="M345,120 L555,120" fill="none" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="450" y="92" fill="#f78166" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">break-pane -s %2</text>
+    <text x="450" y="108" fill="#8b949e" text-anchor="middle" font-size="12">prefix !</text>
+
+    <!-- join-pane arrow (bottom) -->
+    <path d="M555,200 C470,228 430,228 345,200" fill="none" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="450" y="245" fill="#f78166" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">join-pane -h -s %2 -t codigo</text>
+    <text x="450" y="263" fill="#8b949e" text-anchor="middle" font-size="12">o prefix m en el panel + join-pane -h en el destino</text>
+
+    <!-- Legend -->
+    <rect x="160" y="295" width="580" height="60" rx="6" fill="#161b22" stroke="#30363d"/>
+    <text x="450" y="320" fill="#3fb950" text-anchor="middle">El panel viaja con su id (%2) y su programa: nada se reinicia.</text>
+    <text x="450" y="342" fill="#e3b341" text-anchor="middle">Su índice cambia según la ventana y la posición: no lo uses en scripts.</text>
+  </g>
+</svg>

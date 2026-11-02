@@ -1,0 +1,63 @@
+<svg viewBox="0 0 900 300" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Los cinco layouts de tmux con cuatro paneles; el panel 0, en verde, es el principal en main-horizontal y main-vertical</title>
+  <rect width="900" height="300" fill="#0d1117"/>
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <text x="100" y="45" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">even-horizontal</text>
+    <rect x="25" y="70" width="150" height="96" rx="4" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <rect x="28.0" y="73.0" width="31.5" height="90.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="43.8" y="123.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">0</text>
+    <rect x="65.5" y="73.0" width="31.5" height="90.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="81.2" y="123.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">1</text>
+    <rect x="103.0" y="73.0" width="31.5" height="90.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="118.8" y="123.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">2</text>
+    <rect x="140.5" y="73.0" width="31.5" height="90.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="156.2" y="123.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">3</text>
+    <text x="100" y="194" fill="#f78166" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">prefix Alt+1</text>
+    <text x="275" y="45" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">even-vertical</text>
+    <rect x="200" y="70" width="150" height="96" rx="4" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <rect x="203.0" y="73.0" width="144.0" height="18.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="275.0" y="87.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">0</text>
+    <rect x="203.0" y="97.0" width="144.0" height="18.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="275.0" y="111.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">1</text>
+    <rect x="203.0" y="121.0" width="144.0" height="18.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="275.0" y="135.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">2</text>
+    <rect x="203.0" y="145.0" width="144.0" height="18.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="275.0" y="159.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">3</text>
+    <text x="275" y="194" fill="#f78166" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">prefix Alt+2</text>
+    <text x="450" y="45" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">main-horizontal</text>
+    <rect x="375" y="70" width="150" height="96" rx="4" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <rect x="378.0" y="73.0" width="144.0" height="51.6" rx="2" fill="#0d1117" stroke="#3fb950" stroke-width="1.5"/>
+    <text x="450.0" y="103.8" fill="#3fb950" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">0</text>
+    <rect x="378.0" y="130.6" width="44.0" height="32.4" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="400.0" y="151.8" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">1</text>
+    <rect x="428.0" y="130.6" width="44.0" height="32.4" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="450.0" y="151.8" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">2</text>
+    <rect x="478.0" y="130.6" width="44.0" height="32.4" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="500.0" y="151.8" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">3</text>
+    <text x="450" y="194" fill="#f78166" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">prefix Alt+3</text>
+    <text x="625" y="45" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">main-vertical</text>
+    <rect x="550" y="70" width="150" height="96" rx="4" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <rect x="553.0" y="73.0" width="84.0" height="90.0" rx="2" fill="#0d1117" stroke="#3fb950" stroke-width="1.5"/>
+    <text x="595.0" y="123.0" fill="#3fb950" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">0</text>
+    <rect x="643.0" y="73.0" width="54.0" height="26.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="670.0" y="91.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">1</text>
+    <rect x="643.0" y="105.0" width="54.0" height="26.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="670.0" y="123.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">2</text>
+    <rect x="643.0" y="137.0" width="54.0" height="26.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="670.0" y="155.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">3</text>
+    <text x="625" y="194" fill="#f78166" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">prefix Alt+4</text>
+    <text x="800" y="45" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">tiled</text>
+    <rect x="725" y="70" width="150" height="96" rx="4" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <rect x="728.0" y="73.0" width="69.0" height="42.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="762.5" y="99.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">0</text>
+    <rect x="803.0" y="73.0" width="69.0" height="42.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="837.5" y="99.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">1</text>
+    <rect x="728.0" y="121.0" width="69.0" height="42.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="762.5" y="147.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">2</text>
+    <rect x="803.0" y="121.0" width="69.0" height="42.0" rx="2" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+    <text x="837.5" y="147.0" fill="#58a6ff" text-anchor="middle" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">3</text>
+    <text x="800" y="194" fill="#f78166" text-anchor="middle" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">prefix Alt+5</text>
+    <text x="450" y="240" fill="#8b949e" text-anchor="middle" font-size="13">En los layouts main-*, el panel principal es siempre el primero (0); su tamaño lo fijan main-pane-width y main-pane-height.</text>
+    <text x="450" y="266" fill="#8b949e" text-anchor="middle" font-size="13">prefix Espacio recorre los cinco en este orden; prefix E reparte por igual sin cambiar la forma.</text>
+  </g>
+</svg>
