@@ -17,7 +17,7 @@ starter, adelante: los checks solo miran el comportamiento.
 | 03 | `bin/sesiones`: lista y salta entre sesiones |
 | 04 | Copia al portapapeles en local y por SSH |
 | 05 | `tmux.conf` modular con `conf.d/` y recarga en caliente |
-| 06 | `conf.d/20-bindings.conf`: modo resize + navegación con Neovim |
+| 06 | `conf.d/20-bindings.conf`: modo resize + navegación `C-h/j/k/l` agnóstica del editor |
 | 07 | `conf.d/30-status.conf`: status line propia |
 | 08 | `conf.d/40-terminal.conf` + `docs/diagnostico.md` |
 | 09 | `bin/dev-up`: entorno de proyecto idempotente |

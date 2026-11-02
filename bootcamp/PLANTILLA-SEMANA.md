@@ -91,27 +91,52 @@ Desde la raíz del repositorio:
 
 ## Instrucciones
 
-1. Arranca un servidor aislado con la config del starter:
+0. Abre una terminal **fuera de tmux** (`echo "$TMUX"` no imprime nada) y entra en la carpeta del lab:
    ```bash
-   tmux -L lab -f starter/tmux.conf
+   cd bootcamp/week-NN-slug/2-practicas/lab-NN-nombre
    ```
-2. Abre `starter/tmux.conf` y resuelve los comentarios `# TODO`
-3. Recarga y verifica desde otra terminal:
+   Este lab usa un servidor aparte (`-L lab`): tu tmux de siempre no se toca.
+
+1. Arranca el servidor del lab con la config del starter:
    ```bash
-   tmux -L lab source-file starter/tmux.conf
+   tmux -L lab -f "$PWD/starter/tmux.conf" new -d -s lab; echo $?
+   ```
+   ```
+   0
+   ```
+
+2. **TODO 1** de `starter/tmux.conf`: <qué hacer>. Pista: `set -g <opcion> <valor>`.
+   Guarda y prueba solo ese TODO:
+   ```bash
+   tmux -L lab source-file "$PWD/starter/tmux.conf"
    tmux -L lab show -gv <opcion>
    ```
-   Debes ver:
    ```
-   <output esperado exacto>
+   <output literal>
    ```
-4. Cierra el servidor del lab: `tmux -L lab kill-server`
+
+3. Conéctate en la **terminal B** (otra pestaña, también fuera de tmux):
+   ```bash
+   tmux -L lab attach -t lab
+   ```
+   Este servidor usa el prefix `C-b` (el starter no define otro). Pulsa `C-b` `d` para salir:
+   ```
+   [detached (from session lab)]
+   ```
+
+4. Cierra el servidor del lab:
+   ```bash
+   tmux -L lab kill-server
+   ```
+   ```
+   (sin salida)
+   ```
 
 ## Criterios de éxito
 
 - [ ] `tmux -L lab show -gv <opcion>` imprime `<valor>`
 - [ ] `tmux -L lab list-keys -T prefix <tecla>` muestra `<comando>`
-- [ ] La config carga sin errores: `tmux -L lab source-file starter/tmux.conf` sale con 0
+- [ ] La config carga sin errores: `tmux -L lab source-file "$PWD/starter/tmux.conf"; echo $?` imprime `0`
 
 ## Reto extra
 
@@ -126,12 +151,12 @@ Desde la raíz del repositorio:
 # ============================================================
 # Lab NN — Título
 # Semana NN: Tema
-# Pruébalo sin tocar tu sesión: tmux -L lab -f starter/tmux.conf
+# Pruébalo sin tocar tu sesión: tmux -L lab -f "$PWD/starter/tmux.conf" new -d -s lab
 # ============================================================
 
-# TODO: cambia el prefix a C-a y libera C-b
-
-# TODO: activa los atajos de vi en copy-mode
+# TODO 1: sube el historial a 50000 líneas.
+#         Pista: set -g history-limit N
+#         Prueba: tmux -L lab show -gv history-limit  ->  50000
 ```
 
 ---
@@ -143,11 +168,8 @@ Desde la raíz del repositorio:
 # Lab NN — Título (SOLUCIÓN)
 # ============================================================
 
-set -g  prefix C-a
-unbind  C-b
-bind    C-a send-prefix
-
-setw -g mode-keys vi
+# El valor por defecto (2000) se queda corto para logs largos.
+set -g history-limit 50000
 ```
 
 ---

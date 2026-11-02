@@ -65,12 +65,12 @@ Para **cada** lab genera 3 archivos:
 1. Título + duración estimada
 2. Objetivo (verbo en infinitivo, una oración)
 3. Contexto (máx. 3 párrafos/bullets)
-4. Instrucciones (pasos numerados con comandos exactos y outputs esperados)
+4. Instrucciones: sigue `.claude/commands/gen-lab.md` y `CLAUDE.md` § Estándar paso a paso (paso 0, output tras cada bloque, subpaso por TODO)
 5. Criterios de éxito (checklist con comando de tmux y output esperado)
 6. Reto extra (opcional)
 
 **`starter/`** (`tmux.conf` y/o `bin/`) con:
-- Scaffolding real y cabecera con cómo probarlo: `tmux -L lab -f starter/tmux.conf`
+- Scaffolding real y cabecera con cómo probarlo: `tmux -L lab -f "$PWD/starter/tmux.conf" new -d -s lab`
 - TODOs comentados (`# TODO: ...`) donde el estudiante debe implementar
 - Carga sin errores con los TODOs sin completar (salvo labs rotos a propósito)
 
@@ -83,6 +83,7 @@ Para **cada** lab genera 3 archivos:
 - Contexto de negocio/técnico concreto (no abstracto)
 - Árbol de archivos del starter
 - Lista de entregables numerados
+- Sección `## Paso a paso` (ver `.claude/commands/gen-proyecto.md`)
 - Comandos exactos de verificación con outputs esperados
 - Sección `✅ Requisitos verificables`: las `descripcion` de `checks.json`, copiadas literalmente
 - Criterios de calidad manual (40 pts)
@@ -91,7 +92,7 @@ Para **cada** lab genera 3 archivos:
 ### 19. `bootcamp/<carpeta>/3-proyecto/starter/` (tmux-kit de la semana anterior + TODOs)
 - Estructura definida con secciones comentadas
 - TODOs en cada target a implementar
-- `help` funcional desde el inicio
+- Cada `bin/*` responde al uso incorrecto con exit 2 desde el inicio
 
 ### 20. `bootcamp/<carpeta>/3-proyecto/solucion/` (tmux-kit al terminar la semana)
 - Solución completa y profesional

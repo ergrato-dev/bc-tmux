@@ -63,7 +63,6 @@ Dentro del contenedor eres el usuario `alumno`, con el repositorio montado en `/
 
 | Semana | Necesitas | Dónde |
 |---|---|---|
-| 06 | Neovim | El laboratorio ya lo trae. En tu equipo: `sudo apt install neovim` / `brew install neovim` |
 | 10 | fzf | Instalado en el paso 1 y en el laboratorio |
 | 11 | uv (Python **siempre con uv**, nunca pip) | El laboratorio ya lo trae. En tu equipo: `brew install uv`; en Linux descarga el instalador oficial, **léelo** y luego ejecútalo (nunca `curl \| sh`) |
 | 12 | ssh | El laboratorio levanta un servidor SSH propio |

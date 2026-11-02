@@ -117,11 +117,6 @@ doctor() {
   echo
   echo "Para semanas concretas:"
 
-  if command -v nvim >/dev/null 2>&1; then
-    comprobar "nvim" ok "$(nvim --version | head -1)"
-  else
-    opcional "nvim" "no instalado (semana 06: navegacion tmux-Neovim)"
-  fi
   if command -v fzf >/dev/null 2>&1; then
     comprobar "fzf" ok "$(fzf --version | awk '{print $1}')"
   else

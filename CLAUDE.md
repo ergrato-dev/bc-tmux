@@ -133,7 +133,22 @@ bind r source-file ~/.config/tmux/tmux.conf \; display "config recargada"
 6. **Reto extra** (opcional)
 
 Los labs se hacen con un servidor aparte para no romper la sesión del estudiante:
-`tmux -L lab -f starter/tmux.conf`. Al terminar: `tmux -L lab kill-server`.
+`tmux -L lab -f "$PWD/starter/tmux.conf" new -d -s lab`. Al terminar: `tmux -L lab kill-server`.
+
+## Estándar paso a paso (labs y proyectos): no asumir nada
+
+El estudiante nunca usó tmux. Cada ejemplo es completo y se puede seguir sin adivinar:
+
+1. **Paso 0**: `cd` a la carpeta del lab (ruta desde la raíz del repo), en una terminal **fuera de tmux** (`echo "$TMUX"` vacío), y qué servidor (`-L lab`) se usa.
+2. **Output tras cada bloque**, incluido `; echo $?` cuando importa el código de salida. Sin salida: `(sin salida)`. Si varía (pid, fechas, uid): "algo como" + qué cambia. Se pega de una ejecución real con tmux 3.4, nunca de memoria.
+3. **Terminal explícita**: "terminal A (conectada)" / "terminal B (fuera de tmux)". Todo `attach` dice en qué terminal va y cómo salir (`prefix` `d` → `[detached (from session X)]`). Se avisa cuando `kill-server` expulsa a un cliente (`[server exited]`).
+4. **Prefix real**: si el servidor del lab arranca con `-f /dev/null` o con un starter sin `set -g prefix`, se escribe `C-b` y se dice por qué; si el starter fija uno, se nombra. `prefix` a secas solo cuando el servidor carga la config del estudiante.
+5. **Teclas exactas y salida de cada modo**: `prefix` `→`, no "ve al panel". Se avisa de prompts rellenos (`prefix` `,`/`$`: `C-u` borra), confirmaciones (`prefix` `&`, `x`: responde `y`) y cómo salir (`q`/`Esc` en `w`, `s`, `D`, `#`, menús, copy mode, `top`).
+6. **Un subpaso por TODO**: qué hacer, pista de sintaxis mínima (flags, `-F` y variables de formato exactos), el comando que prueba solo ese TODO y su output. Prohibido "Completa `starter/x.sh`" a secas. Si el starter tiene un `echo "sin implementar"`, se dice que se borra.
+7. **Todo criterio de éxito sale de un paso** que lo produce. Toda herramienta extra se instala explícitamente (`sudo apt install shellcheck` / `brew install shellcheck`).
+8. **Orden y seguridad**: las precondiciones (`rm`, `kill-server`, reiniciar tras editar) van antes del comando que las necesita. Nada toca el `$HOME`/XDG reales (`env -u XDG_CONFIG_HOME HOME=...`). Rutas absolutas (`S="$PWD/starter/x.sh"`) cuando el cliente cambia de directorio.
+9. **Proyectos**: sección `## Paso a paso` que recorre los TODOs en orden, cada uno con su comprobación y output. Se trabaja sobre `3-proyecto/starter/` (es lo que corrige el autograding). Termina con `cd "$(git rev-parse --show-toplevel)" && ./scripts/verificar-semana.sh NN` y su output.
+10. **Agnóstico de editor**: nada depende de vim/Neovim/otro editor. Las teclas de copy mode se listan (`v`, `y`, `C-v`), no "como en vim"; los ejemplos usan programas de cualquier sistema (`less`, `top`, `printf`).
 
 ## Estructura del README.md de semana
 
@@ -168,7 +183,7 @@ Bandas: Sobresaliente 90–100, Notable 80–89, Aprobado 70–79.
 | 04 | `week-04-copy_mode_buffers_y_portapapeles` | copy-mode vi, búsqueda, buffers, `set-clipboard`, OSC 52, portapapeles WSL/Wayland/X11/macOS, `capture-pane` | Copiar al portapapeles en local y por SSH |
 | **Fase 2 — Configuración** ||||
 | 05 | `week-05-configuracion_y_alcance_de_opciones` | `tmux.conf` XDG, alcances server/session/window/pane, herencia, `show-options`, `source-file`, config modular | `tmux.conf` + `conf.d/` con recarga en caliente |
-| 06 | `week-06-key_bindings_tablas_y_navegacion` | `bind`/`unbind`, `-r`, `-n`, tablas propias, `copy-mode-vi`, `{}`, navegación con Neovim sin plugin | Modo resize propio + navegación con Neovim |
+| 06 | `week-06-key_bindings_tablas_y_navegacion` | `bind`/`unbind`, `-r`, `-n`, tablas propias, `copy-mode-vi`, `{}`, `if -F`, navegación sin prefix que respeta programas a pantalla completa | Modo resize propio + navegación `C-h/j/k/l` agnóstica del editor |
 | 07 | `week-07-formats_y_status_line` | `#{}`, condicionales, comparaciones, modificadores, `#()`, estilos, status de varias líneas | Status line propia sin plugins |
 | 08 | `week-08-terminal_color_y_depuracion` | `TERM`, `tmux-256color`, terminfo, `terminal-features`, `extended-keys`, passthrough, `tmux -vvv`, `show-messages` | Config que pasa la batería de color/teclas + guía de diagnóstico |
 | **Fase 3 — Automatización** ||||

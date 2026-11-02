@@ -27,7 +27,7 @@ Al finalizar el bootcamp, serás capaz de:
 - ✅ Moverte con fluidez entre sesiones, ventanas y paneles, y usar targets `sesion:ventana.panel`
 - ✅ Copiar con copy-mode y buffers hasta el portapapeles del sistema, en local y por SSH (OSC 52)
 - ✅ Escribir una configuración modular y entender los alcances server/session/window/pane
-- ✅ Diseñar key bindings y tablas de teclas propias, con navegación compartida con Neovim
+- ✅ Diseñar key bindings y tablas de teclas propias, con navegación sin prefix que respeta cualquier programa a pantalla completa
 - ✅ Construir una status line propia con formats, condicionales y estilos, sin plugins
 - ✅ Diagnosticar problemas de `TERM`, color de 24 bits, undercurl y teclas extendidas
 - ✅ Automatizar entornos de proyecto con scripts idempotentes, hooks, popups y menús
@@ -81,7 +81,7 @@ bootcamp/week-NN-nombre_del_tema/
 | [03 — Sesiones, targets y sockets](bootcamp/week-03-sesiones_targets_y_sockets/README.md) | `choose-tree`, `switch-client`, targets, grupos de sesiones, `-L`/`-S` | `bin/sesiones`: listar, saltar, crear y agrupar sesiones |
 | [04 — Copy mode, buffers y portapapeles](bootcamp/week-04-copy_mode_buffers_y_portapapeles/README.md) | copy-mode vi, buffers, `set-clipboard`, OSC 52, `capture-pane` | Primer `tmux.conf` y `bin/kit-copiar`: portapapeles en local y por SSH |
 | [05 — Configuración y alcance de opciones](bootcamp/week-05-configuracion_y_alcance_de_opciones/README.md) | `tmux.conf` XDG, alcances, herencia, `source-file`, config modular | `tmux.conf` + `conf.d/` con recarga en caliente y `bin/kit-opcion` |
-| 06 — Key bindings, tablas y navegación | `bind`, `-r`, `-n`, tablas propias, navegación con Neovim | Modo resize + navegación con Neovim |
+| 06 — Key bindings, tablas y navegación | `bind`, `-r`, `-n`, tablas propias, `if -F` | Modo resize + navegación `C-h/j/k/l` agnóstica del editor |
 | 07 — Formats y status line | `#{}`, condicionales, modificadores, `#()`, estilos | Status line propia sin plugins |
 | 08 — Terminal, color y depuración | `TERM`, terminfo, `terminal-features`, `extended-keys`, `tmux -vvv` | Batería de color/teclas + guía de diagnóstico |
 | 09 — Scripting de tmux desde shell | `new-session -d`, `has-session`, `send-keys`, `list-* -F`, `wait-for` | `bin/dev-up` idempotente |
@@ -110,7 +110,6 @@ bootcamp/week-NN-nombre_del_tema/
 | Docker      | Engine 27+ con Compose v2 | Laboratorio y autograding |
 | bash, jq, shellcheck, git | las de Ubuntu 24.04 | Scripts y autograding |
 | fzf         | ≥ 0.44 | Semana 10 |
-| Neovim      | ≥ 0.9 | Semana 06 |
 | uv          | 0.12.x (Python siempre con uv, nunca pip) | Semana 11 (tmuxp) |
 
 Versiones exactas y por qué: [docs/stack-versions.md](docs/stack-versions.md).

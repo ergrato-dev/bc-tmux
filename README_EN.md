@@ -29,7 +29,7 @@ By the end of the bootcamp you will be able to:
 - ✅ Move fluently between sessions, windows and panes, and use `session:window.pane` targets
 - ✅ Copy through copy-mode and buffers to the system clipboard, locally and over SSH (OSC 52)
 - ✅ Write a modular configuration and understand server/session/window/pane option scopes
-- ✅ Design your own key bindings and key tables, with navigation shared with Neovim
+- ✅ Design your own key bindings and key tables, with prefix-less navigation that respects any full-screen program
 - ✅ Build your own status line with formats, conditionals and styles, without plugins
 - ✅ Troubleshoot `TERM`, 24-bit color, undercurl and extended keys
 - ✅ Automate project environments with idempotent scripts, hooks, popups and menus
@@ -58,7 +58,7 @@ By the end of the bootcamp you will be able to:
 | 03 | Sessions, targets and sockets | Script to list and jump between sessions |
 | 04 | Copy mode, buffers and clipboard | Clipboard working locally and over SSH |
 | 05 | Configuration and option scopes | Modular `tmux.conf` + `conf.d/` with hot reload |
-| 06 | Key bindings, key tables and navigation | Custom resize mode + Neovim navigation |
+| 06 | Key bindings, key tables and navigation | Custom resize mode + editor-agnostic `C-h/j/k/l` navigation |
 | 07 | Formats and the status line | Custom status line, no plugins |
 | 08 | Terminal, color and debugging | Color/keys test suite + troubleshooting guide |
 | 09 | Scripting tmux from the shell | Idempotent `bin/dev-up` |
@@ -79,7 +79,7 @@ Each week: minimal theory (≤ 45 min), 10 knowledge questions (15 min), 6 hands
 | tmux | **≥ 3.4** | Core tool |
 | Docker | Engine 27+ with Compose v2 | Lab and autograding |
 | bash, jq, shellcheck, git | Ubuntu 24.04 versions | Scripts and autograding |
-| fzf / Neovim / uv | ≥ 0.44 / ≥ 0.9 / 0.12.x | Weeks 10 / 06 / 11 (Python always via uv) |
+| fzf / uv | ≥ 0.44 / 0.12.x | Weeks 10 / 11 (Python always via uv) |
 
 Exact versions: [docs/stack-versions.md](docs/stack-versions.md).
 

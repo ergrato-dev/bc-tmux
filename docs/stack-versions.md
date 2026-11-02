@@ -29,7 +29,6 @@ tmux -V
 | jq | 1.7 |
 | shellcheck | 0.9 |
 | fzf | 0.44 |
-| Neovim | 0.9.5 |
 | uv | 0.12.2 (`COPY --from=ghcr.io/astral-sh/uv:0.12.2`) |
 | Docker Engine | 27+ |
 | Docker Compose | v2 (`docker compose`) |

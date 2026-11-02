@@ -43,6 +43,16 @@ Lee `CLAUDE.md` y luego revisa todos los archivos de `bootcamp/<semana>/`. Repor
 - [ ] Cada archivo de `1-teoria/` tiene menos de 600 palabras de prosa
 - [ ] La teoría no repite lo que los labs explican paso a paso
 - [ ] Los labs tienen criterios de éxito verificables
+
+**Paso a paso (`CLAUDE.md` § Estándar paso a paso)** — revisa cada lab y el proyecto:
+- [ ] Paso 0 con `cd` a la carpeta y "fuera de tmux"
+- [ ] Cada bloque de comandos va seguido de su output (o `(sin salida)`); los códigos de salida con `; echo $?`
+- [ ] **Ejecuta cada bloque en el laboratorio con tmux 3.4 y compara con el output del README**; toda diferencia es ❌
+- [ ] Cada `attach` dice en qué terminal y cómo salir; cada modo dice cómo salir
+- [ ] Las teclas usan el prefix real del servidor del lab (`C-b` con `-f /dev/null`)
+- [ ] Ningún "Completa X" sin un subpaso por TODO con pista, prueba y output
+- [ ] Todo criterio de éxito sale de un paso; las precondiciones van antes del comando que las necesita
+- [ ] Ningún comando toca `$HOME`/XDG reales; nada depende de un editor concreto
 - [ ] El proyecto toma ~3h (no más de 4, no menos de 2h)
 - [ ] `./scripts/verificar-enlaces.sh` sale 0
 - [ ] Idioma: prosa en español con tuteo (ningún voseo: `grep -rnwE 'vos|tenés|podés|hacé|querés|sabés|usá|mirá|probá|escribí'` vacío), código en inglés
