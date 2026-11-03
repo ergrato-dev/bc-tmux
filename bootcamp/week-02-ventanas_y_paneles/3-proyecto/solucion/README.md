@@ -22,11 +22,12 @@ diario en Ubuntu 24.04 (WSL2). Crece una semana a la vez durante el bootcamp.
 Todos respetan `TMUX_BIN` (qué binario de tmux usar), y los que hablan con un
 servidor respetan `TMUX_SOCKET` (qué servidor, como `tmux -L`).
 
-Para guardar un layout que te guste y recuperarlo después:
+Mi reparto de la ventana `trabajo` está en `layouts/trabajo.layout`. Para
+aplicarlo a una ventana de tres paneles, o guardar uno nuevo:
 
 ```bash
-bin/kit-layout save api:trabajo ~/.config/tmux/layouts/api.layout
-bin/kit-layout load api:trabajo ~/.config/tmux/layouts/api.layout
+bin/kit-layout load api:trabajo layouts/trabajo.layout
+bin/kit-layout save api:trabajo layouts/trabajo.layout
 ```
 
 ## Bitácora

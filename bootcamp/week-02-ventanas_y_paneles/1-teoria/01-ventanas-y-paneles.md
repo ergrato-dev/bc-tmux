@@ -37,7 +37,7 @@ tmux select-pane -t "$shell" -T shell
 
 `-d` evita que el panel nuevo se vuelva el activo: así el foco no cambia mientras el script trabaja.
 
-**Siempre `-t` en un script.** Sin `-t`, un comando lanzado desde dentro de tmux actúa sobre **el panel desde el que se ejecuta** (`$TMUX_PANE`); desde fuera, sobre la sesión usada más recientemente. Ninguno de los dos es, normalmente, el que quieres.
+**Siempre `-t` en un script.** Sin `-t`, un comando lanzado desde dentro de tmux actúa sobre **la sesión desde la que se ejecuta** (la de `$TMUX`) y su panel activo; desde fuera, sobre la sesión usada más recientemente. Ninguno de los dos es, normalmente, el que quieres.
 
 **Títulos.** `select-pane -T nombre` pone el título de un panel (`#{pane_title}`). Con `set -w pane-border-status top` se ve en el borde.
 

@@ -13,32 +13,56 @@ tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
 uso() { sed -n '4,6p' "$0" | sed 's/^# //' >&2; exit 2; }
 error() { echo "kit-layout: $*" >&2; exit 1; }
 
-# TODO: paneles_en_layout LAYOUT — cuántos paneles describe un layout guardado.
-#       Cada panel aparece como ANCHOxALTO,X,Y,ID; los contenedores no llevan ID.
+# TODO 1: paneles_en_layout LAYOUT — imprime cuántos paneles describe un layout.
+#         Cada panel aparece como ANCHOxALTO,X,Y,ID (cuatro números tras el
+#         tamaño); los contenedores llevan solo X,Y y después { o [. Pista:
+#         grep -oE '[0-9]+x[0-9]+,[0-9]+,[0-9]+,[0-9]+' <<<"$1" | wc -l
+
+# TODO 2: exige_ventana VENTANA — sale con error si la ventana no existe.
+#         display-message no falla con un target inexistente; list-panes sí:
+#         tmx list-panes -t "$1" >/dev/null 2>&1 || error "no existe la ventana: $1"
 
 cmd_new() {
   local sesion="$1" dir="${2:-$PWD}"
-  # TODO 1: si la sesión existe (has-session -t "=$sesion"), crea en ella la
-  #         ventana "trabajo"; si ya tiene una, error. Si no existe, crea la
-  #         sesión con esa ventana. Guarda el id del panel con -P -F '#{pane_id}'.
-  # TODO 2: parte el panel en tres (editor | shell / logs) usando siempre ids y
-  #         -c "$dir" para que todos empiecen en el directorio.
-  # TODO 3: títulos editor, shell y logs (select-pane -T).
-  # TODO 4: main-pane-width 60% y layout main-vertical; deja activo el editor.
+  # TODO 3: declara local editor shell logs. Si "$dir" no es un directorio,
+  #         error. Si la sesión existe (tmx has-session -t "=$sesion" 2>/dev/null):
+  #           - si ya tiene una ventana trabajo, error. Pista:
+  #             tmx list-windows -t "=$sesion" -F '#{window_name}' | grep -qx trabajo
+  #           - si no, editor=$(tmx new-window -d -P -F '#{pane_id}' -t "=$sesion:" -n trabajo -c "$dir")
+  #         Si no existe:
+  #           editor=$(tmx new-session -d -P -F '#{pane_id}' -s "$sesion" -n trabajo -c "$dir")
+  # TODO 4: parte en tres con ids, -d y -c "$dir":
+  #         shell=$(tmx split-window -d -h -P -F '#{pane_id}' -t "$editor" -c "$dir")
+  #         logs=... (lo mismo con -v y -t "$shell")
+  # TODO 5: títulos editor, shell y logs: tmx select-pane -t "$editor" -T editor ...
+  # TODO 6: tmx set-option -w -t "$editor" main-pane-width 60%, después
+  #         tmx select-layout -t "$editor" main-vertical, deja activo el editor
+  #         (tmx select-pane -t "$editor") y avisa:
+  #         echo "ventana trabajo lista en la sesión $sesion"
   echo "kit-layout new: sin implementar ($sesion $dir)" >&2; exit 99
 }
 
 cmd_save() {
-  # TODO 5: guarda #{window_layout} de la ventana en el archivo. Ojo:
-  #         display-message no falla si la ventana no existe; valídala antes
-  #         con list-panes -t, que sí falla.
-  echo "kit-layout save: sin implementar ($*)" >&2; exit 99
+  local ventana="$1" archivo="$2"
+  # TODO 7: local layout; exige_ventana "$ventana";
+  #         layout=$(tmx display-message -p -t "$ventana" '#{window_layout}');
+  #         escríbelo con printf '%s\n' "$layout" >"$archivo" y avisa:
+  #         echo "layout de $ventana guardado en $archivo ($(paneles_en_layout "$layout") paneles)"
+  echo "kit-layout save: sin implementar ($ventana $archivo)" >&2; exit 99
 }
 
 cmd_load() {
-  # TODO 6: lee el layout, valida su formato y que el número de paneles coincide
-  #         con #{window_panes}; después select-layout.
-  echo "kit-layout load: sin implementar ($*)" >&2; exit 99
+  local ventana="$1" archivo="$2"
+  # TODO 8: local layout esperados actuales. En este orden, y con error en
+  #         cuanto algo falle:
+  #         - el archivo se puede leer: [[ -r "$archivo" ]]; layout=$(<"$archivo")
+  #         - tiene un layout de tmux: [[ "$layout" =~ ^[0-9a-f]{4},[0-9]+x[0-9]+, ]]
+  #         - exige_ventana "$ventana"
+  #         - esperados=$(paneles_en_layout "$layout") es igual a
+  #           actuales=$(tmx display-message -p -t "$ventana" '#{window_panes}')
+  #         Después tmx select-layout -t "$ventana" "$layout" y avisa:
+  #         echo "layout de $archivo aplicado a $ventana"
+  echo "kit-layout load: sin implementar ($ventana $archivo)" >&2; exit 99
 }
 
 case "${1:-}" in

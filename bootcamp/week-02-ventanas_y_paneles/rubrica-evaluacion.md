@@ -60,8 +60,9 @@ posterior sin `-t` (o un `-t` con la ventana) actúa sobre él. Con `-d` el foco
 no cambia: el resultado no depende del orden en que el script crea los paneles,
 y si alguien está conectado, no ve saltar el cursor.
 
-**4.** Sin `-t`, tmux usa como objetivo el panel de `$TMUX_PANE`: el panel
-desde el que se ejecuta el comando. Crear `api` no cambia eso. Un script debe
+**4.** Sin `-t`, tmux usa la sesión desde la que se ejecuta el comando (la
+deduce de `$TMUX`/`$TMUX_PANE`) y, en ella, su panel activo. Crear `api` no
+cambia eso. Un script debe
 apuntar siempre con `-t` y un id.
 
 **5.** `main-pane-width` se lee al calcular el layout, no después. Ponerla tarde

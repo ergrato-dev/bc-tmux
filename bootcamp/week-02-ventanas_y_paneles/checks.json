@@ -21,21 +21,21 @@
       "descripcion": "Los paneles se titulan editor, shell y logs",
       "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; {tmux} list-panes -t api:trabajo -F '#{pane_title}' | sort | paste -sd, -",
       "assert": "stdout~^editor,logs,shell$",
-      "pista": "2-practicas/lab-01-split-y-navegacion/README.md, paso 5"
+      "pista": "2-practicas/lab-01-split-y-navegacion/README.md, paso 6"
     },
     {
       "id": "editor-izquierda",
       "descripcion": "El editor ocupa la columna izquierda con un 55-65 % del ancho",
       "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; {tmux} list-panes -t api:trabajo -F '#{pane_title} #{pane_left} #{pane_width} #{window_width}' | awk '$1==\"editor\" && $2==0 && $3/$4>=0.55 && $3/$4<=0.65 {ok=1} END {exit !ok}'",
       "assert": "exit0",
-      "pista": "2-practicas/lab-03-layouts/README.md, paso 4"
+      "pista": "2-practicas/lab-03-layouts/README.md, paso 3"
     },
     {
       "id": "shell-sobre-logs",
       "descripcion": "shell y logs se apilan a la derecha, shell arriba",
       "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api >/dev/null ; {tmux} list-panes -t api:trabajo -F '#{pane_title} #{pane_left} #{pane_top}' | awk '$1==\"shell\" {sl=$2; st=$3} $1==\"logs\" {ll=$2; lt=$3} END {exit !(sl>0 && sl==ll && st<lt)}'",
       "assert": "exit0",
-      "pista": "2-practicas/lab-03-layouts/README.md, paso 4"
+      "pista": "2-practicas/lab-03-layouts/README.md, paso 3"
     },
     {
       "id": "editor-activo",
@@ -49,7 +49,7 @@
       "descripcion": "Los tres paneles empiezan en el directorio indicado",
       "cmd": "{tmux} -f /dev/null new-session -d -s base ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-layout new api /tmp >/dev/null ; sleep 0.3 ; {tmux} list-panes -t api:trabajo -F '#{pane_current_path}' | grep -cx /tmp",
       "assert": "stdout~^3$",
-      "pista": "2-practicas/lab-01-split-y-navegacion/README.md, paso 3"
+      "pista": "2-practicas/lab-01-split-y-navegacion/README.md, paso 4"
     },
     {
       "id": "sesion-existente",

@@ -11,9 +11,14 @@
 
 **Total labs: 6 horas**
 
-Igual que en la semana 01, todo va contra un servidor aparte: `tmux -L lab`.
-En el laboratorio, para varias terminales: `docker compose up -d lab` y
-`docker compose exec lab bash` en cada una. Al terminar cada lab:
-`tmux -L lab kill-server`.
+Antes de cada lab:
+
+- Igual que en la semana 01, todo va contra un servidor aparte, `tmux -L lab`,
+  arrancado con `-f /dev/null` (sin config): el prefix es `C-b`.
+- Casi todos los labs usan dos terminales **fuera de tmux**: la A, conectada a
+  la sesión, y la B, para los comandos. En el laboratorio Docker:
+  `docker compose up -d lab` y `docker compose exec lab bash` en cada una.
+- Al terminar cada lab: `C-b` `d` en la terminal A y `tmux -L lab kill-server`
+  en la B.
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).

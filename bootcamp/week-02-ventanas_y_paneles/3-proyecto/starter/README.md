@@ -19,8 +19,8 @@ diario en Ubuntu 24.04 (WSL2). Crece una semana a la vez durante el bootcamp.
 | `bin/kit-tree` | Dibuja servidor > sesiones > ventanas > paneles. Nunca arranca un servidor | `TMUX_SOCKET=lab bin/kit-tree` |
 | `bin/kit-layout` | <!-- TODO --> | <!-- TODO --> |
 
-Los dos respetan `TMUX_BIN` (qué binario de tmux usar) y `kit-tree` respeta
-`TMUX_SOCKET` (qué servidor, como `tmux -L`).
+Todos respetan `TMUX_BIN` (qué binario de tmux usar), y los que hablan con un
+servidor respetan `TMUX_SOCKET` (qué servidor, como `tmux -L`).
 
 ## Bitácora
 

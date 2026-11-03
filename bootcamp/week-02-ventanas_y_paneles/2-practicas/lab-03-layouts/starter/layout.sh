@@ -10,12 +10,20 @@ accion="${1:?uso: layout.sh guardar|restaurar VENTANA ARCHIVO}"
 ventana="${2:?falta la ventana}"
 archivo="${3:?falta el archivo}"
 
+# TODO 1: falla si la ventana no existe. display-message no falla con un
+#         target inexistente; list-panes sí:
+#         tmx list-panes -t "$ventana" >/dev/null
+
 case "$accion" in
   guardar)
-    # TODO 1: escribe #{window_layout} de "$ventana" en "$archivo".
+    # TODO 2: escribe #{window_layout} de "$ventana" en "$archivo" y avisa:
+    #         tmx display-message -p -t "$ventana" '#{window_layout}' >"$archivo"
+    #         echo "guardado en $archivo"
     ;;
   restaurar)
-    # TODO 2: aplica el contenido de "$archivo" con select-layout -t "$ventana".
+    # TODO 3: aplica el contenido de "$archivo" y avisa:
+    #         tmx select-layout -t "$ventana" "$(<"$archivo")"
+    #         echo "restaurado desde $archivo"
     ;;
   *)
     echo "acción desconocida: $accion" >&2
