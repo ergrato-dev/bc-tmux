@@ -1,0 +1,34 @@
+# lab-05 — la sesión "api" declarada para tmuxp, en vez de un script.
+#
+# Probar sin tocar tu sesión (desde la carpeta del lab, con el servidor del
+# paso 0 del README ya arrancado):
+#   tmuxp load -L lab -d "$PWD/starter/api.yaml"
+# Volver a cargarla tras editar:
+#   tmux -L lab kill-session -t =api; tmuxp load -L lab -d "$PWD/starter/api.yaml"
+
+session_name: api
+# Una ruta relativa se resuelve desde la carpeta de este archivo, no desde
+# donde ejecutas tmuxp.
+start_directory: ./demo
+windows:
+  - window_name: editor
+    # TODO 1: dos paneles, uno al lado del otro. Añade
+    # "layout: even-horizontal" y un segundo panel que ejecute "ls":
+    #   layout: even-horizontal
+    #   panes:
+    #     - echo editor
+    #     - ls
+    panes:
+      - echo editor
+
+  # TODO 2: ventana "run" que arranca en /etc (su propio start_directory,
+  # absoluto) con un panel que ejecute "pwd":
+  #   - window_name: run
+  #     start_directory: /etc
+  #     panes:
+  #       - pwd
+
+  # TODO 3: ventana "logs" con top en su único panel:
+  #   - window_name: logs
+  #     panes:
+  #       - top

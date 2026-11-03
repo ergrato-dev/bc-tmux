@@ -74,6 +74,6 @@ tmux -L kit show-hooks -g | grep '\['; tmux -L kit kill-server
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 09 — Scripting de tmux desde shell](../week-09-scripting_de_tmux_desde_shell/README.md) | **Semana 10 — Hooks, popups y menús** | Semana 11 — Plugins y ecosistema |
+| [← Semana 09 — Scripting de tmux desde shell](../week-09-scripting_de_tmux_desde_shell/README.md) | **Semana 10 — Hooks, popups y menús** | [Semana 11 — Plugins y ecosistema →](../week-11-plugins_y_ecosistema/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)

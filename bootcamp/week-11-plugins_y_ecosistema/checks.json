@@ -1,0 +1,132 @@
+{
+  "semana": "11",
+  "titulo": "Plugins y ecosistema",
+  "checks": [
+    {
+      "id": "conf-parsea-sin-tpm",
+      "descripcion": "tmux.conf carga sin errores en una máquina sin TPM",
+      "cmd": "d=$(mktemp -d) ; cp -r {proyecto}/. \"$d\" ; rm -rf \"$d/plugins\" ; {tmux} -f /dev/null new-session -d ; {tmux} source-file \"$d/tmux.conf\"",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 8 (lab-06-plugins-rotos)"
+    },
+    {
+      "id": "plugin-run-shell",
+      "descripcion": "El plugin del kit, cargado solo con run-shell, cambia #{kit_sessions} por el número de sesiones",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} set -g status-right 'S #{kit_sessions}' ; {tmux} run-shell {proyecto}/plugin/tmux-kit.tmux ; {tmux} display -p '#{E:status-right}'",
+      "assert": "stdout~^S 1 ses$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 2 (lab-03-anatomia-de-un-plugin)"
+    },
+    {
+      "id": "plugin-opcion",
+      "descripcion": "El plugin respeta un @kit-sessions-label fijado antes de cargarlo",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} set -g @kit-sessions-label sesiones ; {tmux} set -g status-left '#{kit_sessions}' ; {tmux} run-shell {proyecto}/plugin/tmux-kit.tmux ; {tmux} display -p '#{E:status-left}'",
+      "assert": "stdout~^1 sesiones$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 2 (lab-03-anatomia-de-un-plugin)"
+    },
+    {
+      "id": "plugin-git",
+      "descripcion": "La rama git de la barra sale del marcador #{kit_git} del plugin",
+      "cmd": "n=$(grep -c '^set .*#{kit_git}' {proyecto}/conf.d/30-status.conf) ; {tmux} -f {proyecto}/tmux.conf new-session -d ; v=$({tmux} show -gv status-right) ; echo \"$n $v\" ; [ \"$n\" -ge 1 ] && [[ \"$v\" != *kit_git* && \"$v\" == *'#(#{q:@kit-dir}/bin/kit-git-branch #{q:pane_current_path})'* ]]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, pasos 3 y 4 (lab-04-interpolacion-en-la-status)"
+    },
+    {
+      "id": "plugin-idempotente",
+      "descripcion": "Recargar la config y volver a ejecutar el plugin deja la status line igual",
+      "cmd": "d=$(mktemp -d) ; cp -r {proyecto}/. \"$d\" ; rm -rf \"$d/plugins\" ; {tmux} -f \"$d/tmux.conf\" new-session -d ; a=$({tmux} show -gv status-right) ; {tmux} source-file \"$d/tmux.conf\" ; {tmux} run-shell \"$d/plugin/tmux-kit.tmux\" ; {tmux} source-file \"$d/tmux.conf\" ; b=$({tmux} show -gv status-right) ; echo \"$a\" ; [ \"$a\" = \"$b\" ] && [[ \"$a\" == *server_sessions* && \"$a\" != *kit_sessions* ]]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4 (lab-06-plugins-rotos)"
+    },
+    {
+      "id": "plugins-fijados",
+      "descripcion": "@tpm_plugins declara tpm v3.1.0, tmux-resurrect v4.0.0 y tmux-continuum v3.1.0",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -gv @tpm_plugins | xargs -n1 | sort | paste -sd' ' -",
+      "assert": "stdout~^tmux-plugins/tmux-continuum#v3.1.0 tmux-plugins/tmux-resurrect#v4.0.0 tmux-plugins/tpm#v3.1.0$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5 (lab-01-tpm-desde-cero)"
+    },
+    {
+      "id": "tpm-ruta-kit",
+      "descripcion": "TPM instala los plugins en plugins/ dentro del kit",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show-environment -g TMUX_PLUGIN_MANAGER_PATH",
+      "assert": "stdout~^TMUX_PLUGIN_MANAGER_PATH=/.*/3-proyecto/(starter|solucion)/plugins/$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6 (lab-01-tpm-desde-cero)"
+    },
+    {
+      "id": "tpm-se-ejecuta",
+      "descripcion": "Con plugins/tpm/tpm instalado, la config lo ejecuta al cargar",
+      "cmd": "d=$(mktemp -d) ; cp -r {proyecto}/. \"$d\" ; rm -rf \"$d/plugins\" ; mkdir -p \"$d/plugins/tpm\" ; t=\"$d/plugins/tpm/tpm\" ; echo '#!/bin/sh' > \"$t\" ; echo 'tmux set -g @bc-tpm cargado' >> \"$t\" ; chmod +x \"$t\" ; {tmux} -f \"$d/tmux.conf\" new-session -d ; {tmux} show -gv @bc-tpm",
+      "assert": "stdout~^cargado$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 8 (lab-01-tpm-desde-cero)"
+    },
+    {
+      "id": "resurrect-xdg",
+      "descripcion": "resurrect guarda en ~/.local/share/tmux/resurrect, no en ~/.tmux",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -gv @resurrect-dir",
+      "assert": "stdout~^~/.local/share/tmux/resurrect$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 7 (lab-02-resurrect-y-continuum)"
+    },
+    {
+      "id": "continuum-restaura",
+      "descripcion": "continuum restaura el último guardado al arrancar el servidor",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show -gv @continuum-restore",
+      "assert": "stdout~^on$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 7 (lab-02-resurrect-y-continuum)"
+    },
+    {
+      "id": "kit-plugins-uso",
+      "descripcion": "kit-plugins sin subcomando o con uno desconocido sale con 2",
+      "cmd": "export TMUX_SOCKET=bc-check ; {proyecto}/bin/kit-plugins 2>/dev/null ; a=$? ; {proyecto}/bin/kit-plugins borrar 2>/dev/null ; b=$? ; echo \"uso: $a $b\"",
+      "assert": "stdout~^uso: 2 2$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 1"
+    },
+    {
+      "id": "kit-plugins-sin-servidor",
+      "descripcion": "kit-plugins list sin servidor sale con 1 y lo dice",
+      "cmd": "export TMUX_SOCKET=bc-check ; out=$({proyecto}/bin/kit-plugins list 2>&1) ; rc=$? ; echo \"$out\" ; [ \"$rc\" = 1 ] && echo \"$out\" | grep -q 'no hay servidor'",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 9"
+    },
+    {
+      "id": "kit-plugins-list",
+      "descripcion": "kit-plugins list dice de cada plugin si está instalado, en el orden de @tpm_plugins",
+      "cmd": "export TMUX_SOCKET=bc-check ; d=$(mktemp -d) ; cp -r {proyecto}/. \"$d\" ; rm -rf \"$d/plugins\" ; mkdir -p \"$d/plugins/tmux-resurrect\" ; {tmux} -f \"$d/tmux.conf\" new-session -d ; \"$d/bin/kit-plugins\" list | awk '{ print $1, $2, $3 }' | paste -sd, -",
+      "assert": "stdout~^tpm v3.1.0 falta,tmux-resurrect v4.0.0 instalado,tmux-continuum v3.1.0 falta$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 9"
+    },
+    {
+      "id": "kit-plugins-check-ok",
+      "descripcion": "kit-plugins check sale con 0 con los plugins del kit",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d ; {proyecto}/bin/kit-plugins check",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 10"
+    },
+    {
+      "id": "kit-plugins-check-sin-tag",
+      "descripcion": "kit-plugins check sale con 1 y nombra un plugin sin tag",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} set -ga @tpm_plugins ' tmux-plugins/tmux-sensible' ; out=$({proyecto}/bin/kit-plugins check 2>&1) ; rc=$? ; echo \"$out\" ; [ \"$rc\" = 1 ] && echo \"$out\" | grep -q 'tmux-plugins/tmux-sensible'",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 10 (lab-06-plugins-rotos)"
+    },
+    {
+      "id": "kit-plugins-check-rama",
+      "descripcion": "kit-plugins check sale con 1 con un plugin fijado a master",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} set -ga @tpm_plugins ' tmux-plugins/tmux-yank#master' ; out=$({proyecto}/bin/kit-plugins check 2>&1) ; rc=$? ; echo \"$out\" ; [ \"$rc\" = 1 ] && echo \"$out\" | grep -q 'tmux-plugins/tmux-yank'",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 10"
+    },
+    {
+      "id": "gitignore-plugins",
+      "descripcion": "El .gitignore del kit deja fuera plugins/",
+      "cmd": "git check-ignore -v --no-index {proyecto}/plugins/tpm/tpm",
+      "assert": "stdout~3-proyecto/(starter|solucion)/.gitignore:[0-9]+:",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6"
+    },
+    {
+      "id": "kit-completo-y-limpio",
+      "descripcion": "tmux.conf, conf.d/, bin/ y plugin/ no tienen TODOs y bin/ y plugin/ pasan shellcheck",
+      "cmd": "! grep -rn TODO {proyecto}/tmux.conf {proyecto}/conf.d {proyecto}/bin {proyecto}/plugin && shellcheck {proyecto}/bin/* {proyecto}/plugin/*.tmux",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Calidad"
+    }
+  ]
+}

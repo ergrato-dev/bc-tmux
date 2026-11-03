@@ -172,8 +172,8 @@ starter/                   ← tu tmux-kit de la semana 09 + lo nuevo
 5. **Listar proyectos (TODO 5, `bin/kit-projects`).** Del lab-05-fzf-en-un-popup.
    - `root=$(tmx show-options -gqv @kit-projects-dir)` solo si
      `tmx list-sessions` dice que hay servidor (`show` arrancaría uno). Por
-     defecto `~/src`. tmux guarda `~/src` tal cual: la `~` la cambias tú
-     por `$HOME`.
+     defecto `~/src`. Si alguien fija la opción con comillas simples, la `~`
+     llega tal cual: la cambias tú por `$HOME`.
    - `for path in "$root"/*/` con `shopt -s nullglob`: `*/` solo casa con
      directorios y, sin `dotglob`, salta los ocultos. Ni `ls` ni `find |
      while read`: los nombres llegan enteros. Ordena con `LC_ALL=C sort`.

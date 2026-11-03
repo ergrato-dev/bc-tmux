@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+# kit-plugins — revisa e instala los plugins de terceros del kit (TPM).
+#
+# Uso: kit-plugins list       cada plugin de @tpm_plugins: nombre, versión y si está instalado
+#      kit-plugins check      comprueba que todos están fijados a un tag
+#      kit-plugins install    clona TPM con su tag e instala los plugins (necesita red)
+# Salida: 0 bien, 1 sin servidor, plugins sin fijar o instalación fallida, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+die() { echo "kit-plugins: $*" >&2; exit 1; }
+
+# La lista vive en el servidor (60-plugins.conf): sin servidor no hay lista.
+# show no arranca uno: sin servidor, falla.
+load() {
+  local list
+  list=$(tmx show -gqv @tpm_plugins 2>/dev/null) || die "no hay servidor de tmux en este socket"
+  # read -a parte por espacios y saltos de línea sin expandir globs.
+  read -r -d '' -a entries <<<"$list" || true
+  (( ${#entries[@]} > 0 )) || die "@tpm_plugins está vacía: ¿se cargó conf.d/60-plugins.conf?"
+
+  local env
+  env=$(tmx show-environment -g TMUX_PLUGIN_MANAGER_PATH 2>/dev/null) ||
+    die "falta TMUX_PLUGIN_MANAGER_PATH: ¿se cargó conf.d/60-plugins.conf?"
+  plugins_dir=${env#*=}
+}
+
+# split ENTRADA — repo (lo de antes del #), ref (lo de después, o nada) y
+# name, que es el directorio que crea TPM: el último trozo sin .git.
+split() {
+  repo=${1%%#*}
+  ref=""; [[ "$1" == *"#"* ]] && ref=${1#*#}
+  name=${repo##*/}; name=${name%.git}
+}
+
+list() {
+  local entry state
+  for entry in "${entries[@]}"; do
+    split "$entry"
+    state=falta; [[ -d "$plugins_dir$name" ]] && state=instalado
+    printf '%-18s %-8s %s\n' "$name" "${ref:--}" "$state"
+  done
+}
+
+# Una rama (master, main) no fija nada: se mueve con cada commit.
+check() {
+  local entry bad=0
+  for entry in "${entries[@]}"; do
+    split "$entry"
+    case "$ref" in
+      "")                 echo "kit-plugins: sin fijar: $repo (añade #tag)" >&2; bad=1 ;;
+      master | main | HEAD) echo "kit-plugins: sin fijar: $repo#$ref es una rama, no un tag" >&2; bad=1 ;;
+    esac
+  done
+  (( bad == 0 )) || exit 1
+  echo "kit-plugins: ${#entries[@]} plugins fijados"
+}
+
+install() {
+  check >/dev/null
+
+  local entry url="" tag=""
+  for entry in "${entries[@]}"; do
+    split "$entry"
+    if [[ "$name" == tpm ]]; then url=$repo tag=$ref; fi
+  done
+  [[ -n "$url" ]] || die "falta tmux-plugins/tpm#TAG en @tpm_plugins"
+  [[ "$url" == *://* ]] || url="https://github.com/$url"
+
+  # Idempotente: si TPM ya está, no se vuelve a clonar. --branch acepta tags.
+  if [[ ! -x "${plugins_dir}tpm/tpm" ]]; then
+    git clone --quiet --depth 1 -c advice.detachedHead=false --branch "$tag" "$url" "${plugins_dir}tpm" ||
+      die "no se pudo clonar $url ($tag)"
+  fi
+
+  # TPM llama a tmux a secas: con TMUX apuntando a este servidor le habla a
+  # él, también si es un -L distinto del de siempre.
+  local socket
+  socket=$(tmx display-message -p '#{socket_path}')
+  TMUX="$socket,0,0" "${plugins_dir}tpm/bin/install_plugins" || die "install_plugins ha fallado"
+
+  # Como prefix r: ahora el if-shell de 60-plugins.conf encuentra TPM y
+  # carga los plugins en este servidor.
+  tmx source-file -F '#{@kit-dir}/tmux.conf'
+  echo "kit-plugins: listo. Compruébalo con: kit-plugins list"
+}
+
+(( $# == 1 )) || usage
+case "$1" in
+  list | check | install) load; "$1" ;;
+  *)                      usage ;;
+esac

@@ -1,0 +1,71 @@
+<svg viewBox="0 0 900 540" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Cómo TPM carga un plugin: el run-shell del final de tmux.conf ejecuta tpm, que lee la lista de plugins de los archivos; si el plugin falta lo clona y se carga en la siguiente recarga; si está, ejecuta su archivo .tmux, que llama a tmux para crear teclas y opciones</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3fb950"/>
+    </marker>
+    <marker id="arrow-yellow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e3b341"/>
+    </marker>
+  </defs>
+  <rect width="900" height="540" fill="#0d1117"/>
+
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- tmux.conf -->
+    <rect x="30" y="30" width="460" height="170" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="50" y="58" fill="#8b949e">~/.config/tmux/tmux.conf</text>
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+      <text x="50" y="90" fill="#f0f6fc">set -g @plugin 'tmux-plugins/tpm#v3.1.0'</text>
+      <text x="50" y="114" fill="#f0f6fc">set -g @plugin 'tmux-plugins/tmux-resurrect#v4.0.0'</text>
+      <text x="50" y="138" fill="#8b949e"># ... resto de la config</text>
+      <text x="50" y="176" fill="#3fb950">run-shell '~/.config/tmux/plugins/tpm/tpm'</text>
+    </g>
+    <text x="470" y="190" fill="#8b949e" text-anchor="end" font-size="12">siempre la última línea</text>
+
+    <!-- tpm -->
+    <rect x="560" y="30" width="310" height="170" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="715" y="60" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">tpm (scripts bash)</text>
+    <text x="580" y="94" fill="#f0f6fc">1. Crea prefix I, U y M-u</text>
+    <text x="580" y="122" fill="#f0f6fc">2. Lee la lista: líneas @plugin</text>
+    <text x="600" y="144" fill="#f0f6fc">de los archivos (awk), más la</text>
+    <text x="600" y="166" fill="#f0f6fc">opción @tpm_plugins del servidor</text>
+    <line x1="420" y1="172" x2="556" y2="120" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+    <!-- Decisión -->
+    <path d="M715,240 L855,295 L715,350 L575,295 Z" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="715" y="290" fill="#f0f6fc" text-anchor="middle">¿Existe</text>
+    <text x="715" y="310" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">plugins/tmux-resurrect/?</text>
+    <line x1="715" y1="200" x2="715" y2="236" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- No: instalar -->
+    <rect x="30" y="250" width="420" height="100" rx="6" fill="#161b22" stroke="#e3b341" stroke-width="2"/>
+    <text x="50" y="278" fill="#f0f6fc">prefix I o bin/install_plugins</text>
+    <text x="50" y="304" fill="#f0f6fc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">git clone --branch v4.0.0 ...</text>
+    <text x="50" y="332" fill="#e3b341">Solo clona: se carga en la próxima recarga</text>
+    <line x1="575" y1="295" x2="454" y2="300" stroke="#e3b341" stroke-width="2" marker-end="url(#arrow-yellow)"/>
+    <text x="512" y="285" fill="#e3b341" text-anchor="middle">no</text>
+    <path d="M240,250 L240,204" fill="none" stroke="#e3b341" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow-yellow)"/>
+    <text x="250" y="232" fill="#e3b341">recargar</text>
+
+    <!-- Sí: ejecutar el .tmux -->
+    <rect x="490" y="400" width="380" height="110" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="510" y="428" fill="#f0f6fc">3. run-shell de cada *.tmux instalado</text>
+    <text x="510" y="456" fill="#f0f6fc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">resurrect.tmux llama a tmux:</text>
+    <text x="510" y="480" fill="#f0f6fc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">bind C-s ... · set -g @resurrect-...</text>
+    <line x1="715" y1="350" x2="715" y2="396" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow-green)"/>
+    <text x="728" y="380" fill="#3fb950">sí</text>
+
+    <!-- Nota -->
+    <rect x="30" y="400" width="420" height="110" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="50" y="428" fill="#8b949e">Para tmux, @plugin es una opción normal:</text>
+    <text x="50" y="452" fill="#8b949e">show -g @plugin solo muestra la última.</text>
+    <text x="50" y="480" fill="#8b949e">TPM no la pregunta: lee el texto de los</text>
+    <text x="50" y="500" fill="#8b949e">archivos, un solo nivel de source-file.</text>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+# lab-05 — la sesión "api" declarada para tmuxp (solución).
+#
+# Probar sin tocar tu sesión (desde la carpeta del lab, con el servidor del
+# paso 0 del README ya arrancado):
+#   tmuxp load -L lab -d "$PWD/solucion/api.yaml"
+
+session_name: api
+# Relativa a la carpeta de este archivo: el YAML viaja con el proyecto.
+start_directory: ./demo
+windows:
+  - window_name: editor
+    layout: even-horizontal
+    panes:
+      - echo editor
+      - ls
+  - window_name: run
+    start_directory: /etc
+    panes:
+      - pwd
+  - window_name: logs
+    panes:
+      - top

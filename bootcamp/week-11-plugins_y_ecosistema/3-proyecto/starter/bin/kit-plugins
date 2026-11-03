@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# kit-plugins — revisa e instala los plugins de terceros del kit (TPM).
+#
+# Uso: kit-plugins list       cada plugin de @tpm_plugins: nombre, versión y si está instalado
+#      kit-plugins check      comprueba que todos están fijados a un tag
+#      kit-plugins install    clona TPM con su tag e instala los plugins (necesita red)
+# Salida: 0 bien, 1 sin servidor, plugins sin fijar o instalación fallida, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+die() { echo "kit-plugins: $*" >&2; exit 1; }
+# TODO 10 (paso 9): load lee la lista y la ruta de los plugins del servidor.
+#   - list=$(tmx show -gqv @tpm_plugins) || die "no hay servidor de tmux en este socket"
+#     (show no arranca un servidor: sin servidor, falla).
+#   - read -r -d '' -a entries <<<"$list" || true  (parte sin expandir globs).
+#   - Lista vacía: die "@tpm_plugins está vacía: ¿se cargó conf.d/60-plugins.conf?"
+#   - plugins_dir: tmx show-environment -g TMUX_PLUGIN_MANAGER_PATH imprime
+#     NOMBRE=VALOR; quédate con ${env#*=}. Si falla, die.
+load() {
+  :
+}
+
+# split ENTRADA — repo (lo de antes del #), ref (lo de después, o nada) y
+# name, que es el directorio que crea TPM: el último trozo sin .git.
+split() {
+  repo=${1%%#*}
+  ref=""; [[ "$1" == *"#"* ]] && ref=${1#*#}
+  name=${repo##*/}; name=${name%.git}
+}
+
+# TODO 11 (paso 9): una línea por plugin, en el orden de la lista:
+#   printf '%-18s %-8s %s\n' NOMBRE TAG ESTADO, con TAG - si no lleva y
+#   ESTADO instalado si existe el directorio "$plugins_dir$name", si no falta.
+list() { die "sin implementar: list"; }
+
+# TODO 12 (paso 10): por cada plugin sin ref, o con master, main o HEAD (una
+#   rama no fija nada), un aviso por stderr que nombre el repo. Si hubo alguno,
+#   exit 1; si no, echo "kit-plugins: N plugins fijados".
+check() { die "sin implementar: check"; }
+
+# TODO 13 (paso 11): check >/dev/null; busca la entrada de tpm (url y tag);
+#   si no existe "${plugins_dir}tpm/tpm", git clone --depth 1 --branch "$tag";
+#   ejecuta "${plugins_dir}tpm/bin/install_plugins" con
+#   TMUX="$(tmx display-message -p '#{socket_path}'),0,0" delante; recarga con
+#   tmx source-file -F '#{@kit-dir}/tmux.conf'.
+install() { die "sin implementar: install"; }
+
+(( $# == 1 )) || usage
+case "$1" in
+  list | check | install) load; "$1" ;;
+  *)                      usage ;;
+esac

@@ -25,6 +25,6 @@
 
 | Anterior | Siguiente |
 |---|---|
-| ← [Recursos — web](../4-recursos/webgrafia/README.md) | — |
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 11 — Plugins y ecosistema](../../week-11-plugins_y_ecosistema/README.md) → |
 
 [↑ Semana 10](../README.md)

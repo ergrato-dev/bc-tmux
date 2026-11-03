@@ -40,7 +40,8 @@ if tmx list-sessions >/dev/null 2>&1; then
   root=$(tmx show-options -gqv @kit-projects-dir)
 fi
 root=${root:-~/src}
-# tmux guarda "~/src" tal cual: la ~ la expande el script, no una shell.
+# Si @kit-projects-dir se fijó con comillas simples, la ~ llega tal cual: la
+# expande el script, no una shell.
 [[ "$root" == \~ || "$root" == \~/* ]] && root="$HOME${root:1}"
 [[ -d "$root" ]] || die "no existe el directorio de proyectos '$root' (@kit-projects-dir)"
 
