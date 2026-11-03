@@ -58,3 +58,14 @@ Al terminar, desde otra terminal: `tmux -L demo kill-server`.
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-bind-unbind-y-list-keys/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Tablas de teclas y bindings](01-tablas-y-bindings.md) | [Índice de labs](../2-practicas/README.md) → |
+
+[↑ Semana 06](../README.md)

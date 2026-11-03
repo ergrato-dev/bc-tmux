@@ -122,6 +122,9 @@ Tabla con 8–15 términos nuevos de la semana:
 | Término | Definición en una línea | Ejemplo |
 ```
 
+### 25. Navegación al pie de cada documento
+Con todos los archivos escritos, ejecuta `./scripts/generar-navegacion.sh NN` (y el de la semana anterior, para que su glosario enlace a esta). Añade al pie de teoría, labs, proyecto, rúbrica, recursos y glosario la tabla `← Anterior | Siguiente →` en orden de lectura; `verificar-enlaces.sh` falla si falta.
+
 ---
 
 Al terminar, confirma cuántos archivos creaste y lista sus rutas.

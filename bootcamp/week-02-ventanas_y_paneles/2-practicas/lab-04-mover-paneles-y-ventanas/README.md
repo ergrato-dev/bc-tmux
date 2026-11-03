@@ -186,3 +186,14 @@ Sacar un panel a su propia ventana, meterlo en otra, e intercambiar paneles y ve
 `break-pane -d -n nombre` saca el panel sin cambiar tu foco. ¿Para qué te
 serviría en un script que reorganiza la ventana de otra persona en pair
 programming?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 03 — Layouts](../lab-03-layouts/README.md) | [Lab 05 — Escribir en varios paneles a la vez](../lab-05-sincronizar-paneles/README.md) → |
+
+[↑ Semana 02](../../README.md)

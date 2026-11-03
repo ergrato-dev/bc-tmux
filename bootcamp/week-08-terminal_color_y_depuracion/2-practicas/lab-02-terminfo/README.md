@@ -225,3 +225,14 @@ kit-256color tmux-256color` imprime solo las diferencias. Añade después
 `sitm@,` (la `@` cancela una capacidad heredada), recompila y comprueba con
 `tput -T kit-256color sitm; echo $?` que la cursiva ya no existe. ¿Qué le
 pasaría a la cursiva de tu editor con esa entrada?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 01 — Dos TERM](../lab-01-dos-term/README.md) | [Lab 03 — Color de 24 bits](../lab-03-color-de-24-bits/README.md) → |
+
+[↑ Semana 08](../../README.md)

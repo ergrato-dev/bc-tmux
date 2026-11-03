@@ -219,3 +219,14 @@ Haz que `@lab-env` distinga tres casos con condicionales anidados: `PROD`
 si la sesión termina en `-prod`, `STG` si termina en `-stg` y nada en otro
 caso. Después prueba `#{m/r:-(prod|stg)$,#{session_name}}` (expresión
 regular) y explica qué ventaja tiene sobre el glob.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 01 — Formats y `display -p`](../lab-01-formats-y-display/README.md) | [Lab 03 — Modificadores](../lab-03-modificadores/README.md) → |
+
+[↑ Semana 07](../../README.md)

@@ -75,3 +75,14 @@ tmux -L demo kill-server
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-dos-term/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Semana 08 — Terminal, color y depuración](../README.md) | [Teoría — Contexto — Depuración](02-depuracion.md) → |
+
+[↑ Semana 08](../README.md)

@@ -8,3 +8,14 @@
 El Tao se escribió antes de tmux 3.4: al leer sus scripts, comprueba si
 apuntan por índice o por id, si usan `=` en los targets y si teclean con `-l`,
 y compáralo con lo que haces esta semana.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Rúbrica de evaluación](../../rubrica-evaluacion.md) | [Recursos — videos](../videografia/README.md) → |
+
+[↑ Semana 09](../../README.md)

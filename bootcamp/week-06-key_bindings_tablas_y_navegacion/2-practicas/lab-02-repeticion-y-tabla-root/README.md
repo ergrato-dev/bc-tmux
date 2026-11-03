@@ -232,3 +232,14 @@ Decidir qué teclas se repiten con `-r` y cuáles van en la tabla `root` con `-n
 Con `-r`, ¿qué pasa si pulsas `C-b` `K` y, dentro del medio segundo, una
 tecla **sin** `-r` como `c`? ¿Y una que no está en la tabla `prefix`, como
 `a`? Pruébalo y explica qué ves en cada caso.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 01 — bind, unbind y list-keys](../lab-01-bind-unbind-y-list-keys/README.md) | [Lab 03 — Tablas propias: un modo resize](../lab-03-tablas-propias/README.md) → |
+
+[↑ Semana 06](../../README.md)

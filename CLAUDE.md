@@ -209,6 +209,7 @@ Cada check corre contra un servidor **aislado** (`-L bc-check`) que nunca toca l
 
 ```bash
 ./scripts/verificar-enlaces.sh                     # estructura, enlaces, starters
+./scripts/generar-navegacion.sh NN                 # tabla anterior/siguiente al pie de cada documento
 ./scripts/verificar-semana.sh NN                   # autograding de una semana
 ENTREGA=solucion ./scripts/verificar-semana.sh NN  # valida la solución de referencia
 

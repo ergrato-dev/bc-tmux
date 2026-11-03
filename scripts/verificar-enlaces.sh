@@ -2,7 +2,8 @@
 # Verifica la integridad estructural del bootcamp:
 #   1. Nombres de carpeta week-NN-slug y lab-NN-slug bien formados.
 #   2. Enlaces relativos en markdown que resuelven a una ruta real.
-#   3. Seccion "Navegacion" en el README de cada semana publicada.
+#   3. Seccion "Navegacion" en el README de cada semana publicada y tabla
+#      anterior/siguiente al pie del resto de sus documentos.
 #   4. Diagramas de 0-assets/: solo SVG (ningun .md) y cada SVG enlazado
 #      desde algun .md.
 #   5. checks.json valido como JSON.
@@ -89,6 +90,16 @@ while IFS= read -r rm; do
     fail=1
   fi
 done < <(find bootcamp -mindepth 2 -maxdepth 2 -iname "README.md")
+# El resto de documentos de la semana (teoría, labs, proyecto, rúbrica,
+# recursos, glosario) llevan al pie la tabla anterior/siguiente que escribe
+# scripts/generar-navegacion.sh; los README de starter/ y solucion/ no.
+while IFS= read -r doc; do
+  esta_publicada "$doc" || continue
+  if ! grep -q '^<!-- nav -->$' "$doc"; then
+    echo "SIN TABLA ANTERIOR/SIGUIENTE (scripts/generar-navegacion.sh NN): $doc"
+    fail=1
+  fi
+done < <(find bootcamp -mindepth 3 -name "*.md" -not -path "*/starter/*" -not -path "*/solucion/*" -not -path "*/0-assets/*")
 
 echo "== 4. Diagramas SVG en 0-assets/ =="
 while IFS= read -r d; do
@@ -133,7 +144,7 @@ done < <(find scripts -name "*.sh" 2>/dev/null)
 echo "== 7. Extension de los archivos de teoria (<= 600 palabras) =="
 while IFS= read -r t; do
   esta_publicada "$t" || continue
-  n=$(awk '/^```/{c=!c; next} !c' "$t" | wc -w)
+  n=$(awk '/^<!-- nav -->$/{exit} /^```/{c=!c; next} !c' "$t" | wc -w)
   if [ "$n" -gt 600 ]; then
     echo "TEORIA DEMASIADO LARGA ($n palabras de prosa, max 600): $t"
     fail=1

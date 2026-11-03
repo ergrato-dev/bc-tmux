@@ -211,3 +211,14 @@ de más a la izquierda, `C-h` no hace nada. Pista: `#{pane_at_left}`,
 `#{pane_at_right}`, `#{pane_at_top}` y `#{pane_at_bottom}` valen 1 en el
 borde; anida un segundo `if -F`. ¿Qué haces con la tecla en el borde: la
 pierdes o se la mandas a la shell?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 04 — Copy mode a medida](../lab-04-copy-mode-a-medida/README.md) | [Lab 06 — Teclas rotas](../lab-06-teclas-rotas/README.md) → |
+
+[↑ Semana 06](../../README.md)

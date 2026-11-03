@@ -70,3 +70,14 @@ tmux -L demo kill-server
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-bind-unbind-y-list-keys/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Semana 06 — Key bindings, tablas y navegación](../README.md) | [Teoría — Contexto — Teclas que deciden: navegación entre paneles y programas](02-teclas-que-deciden.md) → |
+
+[↑ Semana 06](../README.md)

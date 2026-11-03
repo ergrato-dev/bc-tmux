@@ -234,3 +234,14 @@ Fijar opciones en el servidor, en una sesión, en una ventana y en un panel, ver
 `window-active-style` pinta solo el panel activo. Haz que el panel activo
 tenga fondo normal y los inactivos uno algo más oscuro, solo en la sesión
 `api`. ¿En qué nivel lo fijas, y por qué no con `-p`?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 02 — Un prefix propio](../lab-02-prefix-propio/README.md) | [Lab 04 — Recarga en caliente](../lab-04-recarga-en-caliente/README.md) → |
+
+[↑ Semana 05](../../README.md)

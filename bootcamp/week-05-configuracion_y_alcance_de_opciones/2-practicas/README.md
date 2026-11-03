@@ -41,3 +41,14 @@
    la B seguía conectada, imprime `[server exited]`.
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Alcances de las opciones](../1-teoria/02-alcances-de-opciones.md) | [Lab 01 — Dónde vive la config](lab-01-donde-vive-la-config/README.md) → |
+
+[↑ Semana 05](../README.md)

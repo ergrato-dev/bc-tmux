@@ -47,3 +47,14 @@
    imprime `[server exited]`.
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Status line](../1-teoria/02-status-line.md) | [Lab 01 — Formats y `display -p`](lab-01-formats-y-display/README.md) → |
+
+[↑ Semana 07](../README.md)

@@ -36,3 +36,14 @@
   ```
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — El prefix y los comandos](../1-teoria/02-prefix-y-comandos.md) | [Lab 01 — Tu primera sesión](lab-01-primera-sesion/README.md) → |
+
+[↑ Semana 01](../README.md)

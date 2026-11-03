@@ -7,3 +7,14 @@
 
 La guía de Ghostty sirve para cualquier emulador con entrada terminfo propia
 (kitty, WezTerm, foot): cambia el nombre y el procedimiento es el mismo.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Rúbrica de evaluación](../../rubrica-evaluacion.md) | [Recursos — videos](../videografia/README.md) → |
+
+[↑ Semana 08](../../README.md)

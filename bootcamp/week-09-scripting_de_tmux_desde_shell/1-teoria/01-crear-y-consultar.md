@@ -60,3 +60,14 @@ tmux -L demo kill-server
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-crear-sin-conectarse/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Semana 09 — Scripting de tmux desde shell](../README.md) | [Teoría — Contexto — Teclas, esperas e idempotencia](02-teclas-esperas-e-idempotencia.md) → |
+
+[↑ Semana 09](../README.md)

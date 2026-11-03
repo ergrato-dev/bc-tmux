@@ -189,6 +189,13 @@ Cada comprobación vale **3 puntos**, salvo `bin-completo-y-limpio`, `features-i
 - [ ] `./scripts/verificar-semana.sh 08` con todas las comprobaciones en verde
 - [ ] Commit `feat(week-08): ...` en tu `tmux-kit`
 
+<!-- nav -->
 ---
 
-[← Volver a la Semana 08](README.md)
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Proyecto — tmux-kit: terminal, color y diagnóstico](3-proyecto/README.md) | [Recursos — ebooks](4-recursos/ebooks-free/README.md) → |
+
+[↑ Semana 08](README.md)

@@ -22,3 +22,14 @@ Antes de cada lab:
   en la B.
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Layouts y reorganización](../1-teoria/02-layouts-y-reorganizacion.md) | [Lab 01 — Partir y moverte entre paneles](lab-01-split-y-navegacion/README.md) → |
+
+[↑ Semana 02](../README.md)

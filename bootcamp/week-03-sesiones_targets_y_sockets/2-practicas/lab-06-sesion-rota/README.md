@@ -208,3 +208,14 @@ y causa) a medida que lo encuentres.
 Haz que el script, si se le pasa un directorio que no existe, avise y salga
 con 1 **antes** de tocar tmux. ¿Qué haría hoy `new-session -c` con un
 directorio que no existe?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 05 — Sockets y la variable TMUX](../lab-05-sockets-y-la-variable-tmux/README.md) | [Proyecto — tmux-kit: sesiones](../../3-proyecto/README.md) → |
+
+[↑ Semana 03](../../README.md)

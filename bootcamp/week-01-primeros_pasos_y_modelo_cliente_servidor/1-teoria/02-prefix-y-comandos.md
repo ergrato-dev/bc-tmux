@@ -58,3 +58,14 @@ Las palabras entre `#{ }` son **formats**: variables que tmux rellena con el est
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-primera-sesion/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Qué es tmux y cómo funciona por dentro](01-multiplexor-y-modelo-cliente-servidor.md) | [Índice de labs](../2-practicas/README.md) → |
+
+[↑ Semana 01](../README.md)

@@ -172,3 +172,14 @@ Seleccionar texto por caracteres, líneas y rectángulos en copy mode y enviarlo
 
 Haz que `Y` copie la selección **sin** salir de copy mode (`copy-pipe`, sin
 `-and-cancel`). ¿En qué situación prefieres seguir dentro?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 01 — Moverte por el historial](../lab-01-moverte-por-el-historial/README.md) | [Lab 03 — Buffers](../lab-03-buffers/README.md) → |
+
+[↑ Semana 04](../../README.md)

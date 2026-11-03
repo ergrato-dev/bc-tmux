@@ -168,3 +168,14 @@ Cambiar el prefix de tmux por uno elegido con criterio, liberar `C-b` y mantener
 
 El estilo de screen: `prefix` `a` envía el prefix y `prefix` `C-a` salta a la
 última ventana (`last-window`). Configúralo. ¿Qué ganas y qué pierdes?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 01 — Dónde vive la config](../lab-01-donde-vive-la-config/README.md) | [Lab 03 — Alcances y herencia](../lab-03-alcances-y-herencia/README.md) → |
+
+[↑ Semana 05](../../README.md)

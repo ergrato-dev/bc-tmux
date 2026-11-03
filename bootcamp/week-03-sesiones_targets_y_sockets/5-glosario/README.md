@@ -16,3 +16,14 @@
 | **$TMUX** | Variable de cada panel con el socket, el pid del servidor y la sesión | `/tmp/tmux-1000/lab,1234,0` |
 | **$TMUX_PANE** | Variable de cada panel con su id | `%3` |
 | **SIGUSR1** | Señal que pide al servidor recrear su socket si lo borraron | `kill -USR1 "$pid"` |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 04 — Copy mode, buffers y portapapeles](../../week-04-copy_mode_buffers_y_portapapeles/README.md) → |
+
+[↑ Semana 03](../README.md)

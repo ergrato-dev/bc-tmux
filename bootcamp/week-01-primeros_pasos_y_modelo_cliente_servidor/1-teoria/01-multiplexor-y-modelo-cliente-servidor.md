@@ -58,5 +58,13 @@ tmux -L demo kill-server
 - `socket_path` termina en `/demo` y `pid` es el del servidor, no el de tu shell.
 - Tras `Ctrl+b d`, `tmux -L demo ls` sigue mostrando la sesión: nadie la mira, pero sigue viva.
 
+<!-- nav -->
 ---
-Sigue con [02-prefix-y-comandos.md](02-prefix-y-comandos.md).
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Semana 01 — Primeros pasos y modelo cliente-servidor](../README.md) | [Teoría — Contexto — El prefix y los comandos](02-prefix-y-comandos.md) → |
+
+[↑ Semana 01](../README.md)

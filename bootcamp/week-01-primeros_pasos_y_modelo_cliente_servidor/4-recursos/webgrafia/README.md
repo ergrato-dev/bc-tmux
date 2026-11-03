@@ -7,3 +7,14 @@
 | [tmux wiki — Installing](https://github.com/tmux/tmux/wiki/Installing) | Instalación por paquete o desde el código fuente, con las dependencias necesarias |
 | [tmux wiki — FAQ](https://github.com/tmux/tmux/wiki/FAQ) | Respuestas oficiales a los problemas más comunes |
 | [ArchWiki — Tmux (Español)](https://wiki.archlinux.org/title/Tmux_(Espa%C3%B1ol)) | Página en español con instalación, uso básico y configuración |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — videos](../videografia/README.md) | [Glosario](../../5-glosario/README.md) → |
+
+[↑ Semana 01](../../README.md)

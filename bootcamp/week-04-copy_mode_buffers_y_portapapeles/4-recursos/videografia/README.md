@@ -11,3 +11,14 @@ No encontramos un video en español que cubra copy mode y el portapapeles con
 calidad. El de gotbletu sobre tmux 2.4 es antiguo, pero las tablas
 `copy-mode-vi` y `send -X` que muestra son las mismas en 3.4. Ninguno cubre
 OSC 52 a fondo: para eso, la teoría y la wiki de Clipboard.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — ebooks](../ebooks-free/README.md) | [Recursos — web](../webgrafia/README.md) → |
+
+[↑ Semana 04](../../README.md)

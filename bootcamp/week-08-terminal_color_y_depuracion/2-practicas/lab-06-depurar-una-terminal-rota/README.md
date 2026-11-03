@@ -267,3 +267,14 @@ marcha y sin logs, `kill -USR2` sobre su PID los activa en caliente (en el
 directorio donde arrancó el servidor). Busca el PID con
 `tmux -L lab display -p '#{pid}'`, actívalo, conecta la B y busca
 `IDENTIFY_TERM` en el log nuevo. ¿Cómo lo desactivas?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 05 — Passthrough y estilos](../lab-05-passthrough-y-estilos/README.md) | [Proyecto — tmux-kit: terminal, color y diagnóstico](../../3-proyecto/README.md) → |
+
+[↑ Semana 08](../../README.md)

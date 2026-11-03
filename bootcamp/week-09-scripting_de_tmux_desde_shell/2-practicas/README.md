@@ -51,3 +51,14 @@
    Si la B seguía conectada, imprime `[server exited]`.
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Teclas, esperas e idempotencia](../1-teoria/02-teclas-esperas-e-idempotencia.md) | [Lab 01 — Crear sin conectarse](lab-01-crear-sin-conectarse/README.md) → |
+
+[↑ Semana 09](../README.md)

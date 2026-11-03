@@ -12,3 +12,14 @@ vídeo, y el de Nick Janetakis recorre todas las sesiones con `list-*` y
 `send-keys`. Fíjate en si sus scripts usan `=` en los targets, `-l` al
 teclear y comprobaciones antes de crear: casi ningún ejemplo de internet es
 idempotente.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — ebooks](../ebooks-free/README.md) | [Recursos — web](../webgrafia/README.md) → |
+
+[↑ Semana 09](../../README.md)

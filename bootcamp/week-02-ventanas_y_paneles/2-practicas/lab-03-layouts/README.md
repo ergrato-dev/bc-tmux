@@ -199,3 +199,14 @@ Recorrer los cinco layouts predefinidos, ajustar el panel principal en porcentaj
 Restaura el layout de 4 paneles en una ventana de 2 paneles. ¿Qué hace tmux?
 ¿Cómo lo detectarías antes de llamar a `select-layout`? (Es el punto 7 del
 proyecto.)
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 02 — Tamaño y zoom](../lab-02-resize-y-zoom/README.md) | [Lab 04 — Mover paneles y ventanas](../lab-04-mover-paneles-y-ventanas/README.md) → |
+
+[↑ Semana 02](../../README.md)

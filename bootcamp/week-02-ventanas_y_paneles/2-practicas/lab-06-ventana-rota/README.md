@@ -195,3 +195,14 @@ Ejecuta el script **original** (con solo el error 1 corregido) desde la
 terminal B, fuera de tmux, con la sesión `otra` viva. ¿Dónde acaban ahora los
 paneles? Sin `$TMUX`, tmux elige la sesión usada más recientemente, que es
 `monitor`, la que el script acaba de crear: por eso al compañero "le funciona".
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 05 — Escribir en varios paneles a la vez](../lab-05-sincronizar-paneles/README.md) | [Proyecto — tmux-kit: kit-layout](../../3-proyecto/README.md) → |
+
+[↑ Semana 02](../../README.md)

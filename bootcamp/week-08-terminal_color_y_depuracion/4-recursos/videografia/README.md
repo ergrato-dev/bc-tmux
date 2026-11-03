@@ -14,3 +14,14 @@ semana el TERM de dentro es `tmux-256color` y el color de 24 bits se pide con
 `terminal-features`. Los de Roel Van de Paar leen preguntas de Unix & Linux
 Stack Exchange: sirven para ver síntomas reales y compararlos con lo que
 diagnosticas tú con `show-messages -T`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — ebooks](../ebooks-free/README.md) | [Recursos — web](../webgrafia/README.md) → |
+
+[↑ Semana 08](../../README.md)

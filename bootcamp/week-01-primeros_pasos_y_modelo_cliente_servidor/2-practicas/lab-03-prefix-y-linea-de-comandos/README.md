@@ -157,3 +157,14 @@ Necesitas dos terminales: **A** (conectada a tmux) y **B** (fuera de tmux).
 `tmux -L lab list-keys -T root` muestra los atajos que funcionan **sin**
 prefix. ¿Cuántos hay por defecto (`| wc -l`) y qué tienen en común? (Pista:
 mira el cuarto campo con `awk '{print $4}'`).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 02 — Detach y attach](../lab-02-detach-y-attach/README.md) | [Lab 04 — Sesión, ventana y panel](../lab-04-sesion-ventana-panel/README.md) → |
+
+[↑ Semana 01](../../README.md)

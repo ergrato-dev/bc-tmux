@@ -184,3 +184,14 @@ TMUX_TMPDIR=/tmp/otro tmux -L alfa display-message -p '#{socket_path}'
 Imprime `/tmp/otro/tmux-1000/alfa` (sin el `mkdir`, tmux vuelve en silencio a
 `/tmp`). ¿Lo encuentra tu `servers.sh`? Haz que respete `TMUX_TMPDIR` y
 limpia con `TMUX_TMPDIR=/tmp/otro tmux -L alfa kill-server`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 04 — Sesión, ventana y panel](../lab-04-sesion-ventana-panel/README.md) | [Lab 06 — Sobrevivir a una desconexión](../lab-06-sobrevivir-a-una-desconexion/README.md) → |
+
+[↑ Semana 01](../../README.md)

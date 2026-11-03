@@ -211,3 +211,14 @@ tmux -L lab display-message -p '#{pid}'
 ```
 El `PPID` de la tarea es la shell del panel; sigue con `ps -o pid,ppid,comm -p <ese PPID>`
 hasta llegar al pid del servidor. ¿Y en el paso 1? ¿Y con `launch.sh`?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 05 — Servidores y sockets](../lab-05-servidores-y-sockets/README.md) | [Proyecto — tmux-kit: check-version y kit-tree](../../3-proyecto/README.md) → |
+
+[↑ Semana 01](../../README.md)

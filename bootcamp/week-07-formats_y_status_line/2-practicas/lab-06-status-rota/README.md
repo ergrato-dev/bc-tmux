@@ -189,3 +189,14 @@ Rompe tú una barra para otra persona: un estilo que no se cierra con
 `#[default]` dentro de `status-right` (el color sigue hasta el final de ese
 lado, pero no pasa a la lista de ventanas) y un `#{=5:...}` que corta un
 nombre a la mitad. Pásale tu `tmux.conf` y solo la lista de síntomas.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 05 — Comandos en la barra y varias líneas](../lab-05-comandos-y-varias-lineas/README.md) | [Proyecto — tmux-kit: status line propia, sin plugins](../../3-proyecto/README.md) → |
+
+[↑ Semana 07](../../README.md)

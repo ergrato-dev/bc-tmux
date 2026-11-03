@@ -382,3 +382,14 @@ Commit con el mensaje:
 feat(week-09): dev-up idempotente con .tmux-kit y dev-down
 ```
 Entrega `bin/dev-up`, `bin/dev-down` y `README.md` de tu `starter/`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 06 — Script roto](../2-practicas/lab-06-script-roto/README.md) | [Rúbrica de evaluación](../rubrica-evaluacion.md) → |
+
+[↑ Semana 09](../README.md)

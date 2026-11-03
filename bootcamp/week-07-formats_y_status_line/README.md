@@ -72,6 +72,6 @@ tmux -L kit display -p '#{E:status-left}'; tmux -L kit kill-server
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 06 — Key bindings, tablas y navegación](../week-06-key_bindings_tablas_y_navegacion/README.md) | **Semana 07 — Formats y status line** | Semana 08 — Terminal, color y depuración |
+| [← Semana 06 — Key bindings, tablas y navegación](../week-06-key_bindings_tablas_y_navegacion/README.md) | **Semana 07 — Formats y status line** | [Semana 08 — Terminal, color y depuración →](../week-08-terminal_color_y_depuracion/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)

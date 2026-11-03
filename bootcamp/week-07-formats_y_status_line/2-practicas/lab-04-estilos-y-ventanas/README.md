@@ -202,3 +202,14 @@ Haz que la ventana con actividad reciente se vea distinta sin tocar los
 formats: `setw -g monitor-activity on` y `set -g window-status-activity-style 'fg=#{@lab-warn},bold'`.
 Escribe algo en la otra ventana con `tmux -L lab send-keys -t api:1 'echo hola' Enter`
 y mira la B.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 03 — Modificadores](../lab-03-modificadores/README.md) | [Lab 05 — Comandos en la barra y varias líneas](../lab-05-comandos-y-varias-lineas/README.md) → |
+
+[↑ Semana 07](../../README.md)

@@ -64,3 +64,14 @@ set -gF @kit-dir "#{d:current_file}"
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-donde-vive-la-config/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Dónde vive la config y cómo se recarga](01-config-y-recarga.md) | [Índice de labs](../2-practicas/README.md) → |
+
+[↑ Semana 05](../README.md)

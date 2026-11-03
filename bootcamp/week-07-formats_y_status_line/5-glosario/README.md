@@ -17,3 +17,14 @@
 | **`#(comando)`** | Inserta la primera línea de la salida de un comando lanzado en segundo plano | `#(date +%%S)` |
 | **status-interval** | Segundos entre redibujos de la barra y relanzamientos de los `#()` | `set -g status-interval 5` |
 | **status-format** | Array con el contenido completo de cada línea de la barra; `status 2` activa la segunda | `set -g 'status-format[1]' '#{session_name}'` |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 08 — Terminal, color y depuración](../../week-08-terminal_color_y_depuracion/README.md) → |
+
+[↑ Semana 07](../README.md)

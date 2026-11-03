@@ -16,3 +16,14 @@
 | **`wait-for`** | Bloquea hasta que otro comando envía la señal del mismo canal con `-S`; la señal temprana queda guardada | `wait-for hecho` · `wait-for -S hecho` |
 | **`timeout`** | Programa que corta un comando tras N segundos y sale con 124 | `timeout 30 tmux wait-for hecho` |
 | **idempotencia** | Propiedad de un script que deja lo mismo tras una ejecución que tras diez | `has-session -t "=api" \|\| new-session -d -s api` |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | — |
+
+[↑ Semana 09](../README.md)

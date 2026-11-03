@@ -235,3 +235,14 @@ nombre (`touch $'/tmp/lab09/logs/dos\nlineas'`), mira qué produce `%q` y
 comprueba si tu `show-log` funciona también con un panel cuya shell sea
 `sh` (`tmux -L lab new-window -d -t api: -n sh sh`). ¿Por qué falla, y qué
 cambiarías?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 02 — Consultar con formatos](../lab-02-consultar-con-formatos/README.md) | [Lab 04 — Esperar con wait-for](../lab-04-esperar-con-wait-for/README.md) → |
+
+[↑ Semana 09](../../README.md)

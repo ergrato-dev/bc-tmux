@@ -264,3 +264,14 @@ Haz que `Y` (mayúscula) en `copy-mode-vi` copie desde el cursor hasta el
 final de la línea **sin** salir del copy mode. Busca los nombres exactos en
 `man tmux`, sección "WINDOWS AND PANES", lista de comandos de copy mode
 (`begin-selection`, `end-of-line`, `copy-selection`...).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 03 — Tablas propias: un modo resize](../lab-03-tablas-propias/README.md) | [Lab 05 — Navegación consciente](../lab-05-navegacion-consciente/README.md) → |
+
+[↑ Semana 06](../../README.md)

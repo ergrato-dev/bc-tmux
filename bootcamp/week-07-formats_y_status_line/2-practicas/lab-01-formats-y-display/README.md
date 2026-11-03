@@ -252,3 +252,14 @@ Añade una columna a `lab-windows` con el programa del panel activo de cada
 ventana (`#{pane_current_command}`) y otra con su carpeta. ¿De qué panel
 sale `pane_*` cuando la ventana tiene varios? Pruébalo con un
 `split-window` en una de ellas.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Índice de labs](../README.md) | [Lab 02 — Condicionales y comparaciones](../lab-02-condicionales-y-comparaciones/README.md) → |
+
+[↑ Semana 07](../../README.md)

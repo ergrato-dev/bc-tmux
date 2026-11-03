@@ -7,3 +7,14 @@
 | [tmux wiki — Getting Started](https://github.com/tmux/tmux/wiki/Getting-Started) | Secciones Copy and paste, Copy mode key bindings y Mouse copying behaviour |
 | [tmux wiki — FAQ](https://github.com/tmux/tmux/wiki/FAQ) | "How do I copy a selection from tmux to the system's clipboard?" y cómo usar el ratón de tmux sin perder la selección de la terminal |
 | [win32yank](https://github.com/equalsraf/win32yank) | Herramienta de portapapeles para WSL que respeta UTF-8; descarga en Releases |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — videos](../videografia/README.md) | [Glosario](../../5-glosario/README.md) → |
+
+[↑ Semana 04](../../README.md)

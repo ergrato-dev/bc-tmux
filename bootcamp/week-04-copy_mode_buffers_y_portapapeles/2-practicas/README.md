@@ -24,3 +24,14 @@ herramientas falsas); el 06 funciona también en el laboratorio, porque OSC 52
 llega a tu terminal.
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Portapapeles y OSC 52](../1-teoria/02-portapapeles-y-osc52.md) | [Lab 01 — Moverte por el historial](lab-01-moverte-por-el-historial/README.md) → |
+
+[↑ Semana 04](../README.md)

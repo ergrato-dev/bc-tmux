@@ -17,3 +17,14 @@
 | **current_file** | Formato con el archivo de config que se está leyendo; solo existe mientras se lee | `#{d:current_file}` |
 | **escape-time** | Cuánto espera tmux tras un `Esc` por si empieza una secuencia de teclas | `set -s escape-time 10` |
 | **%if** | Condicional que se evalúa al leer la config, sin lanzar una shell | `%if "#{>=:#{version},3.5}"` |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 06 — Key bindings, tablas y navegación](../../week-06-key_bindings_tablas_y_navegacion/README.md) → |
+
+[↑ Semana 05](../README.md)

@@ -17,3 +17,14 @@
 | **escape-time** | Milisegundos que tmux espera tras `Esc` por si es el inicio de una secuencia | `set -s escape-time 10` |
 | **passthrough** | Secuencia envuelta en `\ePtmux;...\e\\` que tmux reenvía a la terminal de fuera si `allow-passthrough` lo permite | `setw -g allow-passthrough on` |
 | **`show-messages -T`** | Lista cada capacidad terminfo que tmux usa con un cliente, con `[missing]` si falta | `show-messages -T -t /dev/pts/1` |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 09 — Scripting de tmux desde shell](../../week-09-scripting_de_tmux_desde_shell/README.md) → |
+
+[↑ Semana 08](../README.md)

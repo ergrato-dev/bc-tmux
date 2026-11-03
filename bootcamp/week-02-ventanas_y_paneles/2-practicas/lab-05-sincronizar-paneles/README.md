@@ -172,3 +172,14 @@ Enviar el mismo texto a todos los paneles de una ventana, primero con `synchroni
 
 Haz que `broadcast.sh` acepte `-x PANEL` para saltarse un panel (por ejemplo,
 el servidor de producción). ¿Por qué es mejor excluir por id que por índice?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 04 — Mover paneles y ventanas](../lab-04-mover-paneles-y-ventanas/README.md) | [Lab 06 — La ventana rota](../lab-06-ventana-rota/README.md) → |
+
+[↑ Semana 02](../../README.md)

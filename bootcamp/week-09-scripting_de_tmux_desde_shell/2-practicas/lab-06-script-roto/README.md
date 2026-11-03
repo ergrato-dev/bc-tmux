@@ -228,3 +228,14 @@ guarda como `a_b`). Y si `$TMUX_SOCKET` apunta a un servidor que no existe,
 `up` lo arranca leyendo tu config. Añade dos validaciones: nombre sin `.` ni
 `:` (salida 2) y, para `test` y `down`, un mensaje claro si no hay servidor
 (`tmx list-sessions >/dev/null 2>&1`).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 05 — Idempotencia](../lab-05-idempotencia/README.md) | [Proyecto — tmux-kit: `dev-up` idempotente](../../3-proyecto/README.md) → |
+
+[↑ Semana 09](../../README.md)

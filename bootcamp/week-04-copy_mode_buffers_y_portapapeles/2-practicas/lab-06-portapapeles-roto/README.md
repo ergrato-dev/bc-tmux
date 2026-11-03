@@ -236,3 +236,14 @@ que por SSH. Lo que hace falta es una terminal que lo soporte (paso 1).
 Por SSH a otra máquina con tmux, ejecuta `printf remoto | ./osc52.sh` dentro
 de un panel y pega en local. ¿Qué piezas tienen que estar bien en el tmux
 **remoto** y cuáles en el local, si también usas tmux en tu máquina?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 05 — Portapapeles del sistema](../lab-05-portapapeles-del-sistema/README.md) | [Proyecto — tmux-kit: copiar en local y por SSH](../../3-proyecto/README.md) → |
+
+[↑ Semana 04](../../README.md)

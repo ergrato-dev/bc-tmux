@@ -48,3 +48,14 @@
    la B seguía conectada, imprime `[server exited]`.
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Depuración](../1-teoria/02-depuracion.md) | [Lab 01 — Dos TERM](lab-01-dos-term/README.md) → |
+
+[↑ Semana 08](../README.md)

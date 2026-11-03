@@ -176,6 +176,13 @@ Cada comprobación vale **3 puntos**.
 - [ ] `./scripts/verificar-semana.sh 03` con las 20 comprobaciones en verde
 - [ ] Commit `feat(week-03): ...` en tu `tmux-kit`
 
+<!-- nav -->
 ---
 
-[← Volver a la Semana 03](README.md)
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Proyecto — tmux-kit: sesiones](3-proyecto/README.md) | [Recursos — ebooks](4-recursos/ebooks-free/README.md) → |
+
+[↑ Semana 03](README.md)

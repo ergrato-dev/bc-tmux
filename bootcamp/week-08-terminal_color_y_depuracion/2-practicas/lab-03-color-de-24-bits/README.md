@@ -222,3 +222,14 @@ capacidad `Tc`. Quita el TODO 2, añade
 ¿sale `RGB` en `#{client_termfeatures}`? Escribe en un comentario por qué
 `terminal-features` es mejor (pista: ¿qué pasa si alguien escribe `TC` o
 `xterm-265color`? El lab-06 lo responde).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 02 — terminfo](../lab-02-terminfo/README.md) | [Lab 04 — Teclas extendidas](../lab-04-teclas-extendidas/README.md) → |
+
+[↑ Semana 08](../../README.md)

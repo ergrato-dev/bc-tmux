@@ -11,3 +11,14 @@ No encontramos un video en español sobre formats y status line con calidad.
 Muchos videos instalan un tema con plugins: esta semana todo se hace con
 formats. Para `#{e|...|}`, `#,` y los bucles `W:`, apóyate en la teoría y en la
 wiki de Formats.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — ebooks](../ebooks-free/README.md) | [Recursos — web](../webgrafia/README.md) → |
+
+[↑ Semana 07](../../README.md)

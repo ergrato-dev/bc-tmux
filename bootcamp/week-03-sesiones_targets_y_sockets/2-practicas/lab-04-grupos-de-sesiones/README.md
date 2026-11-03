@@ -207,3 +207,14 @@ Crear dos sesiones que comparten ventanas pero tienen cada una su ventana actual
 
 ¿Qué pasa con el grupo si cierras `base` y dejas `base-espejo`? Compruébalo
 con `#{session_group}` y `#{session_group_list}`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 03 — Moverte entre sesiones](../lab-03-moverte-entre-sesiones/README.md) | [Lab 05 — Sockets y la variable TMUX](../lab-05-sockets-y-la-variable-tmux/README.md) → |
+
+[↑ Semana 03](../../README.md)

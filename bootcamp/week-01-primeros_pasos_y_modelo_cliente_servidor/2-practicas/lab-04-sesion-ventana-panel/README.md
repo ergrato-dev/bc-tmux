@@ -172,3 +172,14 @@ El servidor `lab` arranca con `-f /dev/null`: el prefix es `C-b`
 Con la sesión del paso 6 viva, cierra el panel `%0` con
 `tmux -L lab kill-pane -t %0` y vuelve a ejecutar el `list-panes -s` del TODO
 4. ¿Qué pasó con el índice del panel que quedaba? ¿Y con su id?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 03 — El prefix y la línea de comandos](../lab-03-prefix-y-linea-de-comandos/README.md) | [Lab 05 — Servidores y sockets](../lab-05-servidores-y-sockets/README.md) → |
+
+[↑ Semana 01](../../README.md)

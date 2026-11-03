@@ -67,3 +67,14 @@ tmux -L demo kill-server
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-formats-y-display/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Semana 07 — Formats y status line](../README.md) | [Teoría — Contexto — Status line](02-status-line.md) → |
+
+[↑ Semana 07](../README.md)

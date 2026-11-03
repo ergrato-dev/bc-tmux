@@ -211,3 +211,14 @@ Elegir dónde vive el socket de un servidor, leer de `$TMUX` a qué servidor per
 Antes de limpiar, conéctate a `tmux -S /tmp/mi-socket attach -t =b` y ejecuta
 `whoami.sh` en su panel. ¿Funciona sin cambiar nada? ¿Por qué un script con
 `-L lab` fijo no lo haría?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 04 — Grupos de sesiones](../lab-04-grupos-de-sesiones/README.md) | [Lab 06 — La sesión rota](../lab-06-sesion-rota/README.md) → |
+
+[↑ Semana 03](../../README.md)

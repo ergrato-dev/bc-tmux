@@ -199,3 +199,14 @@ Saltar entre sesiones con teclas, con filtros y con `switch-client`, y saber qu�
 Con dos clientes conectados (dos terminales), usa `switch-client -c` para
 mover el **otro** cliente a una sesión. Saca su nombre de
 `tmux -L lab list-clients -F '#{client_name} #{session_name}'`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 02 — Targets](../lab-02-targets/README.md) | [Lab 04 — Grupos de sesiones](../lab-04-grupos-de-sesiones/README.md) → |
+
+[↑ Semana 03](../../README.md)

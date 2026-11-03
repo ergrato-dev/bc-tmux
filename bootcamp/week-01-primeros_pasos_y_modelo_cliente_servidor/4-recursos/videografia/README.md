@@ -11,3 +11,14 @@
 
 Algunos videos usan una configuración propia (otro prefix, ratón activado). Lo
 que importa esta semana es el modelo: sesiones, detach/attach y la jerarquía.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — ebooks](../ebooks-free/README.md) | [Recursos — web](../webgrafia/README.md) → |
+
+[↑ Semana 01](../../README.md)

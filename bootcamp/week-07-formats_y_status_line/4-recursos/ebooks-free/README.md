@@ -8,3 +8,14 @@
 
 Ham Vocke usa `~/.tmux.conf` y colores escritos en cada opción: compáralo con
 la paleta en opciones `@kit-color-*` del proyecto.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Rúbrica de evaluación](../../rubrica-evaluacion.md) | [Recursos — videos](../videografia/README.md) → |
+
+[↑ Semana 07](../../README.md)

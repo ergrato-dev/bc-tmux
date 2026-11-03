@@ -179,6 +179,13 @@ Lo que el autograding no puede ver.
 - [ ] `./scripts/verificar-semana.sh 01` con las 16 comprobaciones en verde
 - [ ] `tmux-kit` versionado con git
 
+<!-- nav -->
 ---
 
-[← Volver a la Semana 01](README.md)
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Proyecto — tmux-kit: check-version y kit-tree](3-proyecto/README.md) | [Recursos — ebooks](4-recursos/ebooks-free/README.md) → |
+
+[↑ Semana 01](README.md)

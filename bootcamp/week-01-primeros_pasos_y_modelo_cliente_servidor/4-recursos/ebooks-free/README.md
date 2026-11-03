@@ -5,3 +5,14 @@
 | The Tao of tmux | HTML | Libro de Tony Narlock, gratuito para leer en línea. Para esta semana: capítulos "Thinking tmux" y "Server", "Sessions", "Windows", "Panes" | https://tao-of-tmux.readthedocs.io/en/latest/ |
 | tmux wiki | HTML | La wiki oficial funciona como manual por temas. Empieza por Getting Started | https://github.com/tmux/tmux/wiki |
 | A deep dive into tmux | HTML | Guía de Flavio Copes desde cero, ordenada por la jerarquía servidor, sesión, ventana y panel | https://flaviocopes.com/tmux/ |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Rúbrica de evaluación](../../rubrica-evaluacion.md) | [Recursos — videos](../videografia/README.md) → |
+
+[↑ Semana 01](../../README.md)

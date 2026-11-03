@@ -219,3 +219,14 @@ Tras varias recargas seguidas no sabes si el mensaje es el de ahora o el de
 antes. Haz que diga la hora: `display` interpreta los formatos de `strftime`,
 como `%H:%M:%S`. Añade también cuántas sesiones hay, con un formato de
 tmux (`#{server_sessions}`).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 03 — Alcances y herencia](../lab-03-alcances-y-herencia/README.md) | [Lab 05 — Config modular](../lab-05-config-modular/README.md) → |
+
+[↑ Semana 05](../../README.md)

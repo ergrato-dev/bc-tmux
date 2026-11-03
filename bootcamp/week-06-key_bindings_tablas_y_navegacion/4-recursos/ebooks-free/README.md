@@ -8,3 +8,14 @@
 
 Ham Vocke usa `~/.tmux.conf` y splits sin `-c "#{pane_current_path}"`:
 compáralo con lo que haces en el proyecto.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Rúbrica de evaluación](../../rubrica-evaluacion.md) | [Recursos — videos](../videografia/README.md) → |
+
+[↑ Semana 06](../../README.md)

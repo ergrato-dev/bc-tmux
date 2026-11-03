@@ -7,3 +7,14 @@
 | [tmux wiki — Modifier Keys](https://github.com/tmux/tmux/wiki/Modifier-Keys) | `extended-keys`, la feature `extkeys` y qué terminales mandan teclas extendidas. La propia página avisa de que en 3.5 cambió el valor por defecto: en 3.4 es `off` |
 | [terminfo(5) — Ubuntu 24.04](https://manpages.ubuntu.com/manpages/noble/man5/terminfo.5.html) | Formato de una entrada, `use=` y orden de búsqueda: `TERMINFO`, `~/.terminfo`, `TERMINFO_DIRS` y los directorios del sistema |
 | [user_caps(5) — Ubuntu 24.04](https://manpages.ubuntu.com/manpages/noble/man5/user_caps.5.html) | Capacidades extendidas que no están en el estándar (`-x` de `tic` e `infocmp`), entre ellas `RGB` |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — videos](../videografia/README.md) | [Glosario](../../5-glosario/README.md) → |
+
+[↑ Semana 08](../../README.md)

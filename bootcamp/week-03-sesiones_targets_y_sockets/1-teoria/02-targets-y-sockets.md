@@ -62,3 +62,14 @@ Para hablar con el servidor del panel, sea cual sea: `tmux -S "${TMUX%%,*}"`.
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-varias-sesiones/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Varias sesiones y grupos](01-sesiones-y-grupos.md) | [Índice de labs](../2-practicas/README.md) → |
+
+[↑ Semana 03](../README.md)

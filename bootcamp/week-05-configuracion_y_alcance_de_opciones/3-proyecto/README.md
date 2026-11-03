@@ -384,3 +384,14 @@ Commit con el mensaje:
 ```
 feat(week-05): tmux.conf modular con conf.d/, recarga idempotente y kit-option
 ```
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 06 — La config rota](../2-practicas/lab-06-config-rota/README.md) | [Rúbrica de evaluación](../rubrica-evaluacion.md) → |
+
+[↑ Semana 05](../README.md)

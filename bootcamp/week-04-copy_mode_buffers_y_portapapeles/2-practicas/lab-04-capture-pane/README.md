@@ -211,3 +211,14 @@ Volcar el historial de un panel a stdout, a un archivo o a un buffer con `captur
 
 Añade la opción `-e` al script: `capture.sh -e TARGET` guarda los colores.
 Abre el resultado con `less -R` (sales con `q`).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 03 — Buffers](../lab-03-buffers/README.md) | [Lab 05 — Portapapeles del sistema](../lab-05-portapapeles-del-sistema/README.md) → |
+
+[↑ Semana 04](../../README.md)

@@ -313,3 +313,14 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
 Haz que `prefix` `R` (mayúscula) abra en una ventana nueva `$EDITOR` sobre
 `conf.d/` y recargue al cerrar el editor. Pista: `new-window` acepta un
 comando, y `source-file` puede ir detrás con `;`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 04 — Recarga en caliente](../lab-04-recarga-en-caliente/README.md) | [Lab 06 — La config rota](../lab-06-config-rota/README.md) → |
+
+[↑ Semana 05](../../README.md)

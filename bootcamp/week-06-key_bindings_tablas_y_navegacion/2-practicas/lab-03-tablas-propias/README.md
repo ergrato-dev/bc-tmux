@@ -205,3 +205,14 @@ Haz que la barra solo avise cuando estás en el modo: `status-right` con
 `#{?#{==:#{client_key_table},resize},MODO RESIZE ,}` (los formatos
 condicionales llegan en la semana 07). ¿Qué ves en la barra si entras en el
 modo y pulsas `C-b`?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 02 — Repetición y la tabla root](../lab-02-repeticion-y-tabla-root/README.md) | [Lab 04 — Copy mode a medida](../lab-04-copy-mode-a-medida/README.md) → |
+
+[↑ Semana 06](../../README.md)

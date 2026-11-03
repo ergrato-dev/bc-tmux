@@ -216,3 +216,14 @@ Crear, listar, pegar, guardar y cargar buffers de tmux, con y sin nombre, y escr
 
 Escribe `cargar-buffers.sh DIR`, la operación inversa: un `load-buffer -b`
 por cada `.txt` de `DIR`. ¿Qué pasa si cargas dos veces el mismo directorio?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 02 — Seleccionar y copiar](../lab-02-seleccionar-y-copiar/README.md) | [Lab 04 — capture-pane](../lab-04-capture-pane/README.md) → |
+
+[↑ Semana 04](../../README.md)

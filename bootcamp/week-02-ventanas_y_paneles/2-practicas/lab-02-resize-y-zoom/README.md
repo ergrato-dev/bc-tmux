@@ -166,3 +166,14 @@ Con dos clientes de tamaños distintos conectados a `medidas` (lab 02 de la
 semana 01), ¿los porcentajes se calculan sobre qué ancho? Pruébalo con
 `resize.sh` mientras cambias cuál de las dos terminales usaste por última vez
 (pista: `tmux -L lab show -gv window-size`).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 01 — Partir y moverte entre paneles](../lab-01-split-y-navegacion/README.md) | [Lab 03 — Layouts](../lab-03-layouts/README.md) → |
+
+[↑ Semana 02](../../README.md)

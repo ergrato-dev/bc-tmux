@@ -176,6 +176,13 @@ Cada comprobación vale **3 puntos**, salvo `bin-completo-y-limpio`, que vale **
 - [ ] `./scripts/verificar-semana.sh 04` con las 19 comprobaciones en verde
 - [ ] Commit `feat(week-04): ...` en tu `tmux-kit`
 
+<!-- nav -->
 ---
 
-[← Volver a la Semana 04](README.md)
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Proyecto — tmux-kit: copiar en local y por SSH](3-proyecto/README.md) | [Recursos — ebooks](4-recursos/ebooks-free/README.md) → |
+
+[↑ Semana 04](README.md)

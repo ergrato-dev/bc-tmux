@@ -16,3 +16,14 @@ varias terminales: `docker compose up -d lab` y `docker compose exec lab bash`
 en cada una. Al terminar cada lab: `tmux -L lab kill-server`.
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Targets y sockets](../1-teoria/02-targets-y-sockets.md) | [Lab 01 — Varias sesiones](lab-01-varias-sesiones/README.md) → |
+
+[↑ Semana 03](../README.md)

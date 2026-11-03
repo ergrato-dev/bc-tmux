@@ -7,3 +7,14 @@
 | [tmux wiki — Getting Started](https://github.com/tmux/tmux/wiki/Getting-Started) | "Creating sessions", "The command prompt" (secuencias con `;`) y "Other features", que presenta `wait-for`, `send-keys` y `capture-pane` |
 | [Bash Reference Manual — Bash Builtins](https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html) | `printf` con `%q` y `-v`, y `read` con `-r` |
 | [ShellCheck — SC2086](https://www.shellcheck.net/wiki/SC2086) | Por qué citar `"$var"`: la división en palabras que rompe un `send-keys` o un target con espacios |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — videos](../videografia/README.md) | [Glosario](../../5-glosario/README.md) → |
+
+[↑ Semana 09](../../README.md)

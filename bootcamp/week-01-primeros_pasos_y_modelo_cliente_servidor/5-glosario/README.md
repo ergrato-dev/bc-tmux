@@ -17,3 +17,14 @@
 | **tabla de teclas** | Conjunto de atajos con nombre; `prefix` es una de ellas | `tmux list-keys -T prefix` |
 | **format** | Variable entre `#{ }` que tmux rellena con el estado de un objeto | `#{session_windows}` |
 | **`$TMUX`** | Variable de entorno que tmux pone en cada panel: socket, pid y sesión | `echo "$TMUX"` |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 02 — Ventanas y paneles](../../week-02-ventanas_y_paneles/README.md) → |
+
+[↑ Semana 01](../README.md)

@@ -175,6 +175,13 @@ Cada comprobación vale **3 puntos**, salvo `recarga-idempotente` y
 - [ ] `./scripts/verificar-semana.sh 05` con las 18 comprobaciones en verde
 - [ ] Commit `feat(week-05): ...` en tu `tmux-kit`
 
+<!-- nav -->
 ---
 
-[← Volver a la Semana 05](README.md)
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Proyecto — tmux-kit: config modular y recarga en caliente](3-proyecto/README.md) | [Recursos — ebooks](4-recursos/ebooks-free/README.md) → |
+
+[↑ Semana 05](README.md)

@@ -16,3 +16,14 @@
 | **pantalla alternativa** | Pantalla que piden los programas a pantalla completa; al salir vuelve lo que había antes | `less`, `watch` (no `top` de procps) |
 | **alternate_on** | Format que vale 1 cuando el panel está en la pantalla alternativa | `if -F '#{alternate_on}' 'send-keys C-h' 'select-pane -L'` |
 | **send-keys** | Envía teclas al programa del panel en lugar de interpretarlas tmux | `bind C-l send-keys C-l` |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 07 — Formats y status line](../../week-07-formats_y_status_line/README.md) → |
+
+[↑ Semana 06](../README.md)

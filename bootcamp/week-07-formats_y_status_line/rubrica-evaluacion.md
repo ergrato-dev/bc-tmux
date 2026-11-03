@@ -178,6 +178,13 @@ Cada comprobación vale **3 puntos**, salvo `paleta-en-caliente`,
 - [ ] `./scripts/verificar-semana.sh 07` con todas las comprobaciones en verde
 - [ ] Commit `feat(week-07): ...` en tu `tmux-kit`
 
+<!-- nav -->
 ---
 
-[← Volver a la Semana 07](README.md)
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Proyecto — tmux-kit: status line propia, sin plugins](3-proyecto/README.md) | [Recursos — ebooks](4-recursos/ebooks-free/README.md) → |
+
+[↑ Semana 07](README.md)

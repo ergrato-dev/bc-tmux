@@ -210,3 +210,14 @@ errores reales**, todos de esta semana.
 El compañero quiere que los módulos de su portátil no se suban a git, pero sí
 los comunes. Propón una convención de nombres en `conf.d/` y la línea de
 `tmux.conf` que la soporta, sin romper el orden de carga.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 05 — Config modular](../lab-05-config-modular/README.md) | [Proyecto — tmux-kit: config modular y recarga en caliente](../../3-proyecto/README.md) → |
+
+[↑ Semana 05](../../README.md)

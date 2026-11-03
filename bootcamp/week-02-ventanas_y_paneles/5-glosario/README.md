@@ -15,3 +15,14 @@
 | **swap-pane** | Intercambiar dos paneles de sitio | `prefix` `{` |
 | **synchronize-panes** | Opción de ventana que envía lo que tecleas a todos sus paneles | `setw synchronize-panes on` |
 | **teclas repetibles** | Ligaduras que aceptan pulsaciones seguidas sin repetir el prefix | `prefix` `Ctrl`+flecha |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 03 — Sesiones, targets y sockets](../../week-03-sesiones_targets_y_sockets/README.md) → |
+
+[↑ Semana 02](../README.md)

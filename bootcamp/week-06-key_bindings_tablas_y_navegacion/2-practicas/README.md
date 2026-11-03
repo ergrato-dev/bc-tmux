@@ -46,3 +46,14 @@
    la B seguía conectada, imprime `[server exited]`.
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Teclas que deciden: navegación entre paneles y programas](../1-teoria/02-teclas-que-deciden.md) | [Lab 01 — bind, unbind y list-keys](lab-01-bind-unbind-y-list-keys/README.md) → |
+
+[↑ Semana 06](../README.md)

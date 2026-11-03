@@ -159,3 +159,14 @@ Necesitas dos terminales, **A** y **B**. El servidor `lab` arranca con
 `tmux -L lab attach -d -t trabajo` conecta tu terminal **y desconecta a todos
 los demás clientes**. Pruébalo con A y B conectadas. ¿En qué situación real lo
 usarías?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 01 — Tu primera sesión](../lab-01-primera-sesion/README.md) | [Lab 03 — El prefix y la línea de comandos](../lab-03-prefix-y-linea-de-comandos/README.md) → |
+
+[↑ Semana 01](../../README.md)

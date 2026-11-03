@@ -247,3 +247,14 @@ Llevar lo que copias en tmux al portapapeles de tu sistema con la herramienta co
 
 Entra por SSH a otra máquina (o a `localhost`) y prueba allí `copy.sh`. ¿En
 el portapapeles de qué máquina acaba el texto? El lab 06 lo resuelve.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 04 — capture-pane](../lab-04-capture-pane/README.md) | [Lab 06 — El portapapeles roto](../lab-06-portapapeles-roto/README.md) → |
+
+[↑ Semana 04](../../README.md)

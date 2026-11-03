@@ -75,3 +75,14 @@ tmux -L demo kill-server
 
 ---
 Listo. Ve al [lab-03](../2-practicas/lab-03-enviar-teclas-con-cuidado/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Crear y consultar desde un script](01-crear-y-consultar.md) | [Índice de labs](../2-practicas/README.md) → |
+
+[↑ Semana 09](../README.md)

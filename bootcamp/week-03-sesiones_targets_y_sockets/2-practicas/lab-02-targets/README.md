@@ -225,3 +225,14 @@ Apuntar con `-t` a cualquier sesión, ventana o panel, validar que el target exi
 Haz que `resolve.sh` acepte `-s` para resolver solo sesiones con
 `has-session -t "=$1"` y explique, si falla, si había una sesión que empezaba
 igual (pista: `has-session -t "$1"` sin `=`).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 01 — Varias sesiones](../lab-01-varias-sesiones/README.md) | [Lab 03 — Moverte entre sesiones](../lab-03-moverte-entre-sesiones/README.md) → |
+
+[↑ Semana 03](../../README.md)

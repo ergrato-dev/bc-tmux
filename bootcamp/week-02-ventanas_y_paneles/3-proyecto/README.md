@@ -353,3 +353,14 @@ Commit con el mensaje:
 ```
 feat(week-02): kit-layout con ventana de trabajo y layouts guardados
 ```
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 06 — La ventana rota](../2-practicas/lab-06-ventana-rota/README.md) | [Rúbrica de evaluación](../rubrica-evaluacion.md) → |
+
+[↑ Semana 02](../README.md)

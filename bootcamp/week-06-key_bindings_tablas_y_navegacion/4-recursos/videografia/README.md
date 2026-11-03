@@ -12,3 +12,14 @@ las tablas propias (`switch-client -T`) y la navegación con `alternate_on`,
 apóyate en la teoría y en `man tmux`. Muchas configs de la comunidad deciden la
 navegación con `ps` o con `pane_current_command`: compáralo con lo que hiciste
 en el lab-05.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — ebooks](../ebooks-free/README.md) | [Recursos — web](../webgrafia/README.md) → |
+
+[↑ Semana 06](../../README.md)

@@ -268,3 +268,14 @@ Crear, pisar, quitar y documentar teclas de la tabla `prefix`, y comprobar cada 
 Dos teclas de la tabla `prefix` no tienen nota (82 de 84). Encuéntralas
 comparando `list-keys -T prefix` con `list-keys -N -T prefix`, y añade a
 `keys-of.sh` una opción `-a` que las liste también (pista: `list-keys -aN`).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Índice de labs](../README.md) | [Lab 02 — Repetición y la tabla root](../lab-02-repeticion-y-tabla-root/README.md) → |
+
+[↑ Semana 06](../../README.md)

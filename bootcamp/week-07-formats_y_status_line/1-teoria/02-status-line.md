@@ -74,3 +74,14 @@ tmux -L demo kill-server   # antes, quita el zoom si lo dejaste: tmux 3.4 puede 
 
 ---
 Listo. Ve al [lab-04](../2-practicas/lab-04-estilos-y-ventanas/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Formats](01-formats.md) | [Índice de labs](../2-practicas/README.md) → |
+
+[↑ Semana 07](../README.md)

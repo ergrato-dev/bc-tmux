@@ -162,3 +162,14 @@ bind / copy-mode \; command-prompt -T search -p "(buscar)" { send -X search-back
 ```
 Recarga, pulsa `C-b` `/`, escribe `4242` y `Enter`. ¿Por qué `send -X` no
 lleva `-t`? ¿A qué panel llega?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Índice de labs](../README.md) | [Lab 02 — Seleccionar y copiar](../lab-02-seleccionar-y-copiar/README.md) → |
+
+[↑ Semana 04](../../README.md)

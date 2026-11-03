@@ -17,3 +17,14 @@
 | **set-clipboard** | Opción que decide si tmux envía OSC 52 y si acepta el de los programas | `set -s set-clipboard on` |
 | **Ms** | Capacidad de terminfo con la receta de OSC 52; sin ella tmux no lo envía | `show-messages -T \| grep ' Ms:'` |
 | **load-buffer -w** | Crea un buffer y lo envía a la terminal exterior con OSC 52 | `printf hola \| tmux load-buffer -w -` |
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 05 — Configuración y alcance de opciones](../../week-05-configuracion_y_alcance_de_opciones/README.md) → |
+
+[↑ Semana 04](../README.md)

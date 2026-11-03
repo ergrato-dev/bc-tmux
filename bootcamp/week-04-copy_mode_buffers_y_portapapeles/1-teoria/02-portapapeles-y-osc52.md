@@ -66,3 +66,14 @@ printf hola | tmux load-buffer -w -    # buffer nuevo + OSC 52 a la terminal ext
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-moverte-por-el-historial/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Copy mode y buffers](01-copy-mode-y-buffers.md) | [Índice de labs](../2-practicas/README.md) → |
+
+[↑ Semana 04](../README.md)

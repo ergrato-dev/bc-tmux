@@ -73,6 +73,6 @@ tmux -L kit show -gv prefix; tmux -L kit kill-server
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 04 — Copy mode, buffers y portapapeles](../week-04-copy_mode_buffers_y_portapapeles/README.md) | **Semana 05 — Configuración y alcance de opciones** | Semana 06 — Key bindings, tablas y navegación |
+| [← Semana 04 — Copy mode, buffers y portapapeles](../week-04-copy_mode_buffers_y_portapapeles/README.md) | **Semana 05 — Configuración y alcance de opciones** | [Semana 06 — Key bindings, tablas y navegación →](../week-06-key_bindings_tablas_y_navegacion/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)

@@ -8,3 +8,14 @@
 
 Algunos videos usan su propia configuración (otro prefix, `%` y `"` ligados a
 otras teclas). Lo que importa es el comando que hay detrás de cada atajo.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — ebooks](../ebooks-free/README.md) | [Recursos — web](../webgrafia/README.md) → |
+
+[↑ Semana 02](../../README.md)

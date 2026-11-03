@@ -11,3 +11,14 @@ No encontramos un video en español sobre la config de tmux con calidad. Casi
 todos usan `~/.tmux.conf` en lugar de `~/.config/tmux/tmux.conf` y recargan
 con una ruta fija: compáralo con lo que hiciste en los labs 04 y 05. Ninguno
 explica los alcances de las opciones: para eso, la teoría y `man tmux`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — ebooks](../ebooks-free/README.md) | [Recursos — web](../webgrafia/README.md) → |
+
+[↑ Semana 05](../../README.md)

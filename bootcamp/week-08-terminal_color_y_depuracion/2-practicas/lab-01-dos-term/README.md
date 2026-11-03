@@ -222,3 +222,14 @@ Conecta dos clientes a la vez a la misma sesión, uno normal y otro con
 `TERM=screen-256color`. ¿Qué enseña la barra de cada uno? Explica por qué
 `status-right` puede mostrar un valor distinto en cada cliente aunque la
 opción sea una sola.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Índice de labs](../README.md) | [Lab 02 — terminfo](../lab-02-terminfo/README.md) → |
+
+[↑ Semana 08](../../README.md)

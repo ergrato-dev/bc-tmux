@@ -165,3 +165,14 @@ Tras un 124, el comando sigue y su `wait-for -S` llega cuando ya nadie
 espera: la señal queda guardada en el servidor para siempre. Compruébalo con
 un nombre de canal fijo y dos ejecuciones seguidas: la segunda vuelve antes
 de tiempo. ¿Por qué el `$$` en el nombre del canal lo evita?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 03 — Enviar teclas con cuidado](../lab-03-enviar-teclas-con-cuidado/README.md) | [Lab 05 — Idempotencia](../lab-05-idempotencia/README.md) → |
+
+[↑ Semana 09](../../README.md)

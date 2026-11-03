@@ -452,3 +452,14 @@ Commit con el mensaje:
 ```
 feat(week-06): modo resize, navegación C-h/j/k/l, notas kit: y kit-keys
 ```
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 06 — Teclas rotas](../2-practicas/lab-06-teclas-rotas/README.md) | [Rúbrica de evaluación](../rubrica-evaluacion.md) → |
+
+[↑ Semana 06](../README.md)

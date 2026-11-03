@@ -250,3 +250,14 @@ veces en la misma tabla dentro de un archivo (como el error 1). Pista: con
 `awk`, quédate con la tabla (`-T X`, `-n` = `root`, por defecto `prefix`) y
 la tecla de cada línea `bind`. ¿Qué casos se le escapan (bloques `{}`,
 `source-file` de otros archivos)?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 05 — Navegación consciente](../lab-05-navegacion-consciente/README.md) | [Proyecto — tmux-kit: modo resize, navegación sin prefix y teclas documentadas](../../3-proyecto/README.md) → |
+
+[↑ Semana 06](../../README.md)

@@ -239,3 +239,14 @@ Cambia el texto del borde con
 `tmux -L lab set -w -t tres:0 pane-border-format ' #{pane_index}: #{pane_title} (#{pane_current_command}) '`
 y conéctate con `tmux -L lab attach -t tres` (sal con `C-b` `d`).
 ¿Qué pasa con el borde cuando ejecutas `top` en un panel? (Sal de `top` con `q`.)
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Índice de labs](../README.md) | [Lab 02 — Tamaño y zoom](../lab-02-resize-y-zoom/README.md) → |
+
+[↑ Semana 02](../../README.md)

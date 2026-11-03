@@ -182,6 +182,13 @@ Cada comprobación vale **3 puntos**, salvo `resize-repite`, `nav-pasa`,
 - [ ] `./scripts/verificar-semana.sh 06` con todas las comprobaciones en verde
 - [ ] Commit `feat(week-06): ...` en tu `tmux-kit`
 
+<!-- nav -->
 ---
 
-[← Volver a la Semana 06](README.md)
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Proyecto — tmux-kit: modo resize, navegación sin prefix y teclas documentadas](3-proyecto/README.md) | [Recursos — ebooks](4-recursos/ebooks-free/README.md) → |
+
+[↑ Semana 06](README.md)

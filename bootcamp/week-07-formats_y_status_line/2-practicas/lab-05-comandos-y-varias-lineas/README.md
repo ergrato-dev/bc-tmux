@@ -204,3 +204,14 @@ Haz que el script imprima el commit corto cuando `HEAD` está suelto
 `git rev-parse --short HEAD` como segunda opción. Mide cuánto tarda con
 `time ./starter/bin/lab-git-branch "$R"`: si pasa de unos milisegundos,
 piensa qué pasaría con `status-interval 1` y cinco clientes.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 04 — Estilos y lista de ventanas](../lab-04-estilos-y-ventanas/README.md) | [Lab 06 — Status line rota](../lab-06-status-rota/README.md) → |
+
+[↑ Semana 07](../../README.md)

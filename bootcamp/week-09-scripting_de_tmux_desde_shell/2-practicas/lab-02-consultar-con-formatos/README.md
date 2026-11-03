@@ -193,3 +193,14 @@ Añade `inspect busy`: los paneles de todo el servidor cuyo programa no es
 una shell, con un solo `list-panes -a` y un filtro `-f` que use `#{!=:...}`
 o `#{m:...}` sobre `#{pane_current_command}`. Pruébalo con
 `tmux -L lab send-keys -t api:editor 'sleep 60' Enter`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 01 — Crear sin conectarse](../lab-01-crear-sin-conectarse/README.md) | [Lab 03 — Enviar teclas con cuidado](../lab-03-enviar-teclas-con-cuidado/README.md) → |
+
+[↑ Semana 09](../../README.md)

@@ -198,3 +198,14 @@ Cambia `extended-keys` a `always`, reconecta y, dentro de tmux, abre
 `cat -v` y pulsa `C-Enter` en tu terminal (o mándala por `fuera`). ¿Qué ves
 en lugar de un salto de línea? Explica por qué `always` rompe programas como
 `bash` que no esperan esas secuencias y por qué `on` es el valor del kit.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 03 — Color de 24 bits](../lab-03-color-de-24-bits/README.md) | [Lab 05 — Passthrough y estilos](../lab-05-passthrough-y-estilos/README.md) → |
+
+[↑ Semana 08](../../README.md)

@@ -274,3 +274,14 @@ Crear y organizar varias sesiones, moverte entre ellas con `choose-tree` y cerra
 Con varias sesiones `tmp-*` creadas, abre el árbol filtrado solo con ellas:
 `C-b` `:` y escribe `choose-tree -s -f '#{m:tmp-*,#{session_name}}'` +
 `Enter`. Márcalas todas con `C-t`, ciérralas con `X` y confirma con `y`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Índice de labs](../README.md) | [Lab 02 — Targets](../lab-02-targets/README.md) → |
+
+[↑ Semana 03](../../README.md)

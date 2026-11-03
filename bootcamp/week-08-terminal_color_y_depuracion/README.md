@@ -72,6 +72,6 @@ TMUX_SOCKET=kit 3-proyecto/starter/bin/kit-doctor; tmux -L kit kill-server
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 07 — Formats y status line](../week-07-formats_y_status_line/README.md) | **Semana 08 — Terminal, color y depuración** | Semana 09 — Scripting de tmux desde shell |
+| [← Semana 07 — Formats y status line](../week-07-formats_y_status_line/README.md) | **Semana 08 — Terminal, color y depuración** | [Semana 09 — Scripting de tmux desde shell →](../week-09-scripting_de_tmux_desde_shell/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)

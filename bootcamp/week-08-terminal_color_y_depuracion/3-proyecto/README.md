@@ -378,3 +378,14 @@ Commit con el mensaje:
 ```
 feat(week-08): 40-terminal.conf, kit-doctor y guía de diagnóstico
 ```
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 06 — Depurar una terminal rota](../2-practicas/lab-06-depurar-una-terminal-rota/README.md) | [Rúbrica de evaluación](../rubrica-evaluacion.md) → |
+
+[↑ Semana 08](../README.md)

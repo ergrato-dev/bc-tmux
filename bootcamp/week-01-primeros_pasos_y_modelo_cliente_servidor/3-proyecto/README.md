@@ -318,3 +318,14 @@ Además de los checks, se revisa (40 pts, ver la rúbrica):
 Commit con el mensaje `feat(week-01): tmux-kit con check-version y kit-tree`
 que incluya `starter/README.md`, `starter/bin/check-version` y
 `starter/bin/kit-tree`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 06 — Sobrevivir a una desconexión](../2-practicas/lab-06-sobrevivir-a-una-desconexion/README.md) | [Rúbrica de evaluación](../rubrica-evaluacion.md) → |
+
+[↑ Semana 01](../README.md)

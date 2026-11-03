@@ -73,6 +73,6 @@ tmux -L kit list-keys -N | grep 'kit:'; tmux -L kit kill-server
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 05 — Configuración y alcance de opciones](../week-05-configuracion_y_alcance_de_opciones/README.md) | **Semana 06 — Key bindings, tablas y navegación** | Semana 07 — Formats y status line |
+| [← Semana 05 — Configuración y alcance de opciones](../week-05-configuracion_y_alcance_de_opciones/README.md) | **Semana 06 — Key bindings, tablas y navegación** | [Semana 07 — Formats y status line →](../week-07-formats_y_status_line/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)

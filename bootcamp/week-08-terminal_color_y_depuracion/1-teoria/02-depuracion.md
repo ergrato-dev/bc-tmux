@@ -59,3 +59,14 @@ tmux -L demo kill-server
 
 ---
 Listo. Ve al [lab-06](../2-practicas/lab-06-depurar-una-terminal-rota/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Terminal y color](01-terminal-y-color.md) | [Índice de labs](../2-practicas/README.md) → |
+
+[↑ Semana 08](../README.md)

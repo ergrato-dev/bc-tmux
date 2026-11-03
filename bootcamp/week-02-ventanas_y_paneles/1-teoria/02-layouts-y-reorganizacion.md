@@ -63,3 +63,14 @@ Ojo al validar un target en un script: `display-message -p -t X` **no falla** si
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-split-y-navegacion/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Teoría — Contexto — Ventanas y paneles](01-ventanas-y-paneles.md) | [Índice de labs](../2-practicas/README.md) → |
+
+[↑ Semana 02](../README.md)

@@ -154,3 +154,14 @@ Ejecuta `tmux -L lab -f /dev/null new -d -s primera -n inicio top` para que la
 ventana ejecute `top` en vez de una shell, conéctate con
 `tmux -L lab attach -t primera` y sal de `top` con `q`. ¿Qué le pasa a la
 ventana, a la sesión y al servidor? Compruébalo con `tmux -L lab ls`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Índice de labs](../README.md) | [Lab 02 — Detach y attach](../lab-02-detach-y-attach/README.md) → |
+
+[↑ Semana 01](../../README.md)

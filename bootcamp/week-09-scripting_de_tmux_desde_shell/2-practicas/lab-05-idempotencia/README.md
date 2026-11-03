@@ -179,3 +179,14 @@ El nombre `a.b` no sirve como target (`.` separa ventana y panel) y tmux
 lo guarda como `a_b`. Pruébalo: `./starter/workspace a.b /tmp/lab09/api`
 dos veces. ¿Qué pasa la segunda vez, y por qué? Arréglalo validando el
 nombre al principio del script (sal con 2 si tiene `.` o `:`).
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 04 — Esperar con wait-for](../lab-04-esperar-con-wait-for/README.md) | [Lab 06 — Script roto](../lab-06-script-roto/README.md) → |
+
+[↑ Semana 09](../../README.md)

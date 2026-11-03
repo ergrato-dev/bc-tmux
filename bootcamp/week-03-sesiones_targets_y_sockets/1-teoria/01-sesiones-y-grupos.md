@@ -72,5 +72,13 @@ tmux -L demo kill-server
 - Las dos dicen `grupo=api`.
 - La ventana `tests`, creada en `api`, aparece en `api-2` con el mismo `@id`.
 
+<!-- nav -->
 ---
-Sigue con [02-targets-y-sockets.md](02-targets-y-sockets.md).
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Semana 03 — Sesiones, targets y sockets](../README.md) | [Teoría — Contexto — Targets y sockets](02-targets-y-sockets.md) → |
+
+[↑ Semana 03](../README.md)

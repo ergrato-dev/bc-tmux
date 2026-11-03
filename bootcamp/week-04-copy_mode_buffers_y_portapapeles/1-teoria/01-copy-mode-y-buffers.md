@@ -76,3 +76,14 @@ Del buffer al portapapeles del sistema hay un paso más: [02-portapapeles-y-osc5
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-moverte-por-el-historial/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Semana 04 — Copy mode, buffers y portapapeles](../README.md) | [Teoría — Contexto — Portapapeles y OSC 52](02-portapapeles-y-osc52.md) → |
+
+[↑ Semana 04](../README.md)

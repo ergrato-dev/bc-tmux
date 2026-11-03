@@ -74,3 +74,14 @@ set -g @kit-modern on
 
 ---
 Listo. Ve al [lab-01](../2-practicas/lab-01-donde-vive-la-config/README.md) y ponlo en práctica.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Semana 05 — Configuración y alcance de opciones](../README.md) | [Teoría — Contexto — Alcances de las opciones](02-alcances-de-opciones.md) → |
+
+[↑ Semana 05](../README.md)

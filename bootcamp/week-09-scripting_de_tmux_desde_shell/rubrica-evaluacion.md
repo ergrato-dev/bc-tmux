@@ -190,6 +190,13 @@ Cada comprobación vale **3 puntos**, salvo `dev-up-hostil`, `dev-up-idempotente
 - [ ] `./scripts/verificar-semana.sh 09` con todas las comprobaciones en verde
 - [ ] Commit `feat(week-09): ...` en tu `tmux-kit`
 
+<!-- nav -->
 ---
 
-[← Volver a la Semana 09](README.md)
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Proyecto — tmux-kit: `dev-up` idempotente](3-proyecto/README.md) | [Recursos — ebooks](4-recursos/ebooks-free/README.md) → |
+
+[↑ Semana 09](README.md)

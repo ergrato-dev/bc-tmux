@@ -395,3 +395,14 @@ Commit con el mensaje:
 ```
 feat(week-03): kit-sessions para listar, saltar y agrupar sesiones
 ```
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 06 — La sesión rota](../2-practicas/lab-06-sesion-rota/README.md) | [Rúbrica de evaluación](../rubrica-evaluacion.md) → |
+
+[↑ Semana 03](../README.md)

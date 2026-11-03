@@ -322,3 +322,14 @@ Commit con el mensaje:
 ```
 feat(week-04): tmux.conf y kit-copy para copiar en local y por SSH
 ```
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 06 — El portapapeles roto](../2-practicas/lab-06-portapapeles-roto/README.md) | [Rúbrica de evaluación](../rubrica-evaluacion.md) → |
+
+[↑ Semana 04](../README.md)

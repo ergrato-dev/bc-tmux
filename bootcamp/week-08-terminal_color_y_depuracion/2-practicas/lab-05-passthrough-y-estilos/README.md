@@ -213,3 +213,14 @@ ventana activa: `set -g window-status-current-style 'curly-underscore,us=red'`.
 Reconecta grabando y busca en `/tmp/lab08/b.raw` la secuencia del color del
 subrayado (empieza por `\e[58`). ¿Qué pasa con la barra si quitas
 `usstyle` de `terminal-features`?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 04 — Teclas extendidas](../lab-04-teclas-extendidas/README.md) | [Lab 06 — Depurar una terminal rota](../lab-06-depurar-una-terminal-rota/README.md) → |
+
+[↑ Semana 08](../../README.md)

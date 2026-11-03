@@ -59,5 +59,13 @@ tmux -L demo kill-server
 - Los índices son 0, 1 y 2 en orden de posición; los ids, en orden de creación.
 - `window_zoomed_flag` imprime `1`: el panel 0 está ampliado y los otros dos siguen vivos, ocultos.
 
+<!-- nav -->
 ---
-Sigue con [02-layouts-y-reorganizacion.md](02-layouts-y-reorganizacion.md).
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Semana 02 — Ventanas y paneles](../README.md) | [Teoría — Contexto — Layouts y reorganización](02-layouts-y-reorganizacion.md) → |
+
+[↑ Semana 02](../README.md)

@@ -376,3 +376,14 @@ Commit con el mensaje:
 ```
 feat(week-07): status line propia con paleta @kit-color-* y kit-git-branch
 ```
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 06 — Status line rota](../2-practicas/lab-06-status-rota/README.md) | [Rúbrica de evaluación](../rubrica-evaluacion.md) → |
+
+[↑ Semana 07](../README.md)

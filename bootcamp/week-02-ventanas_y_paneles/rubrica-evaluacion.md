@@ -169,6 +169,13 @@ Lo ejecuta `./scripts/verificar-semana.sh 02`. Es binario: pasa o no pasa.
 - [ ] `./scripts/verificar-semana.sh 02` con las 16 comprobaciones en verde
 - [ ] Commit `feat(week-02): ...` en tu `tmux-kit`
 
+<!-- nav -->
 ---
 
-[← Volver a la Semana 02](README.md)
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Proyecto — tmux-kit: kit-layout](3-proyecto/README.md) | [Recursos — ebooks](4-recursos/ebooks-free/README.md) → |
+
+[↑ Semana 02](README.md)

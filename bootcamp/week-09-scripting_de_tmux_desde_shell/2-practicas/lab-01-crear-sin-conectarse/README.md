@@ -200,3 +200,14 @@ inicial del panel derecho de `run`
 (`split-window ... -P -F '#{pane_id}' "$cmd"`). Pruébalo con `'top'` y
 comprueba con `display -p -t "$run_right" '#{pane_current_command}'`. ¿Qué
 pasa con ese panel cuando sales de `top` con `q`?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Índice de labs](../README.md) | [Lab 02 — Consultar con formatos](../lab-02-consultar-con-formatos/README.md) → |
+
+[↑ Semana 09](../../README.md)

@@ -195,3 +195,14 @@ Añade a la derecha, delante de la etiqueta, la ruta del panel cortada a sus
 Pruébala con `send-keys 'cd /usr/share/doc' Enter` y con `cd /tmp`: ¿cuándo
 aparece la `…`? Rellénala con `p20` para que la hora no se mueva al cambiar
 de carpeta.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Lab 02 — Condicionales y comparaciones](../lab-02-condicionales-y-comparaciones/README.md) | [Lab 04 — Estilos y lista de ventanas](../lab-04-estilos-y-ventanas/README.md) → |
+
+[↑ Semana 07](../../README.md)

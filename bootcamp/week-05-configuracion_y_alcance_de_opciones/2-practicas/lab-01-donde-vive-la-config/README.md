@@ -270,3 +270,14 @@ Comprobar qué archivos de config carga tmux, en qué orden y cuándo, encontrar
 
 Añade `--forzar` a `install.sh`: si el destino existe, lo renombra a
 `tmux.bak-FECHA` antes de enlazar. ¿Por qué renombrar y no borrar?
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Índice de labs](../README.md) | [Lab 02 — Un prefix propio](../lab-02-prefix-propio/README.md) → |
+
+[↑ Semana 05](../../README.md)

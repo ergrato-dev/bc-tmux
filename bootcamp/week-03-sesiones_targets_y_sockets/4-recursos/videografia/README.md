@@ -10,3 +10,14 @@
 Del video de nicopyds, para esta semana: el capítulo "Sesiones de tmux". Ninguno
 cubre los grupos de sesiones ni la resolución de targets: para eso, la teoría y
 `man tmux`.
+
+<!-- nav -->
+---
+
+## 🔗 Navegación
+
+| Anterior | Siguiente |
+|---|---|
+| ← [Recursos — ebooks](../ebooks-free/README.md) | [Recursos — web](../webgrafia/README.md) → |
+
+[↑ Semana 03](../../README.md)
