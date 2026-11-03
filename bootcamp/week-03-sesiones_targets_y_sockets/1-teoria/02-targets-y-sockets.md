@@ -23,7 +23,7 @@ Por eso `.` y `:` no pueden ir en un nombre de sesión: `tmux new -s web.app` cr
 
 ![Flujo de resolución de -t api: id, nombre exacto, prefijo único y patrón; con =api solo se prueba el nombre exacto](../0-assets/02-resolucion-de-un-target.svg)
 
-Sin `=`, si `api` no existe pero `api-vieja` sí, `-t api` encuentra `api-vieja`. En un script, **todo target de sesión lleva `=`**: `has-session -t "=$nombre"`.
+Sin `=`, si `api` no existe pero `api-vieja` sí, `-t api` encuentra `api-vieja`. En un script, **todo target de sesión lleva `=`**: `has-session -t "=$name"`.
 
 Dos comandos se comportan distinto ante un target que no existe: `display-message -p -t X` usa otro objeto y sale con 0; `list-panes -t X` falla. Para validar, `list-panes` o `has-session`.
 

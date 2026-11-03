@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 # Lab 03 — salta a una sesión, dentro o fuera de tmux.
-# Uso: saltar.sh NOMBRE
+# Uso: jump.sh NOMBRE
 set -euo pipefail
 
 tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
 
-nombre="${1:?uso: saltar.sh NOMBRE}"
+name="${1:?uso: jump.sh NOMBRE}"
 
-if ! tmx has-session -t "=$nombre" 2>/dev/null; then
-  echo "no existe la sesión '$nombre'" >&2
+if ! tmx has-session -t "=$name" 2>/dev/null; then
+  echo "no existe la sesión '$name'" >&2
   exit 1
 fi
 
 # Dentro de tmux, attach anidaría un cliente en un panel: se mueve el actual.
 if [[ -n "${TMUX:-}" ]]; then
-  tmx switch-client -t "=$nombre"
+  tmx switch-client -t "=$name"
 else
-  tmx attach-session -t "=$nombre"
+  tmx attach-session -t "=$name"
 fi

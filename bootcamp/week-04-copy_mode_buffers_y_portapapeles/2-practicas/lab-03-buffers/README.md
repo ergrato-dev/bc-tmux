@@ -123,7 +123,7 @@ Crear, listar, pegar, guardar y cargar buffers de tmux, con y sin nombre, y escr
    Con `-a`, `save-buffer` añade al final en vez de sobrescribir. Las rutas
    relativas se resuelven desde el directorio en el que ejecutas `tmux`.
 
-6. **El script** `starter/guardar-buffers.sh`: guarda cada buffer en
+6. **El script** `starter/save-buffers.sh`: guarda cada buffer en
    `DIR/NOMBRE.txt`. En la terminal B, crea antes un buffer con `/` en el
    nombre, que no puede ser nombre de archivo:
    ```bash
@@ -137,17 +137,17 @@ Crear, listar, pegar, guardar y cargar buffers de tmux, con y sin nombre, y escr
       en el starter). Pruébalo con un socket donde no hay servidor
       (`TMUX_SOCKET` cambia el `-L` del script):
       ```bash
-      TMUX_SOCKET=nadie ./starter/guardar-buffers.sh /tmp/buffers; echo $?
+      TMUX_SOCKET=nadie ./starter/save-buffers.sh /tmp/buffers; echo $?
       ```
       ```
-      guardar-buffers.sh: no hay buffers que guardar (¿está arrancado el servidor?)
+      save-buffers.sh: no hay buffers que guardar (¿está arrancado el servidor?)
       1
       ```
    2. **TODO 2**: borra las dos líneas `sin implementar` del final, crea el
       directorio y guarda cada buffer con `save-buffer -b`, cambiando `/` por
       `_` en el nombre del archivo.
       ```bash
-      ./starter/guardar-buffers.sh /tmp/buffers; echo $?
+      ./starter/save-buffers.sh /tmp/buffers; echo $?
       ls /tmp/buffers
       ```
       ```
@@ -161,7 +161,7 @@ Crear, listar, pegar, guardar y cargar buffers de tmux, con y sin nombre, y escr
       ```
    3. **TODO 3**: una línea por buffer guardado.
       ```bash
-      ./starter/guardar-buffers.sh /tmp/buffers
+      ./starter/save-buffers.sh /tmp/buffers
       ```
       Algo como (el tamaño de `hosts` depende de tu `/etc/hosts`):
       ```
@@ -184,7 +184,7 @@ Crear, listar, pegar, guardar y cargar buffers de tmux, con y sin nombre, y escr
    4. Sin avisos de `shellcheck` (instálalo si no lo tienes:
       `sudo apt install shellcheck` o `brew install shellcheck`):
       ```bash
-      shellcheck starter/guardar-buffers.sh; echo $?
+      shellcheck starter/save-buffers.sh; echo $?
       ```
       ```
       0
@@ -196,10 +196,10 @@ Crear, listar, pegar, guardar y cargar buffers de tmux, con y sin nombre, y escr
    ```
    Con el servidor parado, el script avisa igual que en el TODO 1:
    ```bash
-   ./starter/guardar-buffers.sh /tmp/buffers; echo $?
+   ./starter/save-buffers.sh /tmp/buffers; echo $?
    ```
    ```
-   guardar-buffers.sh: no hay buffers que guardar (¿está arrancado el servidor?)
+   save-buffers.sh: no hay buffers que guardar (¿está arrancado el servidor?)
    1
    ```
 
@@ -207,10 +207,10 @@ Crear, listar, pegar, guardar y cargar buffers de tmux, con y sin nombre, y escr
 
 - [ ] Paso 2: con `buffer-limit 3`, los automáticos viejos desaparecen y `url` se queda
 - [ ] Paso 4: explicas la diferencia entre `paste-buffer` con y sin `-p` con lo que viste en la terminal A
-- [ ] Paso 6.3: `./starter/guardar-buffers.sh /tmp/buffers` crea un `.txt` por buffer y `diff` dice `iguales`
+- [ ] Paso 6.3: `./starter/save-buffers.sh /tmp/buffers` crea un `.txt` por buffer y `diff` dice `iguales`
 - [ ] Paso 6.3: el buffer `a/b` se guarda como `a_b.txt`
 - [ ] Pasos 6.1 y 7: sin servidor, el script sale con 1 y avisa por stderr
-- [ ] Paso 6.4: `shellcheck starter/guardar-buffers.sh` no muestra avisos
+- [ ] Paso 6.4: `shellcheck starter/save-buffers.sh` no muestra avisos
 
 ## Reto extra
 

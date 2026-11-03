@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# fake-path — para el autograding. Crea un directorio temporal que sirve de
+# PATH único: enlaza todos los ejecutables de tu PATH salvo las herramientas
+# de portapapeles reales, y añade las falsas que pidas. Imprime el directorio.
+# Uso: fake-path [wl-copy|xclip|xsel|pbcopy|clip.exe|win32yank.exe|darwin]...
+#      "darwin" hace que uname responda Darwin (macOS); sin él responde Linux,
+#      también en un Mac, para que las pruebas no dependan de tu sistema.
+set -euo pipefail
+
+real_tools='^(wl-copy|xclip|xsel|pbcopy|clip\.exe|win32yank\.exe)$'
+dir=$(mktemp -d)
+here=$(cd "$(dirname "$0")" && pwd)
+
+IFS=: read -ra dirs <<<"$PATH"
+for path_dir in "${dirs[@]}"; do
+  [[ -d "$path_dir" ]] || continue
+  for exe in "$path_dir"/*; do
+    name=$(basename "$exe")
+    [[ -x "$exe" && ! -e "$dir/$name" ]] || continue
+    [[ "$name" =~ $real_tools ]] && continue
+    ln -s "$exe" "$dir/$name"
+  done
+done
+
+system=Linux
+for fake in "$@"; do
+  if [[ "$fake" == darwin ]]; then
+    system=Darwin
+  else
+    ln -s "$here/fake-clip" "$dir/$fake"
+  fi
+done
+rm -f "$dir/uname"
+printf '#!/bin/sh\necho %s\n' "$system" >"$dir/uname"
+chmod +x "$dir/uname"
+echo "$dir"

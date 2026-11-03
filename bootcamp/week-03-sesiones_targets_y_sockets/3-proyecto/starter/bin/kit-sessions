@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# kit-sessions — lista las sesiones de tmux y salta entre ellas.
+#
+# Uso: kit-sessions [list]                lista, la usada más recientemente primero
+#      kit-sessions jump NOMBRE           salta a la sesión (attach o switch-client)
+#      kit-sessions new NOMBRE [DIR]      la crea si no existe y salta a ella
+#      kit-sessions group BASE NUEVA      crea NUEVA en el grupo de BASE
+# Salida: 0 bien, 1 la sesión no existe o no hay servidor, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() {
+  sed -n '4,8s/^# \{0,1\}//p' "$0" >&2
+  exit 2
+}
+
+die() { echo "kit-sessions: $*" >&2; exit 1; }
+
+# "=" pide coincidencia exacta: sin él, "-t api" también encuentra "api-2".
+exists() { tmx has-session -t "=$1" 2>/dev/null; }
+
+names() { tmx list-sessions -F '#{session_name}' 2>/dev/null | paste -sd' ' -; }
+
+list_sessions() {
+  # TODO 1: lista sin arrancar un servidor y ordena por actividad (README, Paso a paso 1).
+
+  # TODO 2: imprime "NOMBRE (N ventanas)", en singular si es una (paso 2).
+
+  # TODO 3: marca con " *" la sesión actual si $TMUX es de este servidor (paso 3).
+
+  # Borra estas dos líneas al empezar:
+  echo "kit-sessions list: sin implementar" >&2
+  exit 99
+}
+
+jump() {
+  # TODO 4: salta a la sesión exacta, o falla con las disponibles (paso 4).
+
+  # Borra estas dos líneas al empezar:
+  echo "kit-sessions jump: sin implementar ($1)" >&2
+  exit 99
+}
+
+new_session() {
+  # TODO 5: rechaza nombres con "." o ":" (salida 2), crea si falta y salta (paso 5).
+
+  # Borra estas dos líneas al empezar:
+  echo "kit-sessions new: sin implementar ($*)" >&2
+  exit 99
+}
+
+group() {
+  # TODO 6: crea la nueva en el grupo de la base; falla si no se puede (paso 6).
+
+  # Borra estas dos líneas al empezar:
+  echo "kit-sessions group: sin implementar ($*)" >&2
+  exit 99
+}
+
+case "${1:-list}:$#" in
+  list:0 | list:1) list_sessions ;;
+  jump:2)          jump "$2" ;;
+  new:2)           new_session "$2" ;;
+  new:3)           new_session "$2" "$3" ;;
+  group:3)         group "$2" "$3" ;;
+  *)               usage ;;
+esac

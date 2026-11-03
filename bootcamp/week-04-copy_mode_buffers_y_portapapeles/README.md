@@ -14,11 +14,11 @@ Al terminar esta semana, podrás:
 - Volcar el historial de otro panel con `capture-pane`, eligiendo rango, uniendo líneas y validando el target
 - Conectar `copy-command` a `pbcopy`, `win32yank.exe`/`clip.exe`, `wl-copy` o `xclip` según la plataforma
 - Explicar y depurar OSC 52: `set-clipboard`, la capacidad `Ms`, `load-buffer -w` y por qué atraviesa SSH
-- Añadir a tu `tmux-kit` su primer `tmux.conf` y `bin/kit-copiar`, que copia bien en local y por SSH
+- Añadir a tu `tmux-kit` su primer `tmux.conf` y `bin/kit-copy`, que copia bien en local y por SSH
 
 ## Prerrequisitos
 
-- [Semana 03](../week-03-sesiones_targets_y_sockets/README.md) completada: sesiones, targets y sockets, y `tmux-kit` con `sesiones`
+- [Semana 03](../week-03-sesiones_targets_y_sockets/README.md) completada: sesiones, targets y sockets, y `tmux-kit` con `kit-sessions`
 - Laboratorio Docker construido (`docker compose build`) y dos terminales para el lab 06
 - Una terminal con soporte de OSC 52 para el lab 06: Windows Terminal, iTerm2, kitty, WezTerm, Alacritty o foot
 - `shellcheck` para el proyecto
@@ -46,11 +46,11 @@ Al terminar esta semana, podrás:
 [15 min] Responder las 10 preguntas de Conocimiento
 [60 min] lab-01 — mode-keys, history-limit, búsqueda y clear-history
 [60 min] lab-02 — Space/V/rectángulo, bindings v, C-v e y, copy-command y ratón
-[60 min] lab-03 — Pila de buffers, buffer-limit, bracketed paste y guardar-buffers.sh
-[60 min] lab-04 — capture-pane con -S/-E/-J/-e y capturar.sh
-[60 min] lab-05 — pbcopy, win32yank.exe, xclip y copiar.sh conectado a tmux
+[60 min] lab-03 — Pila de buffers, buffer-limit, bracketed paste y save-buffers.sh
+[60 min] lab-04 — capture-pane con -S/-E/-J/-e y capture.sh
+[60 min] lab-05 — pbcopy, win32yank.exe, xclip y copy.sh conectado a tmux
 [60 min] lab-06 — Depurar una config que copia con OSC 52
-[3 h]    Proyecto: tmux.conf + kit-copiar, en local y por SSH
+[3 h]    Proyecto: tmux.conf + kit-copy, en local y por SSH
 ```
 
 ## Verificación de completitud
@@ -66,7 +66,7 @@ verificables de la semana, dentro del laboratorio Docker. Al terminar deben
 pasar todos, y en tu máquina esto debe acabar en tu portapapeles:
 
 ```bash
-printf 'año' | 3-proyecto/starter/bin/kit-copiar     # Ctrl+V pega "año"
+printf 'año' | 3-proyecto/starter/bin/kit-copy     # Ctrl+V pega "año"
 ```
 
 ## 🔗 Navegación

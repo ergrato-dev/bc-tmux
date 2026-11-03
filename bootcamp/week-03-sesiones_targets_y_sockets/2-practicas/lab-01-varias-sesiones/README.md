@@ -158,31 +158,31 @@ Crear y organizar varias sesiones, moverte entre ellas con `choose-tree` y cerra
    no debe dejarte un servidor vacío: por eso pregunta con `list-sessions` o
    `has-session`, nunca con `new-session`.
 
-9. **Prepara el escenario de `starter/limpiar.sh`.** El script cerrará las
+9. **Prepara el escenario de `starter/cleanup.sh`.** El script cerrará las
    sesiones cuyo nombre empieza por un prefijo y que **no tienen clientes**.
    En la terminal B:
    ```bash
    tmux -L lab kill-server
    for s in tmp-1 tmp-2 tmpfiles api; do tmux -L lab -f /dev/null new -d -s "$s"; done
-   ./starter/limpiar.sh tmp-; echo $?
+   ./starter/cleanup.sh tmp-; echo $?
    ```
    ```
-   limpiar.sh: sin implementar (tmp-)
+   cleanup.sh: sin implementar (tmp-)
    0
    ```
-   Abre `starter/limpiar.sh` con tu editor. Borra la línea
-   `echo "limpiar.sh: sin implementar ..."` antes de empezar.
+   Abre `starter/cleanup.sh` con tu editor. Borra la línea
+   `echo "cleanup.sh: sin implementar ..."` antes de empezar.
 
 10. **TODO 1: leer la lista.** Guarda en una variable el nombre y los
     clientes de cada sesión, y de momento imprímela para comprobarla:
     ```bash
-    sesiones=$(tmx list-sessions -F '#{session_name} #{session_attached}')
-    echo "$sesiones"    # temporal: lo quitas en el TODO 2
+    sessions=$(tmx list-sessions -F '#{session_name} #{session_attached}')
+    echo "$sessions"    # temporal: lo quitas en el TODO 2
     ```
     Se lee la lista entera antes de cerrar nada: así no recorres una lista
     que cambia mientras cierras. Prueba:
     ```bash
-    ./starter/limpiar.sh tmp-
+    ./starter/cleanup.sh tmp-
     ```
     ```
     api 0
@@ -191,22 +191,22 @@ Crear y organizar varias sesiones, moverte entre ellas con `choose-tree` y cerra
     tmpfiles 0
     ```
 
-11. **TODO 2: cerrar las que tocan.** Quita el `echo "$sesiones"` y recorre la
+11. **TODO 2: cerrar las que tocan.** Quita el `echo "$sessions"` y recorre la
     variable línea a línea:
     ```bash
-    while read -r nombre clientes; do
-      if [[ "$nombre" == "$prefijo"* ]] && (( clientes == 0 )); then
+    while read -r name clients; do
+      if [[ "$name" == "$prefix"* ]] && (( clients == 0 )); then
         # ... kill-session y echo
       fi
-    done <<<"$sesiones"
+    done <<<"$sessions"
     ```
-    Dentro del `if`: `tmx kill-session -t "=$nombre"` y
-    `echo "cerrada: $nombre"`. El `=` pide el nombre exacto (lo verás a fondo
-    en el lab 02); las comillas en `"$prefijo"` hacen que un `*` del prefijo
+    Dentro del `if`: `tmx kill-session -t "=$name"` y
+    `echo "cerrada: $name"`. El `=` pide el nombre exacto (lo verás a fondo
+    en el lab 02); las comillas en `"$prefix"` hacen que un `*` del prefijo
     sea literal. Prueba (el TODO 1 solo imprimía: las cuatro sesiones siguen
     vivas):
     ```bash
-    ./starter/limpiar.sh tmp-
+    ./starter/cleanup.sh tmp-
     tmux -L lab ls -F '#{session_name}'
     ```
     ```
@@ -227,7 +227,7 @@ Crear y organizar varias sesiones, moverte entre ellas con `choose-tree` y cerra
     ```bash
     tmux -L lab kill-server
     for s in tmp-1 tmp-2 tmpfiles api; do tmux -L lab -f /dev/null new -d -s "$s"; done
-    ./starter/limpiar.sh tmp-
+    ./starter/cleanup.sh tmp-
     ```
     ```
     cerrada: tmp-1
@@ -243,7 +243,7 @@ Crear y organizar varias sesiones, moverte entre ellas con `choose-tree` y cerra
     ```
     En la terminal B:
     ```bash
-    ./starter/limpiar.sh tmp-
+    ./starter/cleanup.sh tmp-
     ```
     ```
     quedan: api tmp-3 tmpfiles
@@ -266,8 +266,8 @@ Crear y organizar varias sesiones, moverte entre ellas con `choose-tree` y cerra
 - [ ] Saltaste entre sesiones con `C-b` `s` / `C-b` `w` y cerraste `tmp-x` desde el árbol con `x` + `y` (pasos 3 y 4)
 - [ ] Renombraste la sesión con `C-b` `$` borrando el texto relleno con `C-u` (paso 5)
 - [ ] Mostraste que `ls` y `has-session` no crean el socket y `new-session` sí (paso 8)
-- [ ] `./starter/limpiar.sh tmp-` imprime las tres líneas del paso 12
-- [ ] Con un cliente en `tmp-3`, `limpiar.sh` no la cierra (paso 13)
+- [ ] `./starter/cleanup.sh tmp-` imprime las tres líneas del paso 12
+- [ ] Con un cliente en `tmp-3`, `cleanup.sh` no la cierra (paso 13)
 
 ## Reto extra
 

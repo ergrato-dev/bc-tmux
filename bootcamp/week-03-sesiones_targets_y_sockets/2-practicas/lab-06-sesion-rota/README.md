@@ -8,7 +8,7 @@ Encontrar y corregir los cuatro errores de un script que abre la sesión de un p
 
 ## Contexto
 
-Un compañero escribió `starter/proyecto.sh`: recibe el directorio de un
+Un compañero escribió `starter/project.sh`: recibe el directorio de un
 proyecto y te lleva a una sesión con su nombre, creándola si no existe. Lo
 usa a diario y "va bien". Tú tienes más sesiones que él, algunas con nombres
 parecidos, y trabajas siempre dentro de tmux. El script tiene **cuatro
@@ -26,13 +26,13 @@ y causa) a medida que lo encuentres.
    servidor del lab (`-L lab`) arranca con `-f /dev/null`: el prefix es `C-b`.
 
 1. **El escenario.** El script te cambiará de sesión, y cada sesión tiene su
-   propio panel en su propio directorio: `./starter/proyecto.sh` dejará de
+   propio panel en su propio directorio: `./starter/project.sh` dejará de
    existir en cuanto saltes a `/tmp/proy/api`. Por eso guardas la ruta
    absoluta en `S` **antes** de arrancar el servidor: tmux copia el entorno de
    la terminal que lo arranca, y todos sus paneles heredan `S`. En la
    terminal B:
    ```bash
-   export S="$PWD/starter/proyecto.sh"
+   export S="$PWD/starter/project.sh"
    mkdir -p /tmp/proy/api /tmp/proy/web.app
    tmux -L lab -f /dev/null new -d -s api-vieja
    tmux -L lab new -d -s otra
@@ -48,7 +48,7 @@ y causa) a medida que lo encuentres.
    echo "$S"
    ```
    ```
-   /ruta/a/bc-tmux/bootcamp/week-03-sesiones_targets_y_sockets/2-practicas/lab-06-sesion-rota/starter/proyecto.sh
+   /ruta/a/bc-tmux/bootcamp/week-03-sesiones_targets_y_sockets/2-practicas/lab-06-sesion-rota/starter/project.sh
    ```
    (Algo como: el principio depende de dónde clonaste el repo.) Desde aquí,
    los comandos `"$S" ...` se escriben en el panel de la terminal A.
@@ -62,13 +62,13 @@ y causa) a medida que lo encuentres.
    1
    ```
    Dentro de tmux no se conecta un cliente nuevo: se cambia el actual de
-   sesión. Abre `starter/proyecto.sh` con tu editor y sustituye la última
-   línea (`tmx attach-session -t "$nombre"`) por:
+   sesión. Abre `starter/project.sh` con tu editor y sustituye la última
+   línea (`tmx attach-session -t "$name"`) por:
    ```bash
    if [[ -n "${TMUX:-}" ]]; then
-     tmx switch-client -t "$nombre"
+     tmx switch-client -t "$name"
    else
-     tmx attach-session -t "$nombre"
+     tmx attach-session -t "$name"
    fi
    ```
 
@@ -90,7 +90,7 @@ y causa) a medida que lo encuentres.
    `grep` encuentra `api` dentro de `api-vieja: 1 windows...`. Cambia la
    comprobación del script por una pregunta concreta a tmux:
    ```bash
-   if ! tmx has-session -t "$nombre" 2>/dev/null; then
+   if ! tmx has-session -t "$name" 2>/dev/null; then
    ```
    Vuelve a `otra` desde el panel de la terminal A:
    ```bash
@@ -103,7 +103,7 @@ y causa) a medida que lo encuentres.
    ```
    La barra sigue diciendo `[api-vieja]`. Recuerda el lab 02: sin `=`, el
    target coincide por prefijo, y `has-session -t api` encuentra `api-vieja`.
-   Pon `-t "=$nombre"` en **los tres** targets del script (`has-session`,
+   Pon `-t "=$name"` en **los tres** targets del script (`has-session`,
    `switch-client` y `attach-session`). Vuelve a `otra` y prueba:
    ```bash
    tmux -L lab switch-client -t =otra
@@ -114,7 +114,7 @@ y causa) a medida que lo encuentres.
    /tmp/proy/api
    ```
    La barra dice `[api]`, y estás en el panel de la sesión nueva, en el
-   directorio del proyecto: aquí `./starter/proyecto.sh` no existe, `"$S"` sí.
+   directorio del proyecto: aquí `./starter/project.sh` no existe, `"$S"` sí.
 
 5. **Error 4.** Prueba el segundo proyecto, dos veces:
    ```bash
@@ -141,9 +141,9 @@ y causa) a medida que lo encuentres.
    ella: el target `=web.app` se lee como sesión `web`, panel `app`. La
    segunda vez `has-session -t =web.app` tampoco la encontró e intentó crearla
    otra vez. Convierte el nombre antes de usarlo; justo después de la línea
-   `nombre=$(basename "$dir")`, añade:
+   `name=$(basename "$dir")`, añade:
    ```bash
-   nombre=${nombre//[.:]/_}
+   name=${name//[.:]/_}
    ```
    `${var//patrón/reemplazo}` sustituye todas las apariciones.
 

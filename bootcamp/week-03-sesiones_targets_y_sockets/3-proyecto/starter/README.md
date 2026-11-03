@@ -18,7 +18,7 @@ diario en Ubuntu 24.04 (WSL2). Crece una semana a la vez durante el bootcamp.
 | `bin/check-version` | Comprueba que tmux cumple la versión mínima. Sale con 0 (cumple), 1 (vieja) o 2 (no está) | `bin/check-version 3.5` |
 | `bin/kit-tree` | Dibuja servidor > sesiones > ventanas > paneles. Nunca arranca un servidor | `TMUX_SOCKET=lab bin/kit-tree` |
 | `bin/kit-layout` | Crea la ventana `trabajo` (editor a la izquierda, shell y logs a la derecha) y guarda o carga layouts | `bin/kit-layout new api ~/src/api` |
-| `bin/sesiones` | <!-- TODO --> | <!-- TODO --> |
+| `bin/kit-sessions` | <!-- TODO --> | <!-- TODO --> |
 
 Todos respetan `TMUX_BIN` (qué binario de tmux usar), y los que hablan con un
 servidor respetan `TMUX_SOCKET` (qué servidor, como `tmux -L`).

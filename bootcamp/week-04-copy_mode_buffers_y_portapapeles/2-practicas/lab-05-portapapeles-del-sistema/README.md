@@ -9,8 +9,8 @@ Llevar lo que copias en tmux al portapapeles de tu sistema con la herramienta co
 ## Contexto
 
 - Cada sistema tiene su herramienta y su trampa: `clip.exe` rompe la ñ, `xclip` sin opciones copia en la selección equivocada, WSL con WSLg también define `DISPLAY`.
-- `copiar.sh` recibe el texto por stdin y elige la herramienta. tmux lo llama desde `copy-command`, así que `y`, `Enter` y el ratón copian al mismo sitio.
-- Los pasos 1 y 2 se hacen **en tu máquina**: el contenedor del laboratorio no tiene portapapeles. Del 3 al 6 funcionan en los dos sitios, con herramientas falsas que anotan lo que reciben (`3-proyecto/tests/path-falso`).
+- `copy.sh` recibe el texto por stdin y elige la herramienta. tmux lo llama desde `copy-command`, así que `y`, `Enter` y el ratón copian al mismo sitio.
+- Los pasos 1 y 2 se hacen **en tu máquina**: el contenedor del laboratorio no tiene portapapeles. Del 3 al 6 funcionan en los dos sitios, con herramientas falsas que anotan lo que reciben (`3-proyecto/tests/fake-path`).
 
 ## Instrucciones
 
@@ -18,7 +18,7 @@ Llevar lo que copias en tmux al portapapeles de tu sistema con la herramienta co
    vacía) en tu máquina, no en el laboratorio. Desde la raíz del repositorio:
    ```bash
    cd bootcamp/week-04-copy_mode_buffers_y_portapapeles/2-practicas/lab-05-portapapeles-del-sistema
-   F="$PWD/../../3-proyecto/tests/path-falso"
+   F="$PWD/../../3-proyecto/tests/fake-path"
    ```
    `F` se usa en los pasos 3 a 6. Servidor aparte: `-L lab`.
 
@@ -34,7 +34,7 @@ Llevar lo que copias en tmux al portapapeles de tu sistema con la herramienta co
    | `DISPLAY=:0` y nada más | Linux con X11 | `xclip` o `xsel` | 2.4 |
    | `Linux` y las tres vacías | Contenedor o SSH | ninguna: OSC 52 (lab 06) | 3 |
 
-   En WSL con WSLg verás las tres variables: por eso `copiar.sh` mira WSL
+   En WSL con WSLg verás las tres variables: por eso `copy.sh` mira WSL
    primero.
 
 2. **Tu herramienta, sin tmux.** Haz solo el subpaso de tu sistema.
@@ -98,7 +98,7 @@ Llevar lo que copias en tmux al portapapeles de tu sistema con la herramienta co
       año
       ```
       (La primera línea solo si no lo tenías: esa es la trampa, el error que
-      verá `copiar.sh`.) Pega con `Ctrl+V` en el navegador.
+      verá `copy.sh`.) Pega con `Ctrl+V` en el navegador.
    4. **X11: dos portapapeles.** Instala `xclip`, copia sin opciones e
       intenta leer el portapapeles de `Ctrl+V`:
       ```bash
@@ -120,67 +120,67 @@ Llevar lo que copias en tmux al portapapeles de tu sistema con la herramienta co
       hola
       ```
 
-3. **TODO 1** de `starter/copiar.sh` (WSL): borra la línea
-   `falta "WSL sin implementar"` y usa `win32yank.exe -i` si está,
+3. **TODO 1** de `starter/copy.sh` (WSL): borra la línea
+   `missing "WSL sin implementar"` y usa `win32yank.exe -i` si está,
    `clip.exe` si no (la pista exacta está en el starter). Pruébalo en
-   cualquier sistema con `path-falso`: crea un `PATH` donde las herramientas
-   de portapapeles son falsas y guardan su entrada en `NOMBRE.datos` y sus
+   cualquier sistema con `fake-path`: crea un `PATH` donde las herramientas
+   de portapapeles son falsas y guardan su entrada en `NOMBRE.data` y sus
    argumentos en `NOMBRE.args`. `env -i` vacía el entorno: así decides qué
    sistema "ve" el script.
    ```bash
-   f=$("$F" clip.exe win32yank.exe); printf año | env -i PATH="$f" WSL_DISTRO_NAME=Ubuntu ./starter/copiar.sh; ls "$f" | grep datos
-   f=$("$F" clip.exe); printf año | env -i PATH="$f" WSL_DISTRO_NAME=Ubuntu ./starter/copiar.sh; ls "$f" | grep datos
-   f=$("$F"); printf año | env -i PATH="$f" WSL_DISTRO_NAME=Ubuntu ./starter/copiar.sh; echo $?
+   f=$("$F" clip.exe win32yank.exe); printf año | env -i PATH="$f" WSL_DISTRO_NAME=Ubuntu ./starter/copy.sh; ls "$f" | grep '\.data$'
+   f=$("$F" clip.exe); printf año | env -i PATH="$f" WSL_DISTRO_NAME=Ubuntu ./starter/copy.sh; ls "$f" | grep '\.data$'
+   f=$("$F"); printf año | env -i PATH="$f" WSL_DISTRO_NAME=Ubuntu ./starter/copy.sh; echo $?
    ```
    ```
-   win32yank.exe.datos
-   clip.exe.datos
-   copiar.sh: no encuentro clip.exe: ¿está activada la interoperabilidad de WSL?
+   win32yank.exe.data
+   clip.exe.data
+   copy.sh: no encuentro clip.exe: ¿está activada la interoperabilidad de WSL?
    1
    ```
    Con las dos herramientas, solo `win32yank.exe` recibe el texto.
 
-4. **TODO 2** (X11): borra `falta "X11 sin implementar"` y usa
+4. **TODO 2** (X11): borra `missing "X11 sin implementar"` y usa
    `xclip -selection clipboard`, o `xsel --clipboard --input` si no hay
    `xclip`.
    ```bash
-   f=$("$F" xclip); printf hola | env -i PATH="$f" DISPLAY=:0 ./starter/copiar.sh; cat "$f/xclip.datos"; echo; cat "$f/xclip.args"
-   f=$("$F" xsel); printf hola | env -i PATH="$f" DISPLAY=:0 ./starter/copiar.sh; cat "$f/xsel.datos"; echo; cat "$f/xsel.args"
-   f=$("$F"); printf x | env -i PATH="$f" DISPLAY=:0 ./starter/copiar.sh; echo $?
+   f=$("$F" xclip); printf hola | env -i PATH="$f" DISPLAY=:0 ./starter/copy.sh; cat "$f/xclip.data"; echo; cat "$f/xclip.args"
+   f=$("$F" xsel); printf hola | env -i PATH="$f" DISPLAY=:0 ./starter/copy.sh; cat "$f/xsel.data"; echo; cat "$f/xsel.args"
+   f=$("$F"); printf x | env -i PATH="$f" DISPLAY=:0 ./starter/copy.sh; echo $?
    ```
    ```
    hola
    -selection clipboard
    hola
    --clipboard --input
-   copiar.sh: instala xclip (sudo apt install xclip)
+   copy.sh: instala xclip (sudo apt install xclip)
    1
    ```
-   Cada herramienta recibió `hola` por stdin (`.datos`) y sus opciones
+   Cada herramienta recibió `hola` por stdin (`.data`) y sus opciones
    (`.args`). Las ramas de Wayland y "sin portapapeles" ya venían hechas:
    ```bash
-   f=$("$F" wl-copy); printf hola | env -i PATH="$f" WAYLAND_DISPLAY=wayland-0 ./starter/copiar.sh; cat "$f/wl-copy.datos"; echo
-   f=$("$F"); printf x | env -i PATH="$f" ./starter/copiar.sh; echo $?
+   f=$("$F" wl-copy); printf hola | env -i PATH="$f" WAYLAND_DISPLAY=wayland-0 ./starter/copy.sh; cat "$f/wl-copy.data"; echo
+   f=$("$F"); printf x | env -i PATH="$f" ./starter/copy.sh; echo $?
    ```
    ```
    hola
-   copiar.sh: no hay portapapeles gráfico (¿SSH o contenedor?): lo resuelve OSC 52, en el lab 06
+   copy.sh: no hay portapapeles gráfico (¿SSH o contenedor?): lo resuelve OSC 52, en el lab 06
    1
    ```
-   Y `shellcheck starter/copiar.sh; echo $?` imprime `0` (instálalo con
+   Y `shellcheck starter/copy.sh; echo $?` imprime `0` (instálalo con
    `sudo apt install shellcheck` o `brew install shellcheck`).
 
-5. **TODO 3** de `starter/tmux.conf`: `copy-command` apunta a `copiar.sh`.
-   Pista: `set -sF copy-command "#{d:current_file}/copiar.sh"`. Mira qué
+5. **TODO 3** de `starter/tmux.conf`: `copy-command` apunta a `copy.sh`.
+   Pista: `set -sF copy-command "#{d:current_file}/copy.sh"`. Mira qué
    ruta queda con un `-f` relativo:
    ```bash
    tmux -L lab -f starter/tmux.conf new -d \; show -sv copy-command
    ```
    ```
-   starter/copiar.sh
+   starter/copy.sh
    ```
    Relativa: `current_file` es la ruta que pasaste a `-f`, tal cual. Y tmux
-   ejecuta `copy-command` desde tu `$HOME`, donde `starter/copiar.sh` no
+   ejecuta `copy-command` desde tu `$HOME`, donde `starter/copy.sh` no
    existe: copiarías sin error visible y sin resultado. Con ruta absoluta:
    ```bash
    tmux -L lab kill-server
@@ -188,7 +188,7 @@ Llevar lo que copias en tmux al portapapeles de tu sistema con la herramienta co
    ```
    Algo como (tu ruta hasta el repositorio):
    ```
-   /home/tú/bc-tmux/bootcamp/week-04-copy_mode_buffers_y_portapapeles/2-practicas/lab-05-portapapeles-del-sistema/starter/copiar.sh
+   /home/tú/bc-tmux/bootcamp/week-04-copy_mode_buffers_y_portapapeles/2-practicas/lab-05-portapapeles-del-sistema/starter/copy.sh
    ```
    Al instalar el kit en `~/.config/tmux` la ruta ya es absoluta. Para el
    paso siguiente, para este servidor:
@@ -212,7 +212,7 @@ Llevar lo que copias en tmux al portapapeles de tu sistema con la herramienta co
      [detached (from session 0)]
      ```
    - **En el laboratorio**, con herramientas falsas. El servidor hereda el
-     entorno de `env -i`: tmux y `copiar.sh` creen que estás en X11.
+     entorno de `env -i`: tmux y `copy.sh` creen que estás en X11.
      ```bash
      f=$("$F" xclip)
      env -i PATH="$f" HOME="$HOME" TERM="$TERM" DISPLAY=:0 tmux -L lab -f "$PWD/starter/tmux.conf"
@@ -220,7 +220,7 @@ Llevar lo que copias en tmux al portapapeles de tu sistema con la herramienta co
      Ya conectado: `echo hola`, y las mismas teclas: `C-b` `[`, `?` `hola`
      `Enter`, `v`, `e`, `y`. Sal con `C-b` `d` y, fuera:
      ```bash
-     cat "$f/xclip.datos"; echo; cat "$f/xclip.args"
+     cat "$f/xclip.data"; echo; cat "$f/xclip.args"
      ```
      ```
      hola
@@ -237,13 +237,13 @@ Llevar lo que copias en tmux al portapapeles de tu sistema con la herramienta co
 
 ## Criterios de éxito
 
-- [ ] Paso 1: explicas qué sistema tienes y por qué `copiar.sh` mira WSL antes que Wayland
+- [ ] Paso 1: explicas qué sistema tienes y por qué `copy.sh` mira WSL antes que Wayland
 - [ ] Paso 2: reproduces la trampa de tu sistema (la ñ con `clip.exe`, PRIMARY con `xclip`, `wl-copy` que falta) y la resuelves
-- [ ] Pasos 3 y 4: las pruebas con `path-falso` dan la salida esperada y `shellcheck` no avisa
-- [ ] Paso 5: `show -sv copy-command` imprime una ruta absoluta que termina en `/copiar.sh`, y explicas por qué con `-f starter/tmux.conf` no lo es
-- [ ] Paso 6: copias en copy mode y pegas fuera de tmux con `Ctrl+V` (o, en el laboratorio, `xclip.datos` tiene `hola`)
+- [ ] Pasos 3 y 4: las pruebas con `fake-path` dan la salida esperada y `shellcheck` no avisa
+- [ ] Paso 5: `show -sv copy-command` imprime una ruta absoluta que termina en `/copy.sh`, y explicas por qué con `-f starter/tmux.conf` no lo es
+- [ ] Paso 6: copias en copy mode y pegas fuera de tmux con `Ctrl+V` (o, en el laboratorio, `xclip.data` tiene `hola`)
 
 ## Reto extra
 
-Entra por SSH a otra máquina (o a `localhost`) y prueba allí `copiar.sh`. ¿En
+Entra por SSH a otra máquina (o a `localhost`) y prueba allí `copy.sh`. ¿En
 el portapapeles de qué máquina acaba el texto? El lab 06 lo resuelve.

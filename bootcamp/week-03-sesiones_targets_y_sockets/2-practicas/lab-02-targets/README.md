@@ -149,37 +149,37 @@ Apuntar con `-t` a cualquier sesión, ventana o panel, validar que el target exi
    como sesión `web`, panel `app`. Un script que crea sesiones con el nombre
    de un directorio debe rechazar o sustituir esos caracteres.
 
-7. **El escenario de `starter/resolver.sh`.** El script recibe un target,
+7. **El escenario de `starter/resolve.sh`.** El script recibe un target,
    comprueba que existe y dice exactamente a qué apunta. Reinicia el servidor
    (los ids vuelven a empezar en 0) y pruébalo tal como viene:
    ```bash
    tmux -L lab kill-server
    tmux -L lab -f /dev/null new -d -s api -n editor \; new-window -d -n logs \; split-window -d -t :logs
-   ./starter/resolver.sh api:logs.1; echo $?
+   ./starter/resolve.sh api:logs.1; echo $?
    ```
    ```
-   resolver.sh: sin implementar (api:logs.1)
+   resolve.sh: sin implementar (api:logs.1)
    0
    ```
    `\;` encadena varios comandos en una sola llamada a tmux. Abre
-   `starter/resolver.sh` con tu editor y borra la línea
-   `echo "resolver.sh: sin implementar ..."`.
+   `starter/resolve.sh` con tu editor y borra la línea
+   `echo "resolve.sh: sin implementar ..."`.
 
 8. **TODO 1: validar.** Si `list-panes` falla, el target no existe:
    ```bash
    if ! tmx list-panes -t "$target" >/dev/null 2>&1; then
-     echo "resolver.sh: no existe el target '$target'" >&2
+     echo "resolve.sh: no existe el target '$target'" >&2
      exit 1
    fi
    ```
    `>/dev/null 2>&1` calla la lista y el error de tmux: el mensaje lo das tú.
    Prueba:
    ```bash
-   ./starter/resolver.sh api:9; echo $?
-   ./starter/resolver.sh api:logs.1; echo $?
+   ./starter/resolve.sh api:9; echo $?
+   ./starter/resolve.sh api:logs.1; echo $?
    ```
    ```
-   resolver.sh: no existe el target 'api:9'
+   resolve.sh: no existe el target 'api:9'
    1
    0
    ```
@@ -193,14 +193,14 @@ Apuntar con `-t` a cualquier sesión, ventana o panel, validar que el target exi
    (dos espacios entre campos; va entre comillas simples para que bash no
    toque los `#{}`). Prueba:
    ```bash
-   ./starter/resolver.sh api:logs.1
-   ./starter/resolver.sh api
-   ./starter/resolver.sh api:9; echo $?
+   ./starter/resolve.sh api:logs.1
+   ./starter/resolve.sh api
+   ./starter/resolve.sh api:9; echo $?
    ```
    ```
    api:1.1  sesión $0  ventana @1  panel %2
    api:0.0  sesión $0  ventana @0  panel %0
-   resolver.sh: no existe el target 'api:9'
+   resolve.sh: no existe el target 'api:9'
    1
    ```
 
@@ -218,10 +218,10 @@ Apuntar con `-t` a cualquier sesión, ventana o panel, validar que el target exi
 - [ ] Mostraste que `display -p` sale con 0 con un target que no existe y `list-panes` con 1 (paso 3)
 - [ ] Reprodujiste el `kill-session -t api` que cierra `api-2` y lo evitas con `=` (paso 4)
 - [ ] Explicas por qué `web.app` no sirve como nombre de sesión (paso 6)
-- [ ] `./starter/resolver.sh` da las salidas del paso 9
+- [ ] `./starter/resolve.sh` da las salidas del paso 9
 
 ## Reto extra
 
-Haz que `resolver.sh` acepte `-s` para resolver solo sesiones con
+Haz que `resolve.sh` acepte `-s` para resolver solo sesiones con
 `has-session -t "=$1"` y explique, si falla, si había una sesión que empezaba
 igual (pista: `has-session -t "$1"` sin `=`).

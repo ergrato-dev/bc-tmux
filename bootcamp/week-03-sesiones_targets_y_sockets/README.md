@@ -14,7 +14,7 @@ Al terminar esta semana, podrás:
 - Validar un target antes de usarlo, sabiendo que `display-message` no falla
 - Agrupar sesiones que comparten ventanas con su propia ventana actual
 - Elegir el socket con `-L`, `-S` o `TMUX_TMPDIR`, leer `$TMUX` y recuperar un socket borrado
-- Añadir a tu `tmux-kit` el script `sesiones` para listar, saltar, crear y agrupar sesiones
+- Añadir a tu `tmux-kit` el script `kit-sessions` para listar, saltar, crear y agrupar sesiones
 
 ## Prerrequisitos
 
@@ -44,7 +44,7 @@ Al terminar esta semana, podrás:
 [45 min] Leer 1-teoria/ (sesiones y grupos + targets y sockets)
 [15 min] Responder las 10 preguntas de Conocimiento
 [60 min] lab-01 — Varias sesiones, choose-tree y limpiar las que sobran
-[60 min] lab-02 — Targets, el prefijo traicionero y resolver.sh
+[60 min] lab-02 — Targets, el prefijo traicionero y resolve.sh
 [60 min] lab-03 — prefix ( ) L, filtros, detach-on-destroy y switch-client
 [60 min] lab-04 — Dos clientes frente a un grupo de sesiones
 [60 min] lab-05 — -L, -S, TMUX_TMPDIR, $TMUX y el socket borrado
@@ -65,8 +65,8 @@ verificables de la semana, dentro del laboratorio Docker. Al terminar deben
 pasar todos, y esto debe funcionar en tu equipo, fuera y dentro de tmux:
 
 ```bash
-TMUX_SOCKET=kit 3-proyecto/starter/bin/sesiones nueva prueba /tmp
-TMUX_SOCKET=kit 3-proyecto/starter/bin/sesiones
+TMUX_SOCKET=kit 3-proyecto/starter/bin/kit-sessions new prueba /tmp
+TMUX_SOCKET=kit 3-proyecto/starter/bin/kit-sessions
 tmux -L kit kill-server
 ```
 

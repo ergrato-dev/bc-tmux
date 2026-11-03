@@ -123,31 +123,31 @@ Saltar entre sesiones con teclas, con filtros y con `switch-client`, y saber qu�
    El segundo no imprime nada y la barra pasa a `[web]`. `switch-client` sin
    `-c` mueve el cliente que está mirando el panel desde el que lo ejecutas.
 
-8. **El escenario de `starter/saltar.sh`.** El script recibe un nombre de
+8. **El escenario de `starter/jump.sh`.** El script recibe un nombre de
    sesión y te lleva a ella con el comando correcto según estés dentro
    (`$TMUX` no vacío) o fuera de tmux. Pruébalo en la terminal B tal como
    viene:
    ```bash
-   ./starter/saltar.sh notas; echo $?
+   ./starter/jump.sh notas; echo $?
    ```
    ```
-   saltar.sh: sin implementar (notas)
+   jump.sh: sin implementar (notas)
    0
    ```
-   Abre `starter/saltar.sh` con tu editor y borra la línea
-   `echo "saltar.sh: sin implementar ..."`.
+   Abre `starter/jump.sh` con tu editor y borra la línea
+   `echo "jump.sh: sin implementar ..."`.
 
 9. **TODO 1: la sesión existe.** Pista:
    ```bash
-   if ! tmx has-session -t "=$nombre" 2>/dev/null; then
-     echo "no existe la sesión '$nombre'" >&2
+   if ! tmx has-session -t "=$name" 2>/dev/null; then
+     echo "no existe la sesión '$name'" >&2
      exit 1
    fi
    ```
    Prueba en la terminal B:
    ```bash
-   ./starter/saltar.sh nada; echo $?
-   ./starter/saltar.sh not; echo $?
+   ./starter/jump.sh nada; echo $?
+   ./starter/jump.sh not; echo $?
    ```
    ```
    no existe la sesión 'nada'
@@ -158,12 +158,12 @@ Saltar entre sesiones con teclas, con filtros y con `switch-client`, y saber qu�
    Gracias al `=`, `not` no encuentra `notas` por prefijo.
 
 10. **TODO 2: el comando según dónde estés.**
-    `if [[ -n "${TMUX:-}" ]]; then` → `tmx switch-client -t "=$nombre"`;
-    `else` → `tmx attach-session -t "=$nombre"`. `${TMUX:-}` evita que
+    `if [[ -n "${TMUX:-}" ]]; then` → `tmx switch-client -t "=$name"`;
+    `else` → `tmx attach-session -t "=$name"`. `${TMUX:-}` evita que
     `set -u` aborte el script cuando la variable no existe. Prueba primero
     **dentro**: en la terminal A (estás en `web`), en el panel:
     ```bash
-    ./starter/saltar.sh notas
+    ./starter/jump.sh notas
     ```
     No imprime nada y la barra pasa a `[notas]`. Desconéctate con `C-b` `d`:
     ```
@@ -171,7 +171,7 @@ Saltar entre sesiones con teclas, con filtros y con `switch-client`, y saber qu�
     ```
     Ahora **fuera**, en la misma terminal A:
     ```bash
-    ./starter/saltar.sh web
+    ./starter/jump.sh web
     ```
     Te conecta a `web` (`[web]` en la barra). Sal con `C-b` `d`:
     ```
@@ -192,7 +192,7 @@ Saltar entre sesiones con teclas, con filtros y con `switch-client`, y saber qu�
 - [ ] Filtraste el árbol con `-f` y cambiaste el orden con `O` (paso 4)
 - [ ] Explicas la diferencia entre `detach-on-destroy on` y `off` con lo que pasó en los pasos 5 y 6
 - [ ] Viste el error de anidado y lo evitaste con `switch-client` (paso 7)
-- [ ] `saltar.sh` sale con 1 si la sesión no existe (paso 9) y funciona dentro y fuera de tmux (paso 10)
+- [ ] `jump.sh` sale con 1 si la sesión no existe (paso 9) y funciona dentro y fuera de tmux (paso 10)
 
 ## Reto extra
 

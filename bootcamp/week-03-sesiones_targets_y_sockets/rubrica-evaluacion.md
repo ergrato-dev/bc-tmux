@@ -12,7 +12,7 @@
 |---|:--:|---|
 | 🧠 Conocimiento | 30% | Las 10 preguntas de esta rúbrica, respondidas por escrito |
 | 💪 Desempeño | 40% | Los 6 labs, con sus criterios de éxito verificados en tu máquina o en el laboratorio |
-| 📦 Producto | 30% | `tmux-kit` con `sesiones`: 60 pts de autograding + 40 pts de calidad |
+| 📦 Producto | 30% | `tmux-kit` con `kit-sessions`: 60 pts de autograding + 40 pts de calidad |
 
 **Mínimo 70% en cada evidencia.** No en el promedio.
 
@@ -37,10 +37,10 @@ Diez preguntas, 3 puntos cada una. Se pide explicar por qué, no recordar teclas
 | 4 | Un script crea una sesión con el nombre de un directorio, `web.app`, y después no la encuentra. ¿Qué hizo tmux con el nombre y cómo se lee el target `web.app`? |
 | 5 | `display-message -p -t api:9 '#{window_index}'` imprime `0` y sale con 0 aunque la ventana 9 no existe. ¿Qué comando usarías para validar el target antes y por qué? |
 | 6 | Dos clientes en la misma sesión frente a dos sesiones del mismo grupo: ¿qué comparten y qué no? Da un caso en el que elegirías cada uno. |
-| 7 | `sesiones` marca la sesión actual solo si `${TMUX%%,*}` coincide con `#{socket_path}`. ¿Qué marcaría mal si solo comprobara que `$TMUX` no está vacío? |
+| 7 | `kit-sessions` marca la sesión actual solo si `${TMUX%%,*}` coincide con `#{socket_path}`. ¿Qué marcaría mal si solo comprobara que `$TMUX` no está vacío? |
 | 8 | Algo borró `/tmp/tmux-1000/default` mientras trabajabas. `tmux ls` dice que no puede conectar. ¿Perdiste tus sesiones? ¿Cómo vuelves a entrar? |
 | 9 | ¿Qué diferencia hay entre `tmux -L par` y `tmux -S /tmp/par`, y por qué el segundo exige pensar en los permisos del archivo? |
-| 10 | `sesiones nueva api` crea la sesión solo si no existe y después salta a ella. ¿Por qué es mejor que `new-session -A -s api` dentro de un script que también tiene que funcionar dentro de tmux? |
+| 10 | `kit-sessions new api` crea la sesión solo si no existe y después salta a ella. ¿Por qué es mejor que `new-session -A -s api` dentro de un script que también tiene que funcionar dentro de tmux? |
 
 <details>
 <summary><strong>Respuestas</strong></summary>
@@ -103,11 +103,11 @@ Diez puntos por lab. El Desempeño es la suma sobre 60, llevada a porcentaje.
 
 | Lab | Criterio | Puntos |
 |---|---|:--:|
-| [01 — Varias sesiones](2-practicas/lab-01-varias-sesiones/README.md) | Saltas y cierras desde `choose-tree`; muestras que `ls` no arranca un servidor; `limpiar.sh` imprime las 3 líneas y respeta las sesiones con clientes | 10 |
-| [02 — Targets](2-practicas/lab-02-targets/README.md) | Cada fila de la tabla probada; el `kill-session` por prefijo reproducido y evitado; `resolver.sh` da las 3 líneas | 10 |
-| [03 — Moverte entre sesiones](2-practicas/lab-03-moverte-entre-sesiones/README.md) | `prefix` `L`; árbol filtrado; `detach-on-destroy` explicado; `saltar.sh` dentro y fuera de tmux | 10 |
-| [04 — Grupos de sesiones](2-practicas/lab-04-grupos-de-sesiones/README.md) | Diferencia entre dos clientes y un grupo; ids de ventana iguales; `espejo.sh` idempotente | 10 |
-| [05 — Sockets y TMUX](2-practicas/lab-05-sockets-y-la-variable-tmux/README.md) | `-L`, `-S` y `TMUX_TMPDIR`; `$TMUX` explicado; socket recuperado con `USR1`; `quien-soy.sh` dentro y fuera | 10 |
+| [01 — Varias sesiones](2-practicas/lab-01-varias-sesiones/README.md) | Saltas y cierras desde `choose-tree`; muestras que `ls` no arranca un servidor; `cleanup.sh` imprime las 3 líneas y respeta las sesiones con clientes | 10 |
+| [02 — Targets](2-practicas/lab-02-targets/README.md) | Cada fila de la tabla probada; el `kill-session` por prefijo reproducido y evitado; `resolve.sh` da las 3 líneas | 10 |
+| [03 — Moverte entre sesiones](2-practicas/lab-03-moverte-entre-sesiones/README.md) | `prefix` `L`; árbol filtrado; `detach-on-destroy` explicado; `jump.sh` dentro y fuera de tmux | 10 |
+| [04 — Grupos de sesiones](2-practicas/lab-04-grupos-de-sesiones/README.md) | Diferencia entre dos clientes y un grupo; ids de ventana iguales; `mirror.sh` idempotente | 10 |
+| [05 — Sockets y TMUX](2-practicas/lab-05-sockets-y-la-variable-tmux/README.md) | `-L`, `-S` y `TMUX_TMPDIR`; `$TMUX` explicado; socket recuperado con `USR1`; `whoami.sh` dentro y fuera | 10 |
 | [06 — La sesión rota](2-practicas/lab-06-sesion-rota/README.md) | Los cuatro errores explicados; nunca salta a `api-vieja` ni duplica sesiones; funciona dentro y fuera de tmux | 10 |
 
 Dentro de cada lab: 10 puntos si se cumplen todos los criterios y explicas con
@@ -125,24 +125,24 @@ Cada comprobación vale **3 puntos**.
 
 | Comprobación | Puntos |
 |---|:--:|
-| `ls-sin-servidor` — sin servidor, sesiones sale con 1 | 3 |
-| `ls-no-arranca` — sin servidor, no arranca ninguno | 3 |
-| `ls-una-linea` — una línea por sesión | 3 |
-| `ls-formato` — nombre y número de ventanas | 3 |
-| `ls-singular` — "1 ventana" en singular | 3 |
-| `ls-orden` — la sesión usada más recientemente primero | 3 |
-| `ls-marca-actual` — dentro de tmux, la actual lleva `*` | 3 |
-| `ls-otro-servidor` — con `$TMUX` de otro servidor, no marca ninguna | 3 |
-| `ir-fuera` — fuera de tmux, `attach` | 3 |
-| `ir-dentro` — dentro de tmux, `switch-client` | 3 |
-| `ir-exacto` — `ir api` no salta a `api-2` | 3 |
-| `ir-sugiere` — si no existe, lista las disponibles | 3 |
-| `nueva-crea` — crea la sesión en el directorio indicado | 3 |
-| `nueva-salta` — salta a la sesión que crea | 3 |
-| `nueva-idempotente` — dos veces, una sola sesión y salida 0 | 3 |
-| `nueva-nombre-invalido` — rechaza `.` y `:` con salida 2 | 3 |
-| `grupo-comparte` — la sesión nueva comparte las ventanas de la base | 3 |
-| `grupo-sin-base` — sale con 1 si la base no existe | 3 |
+| `list-sin-servidor` — sin servidor, kit-sessions sale con 1 | 3 |
+| `list-no-arranca` — sin servidor, no arranca ninguno | 3 |
+| `list-una-linea` — una línea por sesión | 3 |
+| `list-formato` — nombre y número de ventanas | 3 |
+| `list-singular` — "1 ventana" en singular | 3 |
+| `list-orden` — la sesión usada más recientemente primero | 3 |
+| `list-marca-actual` — dentro de tmux, la actual lleva `*` | 3 |
+| `list-otro-servidor` — con `$TMUX` de otro servidor, no marca ninguna | 3 |
+| `jump-fuera` — fuera de tmux, `attach` | 3 |
+| `jump-dentro` — dentro de tmux, `switch-client` | 3 |
+| `jump-exacto` — `jump api` no salta a `api-2` | 3 |
+| `jump-sugiere` — si no existe, lista las disponibles | 3 |
+| `new-crea` — crea la sesión en el directorio indicado | 3 |
+| `new-salta` — salta a la sesión que crea | 3 |
+| `new-idempotente` — dos veces, una sola sesión y salida 0 | 3 |
+| `new-nombre-invalido` — rechaza `.` y `:` con salida 2 | 3 |
+| `group-comparte` — la sesión nueva comparte las ventanas de la base | 3 |
+| `group-sin-base` — sale con 1 si la base no existe | 3 |
 | `uso` — una orden desconocida sale con 2 | 3 |
 | `bin-completo-y-limpio` — bin/ sin TODOs y limpio para shellcheck | 3 |
 | **Total** | **60** |
@@ -154,8 +154,8 @@ Cada comprobación vale **3 puntos**.
 | **Targets exactos** | Todo target de sesión lleva `=`; ningún `ls \| grep` para comprobar si existe | Un target sin `=` en un comando que no puede hacer daño | 10 |
 | **Mensajes de error** | Cada fallo dice qué pasó y qué hacer, por stderr, con los códigos 1 y 2 documentados | Mensaje genérico | 8 |
 | **Comentarios del porqué** | Explican `=`, `switch-client` frente a `attach`, la comparación de `$TMUX` y el `-t` de los grupos | Repiten el código | 8 |
-| **Integración en la shell** | Un alias o función documentado en el README para usar `sesiones` desde cualquier sitio | Sin documentar | 6 |
-| **README y bitácora** | `sesiones` en la tabla con ejemplo y la bitácora de la semana escrita | Falta uno de los dos | 8 |
+| **Integración en la shell** | Un alias o función documentado en el README para usar `kit-sessions` desde cualquier sitio | Sin documentar | 6 |
+| **README y bitácora** | `kit-sessions` en la tabla con ejemplo y la bitácora de la semana escrita | Falta uno de los dos | 8 |
 | **Total** | | | **40** |
 
 ### Penalizaciones
@@ -163,7 +163,7 @@ Cada comprobación vale **3 puntos**.
 | Situación | Deducción |
 |---|:--:|
 | Un script que ejecuta `kill-server` o `kill-session` sin `-L`/`=` sobre un nombre que viene de fuera | −10 pts |
-| `sesiones` (sin argumentos) arranca un servidor | −10 pts |
+| `kit-sessions` (sin argumentos) arranca un servidor | −10 pts |
 | Rutas absolutas a tu home dentro de `tmux-kit` | −5 pts |
 
 ---

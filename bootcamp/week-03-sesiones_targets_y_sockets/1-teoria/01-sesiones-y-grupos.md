@@ -29,9 +29,9 @@ Un script que salta a una sesión mira `$TMUX` para elegir:
 
 ```bash
 if [[ -n "${TMUX:-}" ]]; then
-  tmux switch-client -t "=$nombre"
+  tmux switch-client -t "=$name"
 else
-  tmux attach-session -t "=$nombre"
+  tmux attach-session -t "=$name"
 fi
 ```
 

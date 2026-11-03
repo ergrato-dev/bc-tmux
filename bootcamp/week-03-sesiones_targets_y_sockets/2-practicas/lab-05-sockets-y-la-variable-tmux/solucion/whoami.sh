@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Lab 05 — dice a qué servidor, sesión y panel pertenece esta shell.
-# Uso: quien-soy.sh
+# Uso: whoami.sh
 set -euo pipefail
 
 if [[ -z "${TMUX:-}" ]]; then

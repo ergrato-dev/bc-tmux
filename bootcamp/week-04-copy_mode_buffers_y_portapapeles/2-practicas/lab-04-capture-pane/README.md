@@ -130,7 +130,7 @@ Volcar el historial de un panel a stdout, a un archivo o a un buffer con `captur
    `0`) y sale con 0. Un script que capturara con lo que devuelve `display`
    guardaría el log equivocado sin enterarse. `list-panes -t` sí falla.
 
-8. **El script** `starter/capturar.sh`: valida el target y vuelca todo el
+8. **El script** `starter/capture.sh`: valida el target y vuelca todo el
    historial hasta la línea del cursor, sin las líneas vacías de debajo.
    Prepara el panel con algo corto y conocido:
    ```bash
@@ -144,13 +144,13 @@ Volcar el historial de un panel a stdout, a un archivo o a un buffer con `captur
 
    1. **TODO 1**: valida con `list-panes -t` (pista en el starter).
       ```bash
-      ./starter/capturar.sh logs:0.9; echo $?
-      ./starter/capturar.sh logs:0.1; echo $?
+      ./starter/capture.sh logs:0.9; echo $?
+      ./starter/capture.sh logs:0.1; echo $?
       ```
       ```
-      capturar.sh: no existe el panel logs:0.9
+      capture.sh: no existe el panel logs:0.9
       1
-      capturar.sh: sin implementar (logs:0.1 stdout)
+      capture.sh: sin implementar (logs:0.1 stdout)
       1
       ```
       El segundo sigue "sin implementar": lo arreglan los TODOs 2 y 3.
@@ -165,10 +165,10 @@ Volcar el historial de un panel a stdout, a un archivo o a un buffer con `captur
       (Algo como `8`: la última fila del panel, donde está tu prompt; con un
       prompt de dos líneas, también.)
    3. **TODO 3**: borra las dos líneas `sin implementar`, captura con
-      `-J -S - -E "$fin"` y, si hay archivo, cuenta las líneas con
-      `wc -l <"$archivo"`.
+      `-J -S - -E "$end"` y, si hay archivo, cuenta las líneas con
+      `wc -l <"$file"`.
       ```bash
-      ./starter/capturar.sh logs:0.1 /tmp/cap.txt; echo $?
+      ./starter/capture.sh logs:0.1 /tmp/cap.txt; echo $?
       tail -3 /tmp/cap.txt
       ```
       Algo como:
@@ -184,7 +184,7 @@ Volcar el historial de un panel a stdout, a un archivo o a un buffer con `captur
    4. Sin avisos de `shellcheck` (`sudo apt install shellcheck` o
       `brew install shellcheck`):
       ```bash
-      shellcheck starter/capturar.sh; echo $?
+      shellcheck starter/capture.sh; echo $?
       ```
       ```
       0
@@ -202,12 +202,12 @@ Volcar el historial de un panel a stdout, a un archivo o a un buffer con `captur
 
 - [ ] Paso 3: encuentras `ERROR` en el historial de otro panel con `capture-pane` y `grep`, sin entrar en él
 - [ ] Paso 5: `grep -c '^xxx'` da `3` sin `-J` y `1` con `-J`, y explicas por qué
-- [ ] Paso 8.3: `./starter/capturar.sh logs:0.1 /tmp/cap.txt` termina en la línea del prompt, sin líneas vacías debajo
-- [ ] Paso 8.1: `./starter/capturar.sh logs:0.9` sale con 1 y avisa por stderr
+- [ ] Paso 8.3: `./starter/capture.sh logs:0.1 /tmp/cap.txt` termina en la línea del prompt, sin líneas vacías debajo
+- [ ] Paso 8.1: `./starter/capture.sh logs:0.9` sale con 1 y avisa por stderr
 - [ ] Paso 7: explicas por qué el script valida con `list-panes` y no con `display-message`
-- [ ] Paso 8.4: `shellcheck starter/capturar.sh` no muestra avisos
+- [ ] Paso 8.4: `shellcheck starter/capture.sh` no muestra avisos
 
 ## Reto extra
 
-Añade la opción `-e` al script: `capturar.sh -e TARGET` guarda los colores.
+Añade la opción `-e` al script: `capture.sh -e TARGET` guarda los colores.
 Abre el resultado con `less -R` (sales con `q`).

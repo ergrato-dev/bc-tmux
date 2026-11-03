@@ -120,24 +120,24 @@ Elegir dónde vive el socket de un servidor, leer de `$TMUX` a qué servidor per
    ```
    Pasa en la vida real cuando algo limpia `/tmp` mientras trabajas.
 
-5. **El escenario de `starter/quien-soy.sh`.** Dentro de tmux, el script dice
+5. **El escenario de `starter/whoami.sh`.** Dentro de tmux, el script dice
    a qué servidor, sesión y panel pertenece la shell que lo ejecuta; fuera, lo
    dice y sale con 1. No usa `-L`: saca el socket de `$TMUX`. En la terminal B:
    ```bash
-   ./starter/quien-soy.sh; echo $?
+   ./starter/whoami.sh; echo $?
    ```
    ```
-   quien-soy.sh: sin implementar
+   whoami.sh: sin implementar
    0
    ```
-   Abre `starter/quien-soy.sh` con tu editor y borra la línea
-   `echo "quien-soy.sh: sin implementar"`.
+   Abre `starter/whoami.sh` con tu editor y borra la línea
+   `echo "whoami.sh: sin implementar"`.
 
 6. **TODO 1: fuera de tmux.** Pista: `if [[ -z "${TMUX:-}" ]]; then`, con
    `echo "no estás dentro de tmux" >&2` y `exit 1` dentro (`${TMUX:-}` evita
    que `set -u` aborte si la variable no existe). Prueba en la terminal B:
    ```bash
-   ./starter/quien-soy.sh; echo $?
+   ./starter/whoami.sh; echo $?
    ```
    ```
    no estás dentro de tmux
@@ -153,7 +153,7 @@ Elegir dónde vive el socket de un servidor, leer de `$TMUX` a qué servidor per
    Prueba en la terminal A (conéctate con `tmux -L lab attach -t =a`; el panel
    está en la carpeta del lab porque la sesión se creó desde ella):
    ```bash
-   ./starter/quien-soy.sh
+   ./starter/whoami.sh
    ```
    ```
    /tmp/tmux-1000/lab
@@ -173,7 +173,7 @@ Elegir dónde vive el socket de un servidor, leer de `$TMUX` a qué servidor per
    ```
    Prueba en la terminal A, dentro de `a`:
    ```bash
-   ./starter/quien-soy.sh
+   ./starter/whoami.sh
    ```
    ```
    servidor: /tmp/tmux-1000/lab (pid 9)
@@ -183,7 +183,7 @@ Elegir dónde vive el socket de un servidor, leer de `$TMUX` a qué servidor per
    (Algo como: cambian el uid y el pid.) Desconéctate con `C-b` `d`
    (`[detached (from session a)]`) y ejecútalo otra vez, ya fuera:
    ```bash
-   ./starter/quien-soy.sh; echo $?
+   ./starter/whoami.sh; echo $?
    ```
    ```
    no estás dentro de tmux
@@ -204,10 +204,10 @@ Elegir dónde vive el socket de un servidor, leer de `$TMUX` a qué servidor per
 - [ ] Mostraste dónde queda el socket con `-L`, con `-S` (paso 1) y con `TMUX_TMPDIR` (paso 2)
 - [ ] Explicas los tres campos de `$TMUX` y usaste el primero con `-S` (paso 3)
 - [ ] Recuperaste un socket borrado con `kill -USR1` sin perder la sesión (paso 4)
-- [ ] `quien-soy.sh` da las salidas del paso 8 dentro y fuera de tmux
+- [ ] `whoami.sh` da las salidas del paso 8 dentro y fuera de tmux
 
 ## Reto extra
 
 Antes de limpiar, conéctate a `tmux -S /tmp/mi-socket attach -t =b` y ejecuta
-`quien-soy.sh` en su panel. ¿Funciona sin cambiar nada? ¿Por qué un script con
+`whoami.sh` en su panel. ¿Funciona sin cambiar nada? ¿Por qué un script con
 `-L lab` fijo no lo haría?

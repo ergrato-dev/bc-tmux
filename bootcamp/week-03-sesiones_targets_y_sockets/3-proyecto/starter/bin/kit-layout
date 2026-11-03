@@ -10,33 +10,33 @@ set -euo pipefail
 
 tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
 
-uso() { sed -n '4,6p' "$0" | sed 's/^# //' >&2; exit 2; }
-error() { echo "kit-layout: $*" >&2; exit 1; }
+usage() { sed -n '4,6p' "$0" | sed 's/^# //' >&2; exit 2; }
+die() { echo "kit-layout: $*" >&2; exit 1; }
 
 # Un layout guardado describe cada panel como ANCHOxALTO,X,Y,ID; los
 # contenedores ({...} o [...]) no llevan ID. Contar esas hojas da los paneles.
-paneles_en_layout() {
+count_panes() {
   grep -oE '[0-9]+x[0-9]+,[0-9]+,[0-9]+,[0-9]+' <<<"$1" | wc -l
 }
 
 # display-message no falla con un target inexistente: cae en otra ventana y
 # sale con 0. list-panes sí falla, así que se usa para validar.
-exige_ventana() {
-  tmx list-panes -t "$1" >/dev/null 2>&1 || error "no existe la ventana: $1"
+require_window() {
+  tmx list-panes -t "$1" >/dev/null 2>&1 || die "no existe la ventana: $1"
 }
 
 cmd_new() {
-  local sesion="$1" dir="${2:-$PWD}" editor shell logs
-  [[ -d "$dir" ]] || error "no existe el directorio: $dir"
+  local session="$1" dir="${2:-$PWD}" editor shell logs
+  [[ -d "$dir" ]] || die "no existe el directorio: $dir"
 
   # "=" pide el nombre exacto: sin él, "api" encontraría también "api2".
-  if tmx has-session -t "=$sesion" 2>/dev/null; then
-    if tmx list-windows -t "=$sesion" -F '#{window_name}' | grep -qx trabajo; then
-      error "la sesión $sesion ya tiene una ventana trabajo"
+  if tmx has-session -t "=$session" 2>/dev/null; then
+    if tmx list-windows -t "=$session" -F '#{window_name}' | grep -qx trabajo; then
+      die "la sesión $session ya tiene una ventana trabajo"
     fi
-    editor=$(tmx new-window -d -P -F '#{pane_id}' -t "=$sesion:" -n trabajo -c "$dir")
+    editor=$(tmx new-window -d -P -F '#{pane_id}' -t "=$session:" -n trabajo -c "$dir")
   else
-    editor=$(tmx new-session -d -P -F '#{pane_id}' -s "$sesion" -n trabajo -c "$dir")
+    editor=$(tmx new-session -d -P -F '#{pane_id}' -s "$session" -n trabajo -c "$dir")
   fi
 
   # Se trabaja con los ids que devuelve -P: los índices se renumeran al partir.
@@ -53,39 +53,39 @@ cmd_new() {
   tmx select-layout -t "$editor" main-vertical
   tmx select-pane -t "$editor"
 
-  echo "ventana trabajo lista en la sesión $sesion"
+  echo "ventana trabajo lista en la sesión $session"
 }
 
 cmd_save() {
-  local ventana="$1" archivo="$2" layout
-  exige_ventana "$ventana"
-  layout=$(tmx display-message -p -t "$ventana" '#{window_layout}')
-  printf '%s\n' "$layout" >"$archivo"
-  echo "layout de $ventana guardado en $archivo ($(paneles_en_layout "$layout") paneles)"
+  local window="$1" file="$2" layout
+  require_window "$window"
+  layout=$(tmx display-message -p -t "$window" '#{window_layout}')
+  printf '%s\n' "$layout" >"$file"
+  echo "layout de $window guardado en $file ($(count_panes "$layout") paneles)"
 }
 
 cmd_load() {
-  local ventana="$1" archivo="$2" layout esperados actuales
-  [[ -r "$archivo" ]] || error "no puedo leer el archivo: $archivo"
-  layout=$(<"$archivo")
-  [[ "$layout" =~ ^[0-9a-f]{4},[0-9]+x[0-9]+, ]] || error "$archivo no contiene un layout de tmux"
+  local window="$1" file="$2" layout expected actual
+  [[ -r "$file" ]] || die "no puedo leer el archivo: $file"
+  layout=$(<"$file")
+  [[ "$layout" =~ ^[0-9a-f]{4},[0-9]+x[0-9]+, ]] || die "$file no contiene un layout de tmux"
 
-  exige_ventana "$ventana"
-  actuales=$(tmx display-message -p -t "$ventana" '#{window_panes}')
-  esperados=$(paneles_en_layout "$layout")
+  require_window "$window"
+  actual=$(tmx display-message -p -t "$window" '#{window_panes}')
+  expected=$(count_panes "$layout")
 
   # tmux 3.4 no siempre se queja si el número de paneles no coincide: lo
   # comprobamos nosotros para no dejar la ventana en un estado a medias.
-  if (( esperados != actuales )); then
-    error "el layout es para $esperados paneles y $ventana tiene $actuales"
+  if (( expected != actual )); then
+    die "el layout es para $expected paneles y $window tiene $actual"
   fi
-  tmx select-layout -t "$ventana" "$layout"
-  echo "layout de $archivo aplicado a $ventana"
+  tmx select-layout -t "$window" "$layout"
+  echo "layout de $file aplicado a $window"
 }
 
 case "${1:-}" in
-  new)  shift; (( $# == 1 || $# == 2 )) || uso; cmd_new "$@" ;;
-  save) shift; (( $# == 2 )) || uso; cmd_save "$@" ;;
-  load) shift; (( $# == 2 )) || uso; cmd_load "$@" ;;
-  *)    uso ;;
+  new)  shift; (( $# == 1 || $# == 2 )) || usage; cmd_new "$@" ;;
+  save) shift; (( $# == 2 )) || usage; cmd_save "$@" ;;
+  load) shift; (( $# == 2 )) || usage; cmd_load "$@" ;;
+  *)    usage ;;
 esac

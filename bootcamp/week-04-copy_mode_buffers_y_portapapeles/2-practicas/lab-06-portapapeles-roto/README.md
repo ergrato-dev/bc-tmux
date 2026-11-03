@@ -166,7 +166,7 @@ que por SSH. Lo que hace falta es una terminal que lo soporte (paso 1).
    `run-shell` ejecuta el comando sin terminal: no hay `/dev/tty` donde
    escribir. Dentro de tmux, el script debe pedirle a tmux que envíe él la
    secuencia. En `starter/osc52.sh`, justo después de `set -euo pipefail` y
-   **antes** de `datos=$(base64)` (que se comería la entrada), añade:
+   **antes** de `data=$(base64)` (que se comería la entrada), añade:
    ```bash
    if [[ -n "${TMUX:-}" ]]; then
      exec tmux load-buffer -w -
@@ -206,8 +206,8 @@ que por SSH. Lo que hace falta es una terminal que lo soporte (paso 1).
    5
    ```
    `base64` parte su salida cada 76 caracteres, y la secuencia OSC 52 debe ir
-   en **una** línea. Cambia `datos=$(base64)` por
-   `datos=$(base64 | tr -d '\n')` (`base64 -w0` no existe en macOS) y repite:
+   en **una** línea. Cambia `data=$(base64)` por
+   `data=$(base64 | tr -d '\n')` (`base64 -w0` no existe en macOS) y repite:
    ```bash
    seq 1 100 | OSC52_TTY=/tmp/osc ./starter/osc52.sh; wc -l < /tmp/osc
    seq 1 100 | ./starter/osc52.sh

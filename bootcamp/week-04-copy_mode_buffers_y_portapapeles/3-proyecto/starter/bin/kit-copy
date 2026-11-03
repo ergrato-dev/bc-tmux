@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# kit-copiar — copia su entrada estándar al portapapeles del sistema.
+# kit-copy — copia su entrada estándar al portapapeles del sistema.
 #
-# Uso: ... | kit-copiar
+# Uso: ... | kit-copy
 # Elige el método según dónde se ejecuta:
 #   - por SSH, o sin portapapeles gráfico: OSC 52 (lo pega tu terminal local)
 #   - macOS: pbcopy · WSL: win32yank.exe o clip.exe · Wayland: wl-copy
@@ -11,8 +11,8 @@ set -euo pipefail
 
 tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
 
-falta() { echo "kit-copiar: $1" >&2; exit 1; }
-hay() { command -v "$1" >/dev/null 2>&1; }
+missing() { echo "kit-copy: $1" >&2; exit 1; }
+has() { command -v "$1" >/dev/null 2>&1; }
 
 (( $# == 0 )) || { sed -n '4,9s/^# \{0,1\}//p' "$0" >&2; exit 2; }
 
@@ -21,7 +21,7 @@ osc52() {
   #         Dentro de tmux ($TMUX no vacío): tmx load-buffer -w -
   #         Fuera: la secuencia en una sola línea, a "${KIT_TTY:-/dev/tty}":
   #           printf '\033]52;c;%s\a' "$(base64 | tr -d '\n')" >"${KIT_TTY:-/dev/tty}"
-  echo "kit-copiar: OSC 52 sin implementar" >&2
+  echo "kit-copy: OSC 52 sin implementar" >&2
   exit 99
 }
 
@@ -29,12 +29,12 @@ osc52() {
 #         con una cadena if/elif, en este orden, y llama a la herramienta:
 #   SSH_CONNECTION o SSH_TTY  -> osc52   ([[ -n "${SSH_CONNECTION:-}${SSH_TTY:-}" ]])
 #   uname = Darwin            -> pbcopy  ([[ "$(uname)" == Darwin ]])
-#   WSL_DISTRO_NAME           -> win32yank.exe -i, si no clip.exe, si no falta
-#   WAYLAND_DISPLAY           -> wl-copy, si no falta "instala wl-clipboard (sudo apt install wl-clipboard)"
+#   WSL_DISTRO_NAME           -> win32yank.exe -i, si no clip.exe, si no missing
+#   WAYLAND_DISPLAY           -> wl-copy, si no missing "instala wl-clipboard (sudo apt install wl-clipboard)"
 #   DISPLAY                   -> xclip -selection clipboard, si no
-#                                xsel --clipboard --input, si no falta
+#                                xsel --clipboard --input, si no missing
 #                                "instala xclip (sudo apt install xclip)"
 #   nada de lo anterior       -> osc52
-#   Pista: hay HERRAMIENTA comprueba si existe; falta "MENSAJE" sale con 1.
-echo "kit-copiar: sin implementar" >&2
+#   Pista: has HERRAMIENTA comprueba si existe; missing "MENSAJE" sale con 1.
+echo "kit-copy: sin implementar" >&2
 exit 99

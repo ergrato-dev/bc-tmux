@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Lab 05 — dice a qué servidor, sesión y panel pertenece esta shell.
-# Uso: quien-soy.sh
+# Uso: whoami.sh
 set -euo pipefail
 
 # TODO 1: fuera de tmux, avisa por stderr y sal con 1 (README, paso 6).
@@ -8,4 +8,4 @@ set -euo pipefail
 # TODO 3: pregunta a ese servidor por este panel e imprime las tres líneas (paso 8).
 
 # Borra esta línea al empezar:
-echo "quien-soy.sh: sin implementar" >&2
+echo "whoami.sh: sin implementar" >&2

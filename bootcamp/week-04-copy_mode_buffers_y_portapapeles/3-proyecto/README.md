@@ -6,29 +6,29 @@
 
 Trabajas en tu portátil con WSL y, dos veces al día, por SSH en un servidor de staging. En local copias un comando de un log con el ratón y pegas en Slack: llega `aÃ±o` en lugar de `año`. En staging copias con `y` en copy mode y no pega nada, porque `xclip` copió en un portapapeles del servidor que nadie ve. Cada sitio necesita un camino distinto, y tu config debería elegirlo sola.
 
-Añades a tu `tmux-kit` su **primer `tmux.conf`** (copy mode con teclas vi fijadas, historial amplio, OSC 52) y el script **`bin/kit-copiar`**: recibe texto por stdin y lo deja en **tu** portapapeles, estés donde estés.
+Añades a tu `tmux-kit` su **primer `tmux.conf`** (copy mode con teclas vi fijadas, historial amplio, OSC 52) y el script **`bin/kit-copy`**: recibe texto por stdin y lo deja en **tu** portapapeles, estés donde estés.
 
 ```bash
-$ printf 'año' | kit-copiar                  # WSL: win32yank.exe; macOS: pbcopy; ...
+$ printf 'año' | kit-copy                  # WSL: win32yank.exe; macOS: pbcopy; ...
 $ ssh staging
-staging$ printf 'año' | kit-copiar           # por SSH: OSC 52 hasta tu terminal
+staging$ printf 'año' | kit-copy           # por SSH: OSC 52 hasta tu terminal
 ```
 
 ## Estructura del proyecto
 
 ```
 starter/                 ← tu tmux-kit de la semana 03 + lo nuevo (aquí trabajas)
-├── README.md            ← añade kit-copiar, cómo instalar tmux.conf y la bitácora
+├── README.md            ← añade kit-copy, cómo instalar tmux.conf y la bitácora
 ├── tmux.conf            ← TODOs 1-5 (nuevo)
 └── bin/
     ├── check-version    (semana 01)
     ├── kit-tree         (semana 01)
     ├── kit-layout       (semana 02)
-    ├── sesiones         (semana 03)
-    └── kit-copiar       ← TODOs 1-2 (nuevo)
+    ├── kit-sessions     (semana 03)
+    └── kit-copy         ← TODOs 1-2 (nuevo)
 tests/                   ← herramientas falsas para el autograding (no se tocan)
-├── path-falso
-└── falso-clip
+├── fake-path
+└── fake-clip
 ```
 
 Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
@@ -37,9 +37,9 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
 
 ### `tmux.conf`
 
-1. Copy mode con teclas vi fijadas (`setw -g mode-keys vi`), `history-limit` de al menos 10000, `set-clipboard on` y `copy-command` apuntando a `bin/kit-copiar` del propio kit con `set -sF ... "#{d:current_file}/bin/kit-copiar"`. En la tabla `copy-mode-vi`: `v` empieza la selección, `C-v` la vuelve rectangular e `y` copia con `copy-pipe-and-cancel` **sin comando**. Resultado: copiar con `y` en copy mode llega a tu portapapeles.
+1. Copy mode con teclas vi fijadas (`setw -g mode-keys vi`), `history-limit` de al menos 10000, `set-clipboard on` y `copy-command` apuntando a `bin/kit-copy` del propio kit con `set -sF ... "#{d:current_file}/bin/kit-copy"`. En la tabla `copy-mode-vi`: `v` empieza la selección, `C-v` la vuelve rectangular e `y` copia con `copy-pipe-and-cancel` **sin comando**. Resultado: copiar con `y` en copy mode llega a tu portapapeles.
 
-### `bin/kit-copiar`
+### `bin/kit-copy`
 
 2. **OSC 52** cuando estás por SSH (`SSH_CONNECTION` o `SSH_TTY`) o no hay portapapeles gráfico. Dentro de tmux (`$TMUX` no vacío), con `tmx load-buffer -w -`; fuera, escribiendo `\033]52;c;BASE64\a` en una sola línea a `"${KIT_TTY:-/dev/tty}"` (`KIT_TTY` existe para que el autograding lea la secuencia).
 3. En local, la herramienta de cada plataforma, en este orden: macOS (`uname` = `Darwin`) `pbcopy`; WSL (`WSL_DISTRO_NAME`) `win32yank.exe -i` o `clip.exe`; Wayland (`WAYLAND_DISPLAY`) `wl-copy`; X11 (`DISPLAY`) `xclip -selection clipboard` o `xsel --clipboard --input`. SSH va antes que todo: por SSH, una herramienta local copiaría en la máquina remota.
@@ -48,7 +48,7 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
 
 ### Kit
 
-6. Añade `kit-copiar` a la tabla del `README.md` con un ejemplo, documenta la instalación con `ln -s` y escribe la bitácora de la semana.
+6. Añade `kit-copy` a la tabla del `README.md` con un ejemplo, documenta la instalación con `ln -s` y escribe la bitácora de la semana.
 
 ## Paso a paso
 
@@ -56,12 +56,12 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
    vacía). Desde la raíz del repositorio:
    ```bash
    cd bootcamp/week-04-copy_mode_buffers_y_portapapeles/3-proyecto/starter
-   F="$PWD/../tests/path-falso"
+   F="$PWD/../tests/fake-path"
    ```
    Las pruebas de `tmux.conf` usan un servidor aparte, `-L kit`, que se
    arranca y se para en cada prueba. `F` crea un `PATH` con herramientas de
    portapapeles falsas (lab 05, paso 3): guardan lo que reciben en
-   `NOMBRE.datos` y sus argumentos en `NOMBRE.args`.
+   `NOMBRE.data` y sus argumentos en `NOMBRE.args`.
 
 1. **`tmux.conf`, TODO 1**: teclas vi fijadas.
    ```bash
@@ -94,8 +94,8 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
    ```
    Algo como (tu ruta hasta el repositorio):
    ```
-   /home/tú/bc-tmux/bootcamp/week-04-copy_mode_buffers_y_portapapeles/3-proyecto/starter/bin/kit-copiar
-   ./bin/kit-copiar
+   /home/tú/bc-tmux/bootcamp/week-04-copy_mode_buffers_y_portapapeles/3-proyecto/starter/bin/kit-copy
+   ./bin/kit-copy
    ```
    La primera es absoluta porque pasaste `-f` con `$PWD`. La segunda no
    funcionaría: tmux ejecuta `copy-command` desde tu `$HOME`. Instalado en
@@ -111,29 +111,29 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
    bind-key -T copy-mode-vi y                 send-keys -X copy-pipe-and-cancel
    ```
 
-6. **`bin/kit-copiar`, TODO 1** (al final del archivo): la elección del
+6. **`bin/kit-copy`, TODO 1** (al final del archivo): la elección del
    método. Borra las dos líneas `sin implementar` del final y escribe la
-   cadena `if`/`elif` del comentario (la forma es la de `copiar.sh` del lab
+   cadena `if`/`elif` del comentario (la forma es la de `copy.sh` del lab
    05, con SSH delante de todo). Pruébala rama a rama:
    ```bash
-   f=$("$F" wl-copy); printf hola | env -i PATH="$f" WAYLAND_DISPLAY=w bin/kit-copiar; cat "$f/wl-copy.datos"; echo
-   f=$("$F"); printf hola | env -i PATH="$f" WAYLAND_DISPLAY=w bin/kit-copiar; echo $?
-   f=$("$F" xclip); printf hola | env -i PATH="$f" DISPLAY=:0 bin/kit-copiar; cat "$f/xclip.datos"; echo; cat "$f/xclip.args"
-   f=$("$F" xsel); printf hola | env -i PATH="$f" DISPLAY=:0 bin/kit-copiar; cat "$f/xsel.datos"; echo
-   f=$("$F" pbcopy darwin); printf hola | env -i PATH="$f" bin/kit-copiar; cat "$f/pbcopy.datos"; echo
-   f=$("$F" clip.exe); printf hola | env -i PATH="$f" WSL_DISTRO_NAME=Ubuntu bin/kit-copiar; ls "$f" | grep datos
-   f=$("$F" clip.exe win32yank.exe); printf hola | env -i PATH="$f" WSL_DISTRO_NAME=Ubuntu bin/kit-copiar; ls "$f" | grep datos
+   f=$("$F" wl-copy); printf hola | env -i PATH="$f" WAYLAND_DISPLAY=w bin/kit-copy; cat "$f/wl-copy.data"; echo
+   f=$("$F"); printf hola | env -i PATH="$f" WAYLAND_DISPLAY=w bin/kit-copy; echo $?
+   f=$("$F" xclip); printf hola | env -i PATH="$f" DISPLAY=:0 bin/kit-copy; cat "$f/xclip.data"; echo; cat "$f/xclip.args"
+   f=$("$F" xsel); printf hola | env -i PATH="$f" DISPLAY=:0 bin/kit-copy; cat "$f/xsel.data"; echo
+   f=$("$F" pbcopy darwin); printf hola | env -i PATH="$f" bin/kit-copy; cat "$f/pbcopy.data"; echo
+   f=$("$F" clip.exe); printf hola | env -i PATH="$f" WSL_DISTRO_NAME=Ubuntu bin/kit-copy; ls "$f" | grep '\.data$'
+   f=$("$F" clip.exe win32yank.exe); printf hola | env -i PATH="$f" WSL_DISTRO_NAME=Ubuntu bin/kit-copy; ls "$f" | grep '\.data$'
    ```
    ```
    hola
-   kit-copiar: instala wl-clipboard (sudo apt install wl-clipboard)
+   kit-copy: instala wl-clipboard (sudo apt install wl-clipboard)
    1
    hola
    -selection clipboard
    hola
    hola
-   clip.exe.datos
-   win32yank.exe.datos
+   clip.exe.data
+   win32yank.exe.data
    ```
    (`darwin` hace que el `uname` falso diga `Darwin`; sin él dice `Linux`,
    también si estás en un Mac.) Las ramas de OSC 52 todavía salen con 99:
@@ -143,8 +143,8 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
    Fuera de tmux, la secuencia va a `KIT_TTY` (aquí, un archivo); por SSH
    gana a cualquier herramienta local:
    ```bash
-   f=$("$F" wl-copy); printf hola | env -i PATH="$f" WAYLAND_DISPLAY=w SSH_CONNECTION=x KIT_TTY=/tmp/osc bin/kit-copiar; cat -v /tmp/osc; echo; ls "$f" | grep -c datos
-   f=$("$F"); printf hola | env -i PATH="$f" KIT_TTY=/tmp/osc bin/kit-copiar; cat -v /tmp/osc; echo
+   f=$("$F" wl-copy); printf hola | env -i PATH="$f" WAYLAND_DISPLAY=w SSH_CONNECTION=x KIT_TTY=/tmp/osc bin/kit-copy; cat -v /tmp/osc; echo; ls "$f" | grep -c '\.data$'
+   f=$("$F"); printf hola | env -i PATH="$f" KIT_TTY=/tmp/osc bin/kit-copy; cat -v /tmp/osc; echo
    ```
    ```
    ^[]52;c;aG9sYQ==^G
@@ -156,7 +156,7 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
    un servidor de prueba y `TMUX` apuntando a él:
    ```bash
    tmux -L kit -f /dev/null new -d
-   f=$("$F"); printf hola | env -i PATH="$f" SSH_CONNECTION=x TMUX_SOCKET=kit TMUX="$(tmux -L kit display -p '#{socket_path}'),1,0" bin/kit-copiar; tmux -L kit show-buffer; echo
+   f=$("$F"); printf hola | env -i PATH="$f" SSH_CONNECTION=x TMUX_SOCKET=kit TMUX="$(tmux -L kit display -p '#{socket_path}'),1,0" bin/kit-copy; tmux -L kit show-buffer; echo
    tmux -L kit kill-server
    ```
    ```
@@ -164,10 +164,10 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
    ```
    Y el uso, que ya venía hecho:
    ```bash
-   printf hola | bin/kit-copiar algo; echo $?
+   printf hola | bin/kit-copy algo; echo $?
    ```
    ```
-   Uso: ... | kit-copiar
+   Uso: ... | kit-copy
    Elige el método según dónde se ejecuta:
      - por SSH, o sin portapapeles gráfico: OSC 52 (lo pega tu terminal local)
      - macOS: pbcopy · WSL: win32yank.exe o clip.exe · Wayland: wl-copy
@@ -177,7 +177,7 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
    ```
 
 8. **Sin TODOs y sin avisos.** Borra los comentarios `TODO` de `tmux.conf` y
-   de `bin/kit-copiar`, y deja en su lugar el porqué de cada línea (ver
+   de `bin/kit-copy`, y deja en su lugar el porqué de cada línea (ver
    [Calidad](#calidad)). Después (`sudo apt install shellcheck` o
    `brew install shellcheck` si no lo tienes):
    ```bash
@@ -217,7 +217,7 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
      ```
      Copia, sal con `C-b` `d` y:
      ```bash
-     cat "$f/wl-copy.datos"; echo
+     cat "$f/wl-copy.data"; echo
      ```
      ```
      hola
@@ -225,11 +225,11 @@ Se trabaja sobre `3-proyecto/starter/`: es lo que corrige el autograding.
 
    Con `set-clipboard on`, al copiar tmux envía **también** su propio OSC 52
    a tu terminal: en local, el texto llega dos veces al mismo portapapeles.
-   Por SSH, `kit-copiar` usa `load-buffer -w` y verás dos buffers iguales
+   Por SSH, `kit-copy` usa `load-buffer -w` y verás dos buffers iguales
    (`tmux -L kit list-buffers`). Es inofensivo, y se deja así porque cada
    camino cubre lo que el otro no: el OSC 52 de tmux llega aunque
-   `copy-command` falle, y `kit-copiar` funciona también en un pipe
-   (`cat log | bin/kit-copiar`). Al terminar:
+   `copy-command` falle, y `kit-copy` funciona también en un pipe
+   (`cat log | bin/kit-copy`). Al terminar:
    ```bash
    tmux -L kit kill-server
    ```
@@ -289,7 +289,7 @@ Los comprueba `./scripts/verificar-semana.sh 04` desde la raíz del repositorio
 - [ ] copy mode usa las teclas de vi
 - [ ] history-limit es de al menos 10000 líneas
 - [ ] set-clipboard está en on
-- [ ] copy-command apunta a bin/kit-copiar del kit
+- [ ] copy-command apunta a bin/kit-copy del kit
 - [ ] v selecciona, C-v hace rectángulo e y copia con copy-pipe
 - [ ] Copiar con y en copy mode llega al portapapeles
 - [ ] En Wayland copia con wl-copy
@@ -303,22 +303,22 @@ Los comprueba `./scripts/verificar-semana.sh 04` desde la raíz del repositorio
 - [ ] Por SSH usa OSC 52 aunque haya herramientas locales
 - [ ] Sin entorno gráfico usa OSC 52
 - [ ] Dentro de tmux, OSC 52 pasa por load-buffer -w
-- [ ] Con argumentos, kit-copiar sale con 2
+- [ ] Con argumentos, kit-copy sale con 2
 - [ ] Los scripts de bin/ no tienen TODOs y pasan shellcheck
 
 ## Calidad
 
 Además de los checks, se revisa (40 pts, ver la rúbrica):
 
-- Comentarios del porqué en `tmux.conf` y `kit-copiar`: `-F` y `current_file`, `set-clipboard on`, SSH antes que todo, `load-buffer -w`, `-selection clipboard`, la ñ de `clip.exe`.
+- Comentarios del porqué en `tmux.conf` y `kit-copy`: `-F` y `current_file`, `set-clipboard on`, SSH antes que todo, `load-buffer -w`, `-selection clipboard`, la ñ de `clip.exe`.
 - Mensajes de error por stderr que dicen qué instalar, con los códigos 1 y 2 documentados en la cabecera.
 - `shellcheck bin/*` sin avisos y ningún `TODO` pendiente.
 - Ninguna ruta absoluta a tu home en `tmux.conf`: el kit funciona dondequiera que lo enlaces.
-- README con `kit-copiar`, la instalación y la bitácora.
+- README con `kit-copy`, la instalación y la bitácora.
 
 ## Entrega
 
 Commit con el mensaje:
 ```
-feat(week-04): tmux.conf y kit-copiar para copiar en local y por SSH
+feat(week-04): tmux.conf y kit-copy para copiar en local y por SSH
 ```

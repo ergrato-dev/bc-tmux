@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Lab 02 — dice a qué sesión, ventana y panel apunta un target.
-# Uso: resolver.sh TARGET
+# Uso: resolve.sh TARGET
 set -euo pipefail
 
 tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
 
-target="${1:?uso: resolver.sh TARGET}"
+target="${1:?uso: resolve.sh TARGET}"
 
 # display-message usaría otro objeto sin avisar; list-panes falla de verdad.
 if ! tmx list-panes -t "$target" >/dev/null 2>&1; then
-  echo "resolver.sh: no existe el target '$target'" >&2
+  echo "resolve.sh: no existe el target '$target'" >&2
   exit 1
 fi
 

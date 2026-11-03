@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# kit-copiar — copia su entrada estándar al portapapeles del sistema.
+# kit-copy — copia su entrada estándar al portapapeles del sistema.
 #
-# Uso: ... | kit-copiar
+# Uso: ... | kit-copy
 # Elige el método según dónde se ejecuta:
 #   - por SSH, o sin portapapeles gráfico: OSC 52 (lo pega tu terminal local)
 #   - macOS: pbcopy · WSL: win32yank.exe o clip.exe · Wayland: wl-copy
@@ -11,8 +11,8 @@ set -euo pipefail
 
 tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
 
-falta() { echo "kit-copiar: $1" >&2; exit 1; }
-hay() { command -v "$1" >/dev/null 2>&1; }
+missing() { echo "kit-copy: $1" >&2; exit 1; }
+has() { command -v "$1" >/dev/null 2>&1; }
 
 (( $# == 0 )) || { sed -n '4,9s/^# \{0,1\}//p' "$0" >&2; exit 2; }
 
@@ -36,18 +36,18 @@ elif [[ "$(uname)" == Darwin ]]; then
 elif [[ -n "${WSL_DISTRO_NAME:-}" ]]; then
   # clip.exe interpreta el texto con la página de códigos de Windows y rompe
   # la ñ y las tildes; win32yank.exe respeta UTF-8.
-  if hay win32yank.exe; then win32yank.exe -i
-  elif hay clip.exe; then clip.exe
-  else falta "no encuentro clip.exe: ¿está activada la interoperabilidad de WSL?"
+  if has win32yank.exe; then win32yank.exe -i
+  elif has clip.exe; then clip.exe
+  else missing "no encuentro clip.exe: ¿está activada la interoperabilidad de WSL?"
   fi
 elif [[ -n "${WAYLAND_DISPLAY:-}" ]]; then
-  hay wl-copy || falta "instala wl-clipboard (sudo apt install wl-clipboard)"
+  has wl-copy || missing "instala wl-clipboard (sudo apt install wl-clipboard)"
   wl-copy
 elif [[ -n "${DISPLAY:-}" ]]; then
   # -selection clipboard: sin ella, xclip copia en PRIMARY (el botón central).
-  if hay xclip; then xclip -selection clipboard
-  elif hay xsel; then xsel --clipboard --input
-  else falta "instala xclip (sudo apt install xclip)"
+  if has xclip; then xclip -selection clipboard
+  elif has xsel; then xsel --clipboard --input
+  else missing "instala xclip (sudo apt install xclip)"
   fi
 else
   osc52

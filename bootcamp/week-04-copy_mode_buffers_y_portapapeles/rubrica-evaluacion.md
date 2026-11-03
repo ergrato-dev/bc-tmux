@@ -2,7 +2,7 @@
 
 > Copy mode, buffers y portapapeles. Se evalúan tres evidencias por separado,
 > y hace falta **70% en cada una**. Copiar rápido en local no compensa un
-> `kit-copiar` que por SSH deja el texto en la máquina equivocada.
+> `kit-copy` que por SSH deja el texto en la máquina equivocada.
 
 ---
 
@@ -12,7 +12,7 @@
 |---|:--:|---|
 | 🧠 Conocimiento | 30% | Las 10 preguntas de esta rúbrica, respondidas por escrito |
 | 💪 Desempeño | 40% | Los 6 labs, con sus criterios de éxito verificados en tu máquina o en el laboratorio |
-| 📦 Producto | 30% | `tmux-kit` con `tmux.conf` y `kit-copiar`: 60 pts de autograding + 40 pts de calidad |
+| 📦 Producto | 30% | `tmux-kit` con `tmux.conf` y `kit-copy`: 60 pts de autograding + 40 pts de calidad |
 
 **Mínimo 70% en cada evidencia.** No en el promedio.
 
@@ -37,7 +37,7 @@ Diez preguntas, 3 puntos cada una. Se pide explicar por qué, no recordar teclas
 | 4 | Copias con `y` en copy mode. `prefix` `]` pega bien, pero `Ctrl+V` en el navegador no. ¿Qué paso falta y cuáles son los dos caminos para darlo? |
 | 5 | Por SSH, tu `copy-command` es `xclip -selection clipboard` y hay un servidor X en la máquina remota. Copias sin errores y no puedes pegar. ¿Dónde acabó el texto? ¿Por qué OSC 52 sí funciona por SSH? |
 | 6 | `set-clipboard` puede ser `off`, `external` u `on`. Por SSH, dentro de tmux, un programa del panel copia emitiendo él mismo OSC 52 (`printf '\e]52;c;%s\a' "$(printf hola \| base64)"`) y quieres que llegue a tu portátil. ¿Cuál eliges y por qué no basta el valor por defecto? |
-| 7 | `set -sF copy-command "#{d:current_file}/bin/kit-copiar"` funciona desde `~/.config/tmux` y no hace nada si arrancas con `tmux -f tmux.conf`. ¿Qué vale la opción en cada caso y desde qué directorio se ejecuta el comando? |
+| 7 | `set -sF copy-command "#{d:current_file}/bin/kit-copy"` funciona desde `~/.config/tmux` y no hace nada si arrancas con `tmux -f tmux.conf`. ¿Qué vale la opción en cada caso y desde qué directorio se ejecuta el comando? |
 | 8 | Un script lanzado con `run-shell` hace `printf '\033]52;c;...\a' >/dev/tty` y falla con `No such device or address`. ¿Por qué, y qué debe hacer en su lugar cuando corre dentro de tmux? |
 | 9 | `osc52.sh` copia bien `hola` y no copia una línea de log de 200 caracteres. El script hace `printf '\033]52;c;%s\a' "$(base64)"`. ¿Qué falla y cómo lo arreglas de forma que también funcione en macOS? |
 | 10 | Pegas un bloque de tres comandos en bash con `paste-buffer` y se ejecutan al instante; con `prefix` `]`, esperan a tu `Enter`. ¿Qué hace distinto `prefix` `]` y por qué importa? |
@@ -75,8 +75,8 @@ ese `printf`. Con `on`, lo acepta (crea un buffer) y lo reenvía a la
 terminal exterior.
 
 **7.** `current_file` es la ruta tal como se cargó el archivo. Desde
-`~/.config/tmux` vale `/home/tú/.config/tmux/bin/kit-copiar`; con
-`-f tmux.conf`, `./bin/kit-copiar`. El servidor ejecuta `copy-command` desde
+`~/.config/tmux` vale `/home/tú/.config/tmux/bin/kit-copy`; con
+`-f tmux.conf`, `./bin/kit-copy`. El servidor ejecuta `copy-command` desde
 tu `$HOME`, donde esa ruta relativa no existe. Solución: cargar la config con
 ruta absoluta (`-f "$PWD/tmux.conf"`).
 
@@ -106,9 +106,9 @@ Diez puntos por lab. El Desempeño es la suma sobre 60, llevada a porcentaje.
 |---|---|:--:|
 | [01 — Moverte por el historial](2-practicas/lab-01-moverte-por-el-historial/README.md) | `mode-keys` fijado aunque `EDITOR=nano`; `history-limit` explicado en panel viejo y nuevo; búsqueda y `clear-history` | 10 |
 | [02 — Seleccionar y copiar](2-practicas/lab-02-seleccionar-y-copiar/README.md) | Columna copiada en rectángulo; `v`, `C-v` e `y` en `copy-mode-vi`; `y`, `Enter` y el ratón copian a `copy-command` | 10 |
-| [03 — Buffers](2-practicas/lab-03-buffers/README.md) | `buffer-limit` y buffers con nombre reproducidos; bracketed paste explicado; `guardar-buffers.sh` completo y limpio | 10 |
-| [04 — capture-pane](2-practicas/lab-04-capture-pane/README.md) | `-S`, `-E`, `-J` y `-e` probados; `capturar.sh` valida con `list-panes` y termina en el prompt | 10 |
-| [05 — Portapapeles del sistema](2-practicas/lab-05-portapapeles-del-sistema/README.md) | Problema de tu plataforma reproducido y resuelto; pruebas con `path-falso`; copias desde tmux y pegas fuera | 10 |
+| [03 — Buffers](2-practicas/lab-03-buffers/README.md) | `buffer-limit` y buffers con nombre reproducidos; bracketed paste explicado; `save-buffers.sh` completo y limpio | 10 |
+| [04 — capture-pane](2-practicas/lab-04-capture-pane/README.md) | `-S`, `-E`, `-J` y `-e` probados; `capture.sh` valida con `list-panes` y termina en el prompt | 10 |
+| [05 — Portapapeles del sistema](2-practicas/lab-05-portapapeles-del-sistema/README.md) | Problema de tu plataforma reproducido y resuelto; pruebas con `fake-path`; copias desde tmux y pegas fuera | 10 |
 | [06 — Portapapeles roto](2-practicas/lab-06-portapapeles-roto/README.md) | Los cuatro errores explicados; `Ms` presente; `prefix` `Y` y textos largos funcionan | 10 |
 
 Dentro de cada lab: 10 puntos si se cumplen todos los criterios y explicas con
@@ -129,7 +129,7 @@ Cada comprobación vale **3 puntos**, salvo `bin-completo-y-limpio`, que vale **
 | `conf-mode-keys` — copy mode usa las teclas de vi | 3 |
 | `conf-historial` — history-limit es de al menos 10000 líneas | 3 |
 | `conf-set-clipboard` — set-clipboard está en on | 3 |
-| `conf-copy-command` — copy-command apunta a bin/kit-copiar del kit | 3 |
+| `conf-copy-command` — copy-command apunta a bin/kit-copy del kit | 3 |
 | `conf-teclas` — v selecciona, C-v hace rectángulo e y copia con copy-pipe | 3 |
 | `conf-de-punta-a-punta` — Copiar con y en copy mode llega al portapapeles | 3 |
 | `kc-wayland` — En Wayland copia con wl-copy | 3 |
@@ -143,7 +143,7 @@ Cada comprobación vale **3 puntos**, salvo `bin-completo-y-limpio`, que vale **
 | `kc-ssh` — Por SSH usa OSC 52 aunque haya herramientas locales | 3 |
 | `kc-sin-grafico` — Sin entorno gráfico usa OSC 52 | 3 |
 | `kc-dentro-de-tmux` — Dentro de tmux, OSC 52 pasa por load-buffer -w | 3 |
-| `kc-uso` — Con argumentos, kit-copiar sale con 2 | 3 |
+| `kc-uso` — Con argumentos, kit-copy sale con 2 | 3 |
 | `bin-completo-y-limpio` — Los scripts de bin/ no tienen TODOs y pasan shellcheck | 6 |
 | **Total** | **60** |
 
@@ -155,15 +155,15 @@ Cada comprobación vale **3 puntos**, salvo `bin-completo-y-limpio`, que vale **
 | **Mensajes de error** | Cada fallo dice qué instalar o qué pasó, por stderr, con los códigos 1 y 2 en la cabecera | Mensaje genérico | 8 |
 | **Portabilidad** | Ninguna ruta a tu home; el kit funciona enlazado en `~/.config/tmux` y con `-f "$PWD/tmux.conf"` | Funciona solo en una de las dos | 8 |
 | **Probado de verdad** | El README dice en qué plataforma probaste y, si tienes acceso, que copiaste por SSH | Solo el autograding | 6 |
-| **README y bitácora** | `kit-copiar` en la tabla con ejemplo, la instalación con `ln -s` y la bitácora de la semana | Falta uno de los tres | 8 |
+| **README y bitácora** | `kit-copy` en la tabla con ejemplo, la instalación con `ln -s` y la bitácora de la semana | Falta uno de los tres | 8 |
 | **Total** | | | **40** |
 
 ### Penalizaciones
 
 | Situación | Deducción |
 |---|:--:|
-| `kit-copiar` ejecuta el texto copiado (`eval`, `sh -c "$texto"`, `send-keys` sin `-l`) | −10 pts |
-| `kit-copiar` usa una herramienta local por SSH en lugar de OSC 52 | −5 pts |
+| `kit-copy` ejecuta el texto copiado (`eval`, `sh -c "$texto"`, `send-keys` sin `-l`) | −10 pts |
+| `kit-copy` usa una herramienta local por SSH en lugar de OSC 52 | −5 pts |
 | Rutas absolutas a tu home dentro de `tmux-kit` | −5 pts |
 
 ---

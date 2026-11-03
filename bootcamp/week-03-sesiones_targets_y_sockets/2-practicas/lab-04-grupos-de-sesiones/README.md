@@ -125,42 +125,42 @@ Crear dos sesiones que comparten ventanas pero tienen cada una su ventana actual
    `logs` toma el tamaño de A, y B ve la ventana recortada. Con un grupo, cada
    terminal mira su propia ventana y cada una se ve a su tamaño.
 
-6. **El escenario de `starter/espejo.sh`.** El script crea, si no existe, una
+6. **El escenario de `starter/mirror.sh`.** El script crea, si no existe, una
    sesión `BASE-espejo` en el grupo de `BASE` y muestra los miembros. En la
    terminal C reinicia el servidor: **A y B salen de tmux** con
    `[server exited]`.
    ```bash
    tmux -L lab kill-server
    tmux -L lab -f /dev/null new -d -s base
-   ./starter/espejo.sh base; echo $?
+   ./starter/mirror.sh base; echo $?
    ```
    ```
-   espejo.sh: sin implementar (base, base-espejo)
+   mirror.sh: sin implementar (base, base-espejo)
    0
    ```
-   Abre `starter/espejo.sh` con tu editor y borra la línea
-   `echo "espejo.sh: sin implementar ..."`. El resto del lab se hace en la
+   Abre `starter/mirror.sh` con tu editor y borra la línea
+   `echo "mirror.sh: sin implementar ..."`. El resto del lab se hace en la
    terminal C.
 
 7. **TODO 1: la base existe.** Pista:
    `if ! tmx has-session -t "=$base" 2>/dev/null; then`, con
    `echo "no existe la sesión '$base'" >&2` y `exit 1` dentro. Prueba:
    ```bash
-   ./starter/espejo.sh nada; echo $?
+   ./starter/mirror.sh nada; echo $?
    ```
    ```
    no existe la sesión 'nada'
    1
    ```
 
-8. **TODO 2: crear solo si falta.** Si `tmx has-session -t "=$espejo"` sale
-   con 0, `echo "ya existe: $espejo"`; si no,
-   `tmx new-session -d -t "=$base" -s "$espejo"` y
-   `echo "creada: $espejo"`. Comprobar antes de crear es lo que hace el script
+8. **TODO 2: crear solo si falta.** Si `tmx has-session -t "=$mirror"` sale
+   con 0, `echo "ya existe: $mirror"`; si no,
+   `tmx new-session -d -t "=$base" -s "$mirror"` y
+   `echo "creada: $mirror"`. Comprobar antes de crear es lo que hace el script
    **idempotente**: ejecutarlo dos veces deja lo mismo que una. Prueba:
    ```bash
-   ./starter/espejo.sh base
-   ./starter/espejo.sh base
+   ./starter/mirror.sh base
+   ./starter/mirror.sh base
    ```
    ```
    creada: base-espejo
@@ -177,8 +177,8 @@ Crear dos sesiones que comparten ventanas pero tienen cada una su ventana actual
    Prueba desde cero:
    ```bash
    tmux -L lab kill-session -t =base-espejo
-   ./starter/espejo.sh base
-   ./starter/espejo.sh base
+   ./starter/mirror.sh base
+   ./starter/mirror.sh base
    ```
    ```
    creada: base-espejo
@@ -201,7 +201,7 @@ Crear dos sesiones que comparten ventanas pero tienen cada una su ventana actual
 - [ ] Con un grupo, cada cliente miró su ventana y la ventana nueva apareció en las dos sesiones (paso 2)
 - [ ] Mostraste con `#{window_id}` que las ventanas son las mismas (paso 3)
 - [ ] Explicas qué tamaño toma una ventana que miran dos clientes (paso 5)
-- [ ] `espejo.sh base` dos veces imprime las cuatro líneas del paso 9
+- [ ] `mirror.sh base` dos veces imprime las cuatro líneas del paso 9
 
 ## Reto extra
 

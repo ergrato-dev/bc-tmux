@@ -13,21 +13,21 @@ tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
 
 # list-sessions solo pregunta: si no hay servidor falla y no arranca ninguno.
 # Se trabaja con ids ($0, @1, %2): son únicos y no dependen del nombre.
-if ! sesiones=$(tmx list-sessions -F '#{session_id}' 2>/dev/null); then
+if ! sessions=$(tmx list-sessions -F '#{session_id}' 2>/dev/null); then
   echo "no hay servidor tmux en ese socket" >&2
   exit 1
 fi
 
-tmx display-message -p -t "$(head -n1 <<<"$sesiones")" 'socket: #{socket_path}'
+tmx display-message -p -t "$(head -n1 <<<"$sessions")" 'socket: #{socket_path}'
 
-while IFS= read -r sesion; do
-  tmx display-message -p -t "$sesion" \
+while IFS= read -r session; do
+  tmx display-message -p -t "$session" \
     'sesion #{session_name} ventanas=#{session_windows} clientes=#{session_attached}'
 
-  while IFS= read -r ventana; do
-    tmx display-message -p -t "$ventana" \
+  while IFS= read -r window; do
+    tmx display-message -p -t "$window" \
       '  ventana #{window_index}:#{window_name} paneles=#{window_panes}'
-    tmx list-panes -t "$ventana" \
+    tmx list-panes -t "$window" \
       -F '    panel #{pane_index} #{pane_id} #{pane_current_command}'
-  done < <(tmx list-windows -t "$sesion" -F '#{window_id}')
-done <<<"$sesiones"
+  done < <(tmx list-windows -t "$session" -F '#{window_id}')
+done <<<"$sessions"
