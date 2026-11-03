@@ -1,0 +1,132 @@
+{
+  "semana": "10",
+  "titulo": "Hooks, popups y menús",
+  "checks": [
+    {
+      "id": "conf-parsea",
+      "descripcion": "tmux.conf carga sin errores",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} source-file {proyecto}/tmux.conf",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 1"
+    },
+    {
+      "id": "hook-client-attached",
+      "descripcion": "Al conectarse un cliente, un hook muestra un mensaje",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} show-hooks -g client-attached",
+      "assert": "stdout~display-message",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 2 (lab-01-hooks)"
+    },
+    {
+      "id": "hooks-sin-duplicar",
+      "descripcion": "Recargar la config dos veces no duplica los hooks del kit",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; a=$({tmux} show-hooks -g | grep -c kit) ; {tmux} source-file {proyecto}/tmux.conf ; {tmux} source-file {proyecto}/tmux.conf ; b=$({tmux} show-hooks -g | grep -c kit) ; echo \"$a $b\" ; [ \"$a\" -gt 0 ] && [ \"$a\" = \"$b\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 2 (lab-06-hooks-rotos)"
+    },
+    {
+      "id": "kit-log-on",
+      "descripcion": "kit-log PANEL guarda lo que sale en el panel en SESION-VENTANA-PANEL.log",
+      "cmd": "export TMUX_SOCKET=bc-check XDG_STATE_HOME=$(mktemp -d) ; {tmux} -f {proyecto}/tmux.conf new-session -d -s api ; p=$({tmux} list-panes -t =api: -F '#{pane_id}') ; {proyecto}/bin/kit-log \"$p\" >/dev/null ; {tmux} send-keys -t \"$p\" 'echo kit-$((6*7))' Enter ; sleep 1 ; cat \"$XDG_STATE_HOME/tmux-kit/logs/api-1-1.log\"",
+      "assert": "stdout~kit-42",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-04-run-shell-y-pipe-pane)"
+    },
+    {
+      "id": "kit-log-off",
+      "descripcion": "kit-log dos veces sobre el mismo panel cierra el log",
+      "cmd": "export TMUX_SOCKET=bc-check XDG_STATE_HOME=$(mktemp -d) ; {tmux} -f {proyecto}/tmux.conf new-session -d -s api ; p=$({tmux} list-panes -t =api: -F '#{pane_id}') ; {proyecto}/bin/kit-log \"$p\" >/dev/null ; a=$({tmux} display -p -t \"$p\" '#{pane_pipe}') ; {proyecto}/bin/kit-log \"$p\" >/dev/null ; b=$({tmux} display -p -t \"$p\" '#{pane_pipe}') ; echo \"pipe: $a $b\"",
+      "assert": "stdout~^pipe: 1 0$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-04-run-shell-y-pipe-pane)"
+    },
+    {
+      "id": "kit-log-hostil",
+      "descripcion": "Un XDG_STATE_HOME con comillas, # y $(...) no ejecuta nada",
+      "cmd": "rm -f ~/kit-pwned ; export TMUX_SOCKET=bc-check XDG_STATE_HOME=\"$(mktemp -d)/a'b #{c} \"'$(cd;touch kit-pwned)' ; {tmux} -f {proyecto}/tmux.conf new-session -d -s api ; p=$({tmux} list-panes -t =api: -F '#{pane_id}') ; {proyecto}/bin/kit-log \"$p\" >/dev/null ; {tmux} send-keys -t \"$p\" 'echo kit-$((6*7))' Enter ; sleep 1 ; [ -e ~/kit-pwned ] && { echo 'se ejecutó la ruta del log' ; exit 3 ; } ; cat \"$XDG_STATE_HOME/tmux-kit/logs/api-1-1.log\"",
+      "assert": "stdout~kit-42",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-04-run-shell-y-pipe-pane)"
+    },
+    {
+      "id": "kit-log-panel-no-existe",
+      "descripcion": "kit-log con un panel que no existe sale con 1 y lo dice",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d ; out=$({proyecto}/bin/kit-log %99 2>&1) ; rc=$? ; echo \"$out\" ; [ \"$rc\" = 1 ] && echo \"$out\" | grep -q 'no existe el panel'",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3"
+    },
+    {
+      "id": "hook-autolog",
+      "descripcion": "Con @kit-autolog on, las ventanas y los paneles nuevos empiezan con log",
+      "cmd": "export XDG_STATE_HOME=$(mktemp -d) ; {tmux} -f {proyecto}/tmux.conf new-session -d -s a ; {tmux} set -g @kit-autolog on ; p=$({tmux} new-window -d -P -F '#{pane_id}' -t =a:) ; q=$({tmux} split-window -d -P -F '#{pane_id}' -t \"$p\") ; sleep 0.5 ; a=$({tmux} display -p -t \"$p\" '#{pane_pipe}') ; b=$({tmux} display -p -t \"$q\" '#{pane_pipe}') ; n=$(ls \"$XDG_STATE_HOME/tmux-kit/logs\" 2>/dev/null | wc -l) ; echo \"autolog: $a $b $n\"",
+      "assert": "stdout~^autolog: 1 1 2$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4 (lab-01-hooks)"
+    },
+    {
+      "id": "kit-projects-lista",
+      "descripcion": "kit-projects -l lista los subdirectorios de @kit-projects-dir en orden, sin ocultos ni archivos",
+      "cmd": "export TMUX_SOCKET=bc-check ; r=$(mktemp -d) ; mkdir \"$r/web\" \"$r/api\" \"$r/.oculto\" \"$r/mi app\" ; touch \"$r/notas.txt\" ; {tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} set -g @kit-projects-dir \"$r\" ; {proyecto}/bin/kit-projects -l | paste -sd, -",
+      "assert": "stdout~^api,mi app,web$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5"
+    },
+    {
+      "id": "kit-projects-tilde",
+      "descripcion": "Con el @kit-projects-dir por defecto, kit-projects -l lista ~/src",
+      "cmd": "export TMUX_SOCKET=bc-check HOME=$(mktemp -d) ; mkdir -p \"$HOME/src/api\" ; {tmux} -f {proyecto}/tmux.conf new-session -d ; {proyecto}/bin/kit-projects -l",
+      "assert": "stdout~^api$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5"
+    },
+    {
+      "id": "kit-projects-sin-dir",
+      "descripcion": "Con un @kit-projects-dir que no existe, kit-projects -l sale con 1 y lo dice",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} set -g @kit-projects-dir /no/existe ; out=$({proyecto}/bin/kit-projects -l 2>&1) ; rc=$? ; echo \"$out\" ; [ \"$rc\" = 1 ] && echo \"$out\" | grep -q 'no existe el directorio'",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5"
+    },
+    {
+      "id": "kit-projects-abre",
+      "descripcion": "kit-projects -d api abre el proyecto api con dev-up",
+      "cmd": "export TMUX_SOCKET=bc-check ; r=$(mktemp -d) ; mkdir \"$r/api\" ; {tmux} -f {proyecto}/tmux.conf new-session -d -s kit ; {tmux} set -g @kit-projects-dir \"$r\" ; {proyecto}/bin/kit-projects -d api >/dev/null && {tmux} list-windows -t =api -F '#{window_name}' | paste -sd' ' -",
+      "assert": "stdout~^editor run logs$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6 (lab-05-fzf-en-un-popup)"
+    },
+    {
+      "id": "kit-projects-no-listado",
+      "descripcion": "kit-projects -d .. sale con 1 y no crea ninguna sesión",
+      "cmd": "export TMUX_SOCKET=bc-check ; r=$(mktemp -d) ; mkdir \"$r/api\" ; {tmux} -f {proyecto}/tmux.conf new-session -d -s kit ; {tmux} set -g @kit-projects-dir \"$r\" ; out=$({proyecto}/bin/kit-projects -d .. 2>&1) ; rc=$? ; echo \"$out\" ; [ \"$rc\" = 1 ] && echo \"$out\" | grep -q 'no existe el proyecto' && [ \"$({tmux} list-sessions -F '#{session_name}')\" = kit ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6"
+    },
+    {
+      "id": "kit-projects-hostil",
+      "descripcion": "Un proyecto con $(...) en el nombre no ejecuta nada",
+      "cmd": "rm -f ~/kit-pwned ; export TMUX_SOCKET=bc-check ; r=$(mktemp -d) ; mkdir \"$r/x;\"'$(cd;touch kit-pwned)' ; {tmux} -f {proyecto}/tmux.conf new-session -d -s kit ; {tmux} set -g @kit-projects-dir \"$r\" ; n=$({proyecto}/bin/kit-projects -l) ; {proyecto}/bin/kit-projects -d \"$n\" >/dev/null ; sleep 1 ; [ -e ~/kit-pwned ] && { echo 'se ejecutó el nombre del proyecto' ; exit 3 ; } ; {tmux} list-sessions -F '#{session_name}'",
+      "assert": "stdout~^x;[$][(]cd;touch kit-pwned[)]$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6 (lab-05-fzf-en-un-popup)"
+    },
+    {
+      "id": "popup-proyectos",
+      "descripcion": "prefix P abre kit-projects en un popup que se cierra al terminar",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} list-keys -T prefix P",
+      "assert": "stdout~display-popup .*-E.*kit-projects",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 7 (lab-02-popups)"
+    },
+    {
+      "id": "menu-confirma",
+      "descripcion": "El menú del kit (prefix K) cierra la sesión solo tras confirmar",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} list-keys -T prefix K",
+      "assert": "stdout~display-menu .*confirm-before.*kill-session",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 8 (lab-03-menus-y-prompts)"
+    },
+    {
+      "id": "teclas-con-nota",
+      "descripcion": "prefix P y prefix K llevan nota kit:",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d ; {proyecto}/bin/kit-keys prefix | grep -cE '^prefix (P|K) +kit:'",
+      "assert": "stdout~^2$",
+      "pista": "3-proyecto/README.md, Paso a paso, pasos 7 y 8"
+    },
+    {
+      "id": "bin-completo-y-limpio",
+      "descripcion": "tmux.conf, conf.d/ y bin/ no tienen TODOs y bin/ pasa shellcheck",
+      "cmd": "! grep -rn TODO {proyecto}/tmux.conf {proyecto}/conf.d {proyecto}/bin && shellcheck {proyecto}/bin/*",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Calidad"
+    }
+  ]
+}

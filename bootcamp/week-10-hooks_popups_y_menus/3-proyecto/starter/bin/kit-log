@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# kit-log — activa o para el log de un panel (pipe-pane).
+#
+# Uso: kit-log [PANEL]
+#      TMUX_SOCKET=kit kit-log %3     en el servidor de tmux -L kit
+# PANEL: %3, api:1.2...; dentro de tmux, por defecto el actual. Cada llamada
+# cambia de estado: sin log lo abre, con log lo cierra. El log se añade a
+# ${XDG_STATE_HOME:-~/.local/state}/tmux-kit/logs/SESION-VENTANA-PANEL.log
+# Salida: 0 bien, 1 el panel no existe, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,9s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+(( $# <= 1 )) || usage
+[[ "${1:-}" != -* ]] || usage
+pane=${1:-${TMUX_PANE:-}}
+[[ -n "$pane" ]] || { echo "kit-log: fuera de tmux, indica el PANEL" >&2; exit 2; }
+
+# TODO 2: valida el panel con tmx list-panes -t "$pane" (sale con 1 si no
+# existe; display-message no falla y usaría otro). Si falla, "kit-log: no
+# existe el panel $pane" por stderr y exit 1. Después, un solo
+# display-message -p -t "$pane" con #{pane_id}, #{pane_pipe}, #{session_name},
+# #{window_index} y #{pane_index} separados por tabuladores, leído con
+# IFS=$'\t' read -r (lab-04-run-shell-y-pipe-pane).
+#
+# TODO 3: con #{pane_pipe} a 1, tmx pipe-pane -t "$id" (sin comando: cierra)
+# y "kit-log: off $id". Si no, mkdir -p del directorio de logs
+# (${XDG_STATE_HOME:-$HOME/.local/state}/tmux-kit/logs), archivo
+# SESION-VENTANA-PANEL.log con la sesión saneada (${session//[^[:alnum:]_-]/_})
+# y tmx pipe-pane -o -t "$id" "exec cat >> '...'". La ruta pasa por el format
+# de tmux (# -> ##) y por /bin/sh (' -> '\''). Imprime
+# "kit-log: on $id -> $file". Después borra las dos líneas siguientes.
+echo "kit-log: sin implementar ($pane)" >&2
+exit 1

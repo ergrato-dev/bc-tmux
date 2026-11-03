@@ -54,7 +54,7 @@ case "$term" in
   *)             report aviso default-terminal "$term: lo habitual es tmux-256color" ;;
 esac
 
-# Más de 50 ms se nota: el Esc llega tarde a Neovim. 3.4 trae 500.
+# Más de 50 ms se nota: el Esc llega tarde al programa del panel. 3.4 trae 500.
 escape=$(tmx show -sv escape-time)
 if (( escape <= 50 )); then
   report ok escape-time "$escape ms"

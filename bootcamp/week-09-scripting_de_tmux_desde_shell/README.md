@@ -74,6 +74,6 @@ tmux -L kit list-windows -t "=api" -F '#{window_name}'; tmux -L kit kill-server
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 08 — Terminal, color y depuración](../week-08-terminal_color_y_depuracion/README.md) | **Semana 09 — Scripting de tmux desde shell** | Semana 10 — Hooks, popups y menús |
+| [← Semana 08 — Terminal, color y depuración](../week-08-terminal_color_y_depuracion/README.md) | **Semana 09 — Scripting de tmux desde shell** | [Semana 10 — Hooks, popups y menús →](../week-10-hooks_popups_y_menus/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)

@@ -133,7 +133,7 @@ en la shell de esa ventana **al crearla** (no al reutilizarla):
 
 ```
 # .tmux-kit de ~/src/api
-editor: nvim .
+editor: less README.md
 run: make dev
 logs: tail -F log/dev.log
 ```

@@ -4,7 +4,7 @@
 
 ## Contexto
 
-Tu status line de la semana 07 usa colores hex (`#3fb950`), pero según dónde la abras se ve distinta: en el portátil, verde vivo; por SSH desde el equipo de un compañero, un verde apagado. Neovim tarda medio segundo en salir de insertar, el subrayado ondulado de los errores del LSP sale recto y `C-Enter` hace lo mismo que `Enter`. Nada de eso es un fallo de tu config de la status line: es cómo habla tmux con la terminal.
+Tu status line de la semana 07 usa colores hex (`#3fb950`), pero según dónde la abras se ve distinta: en el portátil, verde vivo; por SSH desde el equipo de un compañero, un verde apagado. el `Esc` tarda medio segundo en llegar al programa del panel, el subrayado ondulado de los errores sale recto y `C-Enter` hace lo mismo que `Enter`. Nada de eso es un fallo de tu config de la status line: es cómo habla tmux con la terminal.
 
 Esta semana el kit aprende a hablar con tu terminal en un módulo nuevo, `conf.d/40-terminal.conf`: el `TERM` de dentro, lo que sabe hacer la terminal de fuera (color de 24 bits, undercurl, teclas extendidas), el foco y el passthrough. Y como la próxima vez que algo se vea raro no quieres repetir la investigación, escribes **`bin/kit-doctor`**, un diagnóstico que no toca nada, y **`docs/diagnostico.md`**, la guía síntoma → causa → comando.
 

@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# kit-projects — elige un proyecto y ábrelo con dev-up.
+#
+# Uso: kit-projects [-d] [PROYECTO]
+#      kit-projects -l
+# Proyectos: los subdirectorios de @kit-projects-dir (por defecto ~/src).
+# Sin PROYECTO lo eliges con fzf, o de una lista numerada si no hay fzf.
+# -l solo lista, uno por línea. -d abre sin conectarse.
+# Salida: 0 bien o elección cancelada, 1 no existe el directorio o el
+# proyecto, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,10s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+die() { echo "kit-projects: $*" >&2; exit 1; }
+
+list=0
+detach=0
+args=()
+while (( $# )); do
+  case "$1" in
+    -l) list=1 ;;
+    -d) detach=1 ;;
+    --) shift; args+=("$@"); break ;;
+    -*) usage ;;
+    *)  args+=("$1") ;;
+  esac
+  shift
+done
+(( ${#args[@]} <= 1 )) || usage
+(( list )) && (( detach || ${#args[@]} )) && usage
+
+# TODO 5: el directorio sale de @kit-projects-dir (tmx show-options -gqv, solo
+# si tmx list-sessions dice que hay servidor: show arrancaría uno), por
+# defecto ~/src, con la ~ expandida por el script. Si no es un directorio,
+# "kit-projects: no existe el directorio de proyectos '...'" y exit 1. Lista
+# los subdirectorios con un glob "$root"/*/ (sin ocultos ni archivos), en
+# orden LC_ALL=C sort, en el array projects. Con -l, imprímelos y exit 0.
+#
+# TODO 6: sin PROYECTO, elige con fzf (cancelar = exit 0) o, sin fzf, con el
+# select de bash. El nombre tiene que estar en projects (grep -qxF): ".." no
+# vale; si no, "kit-projects: no existe el proyecto '...'" y exit 1. Abre con
+# exec "$(dirname "$0")/dev-up" [-d] -- "$root/$name" (lab-05-fzf-en-un-popup).
+# Después borra las dos líneas siguientes.
+echo "kit-projects: sin implementar (-l=$list -d=$detach ${args[*]})" >&2
+exit 1

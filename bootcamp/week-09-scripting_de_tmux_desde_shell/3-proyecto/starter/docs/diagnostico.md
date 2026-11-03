@@ -41,7 +41,7 @@ usa de tu terminal (`RGB: [missing]` es que no hay color de 24 bits).
 ## Undercurl ausente (subrayado ondulado)
 
 - **Causa:** falta la feature `usstyle`: tmux no manda a tu terminal el
-  subrayado ondulado ni su color, y Neovim enseña un subrayado recto o nada.
+  subrayado ondulado ni su color, y el editor enseña un subrayado recto o nada.
 - **Comprueba:**
   ```bash
   tmux display -p '#{client_termfeatures}'           # ¿sale usstyle?
@@ -50,7 +50,7 @@ usa de tu terminal (`RGB: [missing]` es que no hay color de 24 bits).
 - **Arreglo:** `usstyle` en `terminal-features` para tu `TERM` de fuera. Si
   fuera de tmux tampoco se ve ondulado, tu terminal no lo soporta.
 
-## Esc llega tarde (Neovim tarda en salir de insertar)
+## Esc llega tarde (los programas que usan Esc tardan en reaccionar)
 
 - **Causa:** `escape-time`. Tras cada `Esc`, tmux espera por si empieza una
   secuencia (una flecha, Alt+tecla); en 3.4 espera 500 ms.

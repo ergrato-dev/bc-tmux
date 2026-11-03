@@ -1,0 +1,71 @@
+<svg viewBox="0 0 900 520" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Cuándo dispara after-new-window: después del comando, sobre el panel nuevo, y por qué un tmux lanzado con run-shell lo vuelve a disparar</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3fb950"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f85149"/>
+    </marker>
+  </defs>
+  <rect width="900" height="520" fill="#0d1117"/>
+
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- Cabeceras -->
+    <rect x="60" y="30" width="200" height="50" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="160" y="61" fill="#f0f6fc" text-anchor="middle">Tecla o script</text>
+    <rect x="350" y="30" width="200" height="50" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="450" y="61" fill="#f0f6fc" text-anchor="middle">Servidor tmux</text>
+    <rect x="640" y="30" width="200" height="50" rx="6" fill="#161b22" stroke="#d2a8ff" stroke-width="2"/>
+    <text x="740" y="61" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">after-new-window[10]</text>
+
+    <!-- Líneas de vida -->
+    <line x1="160" y1="80" x2="160" y2="300" stroke="#30363d" stroke-width="2" stroke-dasharray="6 6"/>
+    <line x1="450" y1="80" x2="450" y2="300" stroke="#30363d" stroke-width="2" stroke-dasharray="6 6"/>
+    <line x1="740" y1="80" x2="740" y2="300" stroke="#30363d" stroke-width="2" stroke-dasharray="6 6"/>
+
+    <!-- 1. El comando -->
+    <text x="300" y="112" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">new-window</text>
+    <line x1="160" y1="124" x2="356" y2="124" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="360" y="140" width="180" height="50" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="450" y="161" fill="#f0f6fc" text-anchor="middle">crea la ventana</text>
+    <text x="450" y="180" fill="#8b949e" text-anchor="middle">y su panel %3</text>
+
+    <!-- 2. El hook -->
+    <text x="625" y="212" fill="#3fb950" text-anchor="middle">después del comando</text>
+    <line x1="450" y1="224" x2="626" y2="224" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow-green)"/>
+    <rect x="630" y="236" width="220" height="64" rx="6" fill="#161b22" stroke="#d2a8ff" stroke-width="2"/>
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+      <text x="645" y="262" fill="#f0f6fc">#{pane_id}   = %3</text>
+      <text x="645" y="284" fill="#e3b341">#{hook_pane} = (vacío)</text>
+    </g>
+
+    <!-- 3. ¿Y si el hook crea otra ventana? -->
+    <text x="60" y="332" fill="#8b949e">¿Y si el comando del hook crea otra ventana?</text>
+
+    <rect x="60" y="350" width="370" height="130" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="80" y="378" fill="#3fb950">Comando directo en el hook</text>
+    <text x="80" y="406" fill="#f0f6fc"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">'new-window -d'</text>
+    <text x="80" y="436" fill="#f0f6fc">No dispara hooks:</text>
+    <text x="80" y="458" fill="#f0f6fc">una sola ventana extra.</text>
+
+    <rect x="470" y="350" width="370" height="130" rx="6" fill="#161b22" stroke="#f85149" stroke-width="2"/>
+    <text x="490" y="378" fill="#f85149">tmux lanzado con run-shell</text>
+    <text x="490" y="406" fill="#f0f6fc"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">'run-shell "tmux new-window -d"'</text>
+    <text x="490" y="436" fill="#f0f6fc">Es un comando nuevo para el servidor:</text>
+    <text x="490" y="458" fill="#f0f6fc">vuelve a disparar el hook, sin fin.</text>
+
+    <path d="M 560 350 C 520 300, 560 210, 544 180" fill="none" stroke="#f85149"
+          stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-red)"/>
+  </g>
+</svg>

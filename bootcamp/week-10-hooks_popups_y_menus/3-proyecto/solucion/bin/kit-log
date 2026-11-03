@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# kit-log — activa o para el log de un panel (pipe-pane).
+#
+# Uso: kit-log [PANEL]
+#      TMUX_SOCKET=kit kit-log %3     en el servidor de tmux -L kit
+# PANEL: %3, api:1.2...; dentro de tmux, por defecto el actual. Cada llamada
+# cambia de estado: sin log lo abre, con log lo cierra. El log se añade a
+# ${XDG_STATE_HOME:-~/.local/state}/tmux-kit/logs/SESION-VENTANA-PANEL.log
+# Salida: 0 bien, 1 el panel no existe, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,9s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+(( $# <= 1 )) || usage
+[[ "${1:-}" != -* ]] || usage
+pane=${1:-${TMUX_PANE:-}}
+[[ -n "$pane" ]] || { echo "kit-log: fuera de tmux, indica el PANEL" >&2; exit 2; }
+
+# list-panes falla si el panel no existe; display-message contestaría con
+# otro panel (o con campos vacíos) y saldría con 0.
+if ! tmx list-panes -t "$pane" >/dev/null 2>&1; then
+  echo "kit-log: no existe el panel $pane" >&2
+  exit 1
+fi
+
+# Un solo display: id, estado del pipe y las tres partes del nombre del log.
+IFS=$'\t' read -r id piped session window index < <(
+  tmx display-message -p -t "$pane" '#{pane_id}	#{pane_pipe}	#{session_name}	#{window_index}	#{pane_index}'
+)
+
+if (( piped )); then
+  # pipe-pane sin comando cierra el pipe del panel.
+  tmx pipe-pane -t "$id"
+  echo "kit-log: off $id"
+  exit 0
+fi
+
+dir="${XDG_STATE_HOME:-$HOME/.local/state}/tmux-kit/logs"
+mkdir -p -- "$dir"
+# El nombre de la sesión puede traer de todo (espacios, /, $(...)): en el
+# nombre del archivo solo quedan letras, cifras, _ y -.
+file="$dir/${session//[^[:alnum:]_-]/_}-$window-$index.log"
+
+# El comando de pipe-pane pasa por dos intérpretes: tmux lo expande como
+# format (un # de la ruta empezaría un #{...}) y después /bin/sh lo ejecuta
+# (una ' o un $(...) de la ruta serían código). Por eso: # -> ## y la ruta
+# entre comillas simples, con cada ' escrita como '\''.
+quoted=${file//\'/\'\\\'\'}
+quoted=${quoted//#/##}
+# -o: si entre medias otro proceso abrió un pipe, no se sustituye.
+tmx pipe-pane -o -t "$id" "exec cat >> '$quoted'"
+echo "kit-log: on $id -> $file"

@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# kit-copy — copia su entrada estándar al portapapeles del sistema.
+#
+# Uso: ... | kit-copy
+# Elige el método según dónde se ejecuta:
+#   - por SSH, o sin portapapeles gráfico: OSC 52 (lo pega tu terminal local)
+#   - macOS: pbcopy · WSL: win32yank.exe o clip.exe · Wayland: wl-copy
+#   - X11: xclip o xsel
+# Salida: 0 copiado, 1 falta la herramienta de tu sistema, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+missing() { echo "kit-copy: $1" >&2; exit 1; }
+has() { command -v "$1" >/dev/null 2>&1; }
+
+(( $# == 0 )) || { sed -n '4,9s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+osc52() {
+  # Dentro de tmux no hay terminal a la que escribir (copy-pipe no tiene
+  # tty): load-buffer -w guarda el texto y tmux envía el OSC 52 a la
+  # terminal exterior, si set-clipboard lo permite.
+  if [[ -n "${TMUX:-}" ]]; then
+    tmx load-buffer -w -
+  else
+    # base64 sin saltos de línea: la secuencia debe ir en una sola línea.
+    printf '\033]52;c;%s\a' "$(base64 | tr -d '\n')" >"${KIT_TTY:-/dev/tty}"
+  fi
+}
+
+# Por SSH, una herramienta local copiaría en la máquina remota, no en la tuya.
+if [[ -n "${SSH_CONNECTION:-}${SSH_TTY:-}" ]]; then
+  osc52
+elif [[ "$(uname)" == Darwin ]]; then
+  pbcopy
+elif [[ -n "${WSL_DISTRO_NAME:-}" ]]; then
+  # clip.exe interpreta el texto con la página de códigos de Windows y rompe
+  # la ñ y las tildes; win32yank.exe respeta UTF-8.
+  if has win32yank.exe; then win32yank.exe -i
+  elif has clip.exe; then clip.exe
+  else missing "no encuentro clip.exe: ¿está activada la interoperabilidad de WSL?"
+  fi
+elif [[ -n "${WAYLAND_DISPLAY:-}" ]]; then
+  has wl-copy || missing "instala wl-clipboard (sudo apt install wl-clipboard)"
+  wl-copy
+elif [[ -n "${DISPLAY:-}" ]]; then
+  # -selection clipboard: sin ella, xclip copia en PRIMARY (el botón central).
+  if has xclip; then xclip -selection clipboard
+  elif has xsel; then xsel --clipboard --input
+  else missing "instala xclip (sudo apt install xclip)"
+  fi
+else
+  osc52
+fi

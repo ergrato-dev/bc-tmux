@@ -24,6 +24,6 @@
 
 | Anterior | Siguiente |
 |---|---|
-| ← [Recursos — web](../4-recursos/webgrafia/README.md) | — |
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 10 — Hooks, popups y menús](../../week-10-hooks_popups_y_menus/README.md) → |
 
 [↑ Semana 09](../README.md)

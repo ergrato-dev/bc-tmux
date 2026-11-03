@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# dev-down — cierra la sesión de un proyecto, y solo esa.
+#
+# Uso: dev-down NAME
+#      TMUX_SOCKET=kit dev-down api     en el servidor de tmux -L kit
+# Salida: 0 cerrada, 1 no existe esa sesión (o no hay servidor), 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() {
+  sed -n '4,6s/^# \{0,1\}//p' "$0" >&2
+  exit 2
+}
+
+[[ $# -eq 1 && -n "${1:-}" ]] || usage
+name=$1
+
+# "=" en los dos: sin él, si api no existe, "-t api" encuentra api-2 por
+# prefijo y kill-session la cerraría sin preguntar.
+tmx has-session -t "=$name" 2>/dev/null || {
+  echo "dev-down: no existe la sesión '$name'" >&2
+  exit 1
+}
+tmx kill-session -t "=$name"
+echo "dev-down: sesión '$name' cerrada"

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# kit-keys — lista las teclas del kit: las que tienen una nota "kit: ...".
+#
+# Uso: kit-keys [TABLA]
+# Sin TABLA, las de prefix, root, kit-resize y copy-mode-vi.
+# Imprime "TABLA TECLA  NOTA", una tecla por línea.
+# Salida: 0 bien, 1 no hay servidor o la tabla no existe, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,6s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+die() { echo "kit-keys: $*" >&2; exit 1; }
+
+(( $# <= 1 )) || usage
+[[ "${1:-}" != -* ]] || usage
+
+# list-keys arranca un servidor si no hay ninguno; list-sessions no.
+tmx list-sessions >/dev/null 2>&1 || die "no hay servidor de tmux en este socket"
+
+# list-keys -N -T TABLA imprime "TECLA  NOTA" solo de las teclas con nota.
+# La tecla es la primera palabra; la nota, lo que queda tras los espacios.
+list_table() {
+  local table="$1" rows
+  rows=$(tmx list-keys -N -T "$table" 2>/dev/null) || return 1
+  awk -v t="$table" '{
+    key = $1
+    sub(/^[^ ]+ +/, "")
+    if ($0 ~ /^kit:/) printf "%s %s  %s\n", t, key, $0
+  }' <<<"$rows"
+}
+
+if (( $# == 1 )); then
+  list_table "$1" || die "no existe la tabla $1"
+else
+  # Una tabla del kit que falte (config sin cargar) no es un error aquí.
+  for table in prefix root kit-resize copy-mode-vi; do
+    list_table "$table" || true
+  done
+fi

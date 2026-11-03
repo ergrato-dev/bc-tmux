@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# kit-projects — elige un proyecto y ábrelo con dev-up.
+#
+# Uso: kit-projects [-d] [PROYECTO]
+#      kit-projects -l
+# Proyectos: los subdirectorios de @kit-projects-dir (por defecto ~/src).
+# Sin PROYECTO lo eliges con fzf, o de una lista numerada si no hay fzf.
+# -l solo lista, uno por línea. -d abre sin conectarse.
+# Salida: 0 bien o elección cancelada, 1 no existe el directorio o el
+# proyecto, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,10s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+die() { echo "kit-projects: $*" >&2; exit 1; }
+
+list=0
+detach=0
+args=()
+while (( $# )); do
+  case "$1" in
+    -l) list=1 ;;
+    -d) detach=1 ;;
+    --) shift; args+=("$@"); break ;;
+    -*) usage ;;
+    *)  args+=("$1") ;;
+  esac
+  shift
+done
+(( ${#args[@]} <= 1 )) || usage
+(( list )) && (( detach || ${#args[@]} )) && usage
+
+# --- Directorio de proyectos -------------------------------------------------
+
+# La opción vive en el servidor; show-options arrancaría uno si no hay, así
+# que solo se pregunta si list-sessions dice que existe.
+root=""
+if tmx list-sessions >/dev/null 2>&1; then
+  root=$(tmx show-options -gqv @kit-projects-dir)
+fi
+root=${root:-~/src}
+# tmux guarda "~/src" tal cual: la ~ la expande el script, no una shell.
+[[ "$root" == \~ || "$root" == \~/* ]] && root="$HOME${root:1}"
+[[ -d "$root" ]] || die "no existe el directorio de proyectos '$root' (@kit-projects-dir)"
+
+# Glob y no ls: sin parsear salidas, los nombres raros llegan enteros y el
+# patrón */ deja fuera los archivos y, sin dotglob, los ocultos. LC_ALL=C:
+# el mismo orden en cualquier máquina.
+projects=()
+shopt -s nullglob
+for path in "$root"/*/; do
+  path=${path%/}
+  projects+=("${path##*/}")
+done
+shopt -u nullglob
+if (( ${#projects[@]} )); then
+  mapfile -t projects < <(printf '%s\n' "${projects[@]}" | LC_ALL=C sort)
+fi
+
+if (( list )); then
+  (( ${#projects[@]} )) && printf '%s\n' "${projects[@]}"
+  exit 0
+fi
+
+# --- Elegir ------------------------------------------------------------------
+
+if (( ${#args[@]} )); then
+  name=${args[0]}
+else
+  (( ${#projects[@]} )) || die "no hay proyectos en '$root'"
+  if command -v fzf >/dev/null 2>&1; then
+    # fzf sale con 130 si lo cancelas (Esc, C-c) y con 1 si no hay
+    # coincidencia: nada que abrir, el popup se cierra sin más. Con 2 falló.
+    rc=0
+    name=$(printf '%s\n' "${projects[@]}" | fzf --prompt='proyecto> ' --reverse) || rc=$?
+    (( rc == 0 )) || { (( rc == 1 || rc == 130 )) && exit 0; die "fzf salió con $rc"; }
+  else
+    # select es de bash: lista numerada y read. EOF (C-d) deja name vacío.
+    PS3='proyecto (número, C-d para salir): '
+    name=""
+    select name in "${projects[@]}"; do
+      [[ -n "$name" ]] && break
+    done
+    [[ -n "$name" ]] || exit 0
+  fi
+fi
+
+# Solo vale un nombre de la lista: "..", "../otro" o una ruta no lo son.
+printf '%s\n' "${projects[@]}" | grep -qxF -- "$name" ||
+  die "no existe el proyecto '$name' en '$root'"
+
+# dev-up hace el resto: sesión idempotente y switch-client o attach (dentro
+# de un popup, $TMUX apunta al servidor y cambia la sesión del cliente).
+# El nombre va como argumento, nunca dentro de una cadena de shell o de tmux.
+opts=()
+(( detach )) && opts+=(-d)
+exec "$(dirname "$0")/dev-up" "${opts[@]}" -- "$root/$name"

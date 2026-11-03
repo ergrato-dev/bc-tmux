@@ -1,0 +1,64 @@
+<svg viewBox="0 0 900 440" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Un display-popup lanzado desde la terminal A espera a que el popup se cierre en el cliente B y devuelve el código de salida de su comando</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3fb950"/>
+    </marker>
+  </defs>
+  <rect width="900" height="440" fill="#0d1117"/>
+
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- Cabeceras -->
+    <rect x="60" y="30" width="200" height="50" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="160" y="52" fill="#f0f6fc" text-anchor="middle">Terminal A</text>
+    <text x="160" y="70" fill="#8b949e" text-anchor="middle" font-size="12">fuera de tmux</text>
+    <rect x="350" y="30" width="200" height="50" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="450" y="61" fill="#f0f6fc" text-anchor="middle">Servidor tmux</text>
+    <rect x="640" y="30" width="200" height="50" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="740" y="52" fill="#f0f6fc" text-anchor="middle">Terminal B</text>
+    <text x="740" y="70" fill="#8b949e" text-anchor="middle" font-size="12">cliente conectado</text>
+
+    <!-- Líneas de vida -->
+    <line x1="160" y1="80" x2="160" y2="330" stroke="#30363d" stroke-width="2" stroke-dasharray="6 6"/>
+    <line x1="450" y1="80" x2="450" y2="330" stroke="#30363d" stroke-width="2" stroke-dasharray="6 6"/>
+    <line x1="740" y1="80" x2="740" y2="330" stroke="#30363d" stroke-width="2" stroke-dasharray="6 6"/>
+
+    <!-- A espera -->
+    <rect x="152" y="124" width="16" height="164" fill="#e3b341"/>
+    <text x="180" y="212" fill="#e3b341">A no vuelve:</text>
+    <text x="180" y="232" fill="#e3b341">espera</text>
+
+    <!-- 1. Lanzar -->
+    <text x="300" y="112" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">display-popup -E 'exit 4'</text>
+    <line x1="168" y1="124" x2="446" y2="124" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- 2. Dibujar en B -->
+    <text x="595" y="142" fill="#f0f6fc" text-anchor="middle">dibuja el popup</text>
+    <line x1="450" y1="154" x2="676" y2="154" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow-green)"/>
+    <rect x="680" y="160" width="120" height="80" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="740" y="190" fill="#f0f6fc" text-anchor="middle">popup</text>
+    <text x="740" y="210" fill="#8b949e" text-anchor="middle" font-size="12">las teclas de B</text>
+    <text x="740" y="226" fill="#8b949e" text-anchor="middle" font-size="12">van aquí</text>
+
+    <!-- 3. Cerrar -->
+    <text x="595" y="256" fill="#f0f6fc" text-anchor="middle">termina (-E) o Escape</text>
+    <line x1="740" y1="268" x2="454" y2="268" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- 4. Devolver el código -->
+    <text x="300" y="276" fill="#f0f6fc" text-anchor="middle">rc del comando: 4</text>
+    <line x1="450" y1="288" x2="172" y2="288" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+    <!-- Nota -->
+    <rect x="60" y="350" width="780" height="70" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="80" y="378" fill="#f0f6fc">Igual con display-menu, command-prompt y confirm-before. Sin cliente conectado, no aparece nada.</text>
+    <text x="80" y="402" fill="#8b949e">Desde fuera se cierra con</text>
+    <text x="272" y="402" fill="#f0f6fc"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">display-popup -C</text>
+  </g>
+</svg>

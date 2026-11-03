@@ -33,7 +33,7 @@ está en construcción (sin enlace hasta que exista la carpeta).
 | Semana | Tema | Estado |
 |:--:|---|:--:|
 | [09](week-09-scripting_de_tmux_desde_shell/README.md) | Scripting de tmux desde shell | ✅ |
-| 10 | Hooks, popups y menús | ⬜ |
+| [10](week-10-hooks_popups_y_menus/README.md) | Hooks, popups y menús | ✅ |
 | 11 | Plugins y ecosistema | ⬜ |
 
 ### Fase 4 — Avanzado y producción (S12-13, 20 h)
