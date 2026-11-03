@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+# tests/run — checks propios de tmux-kit, sobre un servidor aislado y un HOME temporal.
+#
+# Uso: tests/run
+#      TMUX_SOCKET=x tests/run     usa el servidor tmux -L x (por defecto kit-test-PID)
+# Imprime una línea ✅ o ❌ por check. Salida: 0 si pasan todos, 1 si falla alguno.
+# Las funciones t_* se llaman por su nombre desde check(): shellcheck no lo ve.
+# shellcheck disable=SC2317
+set -euo pipefail
+
+kit=$(cd "$(dirname "$0")/.." && pwd -P)
+
+# Exportado: bin/dev-up y los demás scripts hablan con este mismo servidor, y
+# el trap lo cierra al salir. Nunca se toca tu servidor de siempre.
+export TMUX_SOCKET="${TMUX_SOCKET:-kit-test-$$}"
+tmx() { "${TMUX_BIN:-tmux}" -L "$TMUX_SOCKET" "$@"; }
+
+# HOME temporal: install.sh y el servidor que arranca sin -f no leen ni
+# escriben tu config real. Sin TMUX, dev-up no intenta cambiar tu cliente.
+tmp=$(mktemp -d)
+export HOME="$tmp/home"
+unset XDG_CONFIG_HOME TMUX
+mkdir -p "$HOME"
+
+# kill-server vuelve antes de que el servidor salga, y arrancar otro en ese
+# hueco choca con el que muere. Se espera a que no responda (máximo 5 s). El
+# archivo del socket no sirve de señal: tmux 3.4 no lo borra al salir.
+stop_server() {
+  local i
+  tmx kill-server 2>/dev/null || true
+  for (( i = 0; i < 100; i++ )); do
+    tmx list-sessions >/dev/null 2>&1 || return 0
+    sleep 0.05
+  done
+}
+
+cleanup() { stop_server; rm -rf "$tmp"; }
+trap cleanup EXIT
+
+passed=0
+failed=0
+
+# check DESCRIPCIÓN FUNCIÓN: dentro de un if, set -e no corta la función en el
+# primer error; por eso cada test encadena sus pasos con &&.
+check() {
+  if "$2" >/dev/null 2>&1; then
+    echo "✅ $1"
+    passed=$(( passed + 1 ))
+  else
+    echo "❌ $1"
+    failed=$(( failed + 1 ))
+  fi
+}
+
+# --- Tests ----------------------------------------------------------------------
+
+t_config_loads() { tmx source-file "$kit/tmux.conf"; }
+
+t_prefix() { [[ "$(tmx show -gv prefix)" == C-a ]]; }
+
+# Recargar no puede añadir teclas ni hooks: si lo hace, cada prefix r duplica.
+t_reload() {
+  local keys hooks
+  keys=$(tmx list-keys | wc -l) &&
+    hooks=$(tmx show-hooks -g | wc -l) &&
+    tmx source-file "$kit/tmux.conf" &&
+    tmx source-file "$kit/tmux.conf" &&
+    [[ "$(tmx list-keys | wc -l)" == "$keys" ]] &&
+    [[ "$(tmx show-hooks -g | wc -l)" == "$hooks" ]]
+}
+
+t_dev_up() {
+  mkdir -p "$tmp/api" &&
+    "$kit/bin/dev-up" -d "$tmp/api" &&
+    "$kit/bin/dev-up" -d "$tmp/api" &&
+    [[ "$(tmx list-sessions -F '#{session_name}' | grep -cx api)" == 1 ]]
+}
+
+# Dos instalaciones seguidas: el enlace lleva al kit y no aparece ningún backup.
+t_install() {
+  "$kit/install.sh" &&
+    "$kit/install.sh" &&
+    [[ -L "$HOME/.config/tmux" ]] &&
+    [[ "$(cd "$HOME/.config/tmux" && pwd -P)" == "$kit" ]] &&
+    [[ "$(cd "$HOME/.config" && echo *)" == tmux ]]
+}
+
+# Sin -f, tmux lee ~/.config/tmux/tmux.conf: el enlace que dejó install.sh.
+# #{config_files} da la ruta ya resuelta, la del kit, no la del enlace.
+t_installed_starts() {
+  stop_server &&
+    tmx new-session -d -s tests &&
+    [[ "$(tmx show -gv prefix)" == C-a ]] &&
+    [[ "$(tmx display -p '#{config_files}')" == "$kit/tmux.conf" ]]
+}
+
+# --- Ejecución ------------------------------------------------------------------
+
+tmx -f /dev/null new-session -d -s tests
+check "tmux.conf carga sin errores" t_config_loads
+check "El prefix es C-a" t_prefix
+check "Recargar dos veces no duplica teclas ni hooks" t_reload
+check "bin/dev-up dos veces deja una sola sesión" t_dev_up
+check "install.sh dos veces deja un solo enlace al kit" t_install
+check "tmux arranca con la config instalada" t_installed_starts
+
+echo
+echo "$passed/$(( passed + failed )) checks superados"
+exit $(( failed > 0 ))

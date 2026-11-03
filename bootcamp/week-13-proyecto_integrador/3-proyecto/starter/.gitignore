@@ -1,0 +1,4 @@
+# Ajustes de esta máquina (semana 05).
+local.conf
+# Los clona TPM (bin/kit-plugins install): se instalan, no se versionan (semana 11).
+plugins/

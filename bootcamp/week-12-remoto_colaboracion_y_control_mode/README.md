@@ -71,6 +71,6 @@ pasar todos.
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 11 — Plugins y ecosistema](../week-11-plugins_y_ecosistema/README.md) | **Semana 12 — Remoto, colaboración y control mode** | Semana 13 — Proyecto integrador |
+| [← Semana 11 — Plugins y ecosistema](../week-11-plugins_y_ecosistema/README.md) | **Semana 12 — Remoto, colaboración y control mode** | [Semana 13 — Proyecto integrador →](../week-13-proyecto_integrador/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)

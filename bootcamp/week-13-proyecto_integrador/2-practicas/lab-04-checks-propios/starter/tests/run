@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# kit y failed aún no se usan: borra esta línea y la siguiente al terminar el TODO 6.
+# shellcheck disable=SC2034,SC2317
+# tests/run — checks propios del kit, contra un servidor aislado.
+#
+# Uso: tests/run                  (socket kit-test)
+#      TMUX_SOCKET=otro tests/run (otro socket; nunca el de tu sesión)
+# Salida: una línea ✅/❌ por check. Código: 0 si todos pasan, 1 si alguno falla.
+set -euo pipefail
+
+kit=$(cd "$(dirname "$0")/.." && pwd -P)
+# TODO 1: el socket sale de TMUX_SOCKET y, si no está, kit-test:
+#   socket="${TMUX_SOCKET:-kit-test}"
+socket="kit-test"
+home=$(mktemp -d)
+
+# HOME vacío y sin XDG_CONFIG_HOME: ninguna config tuya se cuela en el check.
+tmx() { env -u XDG_CONFIG_HOME HOME="$home" "${TMUX_BIN:-tmux}" -L "$socket" "$@"; }
+
+# TODO 2: al salir (trap ... EXIT), mata el servidor y borra el HOME:
+#   trap 'tmx kill-server 2>/dev/null || true; rm -rf "$home"' EXIT
+# Comillas simples: $home se expande al salir, no al definir el trap.
+
+failed=0
+ok()   { echo "✅ $1"; }
+fail() { echo "❌ $1${2:+: $2}"; failed=1; }
+
+# -f /dev/null y source-file después: con -f el servidor arranca aunque la
+# config tenga errores y sale con 0; source-file sí falla y dice dónde.
+tmx -f /dev/null new-session -d -s test
+
+# TODO 3: check "la config carga sin errores". Guarda stdout+stderr y mira
+# el código de salida a la vez:
+#   if out=$(tmx source-file "$kit/tmux.conf" 2>&1); then ok "..."; else fail "..." "$out"; fi
+
+# TODO 4: check "prefix C-a": prefix=$(tmx show -gv prefix) y compáralo con
+# [[ "$prefix" == C-a ]]; si falla, fail "prefix C-a" "es $prefix".
+
+# TODO 5: check "recargar dos veces no cambia nada": before=$(tmx show -g),
+# otro tmx source-file "$kit/tmux.conf", y compara tmx show -g con "$before".
+
+# TODO 6: el código de salida es "$failed", no siempre 0.
+exit 0

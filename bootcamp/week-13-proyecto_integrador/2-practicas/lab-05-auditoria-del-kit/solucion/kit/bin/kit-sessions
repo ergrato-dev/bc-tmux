@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# kit-sessions — lista las sesiones con su número de ventanas.
+set -euo pipefail
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+tmx list-sessions -F '#S #{session_windows}' | while read -r name n; do
+  echo "$name: $n ventanas"
+done

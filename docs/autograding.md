@@ -17,7 +17,7 @@ ejecuta lo que ahí ponga.
 Por defecto los checks corren dentro del laboratorio (`compose.yaml`, tmux 3.4):
 todos obtienen el mismo resultado sin importar qué tmux tengan instalado.
 `--host` es para las semanas que dependen de tu terminal o tu portapapeles
-(04, 08 y 13); su README lo indica.
+(04 y 08); su README lo indica.
 
 Cada check usa un **servidor tmux aislado** (`-L bc-check`). El verificador lo
 mata antes de cada check y al terminar: nunca toca tus sesiones.

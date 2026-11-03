@@ -24,6 +24,6 @@
 
 | Anterior | Siguiente |
 |---|---|
-| ← [Recursos — web](../4-recursos/webgrafia/README.md) | — |
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 13 — Proyecto integrador](../../week-13-proyecto_integrador/README.md) → |
 
 [↑ Semana 12](../README.md)

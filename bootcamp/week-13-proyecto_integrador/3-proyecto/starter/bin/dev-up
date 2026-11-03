@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+# dev-up — crea o reutiliza la sesión de trabajo de un proyecto.
+#
+# Uso: dev-up [-d|--no-attach] DIR [NAME]
+#      TMUX_SOCKET=kit dev-up -d ~/src/api     en el servidor de tmux -L kit
+# Ventanas editor, run y logs en DIR. NAME por defecto: el nombre de DIR con
+# "." y ":" cambiados por "_". DIR/.tmux-kit ("ventana: comando") da el
+# comando inicial de cada ventana. -d crea sin conectarse.
+# Salida: 0 bien, 1 DIR no existe o tmux falla, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() {
+  sed -n '4,9s/^# \{0,1\}//p' "$0" >&2
+  exit 2
+}
+
+die() { echo "dev-up: $*" >&2; exit 1; }
+
+# Ventanas del proyecto, en el orden en que se crean.
+WINDOWS=(editor run logs)
+
+# --- Argumentos ----------------------------------------------------------------
+
+detach=0
+args=()
+while (( $# )); do
+  case "$1" in
+    -d | --no-attach) detach=1 ;;
+    --)               shift; args+=("$@"); break ;;
+    -*)               usage ;;
+    *)                args+=("$1") ;;
+  esac
+  shift
+done
+(( ${#args[@]} == 1 || ${#args[@]} == 2 )) || usage
+
+[[ -d "${args[0]}" ]] || die "no existe el directorio '${args[0]}'"
+# Ruta absoluta y sin enlaces: es la que tmux enseña en #{pane_current_path}.
+dir=$(cd -- "${args[0]}" && pwd -P)
+
+if (( ${#args[@]} == 2 )); then
+  name=${args[1]}
+  # Un NAME explícito no se corrige a escondidas: "a.b" como target se lee
+  # como sesión "a", panel "b", y tmux lo guardaría como "a_b".
+  [[ -n "$name" && "$name" != *[.:]* ]] || {
+    echo "dev-up: nombre no válido '$name' (sin '.' ni ':')" >&2
+    exit 2
+  }
+else
+  # Lo mismo que haría tmux, pero antes: así has-session busca el nombre que
+  # de verdad existe y la segunda ejecución reutiliza la sesión.
+  name=$(basename -- "$dir")
+  name=${name//[.:]/_}
+fi
+
+# --- .tmux-kit -----------------------------------------------------------------
+
+# kit_command VENTANA — imprime el comando de VENTANA en DIR/.tmux-kit (la
+# última línea "VENTANA: comando" gana) o nada. El archivo solo se lee: nunca
+# pasa por eval ni por source.
+kit_command() {
+  local file="$dir/.tmux-kit" line key cmd=""
+  [[ -f "$file" ]] || return 0
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    [[ "$line" == *:* ]] || continue
+    key=${line%%:*}
+    key=${key//[[:space:]]/}
+    [[ "$key" == "$1" ]] || continue    # "# editor: ..." no casa: es un comentario
+    cmd=${line#*:}
+    cmd=${cmd#"${cmd%%[![:space:]]*}"}  # sin los espacios de delante
+  done <"$file"
+  printf '%s' "$cmd"
+}
+
+# start PANE VENTANA — escribe el comando de .tmux-kit en la shell del panel.
+# Con send-keys y no como comando de new-window: si el comando termina (o
+# falla), la shell sigue ahí con su salida y el comando queda en el historial.
+# -l manda el texto tal cual: "Enter" o "C-c" dentro del comando son letras,
+# no teclas. El Enter va aparte, como tecla.
+start() {
+  local pane="$1" cmd
+  cmd=$(kit_command "$2")
+  [[ -n "$cmd" ]] || return 0
+  tmx send-keys -t "$pane" -l -- "$cmd"
+  tmx send-keys -t "$pane" Enter
+}
+
+# --- Sesión y ventanas ---------------------------------------------------------
+
+# "=" pide coincidencia exacta: sin él, has-session -t api acierta con api-2
+# y la sesión api no se crearía nunca.
+if tmx has-session -t "=$name" 2>/dev/null; then
+  echo "dev-up: la sesión '$name' ya existe"
+  fresh=0
+  existing=$(tmx list-windows -t "=$name" -F '#{window_name}')
+else
+  # -P -F devuelve el id del panel nuevo: los comandos siguientes apuntan a
+  # %N, que no depende de base-index ni de cómo se llame la ventana.
+  pane=$(tmx new-session -d -s "$name" -n "${WINDOWS[0]}" -c "$dir" -P -F '#{pane_id}')
+  start "$pane" "${WINDOWS[0]}"
+  echo "dev-up: sesión '$name' creada en $dir"
+  fresh=1
+  existing=${WINDOWS[0]}
+fi
+
+# Crear o reutilizar, ventana por ventana: si cerraste logs, vuelve; si ya
+# están las tres, no se crea nada y no se reenvía ningún comando.
+for window in "${WINDOWS[@]}"; do
+  grep -qxF -- "$window" <<<"$existing" && continue
+  # "=$name:" es la sesión exacta; los dos puntos dejan el índice a tmux.
+  pane=$(tmx new-window -d -t "=$name:" -n "$window" -c "$dir" -P -F '#{pane_id}')
+  start "$pane" "$window"
+  (( fresh )) || echo "dev-up: ventana '$window' creada de nuevo"
+done
+
+(( detach )) && exit 0
+
+# --- Conectarse ----------------------------------------------------------------
+
+# Dentro de tmux, attach anidaría un cliente dentro de un panel: se cambia de
+# sesión el cliente actual. Solo si $TMUX es este mismo servidor (el socket va
+# antes de la primera coma); si no, attach y tmux avisa del anidamiento.
+if [[ -n "${TMUX:-}" && "${TMUX%%,*}" == "$(tmx display-message -p '#{socket_path}')" ]]; then
+  tmx switch-client -t "=$name"
+else
+  tmx attach-session -t "=$name"
+fi

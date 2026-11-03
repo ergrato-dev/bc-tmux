@@ -1,0 +1,52 @@
+<svg viewBox="0 0 900 440" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Decisión del instalador según lo que ya hay en el destino: si no existe, enlaza; si ya es un enlace a este kit, no hace nada; si es una config real o un enlace a otro sitio, la mueve a un backup con fecha y enlaza</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect width="900" height="440" fill="#0d1117"/>
+
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- pregunta -->
+    <rect x="300" y="24" width="300" height="64" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="450" y="50" fill="#f0f6fc" text-anchor="middle">¿Qué hay en el destino?</text>
+    <text x="450" y="72" fill="#8b949e" text-anchor="middle" font-size="13"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">${XDG_CONFIG_HOME:-~/.config}/tmux</text>
+
+    <!-- ramas -->
+    <path d="M370,88 L150,150" stroke="#8b949e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path d="M450,88 L450,150" stroke="#8b949e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path d="M530,88 L750,150" stroke="#8b949e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <text x="150" y="172" fill="#f0f6fc" text-anchor="middle">No existe</text>
+    <text x="450" y="172" fill="#f0f6fc" text-anchor="middle">Enlace a este kit</text>
+    <text x="750" y="172" fill="#f0f6fc" text-anchor="middle">Config real o enlace ajeno</text>
+
+    <!-- no existe -->
+    <path d="M150,184 L150,318" stroke="#8b949e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <!-- ya instalado -->
+    <path d="M450,184 L450,220" stroke="#8b949e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <rect x="345" y="224" width="210" height="64" rx="6" fill="#161b22" stroke="#d2a8ff" stroke-width="2"/>
+    <text x="450" y="250" fill="#f0f6fc" text-anchor="middle">Nada que hacer</text>
+    <text x="450" y="272" fill="#8b949e" text-anchor="middle" font-size="13">idempotente, exit 0</text>
+
+    <!-- config real -->
+    <path d="M750,184 L750,220" stroke="#8b949e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <rect x="625" y="224" width="250" height="64" rx="6" fill="#161b22" stroke="#e3b341" stroke-width="2"/>
+    <text x="750" y="250" fill="#e3b341" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">mv a tmux.bak.&lt;fecha&gt;</text>
+    <text x="750" y="272" fill="#8b949e" text-anchor="middle" font-size="13">nunca <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">rm -rf</tspan>: se puede restaurar</text>
+    <path d="M700,288 L270,334" stroke="#8b949e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <!-- enlace -->
+    <rect x="40" y="322" width="230" height="64" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="155" y="350" fill="#3fb950" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ln -sfn "$KIT" destino</text>
+    <text x="155" y="372" fill="#8b949e" text-anchor="middle" font-size="13">instalado, exit 0</text>
+
+    <text x="450" y="418" fill="#8b949e" text-anchor="middle" font-size="13">Con <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace">--dry-run</tspan> cada acción se imprime y no se ejecuta</text>
+  </g>
+</svg>

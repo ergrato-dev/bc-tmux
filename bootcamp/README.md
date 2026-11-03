@@ -41,7 +41,7 @@ está en construcción (sin enlace hasta que exista la carpeta).
 | Semana | Tema | Estado |
 |:--:|---|:--:|
 | [12](week-12-remoto_colaboracion_y_control_mode/README.md) | Remoto, colaboración y control mode | ✅ |
-| 13 | Proyecto integrador | ⬜ |
+| [13](week-13-proyecto_integrador/README.md) | Proyecto integrador | ✅ |
 
 ---
 

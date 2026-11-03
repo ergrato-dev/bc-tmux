@@ -1,0 +1,132 @@
+{
+  "semana": "13",
+  "titulo": "Proyecto integrador",
+  "checks": [
+    {
+      "id": "install-enlaza",
+      "descripcion": "install.sh enlaza ~/.config/tmux al directorio del kit",
+      "cmd": "h=$(mktemp -d) ; i() { env -u XDG_CONFIG_HOME HOME=\"$h\" {proyecto}/install.sh \"$@\" ; } ; t=\"$h/.config/tmux\" ; p=$(cd {proyecto} && pwd -P) ; i >/dev/null ; [ -L \"$t\" ] && [ \"$(cd \"$t\" && pwd -P)\" = \"$p\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 3"
+    },
+    {
+      "id": "install-xdg",
+      "descripcion": "install.sh instala en $XDG_CONFIG_HOME/tmux cuando XDG_CONFIG_HOME está definida",
+      "cmd": "h=$(mktemp -d) ; p=$(cd {proyecto} && pwd -P) ; XDG_CONFIG_HOME=\"$h/xdg\" HOME=\"$h\" {proyecto}/install.sh >/dev/null ; [ -L \"$h/xdg/tmux\" ] && [ \"$(cd \"$h/xdg/tmux\" && pwd -P)\" = \"$p\" ] && [ ! -e \"$h/.config\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 2"
+    },
+    {
+      "id": "install-ruta-absoluta",
+      "descripcion": "Lanzado como ./install.sh desde el kit, el enlace guarda la ruta absoluta",
+      "cmd": "h=$(mktemp -d) ; p=$(cd {proyecto} && pwd -P) ; cd {proyecto} && env -u XDG_CONFIG_HOME HOME=\"$h\" ./install.sh >/dev/null ; l=$(readlink \"$h/.config/tmux\") ; echo \"enlace: $l\" ; [ \"$l\" = \"$p\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 2"
+    },
+    {
+      "id": "install-idempotente",
+      "descripcion": "Ejecutar install.sh dos veces sale con 0 y no crea backups",
+      "cmd": "h=$(mktemp -d) ; i() { env -u XDG_CONFIG_HOME HOME=\"$h\" {proyecto}/install.sh \"$@\" ; } ; t=\"$h/.config/tmux\" ; i >/dev/null 2>&1 ; i >/dev/null 2>&1 ; echo \"rc=$? $(ls -A \"$h/.config\" 2>&1)\"",
+      "assert": "stdout~^rc=0 tmux$",
+      "pista": "3-proyecto/README.md, paso 3"
+    },
+    {
+      "id": "install-backup",
+      "descripcion": "install.sh guarda la config que había en un backup, con su contenido intacto",
+      "cmd": "h=$(mktemp -d) ; i() { env -u XDG_CONFIG_HOME HOME=\"$h\" {proyecto}/install.sh \"$@\" ; } ; t=\"$h/.config/tmux\" ; mkdir -p \"$t\" ; echo 'set -g status off # mía' > \"$t/tmux.conf\" ; i >/dev/null 2>&1 ; n=$(ls -d \"$t\".bak.* 2>/dev/null | wc -l) ; echo \"backups=$n enlace=$([ -L \"$t\" ] && echo si) $(cat \"$t\".bak.*/tmux.conf 2>/dev/null)\"",
+      "assert": "stdout~^backups=1 enlace=si set -g status off # mía$",
+      "pista": "3-proyecto/README.md, paso 3"
+    },
+    {
+      "id": "tmux-arranca-instalado",
+      "descripcion": "Tras install.sh, tmux sin -f arranca con la config del kit (prefix C-a)",
+      "cmd": "h=$(mktemp -d) ; i() { env -u XDG_CONFIG_HOME HOME=\"$h\" {proyecto}/install.sh \"$@\" ; } ; t=\"$h/.config/tmux\" ; i >/dev/null 2>&1 ; env -u XDG_CONFIG_HOME HOME=\"$h\" {tmux} new-session -d ; {tmux} show -gv prefix",
+      "assert": "stdout~^C-a$",
+      "pista": "3-proyecto/README.md, paso 3"
+    },
+    {
+      "id": "install-dry-run",
+      "descripcion": "install.sh --dry-run explica lo que haría sin cambiar nada",
+      "cmd": "h=$(mktemp -d) ; i() { env -u XDG_CONFIG_HOME HOME=\"$h\" {proyecto}/install.sh \"$@\" ; } ; t=\"$h/.config/tmux\" ; mkdir -p \"$t\" ; echo 'set -g status off # mía' > \"$t/tmux.conf\" ; e() { ls -lAR --time-style=full-iso \"$h\" ; cat \"$t/tmux.conf\" ; } ; a=$(e) ; out=$(i --dry-run 2>&1) ; r=$? ; b=$(e) ; echo \"rc=$r lineas=$(echo \"$out\" | grep -c .) igual=$([ \"$a\" = \"$b\" ] && echo si || echo no)\"",
+      "assert": "stdout~^rc=0 lineas=[1-9][0-9]* igual=si$",
+      "pista": "3-proyecto/README.md, paso 4"
+    },
+    {
+      "id": "install-avisa-tmux-conf",
+      "descripcion": "install.sh avisa si también existe ~/.tmux.conf",
+      "cmd": "h=$(mktemp -d) ; i() { env -u XDG_CONFIG_HOME HOME=\"$h\" {proyecto}/install.sh \"$@\" ; } ; t=\"$h/.config/tmux\" ; sin=$(i 2>&1 | grep -c \"[.]tmux[.]conf\") ; touch \"$h/.tmux.conf\" ; con=$(i 2>&1 | grep -c \"[.]tmux[.]conf\") ; echo \"sin=$sin con=$con\"",
+      "assert": "stdout~^sin=0 con=[1-9]",
+      "pista": "3-proyecto/README.md, paso 5"
+    },
+    {
+      "id": "install-desinstala",
+      "descripcion": "install.sh --uninstall quita el enlace y devuelve la config que había",
+      "cmd": "h=$(mktemp -d) ; i() { env -u XDG_CONFIG_HOME HOME=\"$h\" {proyecto}/install.sh \"$@\" ; } ; t=\"$h/.config/tmux\" ; mkdir -p \"$t\" ; echo 'set -g status off # mía' > \"$t/tmux.conf\" ; i >/dev/null 2>&1 ; i --uninstall >/dev/null 2>&1 ; r=$? ; echo \"rc=$r enlace=$([ -L \"$t\" ] && echo si || echo no) backups=$(ls -d \"$t\".bak.* 2>/dev/null | wc -l) $(cat \"$t/tmux.conf\" 2>/dev/null)\"",
+      "assert": "stdout~^rc=0 enlace=no backups=0 set -g status off # mía$",
+      "pista": "3-proyecto/README.md, paso 6"
+    },
+    {
+      "id": "install-enlace-ajeno",
+      "descripcion": "install.sh --uninstall sale con 0 si no hay nada instalado y con 1 ante un enlace ajeno, que no toca",
+      "cmd": "h=$(mktemp -d) ; i() { env -u XDG_CONFIG_HOME HOME=\"$h\" {proyecto}/install.sh \"$@\" ; } ; t=\"$h/.config/tmux\" ; i --uninstall >/dev/null 2>&1 ; v=$? ; mkdir -p \"$h/otro\" \"$h/.config\" ; ln -s \"$h/otro\" \"$t\" ; i --uninstall >/dev/null 2>&1 ; r=$? ; echo \"vacio=$v ajeno=$r enlace=$(readlink \"$t\")\" ; [ \"$v$r\" = 01 ] && [ \"$(readlink \"$t\")\" = \"$h/otro\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 6"
+    },
+    {
+      "id": "install-uso",
+      "descripcion": "install.sh sale con 2 ante una opción desconocida, sin tocar nada",
+      "cmd": "h=$(mktemp -d) ; i() { env -u XDG_CONFIG_HOME HOME=\"$h\" {proyecto}/install.sh \"$@\" ; } ; t=\"$h/.config/tmux\" ; i --nope >/dev/null 2>&1 ; echo \"rc=$? [$(ls -A \"$h\")]\"",
+      "assert": "stdout~^rc=2 .[]]$",
+      "pista": "3-proyecto/README.md, paso 1"
+    },
+    {
+      "id": "tests-pasan",
+      "descripcion": "tests/run tiene al menos 5 checks y todos pasan",
+      "cmd": "out=$(TMUX_SOCKET=bc-check timeout 60 {proyecto}/tests/run 2>&1) ; echo \"rc=$? ok=$(echo \"$out\" | grep -c ✅)\"",
+      "assert": "stdout~^rc=0 ok=([5-9]|[1-9][0-9]+)$",
+      "pista": "3-proyecto/README.md, paso 10"
+    },
+    {
+      "id": "tests-detectan-prefix",
+      "descripcion": "tests/run falla si alguien cambia el prefix",
+      "cmd": "d=$(mktemp -d) ; cp -r {proyecto}/. \"$d\" ; export TMUX_SOCKET=bc-check ; timeout 60 \"$d/tests/run\" >/dev/null 2>&1 && { echo 'set -g prefix C-b' > \"$d/conf.d/99-mutante.conf\" ; timeout 60 \"$d/tests/run\" > \"$d.out\" 2>&1 ; echo \"rc=$? fallos=$(grep -c ❌ \"$d.out\")\" ; }",
+      "assert": "stdout~^rc=1 fallos=[1-9]",
+      "pista": "3-proyecto/README.md, paso 11"
+    },
+    {
+      "id": "tests-detectan-error",
+      "descripcion": "tests/run falla si un archivo de conf.d tiene un error",
+      "cmd": "d=$(mktemp -d) ; cp -r {proyecto}/. \"$d\" ; export TMUX_SOCKET=bc-check ; timeout 60 \"$d/tests/run\" >/dev/null 2>&1 && { echo 'set -g opcion-que-no-existe on' > \"$d/conf.d/99-mutante.conf\" ; timeout 60 \"$d/tests/run\" > \"$d.out\" 2>&1 ; echo \"rc=$? fallos=$(grep -c ❌ \"$d.out\")\" ; }",
+      "assert": "stdout~^rc=1 fallos=[1-9]",
+      "pista": "3-proyecto/README.md, paso 11"
+    },
+    {
+      "id": "tests-sin-servidores",
+      "descripcion": "tests/run no deja ningún servidor de tmux en marcha",
+      "cmd": "v() { for s in \"/tmp/tmux-$(id -u)\"/* ; do tmux -S \"$s\" list-sessions >/dev/null 2>&1 && echo \"$s\" ; done ; } ; a=$(v) ; env -u TMUX_SOCKET timeout 60 {proyecto}/tests/run >/dev/null 2>&1 ; r=$? ; sleep 0.5 ; b=$(v) ; echo \"rc=$r antes=[$a] despues=[$b]\" ; [ \"$r\" = 0 ] && [ \"$a\" = \"$b\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 7"
+    },
+    {
+      "id": "readme-secciones",
+      "descripcion": "El README del kit tiene las secciones Instalación, Desinstalación, Atajos, Scripts y Tests",
+      "cmd": "n=0 ; for s in Instalación Desinstalación Atajos Scripts Tests ; do grep -qx \"## $s\" {proyecto}/README.md && n=$((n+1)) ; done ; echo \"secciones=$n\"",
+      "assert": "stdout~^secciones=5$",
+      "pista": "3-proyecto/README.md, paso 12"
+    },
+    {
+      "id": "kit-shellcheck",
+      "descripcion": "install.sh, tests/run, bin/ y plugin/ pasan shellcheck",
+      "cmd": "shellcheck {proyecto}/install.sh {proyecto}/tests/run {proyecto}/bin/* {proyecto}/plugin/*.tmux",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 13"
+    },
+    {
+      "id": "kit-sin-todos",
+      "descripcion": "El kit no tiene ningún TODO",
+      "cmd": "! grep -rn --exclude-dir=plugins TODO {proyecto}",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 13"
+    }
+  ]
+}

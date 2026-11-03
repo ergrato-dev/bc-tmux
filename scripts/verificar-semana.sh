@@ -11,7 +11,7 @@
 #
 # Por defecto los checks corren dentro del laboratorio Docker (compose.yaml,
 # tmux 3.4), asi todos obtienen el mismo resultado. --host es para las
-# semanas que dependen de tu terminal y tu portapapeles (04, 08, 13).
+# semanas que dependen de tu terminal y tu portapapeles (04 y 08).
 #
 # Este script no sabe nada de ninguna semana en concreto: lee las
 # comprobaciones de bootcamp/week-NN-*/checks.json y las ejecuta. Si necesitas

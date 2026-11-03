@@ -1,0 +1,49 @@
+<svg viewBox="0 0 900 400" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Prueba de mutación: el kit original tiene que pasar tests/run; una copia rota a propósito tiene que fallar. Si la copia rota también pasa, el check está ciego</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect width="900" height="400" fill="#0d1117"/>
+
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- fila 1: kit original -->
+    <rect x="30" y="40" width="190" height="60" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="125" y="76" fill="#f0f6fc" text-anchor="middle">Kit original</text>
+    <line x1="220" y1="70" x2="356" y2="70" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="360" y="40" width="160" height="60" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="440" y="76" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">tests/run</text>
+    <line x1="520" y1="70" x2="636" y2="70" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="640" y="40" width="230" height="60" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="755" y="66" fill="#3fb950" text-anchor="middle">Todo pasa</text>
+    <text x="755" y="88" fill="#8b949e" text-anchor="middle" font-size="13">exit 0: lo esperado</text>
+
+    <!-- fila 2: copia mutada -->
+    <rect x="30" y="200" width="190" height="72" rx="6" fill="#161b22" stroke="#f78166" stroke-width="2"/>
+    <text x="125" y="228" fill="#f0f6fc" text-anchor="middle">Copia rota a propósito</text>
+    <text x="125" y="252" fill="#f78166" text-anchor="middle" font-size="13"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">prefix C-b</text>
+    <line x1="220" y1="236" x2="356" y2="236" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="360" y="206" width="160" height="60" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="440" y="242" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">tests/run</text>
+
+    <path d="M520,224 L636,170" stroke="#8b949e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path d="M520,248 L636,302" stroke="#8b949e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <text x="560" y="180" fill="#8b949e" text-anchor="middle" font-size="13">falla</text>
+    <text x="560" y="304" fill="#8b949e" text-anchor="middle" font-size="13">pasa</text>
+
+    <rect x="640" y="140" width="230" height="60" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="755" y="166" fill="#3fb950" text-anchor="middle">El check sirve</text>
+    <text x="755" y="188" fill="#8b949e" text-anchor="middle" font-size="13">detecta la rotura, exit 1</text>
+
+    <rect x="640" y="272" width="230" height="60" rx="6" fill="#161b22" stroke="#f85149" stroke-width="2"/>
+    <text x="755" y="298" fill="#f85149" text-anchor="middle">Check ciego</text>
+    <text x="755" y="320" fill="#8b949e" text-anchor="middle" font-size="13">mira otra cosa: arréglalo</text>
+
+    <text x="450" y="376" fill="#8b949e" text-anchor="middle" font-size="13">La mutación se hace sobre una copia: el kit nunca se toca</text>
+  </g>
+</svg>

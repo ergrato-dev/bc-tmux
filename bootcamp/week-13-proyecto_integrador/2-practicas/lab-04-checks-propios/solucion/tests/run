@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# tests/run — checks propios del kit, contra un servidor aislado.
+#
+# Uso: tests/run                  (socket kit-test)
+#      TMUX_SOCKET=otro tests/run (otro socket; nunca el de tu sesión)
+# Salida: una línea ✅/❌ por check. Código: 0 si todos pasan, 1 si alguno falla.
+set -euo pipefail
+
+kit=$(cd "$(dirname "$0")/.." && pwd -P)
+socket="${TMUX_SOCKET:-kit-test}"
+home=$(mktemp -d)
+
+# HOME vacío y sin XDG_CONFIG_HOME: ninguna config tuya se cuela en el check.
+tmx() { env -u XDG_CONFIG_HOME HOME="$home" "${TMUX_BIN:-tmux}" -L "$socket" "$@"; }
+
+# Pase lo que pase (también un fallo a medias), no quedan servidores ni HOMEs.
+# Comillas simples: $home se expande al salir, no al definir el trap.
+trap 'tmx kill-server 2>/dev/null || true; rm -rf "$home"' EXIT
+
+failed=0
+ok()   { echo "✅ $1"; }
+fail() { echo "❌ $1${2:+: $2}"; failed=1; }
+
+# -f /dev/null y source-file después: con -f el servidor arranca aunque la
+# config tenga errores y sale con 0; source-file sí falla y dice dónde.
+tmx -f /dev/null new-session -d -s test
+
+if out=$(tmx source-file "$kit/tmux.conf" 2>&1); then
+  ok "la config carga sin errores"
+else
+  fail "la config carga sin errores" "$out"
+fi
+
+prefix=$(tmx show -gv prefix)
+if [[ "$prefix" == C-a ]]; then
+  ok "prefix C-a"
+else
+  fail "prefix C-a" "es $prefix"
+fi
+
+# Recargar (prefix r) no debe acumular: un set -ga crece en cada recarga.
+before=$(tmx show -g)
+tmx source-file "$kit/tmux.conf" 2>/dev/null || true
+if [[ "$(tmx show -g)" == "$before" ]]; then
+  ok "recargar dos veces no cambia nada"
+else
+  fail "recargar dos veces no cambia nada" "$(diff <(echo "$before") <(tmx show -g) | grep "^>" | head -1)"
+fi
+
+exit "$failed"

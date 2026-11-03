@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# tests/run — checks propios de tmux-kit, sobre un servidor aislado y un HOME temporal.
+#
+# Uso: tests/run
+#      TMUX_SOCKET=x tests/run     usa el servidor tmux -L x (por defecto kit-test-PID)
+# Imprime una línea ✅ o ❌ por check. Salida: 0 si pasan todos, 1 si falla alguno.
+# Las funciones t_* se llaman por su nombre desde check(): shellcheck no lo ve.
+# shellcheck disable=SC2317
+set -euo pipefail
+
+kit=$(cd "$(dirname "$0")/.." && pwd -P)
+
+# Exportado: bin/dev-up y los demás scripts hablan con este mismo servidor, y
+# el trap lo cierra al salir. Nunca se toca tu servidor de siempre.
+export TMUX_SOCKET="${TMUX_SOCKET:-kit-test-$$}"
+tmx() { "${TMUX_BIN:-tmux}" -L "$TMUX_SOCKET" "$@"; }
+
+# HOME temporal: install.sh y el servidor que arranca sin -f no leen ni
+# escriben tu config real. Sin TMUX, dev-up no intenta cambiar tu cliente.
+tmp=$(mktemp -d)
+export HOME="$tmp/home"
+unset XDG_CONFIG_HOME TMUX
+mkdir -p "$HOME"
+
+# TODO 7 (lab-04-checks-propios): stop_server hace tmx kill-server (sin fallar
+# si no hay servidor) y espera, hasta 100 vueltas de sleep 0.05, a que
+# tmx list-sessions falle. kill-server vuelve antes de que el servidor salga.
+# cleanup llama a stop_server y borra "$tmp"; el trap la ejecuta al salir.
+stop_server() { :; }
+cleanup() { rm -rf "$tmp"; }
+trap cleanup EXIT
+
+passed=0
+failed=0
+
+# TODO 8 (lab-04-checks-propios): check DESCRIPCIÓN FUNCIÓN ejecuta "$2" sin
+# salida (>/dev/null 2>&1); si sale con 0 imprime "✅ $1" y suma a passed, si
+# no "❌ $1" y suma a failed. Con passed=$(( passed + 1 )): (( passed++ ))
+# vale 0 la primera vez y set -e corta el script.
+check() { :; }
+
+# --- Tests ----------------------------------------------------------------------
+# Dentro de un if (el de check), set -e no corta una función en el primer
+# error: cada test encadena sus pasos con &&.
+
+# Hecho, como modelo: source-file sale con 1 si la config tiene un error.
+# Arrancar con -f no sirve: tmux -f conf_rota new -d sale con 0.
+t_config_loads() { tmx source-file "$kit/tmux.conf"; }
+
+# TODO 9 (lab-04-checks-propios): prefix y recarga.
+#   t_prefix: tmx show -gv prefix es C-a.
+#   t_reload: guarda tmx list-keys | wc -l y tmx show-hooks -g | wc -l,
+#             recarga dos veces y compara los dos números.
+t_prefix() { false; }
+t_reload() { false; }
+
+# TODO 10 (lab-04-checks-propios): scripts e instalación.
+#   t_dev_up: dos veces "$kit/bin/dev-up" -d "$tmp/api" (crea antes el
+#             directorio) y una sola sesión api en tmx list-sessions.
+#   t_install: dos veces "$kit/install.sh"; $HOME/.config/tmux es un enlace
+#              que lleva a $kit y en $HOME/.config no hay nada más.
+#   t_installed_starts: stop_server, tmx new-session -d (sin -f), prefix C-a
+#              y tmx display -p '#{config_files}' es "$kit/tmux.conf".
+t_dev_up() { false; }
+t_install() { false; }
+t_installed_starts() { false; }
+
+# --- Ejecución ------------------------------------------------------------------
+
+tmx -f /dev/null new-session -d -s tests
+check "tmux.conf carga sin errores" t_config_loads
+check "El prefix es C-a" t_prefix
+check "Recargar dos veces no duplica teclas ni hooks" t_reload
+check "bin/dev-up dos veces deja una sola sesión" t_dev_up
+check "install.sh dos veces deja un solo enlace al kit" t_install
+check "tmux arranca con la config instalada" t_installed_starts
+
+echo
+echo "$passed/$(( passed + failed )) checks superados"
+exit $(( failed > 0 ))
