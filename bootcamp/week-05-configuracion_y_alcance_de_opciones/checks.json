@@ -119,7 +119,7 @@
       "descripcion": "kit-opcion reconoce las opciones de servidor",
       "cmd": "{tmux} -f /dev/null new-session -d -s s -n w ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-opcion escape-time s:w.0",
       "assert": "stdout~^500 .servidor.$",
-      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 5"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 7"
     },
     {
       "id": "bin-completo-y-limpio",

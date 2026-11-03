@@ -65,7 +65,7 @@ recarga la config.
 
 ## Copiar
 
-Copy mode usa teclas de vim: `v` selecciona, `C-v` hace un rectángulo e `y`
+En copy mode (`mode-keys vi`), `v` selecciona, `C-v` hace un rectángulo e `y`
 copia al portapapeles con `bin/kit-copiar` (también al soltar el ratón). En
 WSL, instala `win32yank.exe` para que la ñ llegue bien; por SSH, tu terminal
 tiene que soportar OSC 52.

@@ -8,13 +8,19 @@ set -euo pipefail
 
 destino="${XDG_CONFIG_HOME:-$HOME/.config}/tmux"
 
-# TODO 1: si DIR no tiene tmux.conf, avisa y sal con 2. Convierte DIR en ruta
-#         absoluta (cd "$1" && pwd): un enlace relativo apuntaría a otro sitio.
-# TODO 2: si $destino ya es un enlace a DIR (readlink), di "ya instalado:
-#         DESTINO -> DIR" y sal con 0. Si existe y es otra cosa, sal con 1 sin
-#         tocarlo: "ya existe DESTINO: muévelo tú antes".
-# TODO 3: crea el directorio padre, enlaza y di "instalado: DESTINO -> DIR".
-# TODO 4: si existe ~/.tmux.conf, avisa por stderr de que también se carga,
-#         antes que la tuya.
+# TODO 1: si DIR no tiene tmux.conf, imprime por stderr
+#         "instalar.sh: DIR no tiene tmux.conf" y sal con 2.
+#         Después: dir=$(cd "$1" && pwd). Un enlace relativo apuntaría a otro
+#         sitio.
+# TODO 2: if: si $destino es un enlace (-L) y "$(readlink "$destino")" es
+#         "$dir", imprime "ya instalado: DESTINO -> DIR" y NO salgas (el aviso
+#         del TODO 4 tiene que verse igual).
+#         elif: si existe y es otra cosa (-e o -L), imprime por stderr
+#         "instalar.sh: ya existe DESTINO: muévelo tú antes" y sal con 1.
+# TODO 3: else: mkdir -p del directorio padre, ln -s "$dir" "$destino" e
+#         imprime "instalado: DESTINO -> DIR".
+# TODO 4: fuera del if: si existe "$HOME/.tmux.conf", imprime por stderr
+#         "aviso: HOME/.tmux.conf también se carga, antes que la tuya".
+#         Borra las dos líneas de abajo.
 echo "instalar.sh: sin implementar ($1 -> $destino)" >&2
 exit 1

@@ -10,12 +10,16 @@ tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
 opcion="${1:?uso: nivel.sh OPCION PANEL}"
 panel="${2:?uso: nivel.sh OPCION PANEL}"
 
-# TODO 1: valida el panel con list-panes -t (sale con 1 si no existe).
-# TODO 2: función valor FLAGS...: lista "show FLAGS" SIN nombre de opción y
-#         busca la línea que empieza por "$opcion " (awk '$1 == o'). Imprime
-#         el resto de la línea y falla si no está. Con el nombre, show
-#         elegiría el alcance por su cuenta e ignoraría -p y -w.
-# TODO 3: prueba -p -t "$panel", después -w -t "$panel", después -gw, e
-#         imprime "VALOR (panel|ventana|global)"; si no está, sale con 1.
+# TODO 1: valida el panel con list-panes -t (display-message no falla con un
+#         panel que no existe). Si falla: "nivel.sh: no existe el panel PANEL"
+#         por stderr y exit 1.
+# TODO 2: función valor FLAGS...: tmx show "$@" SIN nombre de opción, por una
+#         tubería a awk -v o="$opcion" '$1 == o { sub(/^[^ ]+ /, ""); print;
+#         f = 1; exit } END { exit !f }'. Con el nombre, show deduce el
+#         alcance por la opción y puede ignorar -w o -s.
+# TODO 3: if v=$(valor -p -t "$panel"); then "VALOR (panel)"; elif con
+#         -w -t "$panel" (ventana); elif con -gw (global); else
+#         "nivel.sh: OPCION no es una opción de ventana" por stderr y exit 1.
+#         Borra las dos líneas de abajo.
 echo "nivel.sh: sin implementar ($opcion en $panel)" >&2
 exit 1

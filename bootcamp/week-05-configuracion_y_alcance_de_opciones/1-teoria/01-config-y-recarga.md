@@ -21,7 +21,7 @@ Editar el archivo no cambia nada mientras el servidor siga vivo: o recargas con 
 
 ## Errores
 
-Una línea con error no detiene el archivo: tmux sigue con la siguiente. Al arrancar, avisa por stderr con `archivo:línea`, pero sale con 0; si tmux lo lanza un atajo de tu terminal, el aviso no lo lee nadie. Para depurar, desde fuera y con un servidor aparte:
+Una línea con error no detiene el archivo: tmux sigue con la siguiente. Al arrancar sale con 0 y guarda los errores (con `archivo:línea`) hasta que alguien los pida: el primer cliente que se conecta los ve en el panel, y con `new -d` o un atajo de tu terminal nadie los lee. `tmux source-file /dev/null` los imprime sin conectarte. Para depurar, desde fuera y con un servidor aparte:
 
 ```bash
 tmux -L demo -f /dev/null new -d

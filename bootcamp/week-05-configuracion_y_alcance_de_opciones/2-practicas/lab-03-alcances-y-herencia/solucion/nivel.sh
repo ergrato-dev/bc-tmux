@@ -17,8 +17,9 @@ if ! tmx list-panes -t "$panel" >/dev/null 2>&1; then
   exit 1
 fi
 
-# Sin nombre, show lista solo lo fijado en ese nivel. Con nombre, tmux elige
-# el alcance por la opción y -p o -w no cambiarían nada.
+# Sin nombre, show lista solo lo fijado en ese nivel. Con nombre, deduce el
+# alcance por la opción y puede ignorar -w o -s (show -w escape-time contesta
+# con el valor del servidor).
 valor() {
   tmx show "$@" | awk -v o="$opcion" '$1 == o { sub(/^[^ ]+ /, ""); print; f = 1; exit } END { exit !f }'
 }

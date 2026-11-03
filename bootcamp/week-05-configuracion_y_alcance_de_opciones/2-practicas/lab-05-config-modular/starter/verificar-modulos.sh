@@ -13,10 +13,13 @@ dir=$(cd "$dir" && pwd)
 sock=verificar-modulos
 tmx() { tmux -L "$sock" "$@"; }
 
-# TODO 1: al salir (trap ... EXIT), cierra ese servidor: tmux -L "$sock" kill-server.
-# TODO 2: por cada conf.d/*.conf: servidor limpio (-f /dev/null new -d),
-#         @lab-dir con el valor de $dir (los módulos lo usan) y source-file.
-#         Imprime "ok     NOMBRE" o "error  NOMBRE: MENSAJE" (en una línea).
-# TODO 3: sale con 1 si alguno falló.
+# TODO 1: al salir, cierra ese servidor.
+#         Pista: trap 'tmux -L "$sock" kill-server 2>/dev/null || true' EXIT
+# TODO 2: fallos=0; por cada "$dir"/conf.d/*.conf: kill-server (servidor
+#         limpio), tmx -f /dev/null new -d, tmx set -g @lab-dir "$dir" y
+#         err=$(tmx source-file "$f" 2>&1). Imprime "ok     NOMBRE" o
+#         "error  NOMBRE: MENSAJE" (${err//$'\n'/; }, en una línea) y suma
+#         el fallo. Borra las dos líneas de abajo.
+# TODO 3: sale con 1 si alguno falló: (( fallos == 0 )) como última línea.
 echo "verificar-modulos.sh: sin implementar ($dir)" >&2
 exit 1

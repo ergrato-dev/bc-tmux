@@ -23,9 +23,11 @@ if ! tmx list-panes -t "$target" >/dev/null 2>&1; then
 fi
 
 # valor FLAGS... — el valor de $opcion en la lista de ese nivel, o nada.
-# Con el nombre de la opción, show elige el alcance por su cuenta y -p, -w o
-# -s no cambian nada. Sin nombre, lista solo lo definido en ese nivel: por eso
-# se pide la lista entera y se busca en ella.
+# Con el nombre de la opción, show deduce el alcance por la opción y puede
+# ignorar -s o -w (show -w escape-time contesta con el valor del servidor).
+# Sin nombre, lista solo lo definido en ese nivel: por eso se pide la lista
+# entera y se busca en ella. Límite: las opciones de lista salen como
+# nombre[N] (update-environment[8]) y hay que pedirlas así.
 valor() {
   tmx show "$@" 2>/dev/null | awk -v o="$opcion" '$1 == o { sub(/^[^ ]+ /, ""); print; f = 1; exit } END { exit !f }'
 }
