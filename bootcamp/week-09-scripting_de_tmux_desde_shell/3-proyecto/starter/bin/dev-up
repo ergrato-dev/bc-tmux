@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# dev-up — crea o reutiliza la sesión de trabajo de un proyecto.
+#
+# Uso: dev-up [-d|--no-attach] DIR [NAME]
+#      TMUX_SOCKET=kit dev-up -d ~/src/api     en el servidor de tmux -L kit
+# Ventanas editor, run y logs en DIR. NAME por defecto: el nombre de DIR con
+# "." y ":" cambiados por "_". DIR/.tmux-kit ("ventana: comando") da el
+# comando inicial de cada ventana. -d crea sin conectarse.
+# Salida: 0 bien, 1 DIR no existe o tmux falla, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() {
+  sed -n '4,9s/^# \{0,1\}//p' "$0" >&2
+  exit 2
+}
+
+die() { echo "dev-up: $*" >&2; exit 1; }
+
+# Ventanas del proyecto, en el orden en que se crean.
+WINDOWS=(editor run logs)
+
+# --- Argumentos ----------------------------------------------------------------
+
+detach=0
+args=()
+while (( $# )); do
+  case "$1" in
+    -d | --no-attach) detach=1 ;;
+    --)               shift; args+=("$@"); break ;;
+    -*)               usage ;;
+    *)                args+=("$1") ;;
+  esac
+  shift
+done
+(( ${#args[@]} == 1 || ${#args[@]} == 2 )) || usage
+
+# TODO 1: si DIR no es un directorio, die "no existe el directorio '...'"
+# (sale con 1). Después dir = su ruta absoluta (cd -- DIR && pwd -P). Con
+# NAME: vacío o con "." o ":" sale con 2 (tmux lo cambiaría por "_" sin
+# avisar). Sin NAME: basename de DIR con "." y ":" cambiados por "_"
+# (${name//[.:]/_}), lo mismo que haría tmux (lab-01-crear-sin-conectarse).
+
+# TODO 4: kit_command VENTANA imprime el comando de la línea "VENTANA: comando"
+# de DIR/.tmux-kit (nada si no hay). Léelo con while IFS= read -r, nunca con
+# eval ni source. start PANE VENTANA lo escribe con tmx send-keys -t PANE -l --
+# y manda Enter aparte (lab-03-enviar-teclas-con-cuidado).
+
+# TODO 2: si tmx has-session -t "=$name" (con "=": sin él, api-2 cuenta como
+# api), "dev-up: la sesión '$name' ya existe" y guarda los nombres de sus
+# ventanas con list-windows -F '#{window_name}'. Si no, new-session -d -s
+# "$name" -n editor -c "$dir" -P -F '#{pane_id}' y "dev-up: sesión '$name'
+# creada en $dir" (lab-01-crear-sin-conectarse, lab-06-script-roto).
+
+# TODO 3: por cada ventana de WINDOWS que no esté (grep -qxF), new-window -d
+# -t "=$name:" -n VENTANA -c "$dir" -P -F '#{pane_id}'. La segunda ejecución
+# no crea nada; si cerraste logs, vuelve (lab-05-idempotencia).
+
+# TODO 5: con -d, exit 0. Si no: dentro de este mismo servidor (${TMUX%%,*}
+# igual a #{socket_path}) switch-client -t "=$name"; fuera, attach-session
+# -t "=$name" (lab-01-crear-sin-conectarse).
+
+# Borra las dos líneas siguientes cuando termines los TODOs.
+echo "dev-up: sin implementar (${args[*]} -> ${WINDOWS[*]}, detach=$detach)" >&2
+exit 1

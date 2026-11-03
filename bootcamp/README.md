@@ -32,7 +32,7 @@ está en construcción (sin enlace hasta que exista la carpeta).
 
 | Semana | Tema | Estado |
 |:--:|---|:--:|
-| 09 | Scripting de tmux desde shell | ⬜ |
+| [09](week-09-scripting_de_tmux_desde_shell/README.md) | Scripting de tmux desde shell | ✅ |
 | 10 | Hooks, popups y menús | ⬜ |
 | 11 | Plugins y ecosistema | ⬜ |
 

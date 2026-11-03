@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# team-up — sesión de trabajo con las ventanas code y test.
+#
+# Uso: team-up up NAME DIR    crea (o reutiliza) la sesión NAME en DIR
+#      team-up test NAME      ejecuta $TEST_CMD en la ventana test de NAME
+#      team-up down NAME      cierra la sesión NAME
+#      TMUX_SOCKET=lab ./solucion/team-up up api /tmp/lab09/api
+# Salida: 0 bien, 1 error, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+up() {
+  local name=$1 dir=$2
+  [[ -d "$dir" ]] || { echo "team-up: no existe el directorio '$dir'" >&2; exit 1; }
+  # Fallo 1: sin "=", has-session -t api acierta con api-2 y api no se crea.
+  if tmx has-session -t "=$name" 2>/dev/null; then
+    echo "team-up: la sesión '$name' ya existe"
+  else
+    tmx new-session -d -s "$name" -n code -c "$dir"
+    echo "team-up: sesión '$name' creada"
+  fi
+  # Fallo 2: new-window sin comprobar duplicaba test en cada "up".
+  if ! tmx list-windows -t "=$name" -F '#{window_name}' | grep -qxF test; then
+    tmx new-window -d -t "=$name:" -n test -c "$dir"
+  fi
+}
+
+run_tests() {
+  local name=$1
+  # Fallo 4: display -p no falla si la ventana no existe; usa otra y las
+  # pruebas acababan escritas en code. list-panes sí falla.
+  tmx list-panes -t "=$name:test" -F '#{pane_id}' >/dev/null 2>&1 || {
+    echo "team-up: no existe la ventana test en '$name'" >&2
+    exit 1
+  }
+  # Fallo 3: $TEST_CMD sin comillas se partía en palabras y send-keys las
+  # pegaba sin espacios ("echotodoverde"); una palabra como Enter o C-c
+  # sería una tecla. -l y comillas: el texto llega entero y literal.
+  tmx send-keys -t "=$name:test" -l -- "${TEST_CMD:-echo sin pruebas}"
+  tmx send-keys -t "=$name:test" Enter
+}
+
+down() {
+  local name=$1
+  # Fallo 1 otra vez: sin "=", down api cerraba api-2.
+  tmx kill-session -t "=$name"
+  # Fallo 5: "tmux kill-server" sin tmx ignoraba TMUX_SOCKET y cerraba el
+  # servidor de siempre. Y sobraba: un servidor sin sesiones ya sale solo
+  # (exit-empty), salvo que alguien lo quiera vivo.
+}
+
+case "${1:-}" in
+  up)   (( $# == 3 )) || usage; up "$2" "$3" ;;
+  test) (( $# == 2 )) || usage; run_tests "$2" ;;
+  down) (( $# == 2 )) || usage; down "$2" ;;
+  *)    usage ;;
+esac

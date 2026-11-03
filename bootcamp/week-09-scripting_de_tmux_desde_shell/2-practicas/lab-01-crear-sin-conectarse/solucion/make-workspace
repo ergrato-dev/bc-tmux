@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# make-workspace — crea, sin conectarse, la sesión NAME con las ventanas editor
+# y run (run partida en dos paneles), todas en DIR.
+#
+# Uso: make-workspace NAME DIR
+#      TMUX_SOCKET=lab ./solucion/make-workspace api /tmp/lab09/api
+# Imprime los ids de los paneles creados. Salida: 0 bien, 1 DIR no existe o
+# tmux falla (p. ej. la sesión ya existe), 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+(( $# == 2 )) || { echo "uso: make-workspace NAME DIR" >&2; exit 2; }
+name=$1
+[[ -d "$2" ]] || { echo "make-workspace: no existe el directorio '$2'" >&2; exit 1; }
+dir=$(cd -- "$2" && pwd -P)
+
+# -d: sin -d, new-session intenta conectarse y un script no tiene terminal.
+# -x/-y: el tamaño mientras no haya ningún cliente conectado.
+# -P -F: el id del panel; los comandos siguientes apuntan a %N, que no cambia
+# aunque renombres la ventana o tu config use otro base-index.
+editor=$(tmx new-session -d -s "$name" -n editor -c "$dir" -x 120 -y 30 -P -F '#{pane_id}')
+
+# "$name:" con dos puntos: la sesión, y el índice lo elige tmux.
+run=$(tmx new-window -d -t "$name:" -n run -c "$dir" -P -F '#{pane_id}')
+
+run_right=$(tmx split-window -h -d -t "$run" -c "$dir" -P -F '#{pane_id}')
+
+echo "$name en $dir"
+echo "editor $editor"
+echo "run $run $run_right"

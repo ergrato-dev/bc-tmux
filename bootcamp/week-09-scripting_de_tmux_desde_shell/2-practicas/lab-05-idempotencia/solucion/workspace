@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# workspace — crea o reutiliza la sesión NAME con las ventanas editor, run y
+# logs en DIR. Ejecutarlo dos veces deja lo mismo que una.
+#
+# Uso: workspace NAME DIR
+#      TMUX_SOCKET=lab ./solucion/workspace api /tmp/lab09/api
+# Salida: 0 bien, 1 DIR no existe o tmux falla, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+WINDOWS=(editor run logs)
+
+(( $# == 2 )) || { echo "uso: workspace NAME DIR" >&2; exit 2; }
+name=$1
+[[ -d "$2" ]] || { echo "workspace: no existe el directorio '$2'" >&2; exit 1; }
+dir=$(cd -- "$2" && pwd -P)
+
+# "=" pide el nombre exacto: sin él, con api-2 en marcha, has-session -t api
+# acierta y la sesión api no se crea nunca. (new-session -A no sirve aquí:
+# si la sesión existe intenta conectarse, y un script no tiene terminal.)
+if tmx has-session -t "=$name" 2>/dev/null; then
+  echo "workspace: la sesión '$name' ya existe"
+else
+  tmx new-session -d -s "$name" -n "${WINDOWS[0]}" -c "$dir"
+  echo "workspace: sesión '$name' creada en $dir"
+fi
+
+# Por nombre de ventana: si cerraste logs, vuelve; si están todas, nada cambia.
+existing=$(tmx list-windows -t "=$name" -F '#{window_name}')
+for window in "${WINDOWS[@]}"; do
+  grep -qxF -- "$window" <<<"$existing" && continue
+  tmx new-window -d -t "=$name:" -n "$window" -c "$dir"
+  echo "workspace: ventana '$window' creada"
+done

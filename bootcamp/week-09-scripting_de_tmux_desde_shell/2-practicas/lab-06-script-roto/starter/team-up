@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# team-up — sesión de trabajo con las ventanas code y test.
+#
+# Uso: team-up up NAME DIR    crea (o reutiliza) la sesión NAME en DIR
+#      team-up test NAME      ejecuta $TEST_CMD en la ventana test de NAME
+#      team-up down NAME      cierra la sesión NAME
+#      TMUX_SOCKET=lab ./starter/team-up up api /tmp/lab09/api
+# Salida: 0 bien, 1 error, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+up() {
+  local name=$1 dir=$2
+  [[ -d "$dir" ]] || { echo "team-up: no existe el directorio '$dir'" >&2; exit 1; }
+  # Si ya existe, no la tocamos.
+  if tmx has-session -t "$name" 2>/dev/null; then
+    echo "team-up: la sesión '$name' ya existe"
+  else
+    tmx new-session -d -s "$name" -n code -c "$dir"
+    echo "team-up: sesión '$name' creada"
+  fi
+  tmx new-window -d -t "$name:" -n test -c "$dir"
+}
+
+run_tests() {
+  local name=$1 pane
+  # Comprobamos que la ventana test existe antes de escribir en ella.
+  pane=$(tmx display -p -t "$name:test" '#{pane_id}') || {
+    echo "team-up: no existe la ventana test en '$name'" >&2
+    exit 1
+  }
+  tmx send-keys -t "$pane" ${TEST_CMD:-echo sin pruebas} Enter
+}
+
+down() {
+  local name=$1
+  tmx kill-session -t "$name"
+  # Si no quedan sesiones, cerramos también el servidor.
+  if [[ -z "$(tmx list-sessions -F '#{session_name}' 2>/dev/null)" ]]; then
+    tmux kill-server
+  fi
+}
+
+case "${1:-}" in
+  up)   (( $# == 3 )) || usage; up "$2" "$3" ;;
+  test) (( $# == 2 )) || usage; run_tests "$2" ;;
+  down) (( $# == 2 )) || usage; down "$2" ;;
+  *)    usage ;;
+esac

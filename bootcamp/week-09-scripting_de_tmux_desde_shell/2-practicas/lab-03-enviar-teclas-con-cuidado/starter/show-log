@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# show-log — escribe "tail -n 3 FILE" en la shell del panel TARGET y lo ejecuta.
+#
+# Uso: show-log TARGET FILE
+#      TMUX_SOCKET=lab ./starter/show-log api /tmp/lab09/logs/app.log
+# FILE puede tener cualquier carácter: nunca se ejecuta como código.
+# Salida: 0 bien, 1 TARGET o FILE no existen o el panel está ocupado, 2 uso.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+die() { echo "show-log: $*" >&2; exit 1; }
+
+(( $# == 2 )) || { echo "uso: show-log TARGET FILE" >&2; exit 2; }
+target=$1
+[[ -f "$2" ]] || die "no existe el archivo '$2'"
+# Ruta absoluta: la shell del panel no está en tu directorio.
+file="$(cd -- "$(dirname -- "$2")" && pwd -P)/$(basename -- "$2")"
+
+# TODO 1: valida el target con list-panes (display -p no falla nunca):
+#   tmx list-panes -t "$target" -F '#{pane_id}' >/dev/null 2>&1 || die "no existe el target '$target'"
+
+# TODO 2: lee el programa del panel con
+#   command=$(tmx display -p -t "$target" '#{pane_current_command}')
+# y, si no es una shell (bash | zsh | sh | dash | fish), sal con
+#   die "el panel '$target' está ocupado con '$command' (prueba: respawn-pane -k -t '$target')"
+
+# TODO 3: arma la línea con el nombre escapado para la shell:
+#   printf -v line 'tail -n 3 -- %q' "$file"
+# Esta versión es la que ejecuta el contenido de un nombre hostil:
+line="tail -n 3 $file"
+
+# TODO 4: manda el texto con -l (literal) y el Enter aparte:
+#   tmx send-keys -t "$target" -l -- "$line"
+#   tmx send-keys -t "$target" Enter
+# y borra la línea de abajo.
+tmx send-keys -t "$target" "$line" Enter

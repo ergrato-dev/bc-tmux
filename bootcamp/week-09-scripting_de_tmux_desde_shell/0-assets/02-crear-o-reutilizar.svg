@@ -1,0 +1,72 @@
+<svg viewBox="0 0 900 640" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Flujo idempotente de crear o reutilizar una sesión y sus ventanas por nombre exacto</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#0d1117"/>
+
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- Inicio -->
+    <rect x="300" y="24" width="300" height="44" rx="22" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="450" y="51" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">workspace api DIR</text>
+    <line x1="450" y1="68" x2="450" y2="102" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Decisión 1 -->
+    <polygon points="450,104 620,144 450,184 280,144" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="450" y="149" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">has-session -t "=api"</text>
+
+    <!-- Rama no -->
+    <polyline points="280,144 200,144 200,222" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="240" y="134" fill="#8b949e" text-anchor="middle">rc 1</text>
+    <rect x="30" y="224" width="340" height="56" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="200" y="248" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">new-session -d -s api</text>
+    <text x="200" y="267" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">-n editor -c DIR</text>
+
+    <!-- Rama sí -->
+    <polyline points="620,144 700,144 700,222" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="660" y="134" fill="#8b949e" text-anchor="middle">rc 0</text>
+    <rect x="530" y="224" width="340" height="56" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="700" y="248" fill="#f0f6fc" text-anchor="middle">"ya existe"</text>
+    <text x="700" y="267" fill="#8b949e" text-anchor="middle">la sesión no se toca</text>
+
+    <!-- Unión -->
+    <polyline points="200,280 200,318 446,318" fill="none" stroke="#8b949e" stroke-width="2"/>
+    <polyline points="700,280 700,318 454,318" fill="none" stroke="#8b949e" stroke-width="2"/>
+    <line x1="450" y1="318" x2="450" y2="336" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="200" y="338" width="500" height="44" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="450" y="365" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">list-windows -t "=api" -F '#{window_name}'</text>
+    <line x1="450" y1="382" x2="450" y2="404" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Decisión 2 (bucle) -->
+    <polygon points="450,406 640,446 450,486 260,446" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="450" y="441" fill="#f0f6fc" text-anchor="middle">para editor, run y logs:</text>
+    <text x="450" y="460" fill="#f0f6fc" text-anchor="middle">¿ya está en la lista?</text>
+
+    <polyline points="260,446 200,446 200,504" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="230" y="436" fill="#8b949e" text-anchor="middle">no</text>
+    <rect x="30" y="506" width="340" height="44" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="200" y="533" fill="#f0f6fc" text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">new-window -d -t "=api:" -n W</text>
+
+    <polyline points="640,446 700,446 700,504" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="670" y="436" fill="#8b949e" text-anchor="middle">sí</text>
+    <rect x="530" y="506" width="340" height="44" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="700" y="533" fill="#8b949e" text-anchor="middle">siguiente ventana, sin crear nada</text>
+
+    <!-- Notas -->
+    <rect x="30" y="572" width="410" height="52" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="235" y="593" fill="#3fb950" text-anchor="middle">Segunda ejecución: rc 0 y las tres</text>
+    <text x="235" y="612" fill="#3fb950" text-anchor="middle">ventanas en la lista. No se crea nada.</text>
+    <rect x="460" y="572" width="410" height="52" rx="6" fill="#161b22" stroke="#f85149" stroke-width="2"/>
+    <text x="665" y="593" fill="#f85149" text-anchor="middle">Sin =, has-session -t api acierta con api-2</text>
+    <text x="665" y="612" fill="#f85149" text-anchor="middle">y la sesión api no se crea nunca.</text>
+  </g>
+</svg>

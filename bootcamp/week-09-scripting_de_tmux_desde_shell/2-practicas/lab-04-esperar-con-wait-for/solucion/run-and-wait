@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# run-and-wait — ejecuta COMMAND en la shell del panel TARGET, espera a que
+# termine y sale con su mismo código.
+#
+# Uso: run-and-wait TARGET COMMAND
+#      TMUX_SOCKET=lab ./solucion/run-and-wait api 'sleep 2; echo compilado'
+# WAIT_SECONDS (30 por defecto): cuánto esperar como mucho.
+# Salida: el código de COMMAND, 1 TARGET no existe, 2 uso, 124 se agotó la espera.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+(( $# == 2 )) || { echo "uso: run-and-wait TARGET COMMAND" >&2; exit 2; }
+target=$1 command=$2
+# Un canal por ejecución: dos run-and-wait a la vez no se despiertan entre sí.
+channel="kit-run-$$"
+
+tmx list-panes -t "$target" -F '#{pane_id}' >/dev/null 2>&1 || {
+  echo "run-and-wait: no existe el target '$target'" >&2
+  exit 1
+}
+# El id fijo: si alguien cambia de panel activo mientras esperas, el código
+# se sigue leyendo del panel donde se ejecutó.
+pane=$(tmx display -p -t "$target" '#{pane_id}')
+
+# Dentro del panel, tmux sin -L habla con el servidor de $TMUX: el mismo.
+# set -p guarda $? en una opción de ese panel antes de mandar la señal.
+tmx send-keys -t "$pane" -l -- "$command; tmux set -p @kit-run-rc \$?; tmux wait-for -S $channel"
+tmx send-keys -t "$pane" Enter
+
+# timeout ejecuta un programa, no una función de bash: tmx no le sirve.
+if ! timeout "${WAIT_SECONDS:-30}" "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} wait-for "$channel"; then
+  echo "run-and-wait: sin respuesta tras ${WAIT_SECONDS:-30} s; el comando sigue en $pane" >&2
+  exit 124
+fi
+
+exit "$(tmx display -p -t "$pane" '#{@kit-run-rc}')"

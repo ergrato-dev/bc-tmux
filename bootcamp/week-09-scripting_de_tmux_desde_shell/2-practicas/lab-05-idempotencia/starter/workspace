@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# workspace — crea o reutiliza la sesión NAME con las ventanas editor, run y
+# logs en DIR. Ejecutarlo dos veces deja lo mismo que una.
+#
+# Uso: workspace NAME DIR
+#      TMUX_SOCKET=lab ./starter/workspace api /tmp/lab09/api
+# Salida: 0 bien, 1 DIR no existe o tmux falla, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+WINDOWS=(editor run logs)
+
+(( $# == 2 )) || { echo "uso: workspace NAME DIR" >&2; exit 2; }
+name=$1
+[[ -d "$2" ]] || { echo "workspace: no existe el directorio '$2'" >&2; exit 1; }
+dir=$(cd -- "$2" && pwd -P)
+
+# TODO 1: crea la sesión solo si no existe esa sesión exacta ("="):
+#   if tmx has-session -t "=$name" 2>/dev/null; then
+#     echo "workspace: la sesión '$name' ya existe"
+#   else
+#     tmx new-session -d -s "$name" -n "${WINDOWS[0]}" -c "$dir"
+#     echo "workspace: sesión '$name' creada en $dir"
+#   fi
+# y borra la línea de abajo, que falla la segunda vez (duplicate session).
+tmx new-session -d -s "$name" -n "${WINDOWS[0]}" -c "$dir"
+
+# TODO 2: crea solo las ventanas que falten, por nombre:
+#   existing=$(tmx list-windows -t "=$name" -F '#{window_name}')
+#   y en el bucle, antes de new-window:
+#   grep -qxF -- "$window" <<<"$existing" && continue
+# Añade también echo "workspace: ventana '$window' creada" tras new-window,
+# y cambia "${WINDOWS[@]:1}" por "${WINDOWS[@]}": así vuelve también editor
+# si la cerraste.
+for window in "${WINDOWS[@]:1}"; do
+  tmx new-window -d -t "=$name:" -n "$window" -c "$dir"
+done

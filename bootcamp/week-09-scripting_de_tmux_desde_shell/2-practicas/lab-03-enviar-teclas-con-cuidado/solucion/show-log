@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# show-log — escribe "tail -n 3 FILE" en la shell del panel TARGET y lo ejecuta.
+#
+# Uso: show-log TARGET FILE
+#      TMUX_SOCKET=lab ./solucion/show-log api /tmp/lab09/logs/app.log
+# FILE puede tener cualquier carácter: nunca se ejecuta como código.
+# Salida: 0 bien, 1 TARGET o FILE no existen o el panel está ocupado, 2 uso.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+die() { echo "show-log: $*" >&2; exit 1; }
+
+(( $# == 2 )) || { echo "uso: show-log TARGET FILE" >&2; exit 2; }
+target=$1
+[[ -f "$2" ]] || die "no existe el archivo '$2'"
+# Ruta absoluta: la shell del panel no está en tu directorio.
+file="$(cd -- "$(dirname -- "$2")" && pwd -P)/$(basename -- "$2")"
+
+tmx list-panes -t "$target" -F '#{pane_id}' >/dev/null 2>&1 || die "no existe el target '$target'"
+
+# Si el panel ejecuta otro programa, el texto le llega a él (o espera en la
+# terminal y se ejecuta cuando el programa termine).
+command=$(tmx display -p -t "$target" '#{pane_current_command}')
+case "$command" in
+  bash | zsh | sh | dash | fish) ;;
+  *) die "el panel '$target' está ocupado con '$command' (prueba: respawn-pane -k -t '$target')" ;;
+esac
+
+# %q escapa ; $ ' espacios y demás: la shell del panel recibe el nombre como
+# un solo argumento y no ejecuta nada de lo que contenga.
+printf -v line 'tail -n 3 -- %q' "$file"
+
+# -l: el texto va tal cual, aunque contenga "Enter" o "C-c". El Enter, aparte.
+tmx send-keys -t "$target" -l -- "$line"
+tmx send-keys -t "$target" Enter

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# inspect — informe del servidor de tmux y validación de targets.
+#
+# Uso: inspect tree           sesiones y ventanas, en árbol
+#      inspect pane TARGET    id, comando y ruta del panel TARGET
+#      TMUX_SOCKET=lab ./solucion/inspect tree
+# Salida: 0 bien, 1 sin servidor o TARGET no existe, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,6s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+show_tree() {
+  # IFS= read -r lee la línea entera: "con espacio" es una sesión, no dos.
+  tmx list-sessions -F '#{session_name}' | while IFS= read -r session; do
+    echo "$session"
+    # "=": la sesión exacta; sin él, "api" también acierta con "api-2".
+    tmx list-windows -t "=$session" -F '  #{window_index} #{window_name} paneles: #{window_panes}'
+  done
+}
+
+show_pane() {
+  local target=$1
+  # display -p no falla con un target que no existe: sale con 0 y enseña
+  # otro panel (o nada). list-panes sí falla.
+  tmx list-panes -t "$target" -F '#{pane_id}' >/dev/null 2>&1 || {
+    echo "inspect: no existe el target '$target'" >&2
+    exit 1
+  }
+  tmx display -p -t "$target" '#{pane_id} #{pane_current_command} #{pane_current_path}'
+}
+
+case "${1:-}" in
+  tree) (( $# == 1 )) || usage; show_tree ;;
+  pane) (( $# == 2 )) || usage; show_pane "$2" ;;
+  *)    usage ;;
+esac

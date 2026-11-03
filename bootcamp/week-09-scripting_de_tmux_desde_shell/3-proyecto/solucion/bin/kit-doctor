@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# kit-doctor — diagnostica tmux y tu terminal sin cambiar nada.
+#
+# Uso: kit-doctor
+#      TMUX_SOCKET=kit kit-doctor     el servidor de tmux -L kit
+# Imprime una línea por comprobación: "ok|aviso|fallo  tema  detalle".
+# Salida: 0 sin fallos (puede haber avisos), 1 algún fallo, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+(( $# == 0 )) || { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+failed=0
+# report NIVEL TEMA DETALLE — una línea alineada; un fallo cambia la salida.
+report() {
+  printf '%-5s  %-16s  %s\n' "$1" "$2" "$3"
+  [[ "$1" != fallo ]] || failed=1
+}
+
+# --- Sin servidor: el binario y el terminfo ----------------------------------
+
+# check-version ya sabe comparar versiones y respeta TMUX_BIN.
+if out=$("$(dirname "$0")/check-version" 3.4 2>&1); then
+  report ok version "$out"
+else
+  report fallo version "$out"
+fi
+
+# El TERM de dentro necesita su terminfo en esta máquina. infocmp viene con
+# ncurses (ncurses-bin en Ubuntu, de serie en macOS).
+if ! command -v infocmp >/dev/null 2>&1; then
+  report aviso terminfo "no está infocmp: no puedo comprobar tmux-256color"
+elif infocmp tmux-256color >/dev/null 2>&1; then
+  report ok terminfo "tmux-256color instalado"
+else
+  report fallo terminfo "falta tmux-256color: ver docs/diagnostico.md"
+fi
+
+# --- Servidor ----------------------------------------------------------------
+
+# list-sessions solo pregunta: si no hay servidor falla y no arranca ninguno
+# (show-options o display-message sí lo arrancarían).
+if ! tmx list-sessions >/dev/null 2>&1; then
+  report aviso servidor "no hay servidor tmux en ese socket: arráncalo y repite"
+  exit "$failed"
+fi
+report ok servidor "$(tmx display-message -p '#{socket_path} (tmux #{version})')"
+
+term=$(tmx show -sv default-terminal)
+case "$term" in
+  tmux-256color) report ok default-terminal "$term" ;;
+  xterm*)        report fallo default-terminal "$term: dentro de tmux va tmux-256color" ;;
+  *)             report aviso default-terminal "$term: lo habitual es tmux-256color" ;;
+esac
+
+# Más de 50 ms se nota: el Esc llega tarde a Neovim. 3.4 trae 500.
+escape=$(tmx show -sv escape-time)
+if (( escape <= 50 )); then
+  report ok escape-time "$escape ms"
+else
+  report fallo escape-time "$escape ms: el Esc llega tarde, baja a 10-50"
+fi
+
+keys=$(tmx show -sv extended-keys)
+if [[ "$keys" == off ]]; then
+  report aviso extended-keys "off: los programas no reciben C-Enter ni S-Enter"
+else
+  report ok extended-keys "$keys"
+fi
+
+# --- Cliente: la terminal de fuera -------------------------------------------
+
+# Las features dependen de la terminal de cada cliente: sin cliente no hay
+# nada que mirar. Con varios, el que se usó por última vez.
+client=$(tmx list-clients -F '#{client_activity} #{client_name} #{client_termname} #{client_termfeatures}' |
+  sort -rn | head -n 1)
+if [[ -z "$client" ]]; then
+  report aviso cliente "sin clientes: conéctate para revisar tu terminal"
+  exit "$failed"
+fi
+read -r _ name outer features <<<"$client"
+report ok cliente "$name"
+
+# Un TERM de fuera tmux* o screen* es un tmux dentro de otro (o una terminal
+# mal configurada): las features salen de ese tmux, no de tu terminal.
+case "$outer" in
+  tmux*|screen*) report aviso term-fuera "$outer: ¿tmux dentro de tmux?" ;;
+  *)             report ok term-fuera "$outer" ;;
+esac
+
+if [[ ",$features," == *,RGB,* ]]; then
+  report ok color "24 bits (RGB)"
+else
+  report aviso color "sin RGB para $outer: los colores hex se aproximan a 256"
+fi
+
+exit "$failed"

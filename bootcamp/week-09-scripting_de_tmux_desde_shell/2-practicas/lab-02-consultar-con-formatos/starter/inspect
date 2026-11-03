@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# inspect — informe del servidor de tmux y validación de targets.
+#
+# Uso: inspect tree           sesiones y ventanas, en árbol
+#      inspect pane TARGET    id, comando y ruta del panel TARGET
+#      TMUX_SOCKET=lab ./starter/inspect tree
+# Salida: 0 bien, 1 sin servidor o TARGET no existe, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,6s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+show_tree() {
+  # TODO 1: recorre los nombres de sesión con un bucle que lee línea a línea:
+  #   tmx list-sessions -F '#{session_name}' | while IFS= read -r session; do
+  #     echo "$session"
+  #     ...TODO 2...
+  #   done
+  # TODO 2: dentro del bucle, las ventanas de esa sesión exacta ("=") con
+  # sangría de dos espacios:
+  #   tmx list-windows -t "=$session" -F '  #{window_index} #{window_name} paneles: #{window_panes}'
+  # Borra el echo de abajo al terminar.
+  echo "sin implementar" >&2
+}
+
+show_pane() {
+  local target=$1
+  # TODO 3: valida el target con list-panes (falla si no existe; display -p
+  # no) y, si falla, escribe en stderr "inspect: no existe el target '...'"
+  # y sal con 1:
+  #   tmx list-panes -t "$target" -F '#{pane_id}' >/dev/null 2>&1 || { ...; exit 1; }
+  # TODO 4: imprime el panel con
+  #   tmx display -p -t "$target" '#{pane_id} #{pane_current_command} #{pane_current_path}'
+  # Borra el echo de abajo al terminar.
+  echo "sin implementar: $target" >&2
+}
+
+case "${1:-}" in
+  tree) (( $# == 1 )) || usage; show_tree ;;
+  pane) (( $# == 2 )) || usage; show_pane "$2" ;;
+  *)    usage ;;
+esac
