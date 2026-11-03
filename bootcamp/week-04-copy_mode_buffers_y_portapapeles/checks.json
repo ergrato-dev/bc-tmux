@@ -35,7 +35,7 @@
       "descripcion": "v selecciona, C-v hace rectángulo e y copia con copy-pipe",
       "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; {tmux} list-keys -T copy-mode-vi | grep -cE ' (v +send-keys -X begin-selection|C-v +send-keys -X rectangle-toggle|y +send-keys -X copy-pipe-and-cancel)$'",
       "assert": "stdout~^3$",
-      "pista": "2-practicas/lab-02-seleccionar-y-copiar/README.md, paso 5"
+      "pista": "2-practicas/lab-02-seleccionar-y-copiar/README.md, pasos 5 a 7"
     },
     {
       "id": "conf-de-punta-a-punta",

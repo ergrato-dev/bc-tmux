@@ -17,20 +17,24 @@ hay() { command -v "$1" >/dev/null 2>&1; }
 (( $# == 0 )) || { sed -n '4,9s/^# \{0,1\}//p' "$0" >&2; exit 2; }
 
 osc52() {
-  # TODO 1: dentro de tmux ($TMUX no vacío): tmx load-buffer -w -
-  #         Fuera: printf '\033]52;c;%s\a' con la entrada en base64 sin
-  #         saltos de línea, a "${KIT_TTY:-/dev/tty}".
+  # TODO 2: borra las dos líneas "sin implementar" de esta función.
+  #         Dentro de tmux ($TMUX no vacío): tmx load-buffer -w -
+  #         Fuera: la secuencia en una sola línea, a "${KIT_TTY:-/dev/tty}":
+  #           printf '\033]52;c;%s\a' "$(base64 | tr -d '\n')" >"${KIT_TTY:-/dev/tty}"
   echo "kit-copiar: OSC 52 sin implementar" >&2
   exit 99
 }
 
-# TODO 2: elige el método en este orden y llama a la herramienta:
-#   SSH_CONNECTION o SSH_TTY  -> osc52
-#   uname = Darwin            -> pbcopy
+# TODO 1: borra las dos líneas "sin implementar" del final. Elige el método
+#         con una cadena if/elif, en este orden, y llama a la herramienta:
+#   SSH_CONNECTION o SSH_TTY  -> osc52   ([[ -n "${SSH_CONNECTION:-}${SSH_TTY:-}" ]])
+#   uname = Darwin            -> pbcopy  ([[ "$(uname)" == Darwin ]])
 #   WSL_DISTRO_NAME           -> win32yank.exe -i, si no clip.exe, si no falta
-#   WAYLAND_DISPLAY           -> wl-copy, si no falta "instala wl-clipboard ..."
+#   WAYLAND_DISPLAY           -> wl-copy, si no falta "instala wl-clipboard (sudo apt install wl-clipboard)"
 #   DISPLAY                   -> xclip -selection clipboard, si no
 #                                xsel --clipboard --input, si no falta
+#                                "instala xclip (sudo apt install xclip)"
 #   nada de lo anterior       -> osc52
+#   Pista: hay HERRAMIENTA comprueba si existe; falta "MENSAJE" sale con 1.
 echo "kit-copiar: sin implementar" >&2
 exit 99

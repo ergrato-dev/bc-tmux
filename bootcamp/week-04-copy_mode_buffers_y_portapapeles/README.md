@@ -45,7 +45,7 @@ Al terminar esta semana, podrás:
 [45 min] Leer 1-teoria/ (copy mode y buffers + portapapeles y OSC 52)
 [15 min] Responder las 10 preguntas de Conocimiento
 [60 min] lab-01 — mode-keys, history-limit, búsqueda y clear-history
-[60 min] lab-02 — Space/V/rectángulo, bindings de vim, copy-command y ratón
+[60 min] lab-02 — Space/V/rectángulo, bindings v, C-v e y, copy-command y ratón
 [60 min] lab-03 — Pila de buffers, buffer-limit, bracketed paste y guardar-buffers.sh
 [60 min] lab-04 — capture-pane con -S/-E/-J/-e y capturar.sh
 [60 min] lab-05 — pbcopy, win32yank.exe, xclip y copiar.sh conectado a tmux

@@ -12,16 +12,21 @@ falta() { echo "copiar.sh: $1" >&2; exit 1; }
 if [[ "$(uname)" == Darwin ]]; then
   pbcopy
 elif [[ -n "${WSL_DISTRO_NAME:-}" ]]; then
-  # TODO 1: win32yank.exe -i si está; si no, clip.exe; si no, falta con
+  # TODO 1: borra la línea "falta ... sin implementar". win32yank.exe -i si
+  #         está; si no, clip.exe; si no, falta con
   #         "no encuentro clip.exe: ¿está activada la interoperabilidad de WSL?"
+  #         Pista: if hay win32yank.exe; then win32yank.exe -i
+  #                elif hay clip.exe; then clip.exe
+  #                else falta "..."; fi
   falta "WSL sin implementar"
 elif [[ -n "${WAYLAND_DISPLAY:-}" ]]; then
   hay wl-copy || falta "instala wl-clipboard (sudo apt install wl-clipboard)"
   wl-copy
 elif [[ -n "${DISPLAY:-}" ]]; then
-  # TODO 2: xclip en la selección CLIPBOARD si está; si no,
+  # TODO 2: borra la línea "falta ... sin implementar". xclip en la selección
+  #         CLIPBOARD (xclip -selection clipboard) si está; si no,
   #         xsel --clipboard --input; si no, falta con
-  #         "instala xclip (sudo apt install xclip)"
+  #         "instala xclip (sudo apt install xclip)". Misma forma que el TODO 1.
   falta "X11 sin implementar"
 else
   falta "no hay portapapeles gráfico (¿SSH o contenedor?): lo resuelve OSC 52, en el lab 06"

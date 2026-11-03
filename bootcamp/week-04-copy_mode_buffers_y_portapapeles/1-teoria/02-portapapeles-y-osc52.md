@@ -42,7 +42,7 @@ tmux decide si la envía con dos piezas:
 |---|---|---|
 | `set-clipboard` | `off` | Nunca |
 | | `external` (por defecto) | Al copiar en copy mode; los programas del panel no pueden |
-| | `on` | Además, acepta OSC 52 de los programas del panel (nvim por SSH) |
+| | `on` | Además, acepta OSC 52 de los programas del panel (un editor o un script por SSH) |
 | `terminal-features` | `clipboard` | Tu terminal la soporta. Viene para `xterm*`; si tu `TERM` es otro, añádela |
 
 ```tmux

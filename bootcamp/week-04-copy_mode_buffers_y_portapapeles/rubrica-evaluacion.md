@@ -36,7 +36,7 @@ Diez preguntas, 3 puntos cada una. Se pide explicar por qué, no recordar teclas
 | 3 | Subes `history-limit` a 50000, recargas la config, y en el panel en el que estabas `g` sigue sin llegar al principio de un log largo. ¿Por qué? ¿Qué haces para tener el historial nuevo? |
 | 4 | Copias con `y` en copy mode. `prefix` `]` pega bien, pero `Ctrl+V` en el navegador no. ¿Qué paso falta y cuáles son los dos caminos para darlo? |
 | 5 | Por SSH, tu `copy-command` es `xclip -selection clipboard` y hay un servidor X en la máquina remota. Copias sin errores y no puedes pegar. ¿Dónde acabó el texto? ¿Por qué OSC 52 sí funciona por SSH? |
-| 6 | `set-clipboard` puede ser `off`, `external` u `on`. Usas nvim por SSH dentro de tmux y quieres que su `"+y` llegue a tu portátil. ¿Cuál eliges y por qué no basta el valor por defecto? |
+| 6 | `set-clipboard` puede ser `off`, `external` u `on`. Por SSH, dentro de tmux, un programa del panel copia emitiendo él mismo OSC 52 (`printf '\e]52;c;%s\a' "$(printf hola \| base64)"`) y quieres que llegue a tu portátil. ¿Cuál eliges y por qué no basta el valor por defecto? |
 | 7 | `set -sF copy-command "#{d:current_file}/bin/kit-copiar"` funciona desde `~/.config/tmux` y no hace nada si arrancas con `tmux -f tmux.conf`. ¿Qué vale la opción en cada caso y desde qué directorio se ejecuta el comando? |
 | 8 | Un script lanzado con `run-shell` hace `printf '\033]52;c;...\a' >/dev/tty` y falla con `No such device or address`. ¿Por qué, y qué debe hacer en su lugar cuando corre dentro de tmux? |
 | 9 | `osc52.sh` copia bien `hola` y no copia una línea de log de 200 caracteres. El script hace `printf '\033]52;c;%s\a' "$(base64)"`. ¿Qué falla y cómo lo arreglas de forma que también funcione en macOS? |
@@ -52,7 +52,8 @@ estado. Se recorre en copy mode.
 
 **2.** Si `mode-keys` no está fijada, tmux la deduce al arrancar el servidor:
 `vi` si `$VISUAL` o `$EDITOR` contienen "vi", `emacs` si no. En tu máquina
-`EDITOR=nvim`; en el servidor no hay `EDITOR`. `setw -g mode-keys vi` lo fija.
+`EDITOR=vi` (o cualquier valor que contenga "vi"); en el servidor no hay
+`EDITOR`. `setw -g mode-keys vi` lo fija.
 
 **3.** `history-limit` se lee al crear el panel: los que ya existen conservan
 su límite (`#{history_limit}` lo muestra). Hay que abrir un panel o una
@@ -70,7 +71,8 @@ tu terminal la que copia en tu portapapeles.
 
 **6.** `on`. Con `external` (por defecto) tmux envía OSC 52 cuando copias en
 copy mode, pero descarta el OSC 52 que envían los programas del panel, como
-nvim. Con `on`, lo acepta y lo reenvía a la terminal exterior.
+ese `printf`. Con `on`, lo acepta (crea un buffer) y lo reenvía a la
+terminal exterior.
 
 **7.** `current_file` es la ruta tal como se cargó el archivo. Desde
 `~/.config/tmux` vale `/home/tú/.config/tmux/bin/kit-copiar`; con
@@ -103,7 +105,7 @@ Diez puntos por lab. El Desempeño es la suma sobre 60, llevada a porcentaje.
 | Lab | Criterio | Puntos |
 |---|---|:--:|
 | [01 — Moverte por el historial](2-practicas/lab-01-moverte-por-el-historial/README.md) | `mode-keys` fijado aunque `EDITOR=nano`; `history-limit` explicado en panel viejo y nuevo; búsqueda y `clear-history` | 10 |
-| [02 — Seleccionar y copiar](2-practicas/lab-02-seleccionar-y-copiar/README.md) | Columna copiada en rectángulo; `v`, `C-v` e `y` como vim; `y`, `Enter` y el ratón copian a `copy-command` | 10 |
+| [02 — Seleccionar y copiar](2-practicas/lab-02-seleccionar-y-copiar/README.md) | Columna copiada en rectángulo; `v`, `C-v` e `y` en `copy-mode-vi`; `y`, `Enter` y el ratón copian a `copy-command` | 10 |
 | [03 — Buffers](2-practicas/lab-03-buffers/README.md) | `buffer-limit` y buffers con nombre reproducidos; bracketed paste explicado; `guardar-buffers.sh` completo y limpio | 10 |
 | [04 — capture-pane](2-practicas/lab-04-capture-pane/README.md) | `-S`, `-E`, `-J` y `-e` probados; `capturar.sh` valida con `list-panes` y termina en el prompt | 10 |
 | [05 — Portapapeles del sistema](2-practicas/lab-05-portapapeles-del-sistema/README.md) | Problema de tu plataforma reproducido y resuelto; pruebas con `path-falso`; copias desde tmux y pegas fuera | 10 |

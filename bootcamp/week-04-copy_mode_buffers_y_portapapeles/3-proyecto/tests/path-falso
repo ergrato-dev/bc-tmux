@@ -3,7 +3,8 @@
 # PATH único: enlaza todos los ejecutables de tu PATH salvo las herramientas
 # de portapapeles reales, y añade las falsas que pidas. Imprime el directorio.
 # Uso: path-falso [wl-copy|xclip|xsel|pbcopy|clip.exe|win32yank.exe|darwin]...
-#      "darwin" añade un uname que responde Darwin (macOS).
+#      "darwin" hace que uname responda Darwin (macOS); sin él responde Linux,
+#      también en un Mac, para que las pruebas no dependan de tu sistema.
 set -euo pipefail
 
 reales='^(wl-copy|xclip|xsel|pbcopy|clip\.exe|win32yank\.exe)$'
@@ -21,13 +22,15 @@ for ruta in "${rutas[@]}"; do
   done
 done
 
+sistema=Linux
 for falsa in "$@"; do
   if [[ "$falsa" == darwin ]]; then
-    rm -f "$dir/uname"
-    printf '#!/bin/sh\necho Darwin\n' >"$dir/uname"
-    chmod +x "$dir/uname"
+    sistema=Darwin
   else
     ln -s "$aqui/falso-clip" "$dir/$falsa"
   fi
 done
+rm -f "$dir/uname"
+printf '#!/bin/sh\necho %s\n' "$sistema" >"$dir/uname"
+chmod +x "$dir/uname"
 echo "$dir"
