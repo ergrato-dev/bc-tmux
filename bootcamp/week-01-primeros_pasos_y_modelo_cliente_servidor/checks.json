@@ -7,56 +7,56 @@
       "descripcion": "check-version acepta tmux 3.4",
       "cmd": "FAKE_TMUX_VERSION=3.4 TMUX_BIN={semana}/3-proyecto/tests/fake-tmux {proyecto}/bin/check-version",
       "assert": "exit0",
-      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 2"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4"
     },
     {
       "id": "cv-acepta-3-8",
       "descripcion": "check-version acepta tmux 3.8",
       "cmd": "FAKE_TMUX_VERSION=3.8 TMUX_BIN={semana}/3-proyecto/tests/fake-tmux {proyecto}/bin/check-version",
       "assert": "exit0",
-      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 2"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4"
     },
     {
       "id": "cv-letra-de-parche",
       "descripcion": "check-version acepta versiones con letra de parche como 3.5a",
       "cmd": "FAKE_TMUX_VERSION=3.5a TMUX_BIN={semana}/3-proyecto/tests/fake-tmux {proyecto}/bin/check-version",
       "assert": "exit0",
-      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 3"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 2"
     },
     {
       "id": "cv-version-next",
       "descripcion": "check-version acepta versiones de desarrollo como next-3.9",
       "cmd": "FAKE_TMUX_VERSION=next-3.9 TMUX_BIN={semana}/3-proyecto/tests/fake-tmux {proyecto}/bin/check-version",
       "assert": "exit0",
-      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 3"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 2"
     },
     {
       "id": "cv-compara-numeros",
       "descripcion": "check-version compara números y no texto: 3.9 es menor que 3.10",
       "cmd": "FAKE_TMUX_VERSION=3.9 TMUX_BIN={semana}/3-proyecto/tests/fake-tmux {proyecto}/bin/check-version 3.10",
       "assert": "exit=1",
-      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 4"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4"
     },
     {
       "id": "cv-rechaza-3-2a",
       "descripcion": "check-version sale con 1 ante tmux 3.2a",
       "cmd": "FAKE_TMUX_VERSION=3.2a TMUX_BIN={semana}/3-proyecto/tests/fake-tmux {proyecto}/bin/check-version",
       "assert": "exit=1",
-      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 2"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4"
     },
     {
       "id": "cv-mensaje-util",
       "descripcion": "Al rechazar una versión, check-version muestra la encontrada y la mínima",
       "cmd": "FAKE_TMUX_VERSION=3.2a TMUX_BIN={semana}/3-proyecto/tests/fake-tmux {proyecto}/bin/check-version",
       "assert": "stdout~3[.]2a.*3[.]4",
-      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 5"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4"
     },
     {
       "id": "cv-sin-tmux",
       "descripcion": "check-version sale con 2 si tmux no está instalado",
       "cmd": "TMUX_BIN=/ruta/que/no/existe/tmux {proyecto}/bin/check-version",
       "assert": "exit=2",
-      "pista": "3-proyecto/README.md, sección Lo que debes construir, punto 6"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 1"
     },
     {
       "id": "cv-tmux-real",
@@ -70,49 +70,49 @@
       "descripcion": "Sin servidor, kit-tree sale con 1 y no arranca ninguno",
       "cmd": "export TMUX_SOCKET=bc-check; {proyecto}/bin/kit-tree; rc=$?; {tmux} ls >/dev/null 2>&1 && exit 9; exit $rc",
       "assert": "exit=1",
-      "pista": "2-practicas/lab-05-servidores-y-sockets/README.md, paso 4"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5"
     },
     {
       "id": "tree-socket",
       "descripcion": "kit-tree empieza con la ruta del socket del servidor",
       "cmd": "{tmux} -f /dev/null new-session -d -s api -n editor ; {tmux} split-window -t api:editor ; {tmux} new-window -d -t api: -n logs ; {tmux} new-session -d -s notas ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-tree | head -n1",
       "assert": "stdout~^socket: /.*/bc-check$",
-      "pista": "2-practicas/lab-05-servidores-y-sockets/README.md, paso 2"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 7"
     },
     {
       "id": "tree-sesiones",
       "descripcion": "kit-tree muestra una línea por sesión",
       "cmd": "{tmux} -f /dev/null new-session -d -s api -n editor ; {tmux} split-window -t api:editor ; {tmux} new-window -d -t api: -n logs ; {tmux} new-session -d -s notas ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-tree | grep -cE '^sesion (api|notas) '",
       "assert": "stdout~^2$",
-      "pista": "2-practicas/lab-04-sesion-ventana-panel/README.md, paso 5"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 8"
     },
     {
       "id": "tree-ventanas-y-clientes",
       "descripcion": "La línea de sesión dice cuántas ventanas y clientes tiene",
       "cmd": "{tmux} -f /dev/null new-session -d -s api -n editor ; {tmux} split-window -t api:editor ; {tmux} new-window -d -t api: -n logs ; {tmux} new-session -d -s notas ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-tree",
       "assert": "stdout~^sesion api ventanas=2 clientes=0$",
-      "pista": "2-practicas/lab-02-detach-y-attach/README.md, paso 6"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 8"
     },
     {
       "id": "tree-ventanas-indentadas",
       "descripcion": "Cada ventana aparece bajo su sesión con índice, nombre y paneles",
       "cmd": "{tmux} -f /dev/null new-session -d -s api -n editor ; {tmux} split-window -t api:editor ; {tmux} new-window -d -t api: -n logs ; {tmux} new-session -d -s notas ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-tree | grep -cE '^  ventana (0:editor paneles=2|1:logs paneles=1)$'",
       "assert": "stdout~^2$",
-      "pista": "2-practicas/lab-04-sesion-ventana-panel/README.md, paso 6"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 9"
     },
     {
       "id": "tree-paneles",
       "descripcion": "Cada panel aparece bajo su ventana con índice e id",
       "cmd": "{tmux} -f /dev/null new-session -d -s api -n editor ; {tmux} split-window -t api:editor ; {tmux} new-window -d -t api: -n logs ; {tmux} new-session -d -s notas ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-tree | grep -cE '^    panel [0-9]+ %[0-9]+ '",
       "assert": "stdout~^4$",
-      "pista": "2-practicas/lab-04-sesion-ventana-panel/README.md, paso 6"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 9"
     },
     {
       "id": "bin-completo-y-limpio",
       "descripcion": "Los scripts de bin/ no tienen TODOs y pasan shellcheck",
       "cmd": "! grep -n TODO {proyecto}/bin/* && shellcheck {proyecto}/bin/*",
       "assert": "exit0",
-      "pista": "3-proyecto/README.md, sección Calidad"
+      "pista": "3-proyecto/README.md, Paso a paso, paso 10"
     }
   ]
 }

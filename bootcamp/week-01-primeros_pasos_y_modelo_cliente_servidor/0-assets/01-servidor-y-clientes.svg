@@ -62,7 +62,7 @@
     <text x="596" y="148" fill="#f0f6fc">sesión api</text>
     <text x="824" y="148" fill="#58a6ff" text-anchor="end" font-size="12">2 clientes</text>
     <text x="596" y="176" fill="#8b949e" font-size="12"
-          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">nvim main.go</text>
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">less README.md</text>
     <text x="596" y="198" fill="#8b949e" font-size="12"
           font-family="ui-monospace, SFMono-Regular, Menlo, monospace">go test ./... (40 min)</text>
     <text x="596" y="220" fill="#8b949e" font-size="12"
@@ -72,7 +72,7 @@
     <text x="596" y="273" fill="#f0f6fc">sesión notas</text>
     <text x="824" y="273" fill="#8b949e" text-anchor="end" font-size="12">0 clientes</text>
     <text x="596" y="301" fill="#8b949e" font-size="12"
-          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">vim pendientes.md</text>
+          font-family="ui-monospace, SFMono-Regular, Menlo, monospace">less pendientes.md</text>
     <text x="596" y="320" fill="#3fb950" font-size="12">sigue viva sin nadie mirando</text>
 
     <!-- Footer -->

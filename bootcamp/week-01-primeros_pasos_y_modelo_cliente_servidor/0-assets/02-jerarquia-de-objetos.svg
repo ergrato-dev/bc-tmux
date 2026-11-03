@@ -57,7 +57,7 @@
 
     <!-- Panes -->
     <rect x="90" y="335" width="120" height="50" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
-    <text x="150" y="357" fill="#f0f6fc" text-anchor="middle" font-size="13">nvim</text>
+    <text x="150" y="357" fill="#f0f6fc" text-anchor="middle" font-size="13">top</text>
     <text x="150" y="375" fill="#3fb950" text-anchor="middle" font-size="12"
           font-family="ui-monospace, SFMono-Regular, Menlo, monospace">%0 · api:0.0</text>
 
@@ -72,7 +72,7 @@
           font-family="ui-monospace, SFMono-Regular, Menlo, monospace">%2 · api:1.0</text>
 
     <rect x="660" y="335" width="120" height="50" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
-    <text x="720" y="357" fill="#f0f6fc" text-anchor="middle" font-size="13">vim</text>
+    <text x="720" y="357" fill="#f0f6fc" text-anchor="middle" font-size="13">less</text>
     <text x="720" y="375" fill="#8b949e" text-anchor="middle" font-size="12"
           font-family="ui-monospace, SFMono-Regular, Menlo, monospace">%3 · notas:0.0</text>
 

@@ -3,7 +3,8 @@
 # Uso: lanzar.sh <log> [segundos]
 set -euo pipefail
 
-tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
+# -f /dev/null: si este script arranca el servidor, lo hace sin tu configuración.
+tmx() { tmux -L "${TMUX_SOCKET:-lab}" -f /dev/null "$@"; }
 
 log="${1:?uso: lanzar.sh <log> [segundos]}"
 segundos="${2:-0}"

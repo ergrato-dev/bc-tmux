@@ -11,22 +11,28 @@
 
 **Total labs: 6 horas**
 
-Todos los labs usan un servidor aparte, `tmux -L lab`, para no tocar tus
-sesiones de verdad. Puedes hacerlos en tu equipo o en el laboratorio:
+## Antes de cada lab
 
-```bash
-docker compose run --rm lab     # una terminal, desde la raíz del repositorio
-```
+- Todos los labs usan un servidor aparte (`tmux -L lab`, o `alfa`/`beta` en el
+  lab 05) arrancado con `-f /dev/null`: no toca tus sesiones de verdad ni
+  carga ninguna configuración, así que el prefix es el de fábrica, `C-b`.
+- Cada lab empieza con un **paso 0**: `cd` a su carpeta desde la raíz del
+  repositorio, en una terminal **fuera de tmux** (`echo "$TMUX"` imprime una
+  línea vacía).
+- Puedes hacerlos en tu equipo o en el laboratorio Docker (tmux 3.4). Desde
+  la raíz del repositorio en tu equipo:
 
-Varios labs piden **dos terminales**. En el laboratorio, deja el contenedor
-corriendo y entra desde cada terminal:
+  ```bash
+  docker compose run --rm lab     # una sola terminal
+  ```
 
-```bash
-docker compose up -d lab        # una vez
-docker compose exec lab bash    # en cada terminal
-docker compose down             # al terminar
-```
+  Los labs 02, 03, 04 y 06 piden **dos terminales**. Deja el contenedor
+  corriendo y entra desde cada una:
 
-Al terminar cada lab: `tmux -L lab kill-server`.
+  ```bash
+  docker compose up -d lab        # una vez
+  docker compose exec lab bash    # en cada terminal: entras en /bc-tmux, la raíz del repositorio
+  docker compose down             # al terminar
+  ```
 
 Completa los labs en orden. Después, el [Proyecto semanal](../3-proyecto/README.md).

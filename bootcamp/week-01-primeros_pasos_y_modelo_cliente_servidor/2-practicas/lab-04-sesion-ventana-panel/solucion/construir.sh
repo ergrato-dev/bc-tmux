@@ -2,7 +2,8 @@
 # Lab 04 — construye la sesión "obra": ventana editor (2 paneles) + ventana logs.
 set -euo pipefail
 
-tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
+# -f /dev/null: si este script arranca el servidor, lo hace sin tu configuración.
+tmx() { tmux -L "${TMUX_SOCKET:-lab}" -f /dev/null "$@"; }
 
 tmx new-session -d -s obra -n editor
 tmx split-window -h -t obra:editor
