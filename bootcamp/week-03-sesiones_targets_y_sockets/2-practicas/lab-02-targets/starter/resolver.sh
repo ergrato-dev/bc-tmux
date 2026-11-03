@@ -7,8 +7,8 @@ tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
 
 target="${1:?uso: resolver.sh TARGET}"
 
-# TODO 1: valida el target con list-panes -t (display-message no falla);
-#         si no existe: "resolver.sh: no existe el target '...'" y sale con 1.
-# TODO 2: imprime con display-message -p -t "$target":
-#         "sesion:ventana.panel  sesión $N  ventana @N  panel %N"
+# TODO 1: si el target no existe, avisa por stderr y sal con 1 (README, paso 8).
+# TODO 2: imprime posición e ids de sesión, ventana y panel (paso 9).
+
+# Borra esta línea al empezar:
 echo "resolver.sh: sin implementar ($target)" >&2

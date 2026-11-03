@@ -7,8 +7,8 @@ tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
 
 nombre="${1:?uso: saltar.sh NOMBRE}"
 
-# TODO 1: si no existe la sesión exacta (has-session -t "=$nombre"), avisa
-#         por stderr y sal con 1.
-# TODO 2: dentro de tmux ($TMUX no vacío) switch-client -t "=$nombre";
-#         fuera, attach-session -t "=$nombre".
+# TODO 1: si la sesión exacta no existe, avisa por stderr y sal con 1 (README, paso 9).
+# TODO 2: dentro de tmux cambia el cliente actual; fuera, conecta uno (paso 10).
+
+# Borra esta línea al empezar:
 echo "saltar.sh: sin implementar ($nombre)" >&2

@@ -8,9 +8,9 @@ tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
 base="${1:?uso: espejo.sh BASE}"
 espejo="$base-espejo"
 
-# TODO 1: si la base no existe (has-session -t "=$base"), avisa y sal con 1.
-# TODO 2: si ya existe "$espejo": "ya existe: ..."; si no, créala en el grupo
-#         (new-session -d -t "=$base" -s "$espejo") y "creada: ...".
-# TODO 3: "grupo <grupo>: <miembros>" con #{session_group} y
-#         #{session_group_list} de la base.
+# TODO 1: si la base no existe, avisa por stderr y sal con 1 (README, paso 7).
+# TODO 2: crea "$espejo" en el grupo de la base solo si no existe (paso 8).
+# TODO 3: imprime el grupo y sus miembros (paso 9).
+
+# Borra esta línea al empezar:
 echo "espejo.sh: sin implementar ($base, $espejo)" >&2

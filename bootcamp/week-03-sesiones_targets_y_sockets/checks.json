@@ -14,7 +14,7 @@
       "descripcion": "Sin servidor, sesiones no arranca ninguno",
       "cmd": "TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones >/dev/null 2>&1 ; {tmux} has-session",
       "assert": "exit!=0",
-      "pista": "2-practicas/lab-01-varias-sesiones/README.md, paso 6"
+      "pista": "2-practicas/lab-01-varias-sesiones/README.md, paso 8"
     },
     {
       "id": "ls-una-linea",
@@ -70,7 +70,7 @@
       "descripcion": "Dentro de tmux, ir cambia de sesión con switch-client",
       "cmd": "rm -f /tmp/espia.log ; {tmux} -f /dev/null new-session -d -s api ; {tmux} -f /dev/null new-session -d -s web ; p=$({tmux} display -p -t web: '#{pane_id}') ; s=$({tmux} display -p '#{socket_path}') ; TMUX=\"$s,1,0\" TMUX_PANE=$p TMUX_SOCKET=bc-check TMUX_BIN={semana}/3-proyecto/tests/espia-tmux ESPIA_LOG=/tmp/espia.log {proyecto}/bin/sesiones ir api && grep -q switch /tmp/espia.log && ! grep -q attach /tmp/espia.log",
       "assert": "exit0",
-      "pista": "2-practicas/lab-03-moverte-entre-sesiones/README.md, paso 5"
+      "pista": "2-practicas/lab-03-moverte-entre-sesiones/README.md, paso 7"
     },
     {
       "id": "ir-exacto",
