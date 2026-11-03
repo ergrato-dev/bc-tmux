@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# color-strip — franja de degradado (rojo → verde → azul) en color de 24 bits.
+# Con 24 bits se ve continua; aproximada a 256 colores se ve a bandas.
+# Uso: color-strip [ANCHO]   (por defecto 64 columnas, mínimo 2)
+set -euo pipefail
+
+width="${1:-64}"
+if ! [[ "$width" =~ ^[0-9]+$ ]] || ((width < 2)); then
+  echo "uso: color-strip [ANCHO>=2]" >&2
+  exit 2
+fi
+
+# TODO: un bucle de 0 a width-1 que pinte un espacio con fondo de 24 bits
+#       (\e[48;2;R;G;Bm). El rojo baja, el azul sube y el verde sube y baja.
+#       Pista:
+#         for ((i = 0; i < width; i++)); do
+#           r=$((255 - i * 255 / (width - 1)))
+#           g=$((i * 510 / (width - 1)))
+#           if ((g > 255)); then g=$((510 - g)); fi
+#           b=$((i * 255 / (width - 1)))
+#           printf '\e[48;2;%d;%d;%dm ' "$r" "$g" "$b"
+#         done
+#         printf '\e[0m\n'
+#       Prueba: ./starter/color-strip 8 | cat -v
+#       Borra las dos líneas de abajo al terminar.
+echo "sin implementar" >&2
+exit 1

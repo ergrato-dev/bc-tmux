@@ -83,7 +83,7 @@ bootcamp/week-NN-nombre_del_tema/
 | [05 — Configuración y alcance de opciones](bootcamp/week-05-configuracion_y_alcance_de_opciones/README.md) | `tmux.conf` XDG, alcances, herencia, `source-file`, config modular | `tmux.conf` + `conf.d/` con recarga en caliente y `bin/kit-option` |
 | [06 — Key bindings, tablas y navegación](bootcamp/week-06-key_bindings_tablas_y_navegacion/README.md) | `bind`, `-r`, `-n`, tablas propias, `if -F` | Modo resize, navegación `C-h/j/k/l` agnóstica del editor y `bin/kit-keys` |
 | [07 — Formats y status line](bootcamp/week-07-formats_y_status_line/README.md) | `#{}`, condicionales, modificadores, `#()`, estilos | `conf.d/30-status.conf` con paleta e indicadores, y `bin/kit-git-branch` |
-| 08 — Terminal, color y depuración | `TERM`, terminfo, `terminal-features`, `extended-keys`, `tmux -vvv` | Batería de color/teclas + guía de diagnóstico |
+| [08 — Terminal, color y depuración](bootcamp/week-08-terminal_color_y_depuracion/README.md) | `TERM`, terminfo, `terminal-features`, `extended-keys`, `tmux -vvv` | `conf.d/40-terminal.conf`, `bin/kit-doctor` y `docs/diagnostico.md` |
 | 09 — Scripting de tmux desde shell | `new-session -d`, `has-session`, `send-keys`, `list-* -F`, `wait-for` | `bin/dev-up` idempotente |
 | 10 — Hooks, popups y menús | `set-hook`, `display-popup`, `display-menu`, `run-shell`, fzf | Selector de proyectos en popup + hooks |
 | 11 — Plugins y ecosistema | TPM, resurrect, continuum, escribir un plugin, tmuxp, sesh | Plugin propio + resurrect |

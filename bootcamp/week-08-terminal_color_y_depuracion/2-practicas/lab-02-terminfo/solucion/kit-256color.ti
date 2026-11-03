@@ -1,0 +1,13 @@
+# ============================================================
+# Lab 02 — terminfo (solución)
+# Semana 08: Terminal, color y depuración
+# Compílala SOLO en un directorio temporal, nunca en el del sistema:
+#   TERMINFO=/tmp/lab08/terminfo tic -x solucion/kit-256color.ti
+# ============================================================
+
+kit-256color|tmux-256color del lab 02 con color de 24 bits,
+# Sin RGB, tmux aproxima cada color hex al más cercano de la paleta de 256.
+	RGB,
+# Color del subrayado: \E[58:2::R:G:Bm a partir de un número 0xRRGGBB.
+	Setulc=\E[58:2::%p1%{65536}%/%d:%p1%{256}%/%{255}%&%d:%p1%{255}%&%dm,
+	use=tmux-256color,

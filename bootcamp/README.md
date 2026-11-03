@@ -26,7 +26,7 @@ está en construcción (sin enlace hasta que exista la carpeta).
 | [05](week-05-configuracion_y_alcance_de_opciones/README.md) | Configuración y alcance de opciones | ✅ |
 | [06](week-06-key_bindings_tablas_y_navegacion/README.md) | Key bindings, tablas y navegación | ✅ |
 | [07](week-07-formats_y_status_line/README.md) | Formats y status line | ✅ |
-| 08 | Terminal, color y depuración | ⬜ |
+| [08](week-08-terminal_color_y_depuracion/README.md) | Terminal, color y depuración | ✅ |
 
 ### Fase 3 — Automatización (S09-11, 30 h)
 

@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# kit-doctor — diagnostica tmux y tu terminal sin cambiar nada.
+#
+# Uso: kit-doctor
+#      TMUX_SOCKET=kit kit-doctor     el servidor de tmux -L kit
+# Imprime una línea por comprobación: "ok|aviso|fallo  tema  detalle".
+# Salida: 0 sin fallos (puede haber avisos), 1 algún fallo, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+(( $# == 0 )) || { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+failed=0
+# report NIVEL TEMA DETALLE — una línea alineada; un fallo cambia la salida.
+report() {
+  printf '%-5s  %-16s  %s\n' "$1" "$2" "$3"
+  [[ "$1" != fallo ]] || failed=1
+}
+
+# --- Sin servidor: el binario y el terminfo ----------------------------------
+
+# TODO 5: línea "version" con la salida de bin/check-version 3.4 (ok si sale
+# con 0, fallo si no) y línea "terminfo": ok si infocmp tmux-256color
+# funciona, fallo si no, aviso si no está infocmp (lab-02-terminfo).
+
+# --- Servidor ----------------------------------------------------------------
+
+# TODO 6: si tmx list-sessions falla, línea "aviso  servidor" y exit "$failed"
+# (list-sessions no arranca un servidor; show-options sí). Si hay servidor:
+# líneas "servidor" (#{socket_path}), "default-terminal" (fallo si es
+# xterm*), "escape-time" (fallo si pasa de 50) y "extended-keys" (aviso si
+# es off). Con tmx show -sv (lab-06-depurar-una-terminal-rota).
+
+# --- Cliente: la terminal de fuera -------------------------------------------
+
+# TODO 7: el cliente más reciente con tmx list-clients -F y #{client_activity},
+# #{client_name}, #{client_termname} y #{client_termfeatures}. Sin cliente,
+# "aviso  cliente". Con cliente: "cliente", "term-fuera" (aviso si es tmux* o
+# screen*) y "color" (aviso si RGB no está en las features).
+
+# TODO 8: borra las dos líneas siguientes y termina con exit "$failed".
+echo "kit-doctor: sin implementar" >&2
+exit 1

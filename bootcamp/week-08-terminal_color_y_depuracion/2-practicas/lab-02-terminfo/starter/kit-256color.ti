@@ -1,0 +1,25 @@
+# ============================================================
+# Lab 02 — terminfo
+# Semana 08: Terminal, color y depuración
+# Entrada terminfo propia: tmux-256color con lo que tu terminal sabe hacer.
+# Compílala SOLO en un directorio temporal, nunca en el del sistema:
+#   TERMINFO=/tmp/lab08/terminfo tic -x starter/kit-256color.ti
+# Las líneas que empiezan por # son comentarios para tic.
+# ============================================================
+
+# Primera línea: nombres separados por |. El último, con espacios, es la
+# descripción. Cada capacidad termina en coma.
+kit-256color|tmux-256color del lab 02 con color de 24 bits,
+
+# TODO 1: anuncia color de 24 bits con la capacidad booleana RGB (sin valor).
+#         tmux la lee y añade la feature RGB al cliente.
+#         Pista: una línea con un tabulador delante y   RGB,
+#         Prueba: TERMINFO=/tmp/lab08/terminfo infocmp -1x kit-256color | grep RGB
+
+# TODO 2: el color del subrayado (Setulc). Recibe un número 0xRRGGBB y manda
+#         \E[58:2::R:G:Bm. Cópialo entero: es aritmética de terminfo.
+#         Pista: Setulc=\E[58:2::%p1%{65536}%/%d:%p1%{256}%/%{255}%&%d:%p1%{255}%&%dm,
+#         Prueba: TERMINFO=/tmp/lab08/terminfo infocmp -1x kit-256color | grep Setulc
+
+# Todo lo demás se hereda de tmux-256color. use= va siempre al final.
+	use=tmux-256color,

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# outer-title — cambia el título de la terminal de fuera, también desde tmux.
+# Uso: outer-title TEXTO
+set -euo pipefail
+
+if (($# != 1)); then
+  echo "uso: outer-title TEXTO" >&2
+  exit 2
+fi
+
+# El título va dentro de una secuencia de escape: un control en el texto
+# (otro \e, un \a) la cerraría antes de tiempo e inyectaría lo que siga.
+title="${1//[[:cntrl:]]/}"
+osc=$'\e]2;'"$title"$'\a'
+
+if [[ -n "${TMUX:-}" ]]; then
+  # TODO: dentro de tmux, esta secuencia la recoge tmux y se queda en el
+  #       título del panel (#{pane_title}). Para que llegue a la terminal de
+  #       fuera, envuélvela en un DCS de passthrough: \ePtmux; + secuencia
+  #       con cada \e duplicado + \e\\ (el cierre, en la variable st)
+  #       Pista: st=$'\e\\'
+  #              printf '\ePtmux;%s%s' "${osc//$'\e'/$'\e\e'}" "$st"
+  #       Prueba (dentro de tmux): ./starter/outer-title prueba | cat -v
+  #       Sustituye la línea de abajo por las dos de la pista.
+  printf '%s' "$osc"
+else
+  printf '%s' "$osc"
+fi

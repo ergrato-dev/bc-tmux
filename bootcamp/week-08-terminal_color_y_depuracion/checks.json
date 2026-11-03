@@ -1,0 +1,132 @@
+{
+  "semana": "08",
+  "titulo": "Terminal, color y depuración",
+  "checks": [
+    {
+      "id": "conf-parsea",
+      "descripcion": "tmux.conf carga sin errores",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} source-file {proyecto}/tmux.conf",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 1"
+    },
+    {
+      "id": "terminal-modulo",
+      "descripcion": "conf.d/40-terminal.conf fija default-terminal en tmux-256color",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} set -s default-terminal screen ; {tmux} source-file {proyecto}/conf.d/40-terminal.conf ; {tmux} show -sv default-terminal",
+      "assert": "stdout~^tmux-256color$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 2 (lab-01-dos-term)"
+    },
+    {
+      "id": "rgb-feature",
+      "descripcion": "Un cliente xterm-256color tiene la feature RGB",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t kitdemo' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; {tmux} display -p -c \"$c\" '#{client_termfeatures}'",
+      "assert": "stdout~(^|,)RGB(,|$)",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-03-color-de-24-bits)"
+    },
+    {
+      "id": "usstyle-feature",
+      "descripcion": "Un cliente xterm-256color tiene la feature usstyle",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t kitdemo' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; {tmux} display -p -c \"$c\" '#{client_termfeatures}'",
+      "assert": "stdout~(^|,)usstyle(,|$)",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-05-passthrough-y-estilos)"
+    },
+    {
+      "id": "extkeys-feature",
+      "descripcion": "Un cliente xterm-256color tiene la feature extkeys",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t kitdemo' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; {tmux} display -p -c \"$c\" '#{client_termfeatures}'",
+      "assert": "stdout~(^|,)extkeys(,|$)",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-04-teclas-extendidas)"
+    },
+    {
+      "id": "features-idempotente",
+      "descripcion": "Recargar la config no duplica terminal-features",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; a=$({tmux} show -s terminal-features | wc -l) ; {tmux} source-file {proyecto}/tmux.conf ; b=$({tmux} show -s terminal-features | wc -l) ; echo \"$a -> $b\" ; {tmux} show -s terminal-features | grep -q RGB && [ \"$a\" = \"$b\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-03-color-de-24-bits)"
+    },
+    {
+      "id": "extended-keys",
+      "descripcion": "extended-keys vale on",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; {tmux} show -sv extended-keys",
+      "assert": "stdout~^on$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4 (lab-04-teclas-extendidas)"
+    },
+    {
+      "id": "focus-events",
+      "descripcion": "focus-events vale on",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; {tmux} show -sv focus-events",
+      "assert": "stdout~^on$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4"
+    },
+    {
+      "id": "allow-passthrough",
+      "descripcion": "allow-passthrough vale on, no all",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; {tmux} show -gwv allow-passthrough",
+      "assert": "stdout~^on$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5 (lab-05-passthrough-y-estilos)"
+    },
+    {
+      "id": "doctor-uso",
+      "descripcion": "kit-doctor sale con 2 si recibe argumentos",
+      "cmd": "{proyecto}/bin/kit-doctor de-mas",
+      "assert": "exit=2",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6"
+    },
+    {
+      "id": "doctor-sin-servidor",
+      "descripcion": "Sin servidor, kit-doctor avisa en la línea servidor y no arranca uno",
+      "cmd": "export TMUX_SOCKET=bc-check ; out=$({proyecto}/bin/kit-doctor 2>&1) ; {tmux} list-sessions >/dev/null 2>&1 && { echo 'kit-doctor arrancó un servidor' ; exit 3 ; } ; echo \"$out\"",
+      "assert": "stdout~^aviso +servidor ",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6 (lab-02-terminfo)"
+    },
+    {
+      "id": "doctor-formato",
+      "descripcion": "Cada línea de kit-doctor es «ok|aviso|fallo  tema  detalle»",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; out=$({proyecto}/bin/kit-doctor 2>&1) ; echo \"$out\" ; n=$(echo \"$out\" | grep -cE '^(ok|aviso|fallo) +[a-z-]+ +[^ ]') ; t=$(echo \"$out\" | wc -l) ; [ \"$n\" -ge 6 ] && [ \"$n\" = \"$t\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 7"
+    },
+    {
+      "id": "doctor-config-buena",
+      "descripcion": "Con la config del kit y un cliente xterm-256color, kit-doctor sale con 0",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t kitdemo' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; {proyecto}/bin/kit-doctor",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 8"
+    },
+    {
+      "id": "doctor-default-terminal",
+      "descripcion": "Con default-terminal xterm-256color, kit-doctor da fallo en default-terminal",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; {tmux} set -s default-terminal xterm-256color ; {proyecto}/bin/kit-doctor",
+      "assert": "stdout~^fallo +default-terminal ",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 7 (lab-01-dos-term)"
+    },
+    {
+      "id": "doctor-escape-time",
+      "descripcion": "Con escape-time 500, kit-doctor da fallo en escape-time y sale con 1",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; {tmux} set -s escape-time 500 ; out=$({proyecto}/bin/kit-doctor 2>&1) ; rc=$? ; echo \"$out\" | grep -qE '^fallo +escape-time ' && echo \"rc=$rc\"",
+      "assert": "stdout~^rc=1$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 8 (lab-06-depurar-una-terminal-rota)"
+    },
+    {
+      "id": "doctor-sin-rgb",
+      "descripcion": "Con un cliente sin RGB, kit-doctor avisa en la línea color",
+      "cmd": "export TMUX_SOCKET=bc-check ; {tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; { sleep 15 | TERM=screen-256color script -qfc '{tmux} attach -t kitdemo' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; {proyecto}/bin/kit-doctor",
+      "assert": "stdout~^aviso +color ",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 8 (lab-03-color-de-24-bits)"
+    },
+    {
+      "id": "guia-diagnostico",
+      "descripcion": "docs/diagnostico.md tiene secciones para colores, undercurl, Esc, C-Enter y portapapeles",
+      "cmd": "f={proyecto}/docs/diagnostico.md ; for p in color undercurl esc c-enter portapapeles ; do grep -qiE \"^## .*$p\" \"$f\" || { echo \"falta la sección: $p\" ; exit 1 ; } ; done",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 9 (lab-06-depurar-una-terminal-rota)"
+    },
+    {
+      "id": "bin-completo-y-limpio",
+      "descripcion": "tmux.conf, conf.d/, bin/ y docs/ no tienen TODOs y bin/ pasa shellcheck",
+      "cmd": "! grep -rn TODO {proyecto}/tmux.conf {proyecto}/conf.d {proyecto}/bin {proyecto}/docs && shellcheck {proyecto}/bin/*",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Calidad"
+    }
+  ]
+}

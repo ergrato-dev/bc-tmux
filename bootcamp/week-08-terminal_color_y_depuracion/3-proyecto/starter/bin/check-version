@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# check-version — comprueba que el tmux instalado cumple la versión mínima.
+#
+# Uso: check-version [MINIMA]        (por defecto 3.4)
+#      TMUX_BIN=/otra/ruta/tmux check-version
+#
+# Códigos de salida: 0 cumple, 1 es más vieja, 2 tmux no está o no se entiende.
+set -euo pipefail
+
+min="${1:-3.4}"
+bin="${TMUX_BIN:-tmux}"
+
+if ! [[ "$min" =~ ^([0-9]+)\.([0-9]+)$ ]]; then
+  echo "versión mínima inválida: '$min' (formato MAYOR.MENOR, p. ej. 3.4)" >&2
+  exit 2
+fi
+min_major=${BASH_REMATCH[1]}
+min_minor=${BASH_REMATCH[2]}
+
+if ! output=$("$bin" -V 2>/dev/null); then
+  echo "tmux no está instalado o '$bin' no se puede ejecutar" >&2
+  exit 2
+fi
+
+# tmux -V imprime "tmux 3.4", "tmux 3.5a" o "tmux next-3.9". Solo importan
+# mayor y menor: la letra es un parche y "next-" una versión de desarrollo.
+version=${output#tmux }
+version=${version#next-}
+if ! [[ "$version" =~ ^([0-9]+)\.([0-9]+) ]]; then
+  echo "no entiendo la versión: '$output'" >&2
+  exit 2
+fi
+major=${BASH_REMATCH[1]}
+minor=${BASH_REMATCH[2]}
+
+# Comparación numérica por partes: como texto, "3.10" sería menor que "3.9".
+if (( major > min_major || (major == min_major && minor >= min_minor) )); then
+  echo "$output >= $min: ok"
+else
+  echo "$output < $min: actualiza tmux (docs/setup-entorno.md)" >&2
+  exit 1
+fi
