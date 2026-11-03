@@ -117,8 +117,8 @@
     {
       "id": "gitignore-plugins",
       "descripcion": "El .gitignore del kit deja fuera plugins/",
-      "cmd": "git check-ignore -v --no-index {proyecto}/plugins/tpm/tpm",
-      "assert": "stdout~3-proyecto/(starter|solucion)/.gitignore:[0-9]+:",
+      "cmd": "grep -qxE \"/?plugins/?\" {proyecto}/.gitignore",
+      "assert": "exit0",
       "pista": "3-proyecto/README.md, Paso a paso, paso 6"
     },
     {
