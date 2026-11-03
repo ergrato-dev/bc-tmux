@@ -1,0 +1,132 @@
+{
+  "semana": "12",
+  "titulo": "Remoto, colaboración y control mode",
+  "checks": [
+    {
+      "id": "conf-parsea",
+      "descripcion": "tmux.conf carga sin errores con conf.d/70-remote.conf",
+      "cmd": "d=$(mktemp -d) ; cp -r {proyecto}/. \"$d\" ; rm -rf \"$d/plugins\" ; {tmux} -f /dev/null new-session -d ; {tmux} source-file \"$d/tmux.conf\"",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 1"
+    },
+    {
+      "id": "f12-sin-prefix",
+      "descripcion": "F12 deja la sesión sin prefix",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; ( sleep 5 | {tmux} -C attach ) >/dev/null 2>&1 & sleep 0.5 ; c=$({tmux} list-clients -F '#{client_name}') ; f12() { {tmux} send-keys -K -c \"$c\" F12 ; sleep 0.2 ; } ; f12 ; {tmux} show -v prefix",
+      "assert": "stdout~^None$",
+      "pista": "3-proyecto/README.md, paso 1"
+    },
+    {
+      "id": "f12-tabla-off",
+      "descripcion": "F12 pone la sesión en la tabla off",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; ( sleep 5 | {tmux} -C attach ) >/dev/null 2>&1 & sleep 0.5 ; c=$({tmux} list-clients -F '#{client_name}') ; f12() { {tmux} send-keys -K -c \"$c\" F12 ; sleep 0.2 ; } ; f12 ; {tmux} show -v key-table",
+      "assert": "stdout~^off$",
+      "pista": "3-proyecto/README.md, paso 1"
+    },
+    {
+      "id": "f12-indicador",
+      "descripcion": "Con el toggle apagado, la barra muestra OFF",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; ( sleep 5 | {tmux} -C attach ) >/dev/null 2>&1 & sleep 0.5 ; c=$({tmux} list-clients -F '#{client_name}') ; f12() { {tmux} send-keys -K -c \"$c\" F12 ; sleep 0.2 ; } ; a=$({tmux} display -p '#{E:status-right}') ; f12 ; b=$({tmux} display -p '#{E:status-right}') ; echo \"$b\" ; [[ \"$a\" != *OFF* && \"$b\" == *OFF* ]]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 4"
+    },
+    {
+      "id": "f12-vuelve",
+      "descripcion": "Un segundo F12 deja la sesión exactamente como estaba",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; ( sleep 5 | {tmux} -C attach ) >/dev/null 2>&1 & sleep 0.5 ; c=$({tmux} list-clients -F '#{client_name}') ; f12() { {tmux} send-keys -K -c \"$c\" F12 ; sleep 0.2 ; } ; e() { echo \"$({tmux} show -v prefix)|$({tmux} show -v key-table)|$({tmux} show -gv prefix)|$({tmux} display -p '#{E:@kit-remote-label}')\" ; } ; a=$(e) ; f12 ; k=$({tmux} show -v key-table) ; f12 ; b=$(e) ; echo \"$k [$a] [$b]\" ; [ \"$k\" = off ] && [ \"$a\" = \"$b\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 2"
+    },
+    {
+      "id": "f12-tras-recarga",
+      "descripcion": "El toggle sigue funcionando después de recargar la config dos veces",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d ; ( sleep 5 | {tmux} -C attach ) >/dev/null 2>&1 & sleep 0.5 ; c=$({tmux} list-clients -F '#{client_name}') ; f12() { {tmux} send-keys -K -c \"$c\" F12 ; sleep 0.2 ; } ; f12 ; {tmux} source-file {proyecto}/tmux.conf ; {tmux} source-file {proyecto}/tmux.conf ; k=$({tmux} show -v key-table) ; f12 ; echo \"$k|$({tmux} show -v key-table)|$({tmux} show -v prefix)|$({tmux} list-keys -T off | wc -l)\"",
+      "assert": "stdout~^off[|][|][|]1$",
+      "pista": "3-proyecto/README.md, paso 2"
+    },
+    {
+      "id": "ssh-status",
+      "descripcion": "La barra marca SSH solo si el servidor arrancó por SSH",
+      "cmd": "SSH_CONNECTION='192.0.2.1 50000 192.0.2.2 22' {tmux} -f {proyecto}/tmux.conf new-session -d ; r=$({tmux} display -p '#{E:status-right}' | grep -c SSH) ; {tmux} kill-server ; env -u SSH_CONNECTION {tmux} -f {proyecto}/tmux.conf new-session -d ; l=$({tmux} display -p '#{E:status-right}' | grep -c SSH) ; echo \"ssh=$r local=$l\"",
+      "assert": "stdout~^ssh=1 local=0$",
+      "pista": "3-proyecto/README.md, paso 4"
+    },
+    {
+      "id": "kit-pair-uso",
+      "descripcion": "bin/kit-pair sale con 2 ante un uso incorrecto",
+      "cmd": "{proyecto}/bin/kit-pair 2>/dev/null ; a=$? ; {proyecto}/bin/kit-pair abrir 2>/dev/null ; b=$? ; {proyecto}/bin/kit-pair allow 2>/dev/null ; c=$? ; {proyecto}/bin/kit-pair allow nobody -x 2>/dev/null ; e=$? ; echo \"uso: $a $b $c $e\"",
+      "assert": "stdout~^uso: 2 2 2 2$",
+      "pista": "3-proyecto/README.md, paso 5"
+    },
+    {
+      "id": "kit-pair-permisos",
+      "descripcion": "kit-pair start deja el directorio en 710 y el socket en 660, del grupo compartido",
+      "cmd": "d=$(mktemp -d) ; export KIT_PAIR_DIR=\"$d/pair\" KIT_PAIR_GROUP=$(id -gn) ; s=\"$d/pair/pair\" ; kp() { {proyecto}/bin/kit-pair \"$@\" ; } ; t() { tmux -S \"$s\" \"$@\" ; } ; out=$( kp start >/dev/null && echo \"$(stat -c %a \"$d/pair\") $(stat -c %a \"$s\") $(stat -c %G \"$s\")\" ; t display -p '#{@kit-pair-socket}' ) ; t kill-server 2>/dev/null ; echo \"$out\" ; [ \"$(echo \"$out\" | head -1)\" = \"710 660 $KIT_PAIR_GROUP\" ] && [ \"$(echo \"$out\" | tail -1)\" = \"$s\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 5"
+    },
+    {
+      "id": "kit-pair-idempotente",
+      "descripcion": "Ejecutar kit-pair start dos veces deja una sola sesión pair",
+      "cmd": "d=$(mktemp -d) ; export KIT_PAIR_DIR=\"$d/pair\" KIT_PAIR_GROUP=$(id -gn) ; s=\"$d/pair/pair\" ; kp() { {proyecto}/bin/kit-pair \"$@\" ; } ; t() { tmux -S \"$s\" \"$@\" ; } ; out=$( kp start >/dev/null && kp start >/dev/null && t list-sessions -F '#{session_name}' | grep -cx pair ) ; t kill-server 2>/dev/null ; echo \"$out\"",
+      "assert": "stdout~^1$",
+      "pista": "3-proyecto/README.md, paso 5"
+    },
+    {
+      "id": "kit-pair-sin-servidor",
+      "descripcion": "kit-pair allow sin sesión compartida sale con 1 y lo dice",
+      "cmd": "d=$(mktemp -d) ; export KIT_PAIR_DIR=\"$d/pair\" KIT_PAIR_GROUP=$(id -gn) ; s=\"$d/pair/pair\" ; kp() { {proyecto}/bin/kit-pair \"$@\" ; } ; t() { tmux -S \"$s\" \"$@\" ; } ; out=$( m=$(kp allow nobody 2>&1) ; echo \"rc=$? $m\" ) ; t kill-server 2>/dev/null ; echo \"$out\"",
+      "assert": "stdout~^rc=1 kit-pair: no hay sesión compartida",
+      "pista": "3-proyecto/README.md, paso 6"
+    },
+    {
+      "id": "kit-pair-lectura",
+      "descripcion": "kit-pair allow da solo lectura por defecto",
+      "cmd": "d=$(mktemp -d) ; export KIT_PAIR_DIR=\"$d/pair\" KIT_PAIR_GROUP=$(id -gn) ; s=\"$d/pair/pair\" ; kp() { {proyecto}/bin/kit-pair \"$@\" ; } ; t() { tmux -S \"$s\" \"$@\" ; } ; out=$( kp start >/dev/null && kp allow nobody >/dev/null && t server-access -l ) ; t kill-server 2>/dev/null ; echo \"$out\"",
+      "assert": "stdout~^nobody .R.$",
+      "pista": "3-proyecto/README.md, paso 6"
+    },
+    {
+      "id": "kit-pair-escritura",
+      "descripcion": "kit-pair allow USUARIO -w pasa a escritura a quien ya tenía acceso",
+      "cmd": "d=$(mktemp -d) ; export KIT_PAIR_DIR=\"$d/pair\" KIT_PAIR_GROUP=$(id -gn) ; s=\"$d/pair/pair\" ; kp() { {proyecto}/bin/kit-pair \"$@\" ; } ; t() { tmux -S \"$s\" \"$@\" ; } ; out=$( kp start >/dev/null && kp allow nobody >/dev/null && kp allow nobody -w >/dev/null && t server-access -l ) ; t kill-server 2>/dev/null ; echo \"$out\"",
+      "assert": "stdout~^nobody .W.$",
+      "pista": "3-proyecto/README.md, paso 6"
+    },
+    {
+      "id": "kit-pair-inexistente",
+      "descripcion": "kit-pair allow rechaza un usuario que no existe",
+      "cmd": "d=$(mktemp -d) ; export KIT_PAIR_DIR=\"$d/pair\" KIT_PAIR_GROUP=$(id -gn) ; s=\"$d/pair/pair\" ; kp() { {proyecto}/bin/kit-pair \"$@\" ; } ; t() { tmux -S \"$s\" \"$@\" ; } ; out=$( kp start >/dev/null && { kp allow nadie-bc-tmux 2>/dev/null ; echo \"rc=$? lista=$(t server-access -l | grep -c nadie)\" ; } ) ; t kill-server 2>/dev/null ; echo \"$out\"",
+      "assert": "stdout~^rc=1 lista=0$",
+      "pista": "3-proyecto/README.md, paso 6"
+    },
+    {
+      "id": "kit-pair-nombre-hostil",
+      "descripcion": "kit-pair allow rechaza con 2 un nombre que tmux leería como opción o ruta",
+      "cmd": "d=$(mktemp -d) ; export KIT_PAIR_DIR=\"$d/pair\" KIT_PAIR_GROUP=$(id -gn) ; s=\"$d/pair/pair\" ; kp() { {proyecto}/bin/kit-pair \"$@\" ; } ; t() { tmux -S \"$s\" \"$@\" ; } ; out=$( kp start >/dev/null && kp allow -l 2>/dev/null ; a=$? ; kp allow ../root 2>/dev/null ; b=$? ; echo \"hostil: $a $b\" ) ; t kill-server 2>/dev/null ; echo \"$out\"",
+      "assert": "stdout~^hostil: 2 2$",
+      "pista": "3-proyecto/README.md, paso 6"
+    },
+    {
+      "id": "kit-pair-deny",
+      "descripcion": "kit-pair deny quita el acceso",
+      "cmd": "d=$(mktemp -d) ; export KIT_PAIR_DIR=\"$d/pair\" KIT_PAIR_GROUP=$(id -gn) ; s=\"$d/pair/pair\" ; kp() { {proyecto}/bin/kit-pair \"$@\" ; } ; t() { tmux -S \"$s\" \"$@\" ; } ; out=$( kp start >/dev/null && kp allow nobody >/dev/null && a=$(t server-access -l | grep -c nobody) && kp deny nobody >/dev/null && echo \"$a $(t server-access -l | grep -c nobody)\" ) ; t kill-server 2>/dev/null ; echo \"$out\"",
+      "assert": "stdout~^1 0$",
+      "pista": "3-proyecto/README.md, paso 7"
+    },
+    {
+      "id": "kit-pair-stop",
+      "descripcion": "kit-pair stop cierra el servidor compartido y borra su directorio",
+      "cmd": "d=$(mktemp -d) ; export KIT_PAIR_DIR=\"$d/pair\" KIT_PAIR_GROUP=$(id -gn) ; s=\"$d/pair/pair\" ; kp() { {proyecto}/bin/kit-pair \"$@\" ; } ; t() { tmux -S \"$s\" \"$@\" ; } ; out=$( kp start >/dev/null && kp stop >/dev/null ; t has-session 2>/dev/null ; h=$? ; test -e \"$d/pair\" && x=si || x=no ; kp stop >/dev/null ; echo \"servidor=$h dir=$x otra-vez=$?\" ) ; t kill-server 2>/dev/null ; echo \"$out\"",
+      "assert": "stdout~^servidor=1 dir=no otra-vez=0$",
+      "pista": "3-proyecto/README.md, paso 8"
+    },
+    {
+      "id": "kit-completo-y-limpio",
+      "descripcion": "tmux.conf, conf.d/, bin/ y plugin/ no tienen TODOs y bin/ y plugin/ pasan shellcheck",
+      "cmd": "! grep -rn TODO {proyecto}/tmux.conf {proyecto}/conf.d {proyecto}/bin {proyecto}/plugin && shellcheck {proyecto}/bin/* {proyecto}/plugin/*.tmux",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, paso 9"
+    }
+  ]
+}

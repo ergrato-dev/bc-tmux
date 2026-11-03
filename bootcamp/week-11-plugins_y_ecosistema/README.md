@@ -80,6 +80,6 @@ kit-plugins: 3 plugins fijados
 
 | Anterior | Actual | Siguiente |
 |---|---|---|
-| [← Semana 10 — Hooks, popups y menús](../week-10-hooks_popups_y_menus/README.md) | **Semana 11 — Plugins y ecosistema** | Semana 12 — Remoto, colaboración y control mode |
+| [← Semana 10 — Hooks, popups y menús](../week-10-hooks_popups_y_menus/README.md) | **Semana 11 — Plugins y ecosistema** | [Semana 12 — Remoto, colaboración y control mode →](../week-12-remoto_colaboracion_y_control_mode/README.md) |
 
 [← Volver al índice del bootcamp](../README.md)

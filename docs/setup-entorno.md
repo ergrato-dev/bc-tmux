@@ -59,13 +59,36 @@ docker compose down             # al terminar
 
 Dentro del contenedor eres el usuario `alumno`, con el repositorio montado en `/bc-tmux`. Los archivos que crees ahí aparecen en tu equipo con tu usuario.
 
+### Dos usuarios y SSH (semana 12)
+
+El laboratorio trae un segundo usuario, `invitado` (sin contraseña ni sudo), y el grupo `pair`, al que pertenecen los dos. Con el laboratorio corriendo (`docker compose up -d lab`), cada terminal entra como uno:
+
+```bash
+docker compose exec lab bash               # terminal A: alumno
+docker compose exec -u invitado lab bash   # terminal B: invitado
+```
+
+El servidor SSH no arranca solo. Lánzalo una vez como root y, dentro del laboratorio, crea una clave para entrar en `localhost` (solo se acepta clave, no contraseña):
+
+```bash
+docker compose exec -u root lab /usr/sbin/sshd     # (sin salida)
+docker compose exec lab bash
+ssh-keygen -q -t ed25519 -N "" -f ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
+ssh -o StrictHostKeyChecking=accept-new localhost 'echo "$SSH_CONNECTION"'
+# Warning: Permanently added 'localhost' (ED25519) to the list of known hosts.
+# ::1 42288 ::1 22
+```
+
+`mosh localhost` funciona igual dentro del laboratorio. La clave y `sshd` duran lo que dure el contenedor: tras `docker compose down`, se repiten.
+
 ## 5. Semanas concretas
 
 | Semana | Necesitas | Dónde |
 |---|---|---|
 | 10 | fzf | Instalado en el paso 1 y en el laboratorio |
 | 11 | uv (Python **siempre con uv**, nunca pip) | El laboratorio ya lo trae. En tu equipo: `brew install uv`; en Linux descarga el instalador oficial, **léelo** y luego ejecútalo (nunca `curl \| sh`) |
-| 12 | ssh | El laboratorio levanta un servidor SSH propio |
+| 12 | ssh, mosh y un segundo usuario | El laboratorio trae `sshd`, `mosh` y el usuario `invitado` (sección 4) |
 
 ```bash
 curl -fsSL https://astral.sh/uv/install.sh -o /tmp/install-uv.sh

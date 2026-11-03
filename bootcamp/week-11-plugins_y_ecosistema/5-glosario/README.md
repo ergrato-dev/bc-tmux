@@ -24,6 +24,6 @@
 
 | Anterior | Siguiente |
 |---|---|
-| ← [Recursos — web](../4-recursos/webgrafia/README.md) | — |
+| ← [Recursos — web](../4-recursos/webgrafia/README.md) | [Semana 12 — Remoto, colaboración y control mode](../../week-12-remoto_colaboracion_y_control_mode/README.md) → |
 
 [↑ Semana 11](../README.md)

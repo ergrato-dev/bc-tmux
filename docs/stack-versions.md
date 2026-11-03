@@ -30,6 +30,9 @@ tmux -V
 | shellcheck | 0.9 |
 | fzf | 0.44 |
 | uv | 0.12.2 (`COPY --from=ghcr.io/astral-sh/uv:0.12.2`) |
+| OpenSSH (cliente y servidor) | 9.6 (apt de Ubuntu 24.04) |
+| mosh | 1.4.0 |
+| Usuarios | `alumno` (UID 1000) e `invitado`, los dos en el grupo `pair` (semana 12) |
 | Docker Engine | 27+ |
 | Docker Compose | v2 (`docker compose`) |
 

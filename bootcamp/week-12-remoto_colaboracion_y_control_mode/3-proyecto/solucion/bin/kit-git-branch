@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# kit-git-branch — imprime la rama git de un directorio, para la status line.
+#
+# Uso: kit-git-branch DIR
+# Imprime la rama de DIR, el commit corto si HEAD está suelto o nada si no es un repo.
+# Salida: 0 aunque DIR no sea un repo o no exista, 2 uso incorrecto.
+set -euo pipefail
+
+usage() { sed -n '4,5s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+(( $# == 1 )) || usage
+[[ -n "$1" && "$1" != -* ]] || usage
+dir="$1"
+
+# tmux lo lanza cada status-interval desde la status line: cualquier fallo
+# (sin git, directorio borrado, repo de otro usuario) se queda en "sin rama".
+# Un mensaje de error acabaría en la barra o en show-messages.
+command -v git >/dev/null 2>&1 || exit 0
+[[ -d "$dir" ]] || exit 0
+
+# symbolic-ref solo lee HEAD: no recorre el árbol de trabajo como git status,
+# así que tarda lo mismo en un repo pequeño que en un monorepo.
+if branch=$(git -C "$dir" symbolic-ref --short -q HEAD 2>/dev/null); then
+  printf '%s\n' "$branch"
+elif commit=$(git -C "$dir" rev-parse --short HEAD 2>/dev/null); then
+  printf '%s\n' "$commit"
+fi
+exit 0

@@ -1,0 +1,59 @@
+<svg viewBox="0 0 900 470" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Qué prefix llega a quién con un tmux dentro de otro: toda tecla pasa primero por el tmux de fuera; C-a c se queda en el de fuera; C-a C-a c hace que send-prefix escriba C-a en el panel y ssh lo lleve al tmux de dentro; tras F12, la tabla off del de fuera deja pasar C-a c al de dentro</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#58a6ff"/>
+    </marker>
+  </defs>
+  <rect width="900" height="470" fill="#0d1117"/>
+
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <!-- Cabeceras de columna -->
+    <rect x="30" y="24" width="170" height="52" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="115" y="55" fill="#f0f6fc" text-anchor="middle">Tu terminal</text>
+    <rect x="250" y="24" width="270" height="52" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="385" y="47" fill="#f0f6fc" text-anchor="middle">tmux de fuera</text>
+    <text x="385" y="66" fill="#8b949e" text-anchor="middle" font-size="12">portátil · prefix C-a</text>
+    <rect x="610" y="24" width="260" height="52" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="740" y="47" fill="#f0f6fc" text-anchor="middle">tmux de dentro</text>
+    <text x="740" y="66" fill="#8b949e" text-anchor="middle" font-size="12">build-01 · prefix C-a</text>
+    <text x="565" y="55" fill="#8b949e" text-anchor="middle" font-size="12">ssh</text>
+    <line x1="30" y1="96" x2="870" y2="96" stroke="#30363d" stroke-width="1"/>
+
+    <!-- Fila 1: C-a c -->
+    <text x="40" y="160" fill="#f78166" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">C-a c</text>
+    <line x1="150" y1="155" x2="246" y2="155" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="250" y="118" width="270" height="76" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="268" y="148" fill="#f0f6fc">Es su prefix: se lo queda</text>
+    <text x="268" y="174" fill="#3fb950">ventana nueva aquí</text>
+    <rect x="610" y="118" width="260" height="76" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2" stroke-dasharray="6 5"/>
+    <text x="740" y="161" fill="#8b949e" text-anchor="middle">no recibe nada</text>
+
+    <!-- Fila 2: C-a C-a c -->
+    <text x="40" y="280" fill="#f78166" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">C-a C-a c</text>
+    <line x1="150" y1="275" x2="246" y2="275" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="250" y="236" width="270" height="76" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="268" y="266" fill="#f0f6fc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">bind C-a send-prefix</text>
+    <text x="268" y="292" fill="#f0f6fc">escribe C-a en el panel</text>
+    <line x1="520" y1="275" x2="606" y2="275" stroke="#58a6ff" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+    <text x="563" y="264" fill="#79c0ff" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">C-a c</text>
+    <rect x="610" y="236" width="260" height="76" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="628" y="266" fill="#f0f6fc">Recibe su prefix</text>
+    <text x="628" y="292" fill="#3fb950">ventana nueva aquí</text>
+
+    <!-- Fila 3: F12 y luego C-a c -->
+    <text x="40" y="392" fill="#f78166" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">F12</text>
+    <text x="40" y="414" fill="#f78166" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">luego C-a c</text>
+    <line x1="150" y1="395" x2="246" y2="395" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="250" y="354" width="270" height="86" rx="6" fill="#161b22" stroke="#e3b341" stroke-width="2"/>
+    <text x="268" y="382" fill="#e3b341" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">key-table off · prefix None</text>
+    <text x="268" y="406" fill="#f0f6fc">la tabla off solo tiene F12:</text>
+    <text x="268" y="428" fill="#f0f6fc">lo demás pasa al panel</text>
+    <line x1="520" y1="395" x2="606" y2="395" stroke="#58a6ff" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+    <text x="563" y="384" fill="#79c0ff" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">C-a c</text>
+    <rect x="610" y="354" width="260" height="86" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="628" y="386" fill="#f0f6fc">Recibe su prefix</text>
+    <text x="628" y="412" fill="#3fb950">ventana nueva aquí</text>
+  </g>
+</svg>

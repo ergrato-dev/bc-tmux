@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# kit-pair — comparte una sesión de tmux con otro usuario de esta máquina.
+#
+# Uso: kit-pair start                 crea (o reutiliza) el socket compartido y la sesión pair
+#      kit-pair allow USUARIO [-w]    deja entrar a USUARIO: solo lectura; con -w, también escribe
+#      kit-pair deny USUARIO          le quita el acceso y desconecta sus clientes
+#      kit-pair list                  quién entra: (R) solo lectura, (W) escritura
+#      kit-pair stop                  cierra el servidor compartido y borra su directorio
+# Salida: 0 bien, 1 sin sesión compartida, usuario inexistente o sin permisos, 2 uso incorrecto.
+#
+# Variables: KIT_PAIR_GROUP (grupo que comparte el socket, por defecto pair) y
+# KIT_PAIR_DIR (directorio del socket, por defecto /tmp/kit-pair-USUARIO).
+set -euo pipefail
+
+group=${KIT_PAIR_GROUP:-pair}
+dir=${KIT_PAIR_DIR:-${TMUX_TMPDIR:-/tmp}/kit-pair-$(id -un)}
+sock=$dir/pair
+kit=$(cd "$(dirname "$0")/.." && pwd)
+
+# Aquí no vale -L "$TMUX_SOCKET": -L pone el socket en /tmp/tmux-UID, un
+# directorio 0700 en el que nadie más puede entrar. El servidor compartido
+# vive en su propio directorio y se le habla con -S; TMUX_BIN sí se respeta.
+tmx() { "${TMUX_BIN:-tmux}" -S "$sock" "$@"; }
+
+usage() { sed -n '4,8s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+die() { echo "kit-pair: $*" >&2; exit 1; }
+
+need_server() {
+  tmx has-session 2>/dev/null || die "no hay sesión compartida: ejecuta kit-pair start"
+}
+
+# TODO 6 (lab-04-socket-compartido): check_user NOMBRE sale con 2 si NOMBRE no
+# casa con ^[A-Za-z_][A-Za-z0-9._-]{0,31}$ ([[ =~ ]]). Sin esto, "-d" llegaría
+# a server-access como una opción.
+check_user() { :; }
+
+start() {
+  # TODO 5 (lab-04-socket-compartido):
+  #   1. Sal con die si $group no está en $(id -Gn).
+  #   2. mkdir -p "$dir"; sal con die si no es tuyo ([[ -O ]]) o es un enlace (-L).
+  #   3. chgrp "$group" y chmod 0710 al directorio.
+  #   4. Si no existe la sesión (has-session -t "=pair"), créala con
+  #      tmx -f "$kit/tmux.conf" new-session -d -s pair.
+  #   5. chgrp "$group" y chmod g+rw,o= al socket; tmx set -g @kit-pair-socket "$sock".
+  #   6. Imprime los comandos de attach para ti y para el invitado.
+  : "$kit" "$group"
+  die "start sin implementar"
+}
+
+# allow USUARIO MODO (MODO es -r o -w)
+allow() {
+  # TODO 6 (lab-04-socket-compartido): check_user, need_server, die si el
+  # usuario no existe (id -u). Si ya está en server-access -l, cámbiale el
+  # modo con server-access MODO; si no, añádelo con server-access -a MODO.
+  # Ojo: server-access -a sin -r da escritura.
+  die "allow sin implementar"
+}
+
+deny() {
+  # TODO 7 (lab-04-socket-compartido): check_user, need_server y
+  # server-access -d (también desconecta sus clientes). Si no estaba en la
+  # lista, dilo y sal con 0.
+  die "deny sin implementar"
+}
+
+list() {
+  # TODO 7: need_server y server-access -l.
+  die "list sin implementar"
+}
+
+stop() {
+  # TODO 8 (lab-04-socket-compartido): si hay servidor, tmx kill-server y
+  # rm -f "$sock"; después rmdir "$dir" sin fallar si no está vacío. Sin
+  # servidor, avisa y sal con 0.
+  die "stop sin implementar"
+}
+
+case ${1:-} in
+  start | list | stop)
+    (( $# == 1 )) || usage
+    "$1"
+    ;;
+  allow)
+    (( $# == 2 || $# == 3 )) || usage
+    mode=-r
+    if (( $# == 3 )); then
+      [[ $3 == -w ]] || usage
+      mode=-w
+    fi
+    allow "$2" "$mode"
+    ;;
+  deny)
+    (( $# == 2 )) || usage
+    deny "$2"
+    ;;
+  *) usage ;;
+esac
