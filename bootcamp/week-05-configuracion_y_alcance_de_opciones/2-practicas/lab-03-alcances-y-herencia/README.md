@@ -116,7 +116,7 @@ Fijar opciones en el servidor, en una sesión, en una ventana y en un panel, ver
    editor de terminal) lo recibe medio segundo tarde. 10 ms bastan en local;
    por SSH con mucha latencia, si alguna flecha llega como `Esc` más una
    letra, súbelo (por ejemplo a 50). Tu kit lo fijará en
-   `conf.d/10-opciones.conf`.
+   `conf.d/10-options.conf`.
 
 6. **¿De dónde sale este valor?** Prepara tres casos (terminal A):
    ```bash
@@ -137,29 +137,29 @@ Fijar opciones en el servidor, en una sesión, en una ventana y en un panel, ver
    tampoco dice de dónde hereda. Y con el nombre de una opción de servidor,
    `show -w` contesta igual: tmux deduce el alcance por la opción e ignora
    `-w`. La lista sin nombre es la única que dice, sin trampas, qué hay en
-   cada nivel. Con esa idea escribe `starter/nivel.sh OPCION PANEL`. Al
+   cada nivel. Con esa idea escribe `starter/scope.sh OPCION PANEL`. Al
    final del archivo hay un `echo "sin implementar"` y un `exit 1`: déjalos
    hasta el TODO 3 y entonces bórralos. Si no lo tienes:
    `sudo apt install shellcheck` (macOS: `brew install shellcheck`).
 
    1. **TODO 1: valida el panel.** `display-message` no falla con un panel
       que no existe; `list-panes -t` sí. Pista:
-      `if ! tmx list-panes -t "$panel" >/dev/null 2>&1; then` + mensaje por
-      stderr `nivel.sh: no existe el panel PANEL` + `exit 1`.
+      `if ! tmx list-panes -t "$pane" >/dev/null 2>&1; then` + mensaje por
+      stderr `scope.sh: no existe el panel PANEL` + `exit 1`.
       ```bash
-      ./starter/nivel.sh remain-on-exit api:nada; echo $?
-      ./starter/nivel.sh remain-on-exit api:editor.0; echo $?
+      ./starter/scope.sh remain-on-exit api:nada; echo $?
+      ./starter/scope.sh remain-on-exit api:editor.0; echo $?
       ```
       ```
-      nivel.sh: no existe el panel api:nada
+      scope.sh: no existe el panel api:nada
       1
-      nivel.sh: sin implementar (remain-on-exit en api:editor.0)
+      scope.sh: sin implementar (remain-on-exit en api:editor.0)
       1
       ```
-   2. **TODO 2: la función `valor`.** `valor FLAGS...` ejecuta
+   2. **TODO 2: la función `value`.** `value FLAGS...` ejecuta
       `tmx show "$@"` (sin nombre de opción) y se queda con la línea cuyo
       primer campo es la opción. Pista de `awk`:
-      `awk -v o="$opcion" '$1 == o { sub(/^[^ ]+ /, ""); print; f = 1; exit } END { exit !f }'`:
+      `awk -v o="$option" '$1 == o { sub(/^[^ ]+ /, ""); print; f = 1; exit } END { exit !f }'`:
       `sub` quita el nombre y el espacio, y `exit !f` hace que falle si no
       la encontró. Prueba la tubería suelta en la terminal:
       ```bash
@@ -172,25 +172,25 @@ Fijar opciones en el servidor, en una sesión, en una ventana y en un panel, ver
       1
       ```
    3. **TODO 3: del más concreto al más general.** Pista:
-      `if v=$(valor -p -t "$panel"); then echo "$v (panel)"`, después
-      `elif` con `-w -t "$panel"` (ventana) y con `-gw` (global); en el
-      `else`, `nivel.sh: OPCION no es una opción de ventana` por stderr y
+      `if v=$(value -p -t "$pane"); then echo "$v (panel)"`, después
+      `elif` con `-w -t "$pane"` (ventana) y con `-gw` (global); en el
+      `else`, `scope.sh: OPCION no es una opción de ventana` por stderr y
       `exit 1`. Borra el `echo "sin implementar"` y el `exit 1`.
       ```bash
-      for p in api:editor.0 api:editor.1 api:logs.0; do printf '%s ' "$p"; ./starter/nivel.sh remain-on-exit "$p"; done
-      ./starter/nivel.sh status-style api:editor.0; echo $?
-      shellcheck starter/nivel.sh; echo $?
+      for p in api:editor.0 api:editor.1 api:logs.0; do printf '%s ' "$p"; ./starter/scope.sh remain-on-exit "$p"; done
+      ./starter/scope.sh status-style api:editor.0; echo $?
+      shellcheck starter/scope.sh; echo $?
       ```
       ```
       api:editor.0 off (global)
       api:editor.1 on (panel)
       api:logs.0 on (ventana)
-      nivel.sh: status-style no es una opción de ventana
+      scope.sh: status-style no es una opción de ventana
       1
       0
       ```
-   El proyecto amplía esta idea a todos los niveles en `bin/kit-opcion`.
-   Referencia: `solucion/nivel.sh`.
+   El proyecto amplía esta idea a todos los niveles en `bin/kit-option`.
+   Referencia: `solucion/scope.sh`.
 
 7. **El `-g` olvidado.** Una config con una línea sin `-g`. El
    `kill-server` expulsa a la terminal B, que imprime `[server exited]`.
@@ -225,9 +225,9 @@ Fijar opciones en el servidor, en una sesión, en una ventana y en un panel, ver
 - [ ] Muestras con `show -A` una opción de sesión propia y otra heredada (paso 2)
 - [ ] Tres paneles con tres fondos distintos, cada uno desde un nivel distinto (paso 3)
 - [ ] `tmux -L lab show -sv escape-time` imprime `10` y explicas qué notaría un programa que usa `Esc` (paso 5)
-- [ ] `./starter/nivel.sh` da las salidas de los pasos 6.1 y 6.3 (paso 6)
+- [ ] `./starter/scope.sh` da las salidas de los pasos 6.1 y 6.3 (paso 6)
 - [ ] Explicas por qué `set status-style` sin `-g` no hizo nada y dónde quedó el error (paso 7)
-- [ ] `shellcheck starter/nivel.sh` sale con 0 sin avisos (paso 6.3)
+- [ ] `shellcheck starter/scope.sh` sale con 0 sin avisos (paso 6.3)
 
 ## Reto extra
 

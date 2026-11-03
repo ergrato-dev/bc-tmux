@@ -68,7 +68,7 @@ errores reales**, todos de esta semana.
    ```
    Desde aquí, el servidor del lab usa el prefix del compañero: **`C-a`**.
 
-2. **Ventanas desde 0.** `10-opciones.conf` dice `base-index 1` y
+2. **Ventanas desde 0.** `10-options.conf` dice `base-index 1` y
    `history-limit 50000`, pero:
    ```bash
    tmux -L lab show -gv base-index \; show -gv history-limit
@@ -82,7 +82,7 @@ errores reales**, todos de esta semana.
    printf '%s\n' starter/conf.d/*.conf
    ```
    ```
-   starter/conf.d/10-opciones.conf
+   starter/conf.d/10-options.conf
    starter/conf.d/20-bindings.conf
    starter/conf.d/5-base.conf
    ```
@@ -107,14 +107,14 @@ errores reales**, todos de esta semana.
    Algo como:
    ```
    status-style* bg=green,fg=black
-   /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-06-config-rota/starter/conf.d/10-opciones.conf:8: no current session
+   /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-06-config-rota/starter/conf.d/10-options.conf:8: no current session
    ```
    El `*` dice que la sesión hereda el valor por defecto: la línea 8 de
-   `10-opciones.conf` (`set status-style ...`, sin `-g`) falló al arrancar,
+   `10-options.conf` (`set status-style ...`, sin `-g`) falló al arrancar,
    porque todavía no había ninguna sesión. Y cargada a mano, con el
    servidor vivo, parece que funciona:
    ```bash
-   tmux -L lab source-file "$PWD/starter/conf.d/10-opciones.conf"; echo $?
+   tmux -L lab source-file "$PWD/starter/conf.d/10-options.conf"; echo $?
    tmux -L lab show -A -t s status-style
    ```
    ```
@@ -178,13 +178,13 @@ errores reales**, todos de esta semana.
    `config recargada`. Sal con `C-a` `d`.
 
    Si hiciste el lab 05, comprueba cada módulo por separado con tu script
-   (o con el de la solución, `../lab-05-config-modular/solucion/verificar-modulos.sh`):
+   (o con el de la solución, `../lab-05-config-modular/solucion/check-modules.sh`):
    ```bash
-   ../lab-05-config-modular/starter/verificar-modulos.sh starter; echo $?
+   ../lab-05-config-modular/starter/check-modules.sh starter; echo $?
    ```
    ```
    ok     05-base.conf
-   ok     10-opciones.conf
+   ok     10-options.conf
    ok     20-bindings.conf
    0
    ```

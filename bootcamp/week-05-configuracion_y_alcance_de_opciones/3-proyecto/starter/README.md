@@ -17,8 +17,8 @@ Mi kit personal de tmux: configuración y scripts que uso a diario en Ubuntu 24.
 | `bin/check-version` | Comprueba que tmux cumple la versión mínima. Sale con 0 (cumple), 1 (vieja) o 2 (no está) | `bin/check-version 3.5` |
 | `bin/kit-tree` | Dibuja servidor > sesiones > ventanas > paneles. Nunca arranca un servidor | `TMUX_SOCKET=lab bin/kit-tree` |
 | `bin/kit-layout` | Crea la ventana `trabajo` (editor a la izquierda, shell y logs a la derecha) y guarda o carga layouts | `bin/kit-layout new api ~/src/api` |
-| `bin/sesiones` | Lista las sesiones (la más reciente primero, `*` en la actual) y salta entre ellas, dentro o fuera de tmux | `bin/sesiones ir api` |
-| `bin/kit-copiar` | Copia stdin a tu portapapeles: herramienta del sistema en local, OSC 52 por SSH. Sale con 1 si falta la herramienta, 2 si recibe argumentos | `printf año \| bin/kit-copiar` |
+| `bin/kit-sessions` | Lista las sesiones (la más reciente primero, `*` en la actual) y salta entre ellas, dentro o fuera de tmux | `bin/kit-sessions jump api` |
+| `bin/kit-copy` | Copia stdin a tu portapapeles: herramienta del sistema en local, OSC 52 por SSH. Sale con 1 si falta la herramienta, 2 si recibe argumentos | `printf año \| bin/kit-copy` |
 
 Todos respetan `TMUX_BIN` (qué binario de tmux usar), y los que hablan con un
 servidor respetan `TMUX_SOCKET` (qué servidor, como `tmux -L`).
@@ -38,8 +38,8 @@ bin/kit-layout load api:trabajo ~/.config/tmux/layouts/api.layout
 ln -s ~/tmux-kit ~/.config/tmux
 ```
 
-En copy mode (`mode-keys vi`), `v` selecciona, `C-v` hace un rectángulo e `y`
-copia al portapapeles con `bin/kit-copiar`. En
+Copy mode usa las teclas vi: `v` selecciona, `C-v` hace un rectángulo e `y`
+copia al portapapeles con `bin/kit-copy` (también al soltar el ratón). En
 WSL, instala `win32yank.exe` para que la ñ llegue bien; por SSH, tu terminal
 tiene que soportar OSC 52.
 
@@ -49,5 +49,5 @@ tiene que soportar OSC 52.
 |---|---|
 | 01 | Repositorio, `bin/check-version` y `bin/kit-tree` |
 | 02 | `bin/kit-layout`: ventana de trabajo de tres paneles y layouts guardados |
-| 03 | `bin/sesiones`: listar, saltar, crear y agrupar sesiones |
-| 04 | Primer `tmux.conf` (copy mode vi, historial, OSC 52) y `bin/kit-copiar` |
+| 03 | `bin/kit-sessions`: listar, saltar, crear y agrupar sesiones |
+| 04 | Primer `tmux.conf` (copy mode vi, historial, OSC 52) y `bin/kit-copy` |

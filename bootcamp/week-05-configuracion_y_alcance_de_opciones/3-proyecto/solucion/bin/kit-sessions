@@ -1,50 +1,50 @@
 #!/usr/bin/env bash
-# sesiones — lista las sesiones de tmux y salta entre ellas.
+# kit-sessions — lista las sesiones de tmux y salta entre ellas.
 #
-# Uso: sesiones [ls]                 lista, la usada más recientemente primero
-#      sesiones ir NOMBRE            salta a la sesión (attach o switch-client)
-#      sesiones nueva NOMBRE [DIR]   la crea si no existe y salta a ella
-#      sesiones grupo BASE NUEVA     crea NUEVA en el grupo de BASE
+# Uso: kit-sessions [list]                lista, la usada más recientemente primero
+#      kit-sessions jump NOMBRE           salta a la sesión (attach o switch-client)
+#      kit-sessions new NOMBRE [DIR]      la crea si no existe y salta a ella
+#      kit-sessions group BASE NUEVA      crea NUEVA en el grupo de BASE
 # Salida: 0 bien, 1 la sesión no existe o no hay servidor, 2 uso incorrecto.
 set -euo pipefail
 
 tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
 
-uso() {
+usage() {
   sed -n '4,8s/^# \{0,1\}//p' "$0" >&2
   exit 2
 }
 
-error() { echo "sesiones: $*" >&2; exit 1; }
+die() { echo "kit-sessions: $*" >&2; exit 1; }
 
 # "=" pide coincidencia exacta: sin él, "-t api" también encuentra "api-2".
-existe() { tmx has-session -t "=$1" 2>/dev/null; }
+exists() { tmx has-session -t "=$1" 2>/dev/null; }
 
-nombres() { tmx list-sessions -F '#{session_name}' 2>/dev/null | paste -sd' ' -; }
+names() { tmx list-sessions -F '#{session_name}' 2>/dev/null | paste -sd' ' -; }
 
-listar() {
+list_sessions() {
   # list-sessions no arranca un servidor; si no hay ninguno, falla.
-  local filas
-  filas=$(tmx list-sessions -F '#{session_activity} #{session_name} #{session_windows}' 2>/dev/null) ||
-    error "no hay servidor de tmux en este socket"
+  local rows
+  rows=$(tmx list-sessions -F '#{session_activity} #{session_name} #{session_windows}' 2>/dev/null) ||
+    die "no hay servidor de tmux en este socket"
 
   # Solo hay sesión "actual" si $TMUX apunta a este mismo servidor: el
   # socket va antes de la primera coma. Sin eso, display-message elegiría
   # la sesión más reciente y marcaría una al azar.
-  local actual=""
+  local current=""
   if [[ -n "${TMUX:-}" && "${TMUX%%,*}" == "$(tmx display-message -p '#{socket_path}')" ]]; then
-    actual=$(tmx display-message -p '#{session_name}')
+    current=$(tmx display-message -p '#{session_name}')
   fi
 
-  sort -k1,1nr -k2,2 <<<"$filas" | while read -r _ nombre ventanas; do
-    local plural="s"; (( ventanas == 1 )) && plural=""
-    local marca=""; [[ "$nombre" == "$actual" ]] && marca=" *"
-    echo "$nombre ($ventanas ventana$plural)$marca"
+  sort -k1,1nr -k2,2 <<<"$rows" | while read -r _ name windows; do
+    local plural="s"; (( windows == 1 )) && plural=""
+    local mark=""; [[ "$name" == "$current" ]] && mark=" *"
+    echo "$name ($windows ventana$plural)$mark"
   done
 }
 
-ir() {
-  existe "$1" || error "no existe la sesión '$1'. Disponibles: $(nombres)"
+jump() {
+  exists "$1" || die "no existe la sesión '$1'. Disponibles: $(names)"
   # Dentro de tmux, attach anidaría un cliente dentro de un panel: se cambia
   # el cliente actual de sesión. Fuera, se conecta uno nuevo.
   if [[ -n "${TMUX:-}" ]]; then
@@ -54,33 +54,33 @@ ir() {
   fi
 }
 
-nueva() {
-  local nombre="$1" dir="${2:-$PWD}"
+new_session() {
+  local name="$1" dir="${2:-$PWD}"
   # tmux cambia "." y ":" por "_" sin avisar: "a.b" acabaría llamándose
   # "a_b" y el target "a.b" se leería como sesión "a", panel "b".
-  [[ -n "$nombre" && "$nombre" != *[.:]* ]] || {
-    echo "sesiones: nombre no válido '$nombre' (sin '.' ni ':')" >&2
+  [[ -n "$name" && "$name" != *[.:]* ]] || {
+    echo "kit-sessions: nombre no válido '$name' (sin '.' ni ':')" >&2
     exit 2
   }
-  existe "$nombre" || tmx new-session -d -s "$nombre" -c "$dir"
-  ir "$nombre"
+  exists "$name" || tmx new-session -d -s "$name" -c "$dir"
+  jump "$name"
 }
 
-grupo() {
-  local base="$1" nueva="$2"
-  existe "$base" || error "no existe la sesión base '$base'"
-  existe "$nueva" && error "ya existe una sesión '$nueva'"
+group() {
+  local base="$1" name="$2"
+  exists "$base" || die "no existe la sesión base '$base'"
+  exists "$name" && die "ya existe una sesión '$name'"
   # -t en new-session no es un destino: es la sesión con la que agruparse.
   # Comparten ventanas; cada una tiene su propia ventana actual.
-  tmx new-session -d -t "=$base" -s "$nueva"
-  echo "sesión '$nueva' creada en el grupo de '$base'. Entra con: sesiones ir $nueva"
+  tmx new-session -d -t "=$base" -s "$name"
+  echo "sesión '$name' creada en el grupo de '$base'. Entra con: kit-sessions jump $name"
 }
 
-case "${1:-ls}:$#" in
-  ls:0 | ls:1) listar ;;
-  ir:2)        ir "$2" ;;
-  nueva:2)     nueva "$2" ;;
-  nueva:3)     nueva "$2" "$3" ;;
-  grupo:3)     grupo "$2" "$3" ;;
-  *)           uso ;;
+case "${1:-list}:$#" in
+  list:0 | list:1) list_sessions ;;
+  jump:2)          jump "$2" ;;
+  new:2)           new_session "$2" ;;
+  new:3)           new_session "$2" "$3" ;;
+  group:3)         group "$2" "$3" ;;
+  *)               usage ;;
 esac

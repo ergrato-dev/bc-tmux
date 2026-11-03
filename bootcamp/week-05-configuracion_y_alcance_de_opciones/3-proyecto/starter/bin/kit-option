@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# kit-opcion — dice qué valor tiene una opción y de qué nivel sale.
+# kit-option — dice qué valor tiene una opción y de qué nivel sale.
 #
-# Uso: kit-opcion OPCION [TARGET]
+# Uso: kit-option OPCION [TARGET]
 # TARGET es un panel (api:1.2, %3); dentro de tmux, por defecto el actual.
 # Imprime "VALOR (NIVEL)", con NIVEL: panel, ventana, sesión, global o servidor.
 # Salida: 0 encontrada, 1 la opción o el target no existen, 2 uso incorrecto.
@@ -9,25 +9,25 @@ set -euo pipefail
 
 tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
 
-uso() { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+usage() { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
 
-(( $# >= 1 && $# <= 2 )) || uso
-opcion=$1
+(( $# >= 1 && $# <= 2 )) || usage
+option=$1
 target=${2:-${TMUX_PANE:-}}
-[[ -n "$target" ]] || { echo "kit-opcion: fuera de tmux, indica el TARGET" >&2; exit 2; }
+[[ -n "$target" ]] || { echo "kit-option: fuera de tmux, indica el TARGET" >&2; exit 2; }
 
 # TODO 10: valida el target con list-panes -t (display-message no falla con
-#          un target que no existe). Si falla: "kit-opcion: no existe el panel
+#          un target que no existe). Si falla: "kit-option: no existe el panel
 #          TARGET" por stderr y exit 1.
-# TODO 11: función valor FLAGS...: tmx show "$@" 2>/dev/null SIN nombre de
-#          opción, por una tubería a awk -v o="$opcion" '$1 == o { sub(/^[^ ]+ /,
+# TODO 11: función value FLAGS...: tmx show "$@" 2>/dev/null SIN nombre de
+#          opción, por una tubería a awk -v o="$option" '$1 == o { sub(/^[^ ]+ /,
 #          ""); print; f = 1; exit } END { exit !f }'. Con el nombre, show
 #          deduce el alcance por la opción y puede ignorar -s o -w. Igual que
-#          nivel.sh del lab 03.
+#          scope.sh del lab 03.
 # TODO 12: prueba los niveles en orden y guarda el primero que responde:
 #          -s (servidor), -p -t (panel), -w -t (ventana), -t (sesión),
 #          -gw o -g (global). Imprime "VALOR (NIVEL)"; si ninguno la tiene,
-#          "kit-opcion: la opción OPCION no existe o no tiene valor" por
+#          "kit-option: la opción OPCION no existe o no tiene valor" por
 #          stderr y exit 1. Borra las dos líneas de abajo.
-echo "kit-opcion: sin implementar ($opcion en $target)" >&2
+echo "kit-option: sin implementar ($option en $target)" >&2
 exit 1

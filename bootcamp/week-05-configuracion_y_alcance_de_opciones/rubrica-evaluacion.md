@@ -12,7 +12,7 @@
 |---|:--:|---|
 | 🧠 Conocimiento | 30% | Las 10 preguntas de esta rúbrica, respondidas por escrito |
 | 💪 Desempeño | 40% | Los 6 labs, con sus criterios de éxito verificados en tu máquina o en el laboratorio |
-| 📦 Producto | 30% | `tmux-kit` modular con `kit-opcion`: 60 pts de autograding + 40 pts de calidad |
+| 📦 Producto | 30% | `tmux-kit` modular con `kit-option`: 60 pts de autograding + 40 pts de calidad |
 
 **Mínimo 70% en cada evidencia.** No en el promedio.
 
@@ -38,8 +38,8 @@ Diez preguntas, 3 puntos cada una. Se pide explicar por qué, no recordar teclas
 | 5 | Quitas `set -g status-position top` de tu config y pulsas `prefix` `r`. La barra sigue arriba. ¿Por qué, y cómo lo arreglas sin reiniciar el servidor? |
 | 6 | Tu config tiene `set -ga update-environment WAYLAND_DISPLAY`. ¿Qué pasa tras cinco recargas, y cómo escribes la línea para que no pase? |
 | 7 | `source-file conf.d/*.conf` funciona si arrancas tmux en el directorio del kit y no carga nada si lo arrancas desde `~`. ¿Por qué, y qué escribes en su lugar? |
-| 8 | Al mover `set -sF copy-command "#{d:current_file}/bin/kit-copiar"` a `conf.d/10-opciones.conf`, copiar deja de funcionar. ¿Por qué? ¿Por qué la tecla de recarga necesita `@kit-dir` en vez de `current_file`? |
-| 9 | En `conf.d/` tienes `10-opciones.conf`, `20-bindings.conf` y `5-local.conf`. ¿En qué orden se cargan y qué consecuencia tiene? |
+| 8 | Al mover `set -sF copy-command "#{d:current_file}/bin/kit-copy"` a `conf.d/10-options.conf`, copiar deja de funcionar. ¿Por qué? ¿Por qué la tecla de recarga necesita `@kit-dir` en vez de `current_file`? |
+| 9 | En `conf.d/` tienes `10-options.conf`, `20-bindings.conf` y `5-local.conf`. ¿En qué orden se cargan y qué consecuencia tiene? |
 | 10 | Con `set -g prefix C-a`, ¿qué hace `bind C-a send-prefix` y qué pasa con `C-b` si no haces `unbind C-b`? |
 
 <details>
@@ -79,7 +79,7 @@ tmux, no desde el archivo que la contiene. `set -gF @kit-dir
 "#{@kit-dir}/conf.d/*.conf"`.
 
 **8.** `current_file` es el archivo que se está leyendo: en el módulo es
-`conf.d/10-opciones.conf`, y la ruta pasa a ser `conf.d/bin/kit-copiar`, que
+`conf.d/10-options.conf`, y la ruta pasa a ser `conf.d/bin/kit-copy`, que
 no existe. Además, `current_file` solo existe mientras se lee un archivo; al
 pulsar `prefix` `r` no hay ninguno. `@kit-dir` guarda el directorio del kit
 una vez, en `tmux.conf`, para usarlo después.
@@ -103,11 +103,11 @@ Diez puntos por lab. El Desempeño es la suma sobre 60, llevada a porcentaje.
 
 | Lab | Criterio | Puntos |
 |---|---|:--:|
-| [01 — Dónde vive la config](2-practicas/lab-01-donde-vive-la-config/README.md) | Orden de carga y `~/.tmux.conf` explicados; errores encontrados con `source-file`; `instalar.sh` idempotente que no pisa nada | 10 |
+| [01 — Dónde vive la config](2-practicas/lab-01-donde-vive-la-config/README.md) | Orden de carga y `~/.tmux.conf` explicados; errores encontrados con `source-file`; `install.sh` idempotente que no pisa nada | 10 |
 | [02 — Prefix propio](2-practicas/lab-02-prefix-propio/README.md) | Prefix elegido y documentado; `C-b` libre; `send-prefix` probado; prefix por sesión con `show -A` | 10 |
-| [03 — Alcances y herencia](2-practicas/lab-03-alcances-y-herencia/README.md) | Valores en cuatro niveles con `show -A`; `escape-time` explicado; `nivel.sh` completo; el `-g` olvidado explicado | 10 |
-| [04 — Recarga en caliente](2-practicas/lab-04-recarga-en-caliente/README.md) | `prefix` `r` desde cualquier directorio; lo que la recarga no deshace; `-gu` + `-ga`; `comparar-recarga.sh` | 10 |
-| [05 — Config modular](2-practicas/lab-05-config-modular/README.md) | `conf.d/` desde `/`; `copy-command` con `@lab-dir`; orden del glob; `local.conf`; `verificar-modulos.sh` | 10 |
+| [03 — Alcances y herencia](2-practicas/lab-03-alcances-y-herencia/README.md) | Valores en cuatro niveles con `show -A`; `escape-time` explicado; `scope.sh` completo; el `-g` olvidado explicado | 10 |
+| [04 — Recarga en caliente](2-practicas/lab-04-recarga-en-caliente/README.md) | `prefix` `r` desde cualquier directorio; lo que la recarga no deshace; `-gu` + `-ga`; `compare-reload.sh` | 10 |
+| [05 — Config modular](2-practicas/lab-05-config-modular/README.md) | `conf.d/` desde `/`; `copy-command` con `@lab-dir`; orden del glob; `local.conf`; `check-modules.sh` | 10 |
 | [06 — Config rota](2-practicas/lab-06-config-rota/README.md) | Los cuatro errores explicados; carga igual desde `~`, `/` y el lab | 10 |
 
 Dentro de cada lab: 10 puntos si se cumplen todos los criterios y explicas con
@@ -128,7 +128,7 @@ Cada comprobación vale **3 puntos**, salvo `recarga-idempotente` y
 |---|:--:|
 | `conf-parsea` — tmux.conf carga sin errores | 3 |
 | `entrada-sin-opciones` — tmux.conf no define opciones ni teclas: carga conf.d/ | 3 |
-| `opciones-en-10` — Las opciones viven en conf.d/10-opciones.conf | 3 |
+| `opciones-en-10` — Las opciones viven en conf.d/10-options.conf | 3 |
 | `teclas-en-20` — Las teclas viven en conf.d/20-bindings.conf | 3 |
 | `desde-otro-directorio` — La config carga entera aunque arranques tmux desde otro directorio | 3 |
 | `prefix-propio` — El prefix ya no es C-b | 3 |
@@ -138,11 +138,11 @@ Cada comprobación vale **3 puntos**, salvo `recarga-idempotente` y
 | `recarga-funciona` — prefix r recarga la config del kit desde cualquier directorio | 3 |
 | `recarga-idempotente` — Recargar la config dos veces no cambia ninguna opción ni tecla | 6 |
 | `update-environment` — update-environment incluye WAYLAND_DISPLAY | 3 |
-| `copy-command-sigue` — copy-command sigue apuntando a bin/kit-copiar | 3 |
-| `ko-panel` — kit-opcion dice que un valor viene del panel | 3 |
-| `ko-ventana` — kit-opcion dice que un valor viene de la ventana | 3 |
-| `ko-global` — kit-opcion dice que un valor heredado viene de global | 3 |
-| `ko-servidor` — kit-opcion reconoce las opciones de servidor | 3 |
+| `copy-command-sigue` — copy-command sigue apuntando a bin/kit-copy | 3 |
+| `ko-panel` — kit-option dice que un valor viene del panel | 3 |
+| `ko-ventana` — kit-option dice que un valor viene de la ventana | 3 |
+| `ko-global` — kit-option dice que un valor heredado viene de global | 3 |
+| `ko-servidor` — kit-option reconoce las opciones de servidor | 3 |
 | `bin-completo-y-limpio` — tmux.conf, conf.d/ y bin/ no tienen TODOs y bin/ pasa shellcheck | 6 |
 | **Total** | **60** |
 
@@ -152,9 +152,9 @@ Cada comprobación vale **3 puntos**, salvo `recarga-idempotente` y
 |---|---|---|:--:|
 | **Alcance explícito** | Cada `set` con `-s`, `-g` o `setw -g`, en el bloque de su alcance | Flags explícitos, sin agrupar | 10 |
 | **Comentarios del porqué** | Explican `@kit-dir` y `-F`, el orden de `conf.d/`, `escape-time`, `-gu` antes de `-ga` y tu prefix | Repiten el código | 10 |
-| **kit-opcion** | Comenta por qué lista sin nombre; errores por stderr con los códigos 1 y 2 en la cabecera | Funciona, sin explicar | 6 |
+| **kit-option** | Comenta por qué lista sin nombre; errores por stderr con los códigos 1 y 2 en la cabecera | Funciona, sin explicar | 6 |
 | **Portabilidad** | `local.conf` en `.gitignore`; ninguna ruta a tu home; carga igual desde cualquier directorio | Falta uno de los tres | 6 |
-| **README y bitácora** | Estructura, cómo probar sin instalar, tu prefix y por qué, `kit-opcion` y la bitácora | Falta uno | 8 |
+| **README y bitácora** | Estructura, cómo probar sin instalar, tu prefix y por qué, `kit-option` y la bitácora | Falta uno | 8 |
 | **Total** | | | **40** |
 
 ### Penalizaciones

@@ -32,7 +32,7 @@ El estudiante construye a lo largo del bootcamp **su propio kit de tmux**: confi
 ```
 tmux-kit/
 ├── tmux.conf            # punto de entrada: solo source-file de conf.d/
-├── conf.d/              # 10-opciones.conf, 20-bindings.conf, 30-status.conf ...
+├── conf.d/              # 10-options.conf, 20-bindings.conf, 30-status.conf ...
 ├── bin/                 # scripts bash (dev-up, sesiones, popups)
 ├── plugin/              # plugin propio (semana 11)
 └── install.sh           # bootstrap (semana 13)
@@ -84,8 +84,8 @@ week-NN-nombre_del_tema/
 | Carpeta de lab | `lab-NN-nombre-con-guion` | `lab-02-split-y-navegacion` |
 | Config de tmux | `tmux.conf` (sin punto inicial dentro del repo) | `starter/tmux.conf` |
 | Fragmentos de config | `conf.d/NN-tema.conf` | `conf.d/20-bindings.conf` |
-| Scripts | `bin/nombre-kebab` (sin extensión) o `*.sh` en `scripts/` | `bin/dev-up` |
-| Opciones de usuario tmux | `@kit-nombre-kebab` | `@kit-status-git` |
+| Scripts del kit y de los labs | `bin/name-kebab` (sin extensión) o `name.sh`, **en inglés** | `bin/dev-up`, `bin/kit-copy`, `starter/resolve.sh` |
+| Opciones de usuario tmux | `@kit-name-kebab`, en inglés | `@kit-status-git` |
 | Nombres de sesión en ejemplos | minúsculas, sin espacios | `api`, `notas` |
 
 ## Estándares de tmux en el repo
@@ -119,7 +119,8 @@ bind r source-file ~/.config/tmux/tmux.conf \; display "config recargada"
 ## Estándares de idioma
 
 - **Prosa, enunciados, comentarios:** español, siempre **tuteo** (tú, tienes, puedes, haz). **Nunca voseo** (vos, tenés, podés, hacé, mirá).
-- **Código (opciones, variables, funciones bash):** inglés
+- **Nomenclatura técnica en inglés:** nombres de scripts y archivos de código, variables, funciones, opciones `@kit-*`. Siguen en español: carpetas del curso (`week-*`, `lab-*`), archivos `.md`, el tooling del repo (`scripts/verificar-*.sh`) y nombres de sesión de ejemplo.
+- **Comentarios en español, solo donde hagan falta:** documentan qué hace, para qué y qué impacto tiene (qué se rompe sin esa línea). Nunca repiten el código, otro comentario ni el README.
 - **Mensajes de `display`/`echo` para el usuario:** español
 - **Nunca mezclar idiomas en la misma línea de prosa**
 

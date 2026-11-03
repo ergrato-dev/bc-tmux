@@ -123,7 +123,7 @@ Recargar la config con `C-b` `r` sin cerrar nada y escribirla de forma que recar
    Un solo `WAYLAND_DISPLAY`. Sal de la B con `C-b` `d`:
    `[detached (from session 0)]`.
 
-5. **Comprobarlo con un script.** `starter/comparar-recarga.sh CONF`
+5. **Comprobarlo con un script.** `starter/compare-reload.sh CONF`
    recarga dos veces, compara el estado de las dos y enseña la diferencia.
    Habla con el servidor `-L lab` (o con `TMUX_SOCKET`, si la defines), que
    tiene que estar arrancado. Al final del archivo hay un
@@ -134,17 +134,17 @@ Recargar la config con `C-b` `r` sin cerrar nada y escribirla de forma que recar
    de `set -gu update-environment` y guarda.
 
    1. **TODO 1: hay servidor.** Pista:
-      `tmx list-sessions >/dev/null 2>&1 || { echo "comparar-recarga.sh: no hay servidor en el socket ${TMUX_SOCKET:-lab}" >&2; exit 1; }`.
+      `tmx list-sessions >/dev/null 2>&1 || { echo "compare-reload.sh: no hay servidor en el socket ${TMUX_SOCKET:-lab}" >&2; exit 1; }`.
       Prueba contra un socket vacío:
       ```bash
-      TMUX_SOCKET=nada ./starter/comparar-recarga.sh "$PWD/starter/tmux.conf"; echo $?
+      TMUX_SOCKET=nada ./starter/compare-reload.sh "$PWD/starter/tmux.conf"; echo $?
       ```
       ```
-      comparar-recarga.sh: no hay servidor en el socket nada
+      compare-reload.sh: no hay servidor en el socket nada
       1
       ```
-   2. **TODO 2: la función `estado`.** Pista:
-      `estado() { tmx show -s; tmx show -g; tmx show -gw; tmx list-keys; }`:
+   2. **TODO 2: la función `state`.** Pista:
+      `state() { tmx show -s; tmx show -g; tmx show -gw; tmx list-keys; }`:
       opciones de los tres alcances y todas las teclas. Prueba lo mismo a
       mano, contando líneas:
       ```bash
@@ -152,29 +152,29 @@ Recargar la config con `C-b` `r` sin cerrar nada y escribirla de forma que recar
       ```
       Algo como (depende de cuántas recargas lleves): `398`.
    3. **TODO 3: dos recargas.** Pista: `tmx source-file "$conf"`,
-      `antes=$(estado)`, otra vez `tmx source-file "$conf"`,
-      `despues=$(estado)`. La primera recarga es la referencia: arrancar y
+      `before=$(state)`, otra vez `tmx source-file "$conf"`,
+      `after=$(state)`. La primera recarga es la referencia: arrancar y
       recargar pueden diferir con razón (un `unbind` de algo que ya no
       está); recargar y recargar, no. Prueba que recarga dos veces:
       ```bash
       tmux -L lab show -g update-environment | tail -1
-      ./starter/comparar-recarga.sh "$PWD/starter/tmux.conf"
+      ./starter/compare-reload.sh "$PWD/starter/tmux.conf"
       tmux -L lab show -g update-environment | tail -1
       ```
       Algo como (los números dependen de las recargas anteriores; la
       segunda es dos más):
       ```
       update-environment[8] WAYLAND_DISPLAY
-      comparar-recarga.sh: sin implementar (/bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-04-recarga-en-caliente/starter/tmux.conf)
+      compare-reload.sh: sin implementar (/bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-04-recarga-en-caliente/starter/tmux.conf)
       update-environment[10] WAYLAND_DISPLAY
       ```
-   4. **TODO 4: el veredicto.** Pista: si `[[ "$antes" == "$despues" ]]`,
+   4. **TODO 4: el veredicto.** Pista: si `[[ "$before" == "$after" ]]`,
       imprime `idéntico: recargar CONF no cambia nada`; si no,
-      `diff <(printf '%s\n' "$antes") <(printf '%s\n' "$despues") || true`
+      `diff <(printf '%s\n' "$before") <(printf '%s\n' "$after") || true`
       y `exit 1` (el `|| true` evita que `set -e` corte antes del `exit`).
       Borra el `echo "sin implementar"` y el `exit 1`. Con la config rota:
       ```bash
-      ./starter/comparar-recarga.sh "$PWD/starter/tmux.conf"; echo $?
+      ./starter/compare-reload.sh "$PWD/starter/tmux.conf"; echo $?
       ```
       Algo como (cambian el número de línea y el índice):
       ```
@@ -184,8 +184,8 @@ Recargar la config con `C-b` `r` sin cerrar nada y escribirla de forma que recar
       ```
       Quita el `#` de `set -gu update-environment`, guarda y repite:
       ```bash
-      ./starter/comparar-recarga.sh "$PWD/starter/tmux.conf"; echo $?
-      shellcheck starter/comparar-recarga.sh; echo $?
+      ./starter/compare-reload.sh "$PWD/starter/tmux.conf"; echo $?
+      shellcheck starter/compare-reload.sh; echo $?
       ```
       Algo como:
       ```
@@ -194,7 +194,7 @@ Recargar la config con `C-b` `r` sin cerrar nada y escribirla de forma que recar
       0
       ```
    El autograding del proyecto hace la misma comprobación con tu kit.
-   Referencia: `solucion/comparar-recarga.sh`.
+   Referencia: `solucion/compare-reload.sh`.
 
 6. **Limpia** (terminal A):
    ```bash
@@ -210,8 +210,8 @@ Recargar la config con `C-b` `r` sin cerrar nada y escribirla de forma que recar
 - [ ] `C-b` `r` muestra `config recargada` en un cliente conectado desde `/` (paso 2)
 - [ ] Explicas por qué la barra seguía arriba en el paso 3 y lo deshaces sin reiniciar
 - [ ] Tras tres recargas con la línea arreglada, `show -g update-environment` tiene un solo `WAYLAND_DISPLAY` (paso 4)
-- [ ] `comparar-recarga.sh` sale con 1 y muestra la línea repetida en la config rota, y con 0 en la arreglada (paso 5.4)
-- [ ] `shellcheck starter/comparar-recarga.sh` sale con 0 sin avisos (paso 5.4)
+- [ ] `compare-reload.sh` sale con 1 y muestra la línea repetida en la config rota, y con 0 en la arreglada (paso 5.4)
+- [ ] `shellcheck starter/compare-reload.sh` sale con 0 sin avisos (paso 5.4)
 
 ## Reto extra
 

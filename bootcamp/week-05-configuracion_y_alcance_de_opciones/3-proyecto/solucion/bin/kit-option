@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# kit-opcion — dice qué valor tiene una opción y de qué nivel sale.
+# kit-option — dice qué valor tiene una opción y de qué nivel sale.
 #
-# Uso: kit-opcion OPCION [TARGET]
+# Uso: kit-option OPCION [TARGET]
 # TARGET es un panel (api:1.2, %3); dentro de tmux, por defecto el actual.
 # Imprime "VALOR (NIVEL)", con NIVEL: panel, ventana, sesión, global o servidor.
 # Salida: 0 encontrada, 1 la opción o el target no existen, 2 uso incorrecto.
@@ -9,39 +9,39 @@ set -euo pipefail
 
 tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
 
-uso() { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+usage() { sed -n '4,7s/^# \{0,1\}//p' "$0" >&2; exit 2; }
 
-(( $# >= 1 && $# <= 2 )) || uso
-opcion=$1
+(( $# >= 1 && $# <= 2 )) || usage
+option=$1
 target=${2:-${TMUX_PANE:-}}
-[[ -n "$target" ]] || { echo "kit-opcion: fuera de tmux, indica el TARGET" >&2; exit 2; }
+[[ -n "$target" ]] || { echo "kit-option: fuera de tmux, indica el TARGET" >&2; exit 2; }
 
 # list-panes falla si el target no existe; display-message usaría otro panel.
 if ! tmx list-panes -t "$target" >/dev/null 2>&1; then
-  echo "kit-opcion: no existe el panel $target" >&2
+  echo "kit-option: no existe el panel $target" >&2
   exit 1
 fi
 
-# valor FLAGS... — el valor de $opcion en la lista de ese nivel, o nada.
+# value FLAGS... — el valor de $option en la lista de ese nivel, o nada.
 # Con el nombre de la opción, show deduce el alcance por la opción y puede
 # ignorar -s o -w (show -w escape-time contesta con el valor del servidor).
 # Sin nombre, lista solo lo definido en ese nivel: por eso se pide la lista
 # entera y se busca en ella. Límite: las opciones de lista salen como
 # nombre[N] (update-environment[8]) y hay que pedirlas así.
-valor() {
-  tmx show "$@" 2>/dev/null | awk -v o="$opcion" '$1 == o { sub(/^[^ ]+ /, ""); print; f = 1; exit } END { exit !f }'
+value() {
+  tmx show "$@" 2>/dev/null | awk -v o="$option" '$1 == o { sub(/^[^ ]+ /, ""); print; f = 1; exit } END { exit !f }'
 }
 
 # Del nivel más concreto al más general: el primero que la define, gana.
 # Las de servidor no se heredan: solo existen en un sitio.
-if v=$(valor -s); then nivel=servidor
-elif v=$(valor -p -t "$target"); then nivel=panel
-elif v=$(valor -w -t "$target"); then nivel=ventana
-elif v=$(valor -t "$target"); then nivel=sesión
-elif v=$(valor -gw) || v=$(valor -g); then nivel=global
+if v=$(value -s); then level=servidor
+elif v=$(value -p -t "$target"); then level=panel
+elif v=$(value -w -t "$target"); then level=ventana
+elif v=$(value -t "$target"); then level=sesión
+elif v=$(value -gw) || v=$(value -g); then level=global
 else
-  echo "kit-opcion: la opción $opcion no existe o no tiene valor" >&2
+  echo "kit-option: la opción $option no existe o no tiene valor" >&2
   exit 1
 fi
 
-echo "$v ($nivel)"
+echo "$v ($level)"

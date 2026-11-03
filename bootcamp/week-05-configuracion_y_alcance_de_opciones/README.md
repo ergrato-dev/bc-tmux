@@ -18,7 +18,7 @@ Al terminar esta semana, podrás:
 
 ## Prerrequisitos
 
-- [Semana 04](../week-04-copy_mode_buffers_y_portapapeles/README.md) completada: copy mode, buffers y `tmux-kit` con `tmux.conf` y `kit-copiar`
+- [Semana 04](../week-04-copy_mode_buffers_y_portapapeles/README.md) completada: copy mode, buffers y `tmux-kit` con `tmux.conf` y `kit-copy`
 - Laboratorio Docker construido (`docker compose build`) y dos terminales para los labs 03 y 04
 - `shellcheck` para el proyecto
 
@@ -43,13 +43,13 @@ Al terminar esta semana, podrás:
 ```
 [45 min] Leer 1-teoria/ (config y recarga + alcances de opciones)
 [15 min] Responder las 10 preguntas de Conocimiento
-[60 min] lab-01 — Orden de carga, XDG, errores sin cliente e instalar.sh
+[60 min] lab-01 — Orden de carga, XDG, errores sin cliente e install.sh
 [60 min] lab-02 — Elegir prefix, unbind C-b, send-prefix y prefix2
-[60 min] lab-03 — Servidor, sesión, ventana y panel; show -A, -u y nivel.sh
-[60 min] lab-04 — prefix r, lo que la recarga no deshace, -ga y comparar-recarga.sh
-[60 min] lab-05 — conf.d/, @lab-dir, orden del glob, local.conf, %if y verificar-modulos.sh
+[60 min] lab-03 — Servidor, sesión, ventana y panel; show -A, -u y scope.sh
+[60 min] lab-04 — prefix r, lo que la recarga no deshace, -ga y compare-reload.sh
+[60 min] lab-05 — conf.d/, @lab-dir, orden del glob, local.conf, %if y check-modules.sh
 [60 min] lab-06 — Depurar una config modular con cuatro errores
-[3 h]    Proyecto: tmux.conf + conf.d/, prefix propio y kit-opcion
+[3 h]    Proyecto: tmux.conf + conf.d/, prefix propio y kit-option
 ```
 
 ## Verificación de completitud

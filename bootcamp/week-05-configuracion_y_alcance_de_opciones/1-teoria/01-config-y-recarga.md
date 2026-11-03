@@ -62,7 +62,7 @@ Para una opción que solo existe en versiones nuevas, un bloque condicional se e
 
 ```tmux
 %if "#{>=:#{version},3.5}"
-set -g @kit-moderno on
+set -g @kit-modern on
 %endif
 ```
 

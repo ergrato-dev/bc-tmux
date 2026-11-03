@@ -32,10 +32,10 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
    starter/
    ├── tmux.conf              # solo @lab-dir y source-file
    ├── conf.d/
-   │   ├── 10-opciones.conf
+   │   ├── 10-options.conf
    │   └── 20-bindings.conf
-   ├── bin/copiar
-   └── verificar-modulos.sh
+   ├── bin/copy
+   └── check-modules.sh
    ```
 
 2. **Divide.** Crea el directorio:
@@ -45,10 +45,10 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
    Mueve las líneas de `starter/tmux.conf` (bórralas de allí) a dos
    archivos nuevos, tal cual:
 
-   `starter/conf.d/10-opciones.conf`, las opciones:
+   `starter/conf.d/10-options.conf`, las opciones:
    ```tmux
    set -s escape-time 10
-   set -sF copy-command "#{d:current_file}/bin/copiar"
+   set -sF copy-command "#{d:current_file}/bin/copy"
 
    set -g base-index 1
    set -g mouse on
@@ -121,14 +121,14 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
    ```
    Algo como:
    ```
-   /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-05-config-modular/starter/conf.d/bin/copiar
+   /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-05-config-modular/starter/conf.d/bin/copy
    1
    ```
-   `current_file` ya es `conf.d/10-opciones.conf`, y `conf.d/bin/copiar`
-   no existe: copiar no haría nada, sin error. En `10-opciones.conf`, cambia
+   `current_file` ya es `conf.d/10-options.conf`, y `conf.d/bin/copy`
+   no existe: copiar no haría nada, sin error. En `10-options.conf`, cambia
    la línea por:
    ```tmux
-   set -sF copy-command "#{@lab-dir}/bin/copiar"
+   set -sF copy-command "#{@lab-dir}/bin/copy"
    ```
    ```bash
    tmux -L lab kill-server
@@ -137,7 +137,7 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
    ```
    Algo como:
    ```
-   /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-05-config-modular/starter/bin/copiar
+   /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-05-config-modular/starter/bin/copy
    0
    ```
 
@@ -149,12 +149,12 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
    tmux -L lab -f "$PWD/starter/tmux.conf" new -d \; show -gv base-index
    ```
    ```
-   starter/conf.d/10-opciones.conf
+   starter/conf.d/10-options.conf
    starter/conf.d/20-bindings.conf
    starter/conf.d/5-prueba.conf
    5
    ```
-   Querías una base que `10-opciones.conf` afina, pero `5-` va **después**
+   Querías una base que `10-options.conf` afina, pero `5-` va **después**
    de `20-` en orden alfabético y gana. Renómbralo con dos cifras:
    ```bash
    mv starter/conf.d/5-prueba.conf starter/conf.d/05-prueba.conf
@@ -203,18 +203,18 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
    bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-05-config-modular/starter/.gitignore:1:local.conf	starter/local.conf
    ```
 
-7. **Por versión.** Al final de `starter/conf.d/10-opciones.conf`, un bloque
+7. **Por versión.** Al final de `starter/conf.d/10-options.conf`, un bloque
    que solo se aplica en tmux 3.5 o posterior:
    ```tmux
    %if "#{>=:#{version},3.5}"
-   set -g @lab-moderno on
+   set -g @lab-modern on
    %else
-   set -g @lab-moderno off
+   set -g @lab-modern off
    %endif
    ```
    ```bash
    tmux -L lab kill-server
-   tmux -L lab -f "$PWD/starter/tmux.conf" new -d \; show -gv @lab-moderno
+   tmux -L lab -f "$PWD/starter/tmux.conf" new -d \; show -gv @lab-modern
    tmux -L lab display -p '#{version} #{>=:3.10,3.5}'
    ```
    ```
@@ -225,16 +225,16 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
    ninguna shell. Ojo: `>=` compara **texto**, no números: sirve de 3.4 a
    3.9, pero `3.10` saldría menor que `3.5` (la segunda columna, `0`).
 
-8. **Cada módulo, por separado.** `starter/verificar-modulos.sh DIR` carga
+8. **Cada módulo, por separado.** `starter/check-modules.sh DIR` carga
    cada archivo de `DIR/conf.d/` en un servidor limpio y propio
-   (`-L verificar-modulos`) y dice cuáles fallan. Ya valida `DIR` y define
+   (`-L check-modules`) y dice cuáles fallan. Ya valida `DIR` y define
    `sock` y `tmx`; al final hay un `echo "sin implementar"` y un `exit 1`
    que borras en el TODO 2. Si no lo tienes: `sudo apt install shellcheck`
    (macOS: `brew install shellcheck`).
 
    1. **TODO 2: el bucle** (primero este, para poder probar el 1). Pista:
       ```bash
-      fallos=0
+      failures=0
       for f in "$dir"/conf.d/*.conf; do
         tmux -L "$sock" kill-server 2>/dev/null || true   # servidor limpio por módulo
         tmx -f /dev/null new -d
@@ -244,20 +244,20 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
       ```
       En el `then`, `echo "ok     ${f##*/}"`; en el `else`,
       `echo "error  ${f##*/}: ${err//$'\n'/; }"` (los mensajes en una línea)
-      y `fallos=$((fallos + 1))`. Borra el `echo "sin implementar"` y el
+      y `failures=$((failures + 1))`. Borra el `echo "sin implementar"` y el
       `exit 1`.
       ```bash
-      ./starter/verificar-modulos.sh starter; echo $?
+      ./starter/check-modules.sh starter; echo $?
       ```
       ```
-      ok     10-opciones.conf
+      ok     10-options.conf
       ok     20-bindings.conf
       0
       ```
    2. **TODO 1: no dejar servidores vivos.** Sin limpieza, el último
       servidor sigue arrancado:
       ```bash
-      tmux -L verificar-modulos ls
+      tmux -L check-modules ls
       ```
       Algo como (cambia la fecha):
       ```
@@ -266,29 +266,29 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
       Pista: `trap 'tmux -L "$sock" kill-server 2>/dev/null || true' EXIT`,
       antes del bucle. Repite el script y la pregunta:
       ```bash
-      ./starter/verificar-modulos.sh starter >/dev/null
-      tmux -L verificar-modulos ls
+      ./starter/check-modules.sh starter >/dev/null
+      tmux -L check-modules ls
       ```
       Algo como (cambia el uid de la ruta):
       ```
-      no server running on /tmp/tmux-1000/verificar-modulos
+      no server running on /tmp/tmux-1000/check-modules
       ```
    3. **TODO 3: el código de salida.** Pista: última línea
-      `(( fallos == 0 ))`: con `set -e`, sale con 1 si es falso.
+      `(( failures == 0 ))`: con `set -e`, sale con 1 si es falso.
       ```bash
       echo 'set -g base-indx 5' > starter/conf.d/30-roto.conf
-      ./starter/verificar-modulos.sh starter; echo $?
+      ./starter/check-modules.sh starter; echo $?
       rm starter/conf.d/30-roto.conf
-      shellcheck starter/verificar-modulos.sh; echo $?
+      shellcheck starter/check-modules.sh; echo $?
       ```
       ```
-      ok     10-opciones.conf
+      ok     10-options.conf
       ok     20-bindings.conf
       error  30-roto.conf: invalid option: base-indx
       1
       0
       ```
-   Referencia: `solucion/verificar-modulos.sh`.
+   Referencia: `solucion/check-modules.sh`.
 
 9. **Limpia** (terminal A):
    ```bash
@@ -303,10 +303,10 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
 - [ ] `starter/tmux.conf` no tiene ningún `set` salvo el de `@lab-dir`, ni ningún `bind` (paso 2)
 - [ ] Arrancando desde `/`, `show -gv base-index` imprime `1` (paso 3)
 - [ ] `test -x "$(tmux -L lab show -sv copy-command)"` sale con 0 (paso 4)
-- [ ] Explicas por qué `5-prueba.conf` ganaba a `10-opciones.conf` (paso 5)
+- [ ] Explicas por qué `5-prueba.conf` ganaba a `10-options.conf` (paso 5)
 - [ ] Con y sin `local.conf`, la config carga sin errores, y `git check-ignore` confirma que no se versiona (paso 6)
 - [ ] Explicas por qué `#{>=:...}` no sirve para comparar `3.10` con `3.5` (paso 7)
-- [ ] `verificar-modulos.sh` da las salidas del paso 8, no deja servidor vivo y `shellcheck` sale con 0
+- [ ] `check-modules.sh` da las salidas del paso 8, no deja servidor vivo y `shellcheck` sale con 0
 
 ## Reto extra
 

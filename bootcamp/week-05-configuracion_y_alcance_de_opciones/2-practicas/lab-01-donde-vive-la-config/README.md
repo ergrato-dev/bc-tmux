@@ -26,10 +26,10 @@ Comprobar qué archivos de config carga tmux, en qué orden y cuándo, encontrar
    ```bash
    export H=$(mktemp -d)
    mkdir -p "$H/.config/tmux"
-   echo 'set -g @origen legado; set -g @solo-legado si' > "$H/.tmux.conf"
-   echo 'set -g @origen xdg' > "$H/.config/tmux/tmux.conf"
+   echo 'set -g @origin legado; set -g @legacy-only si' > "$H/.tmux.conf"
+   echo 'set -g @origin xdg' > "$H/.config/tmux/tmux.conf"
    t() { env -i PATH="$PATH" HOME="$H" TERM="$TERM" tmux -L lab "$@"; }
-   t new -d \; display -p '#{config_files}' \; show -gv @origen \; show -gv @solo-legado
+   t new -d \; display -p '#{config_files}' \; show -gv @origin \; show -gv @legacy-only
    ```
    Algo como (cambia el nombre del directorio temporal):
    ```
@@ -37,8 +37,8 @@ Comprobar qué archivos de config carga tmux, en qué orden y cuándo, encontrar
    xdg
    si
    ```
-   Cargó las dos: la de `~/.config/tmux` va después y pisa `@origen`, pero
-   `@solo-legado` sigue viniendo del archivo viejo. Si migras a XDG, borra o
+   Cargó las dos: la de `~/.config/tmux` va después y pisa `@origin`, pero
+   `@legacy-only` sigue viniendo del archivo viejo. Si migras a XDG, borra o
    renombra `~/.tmux.conf`.
 
    `H` y `t` solo existen en esta terminal. Si la cierras, apunta antes el
@@ -52,9 +52,9 @@ Comprobar qué archivos de config carga tmux, en qué orden y cuándo, encontrar
    y quita la config vieja:
    ```bash
    t kill-server
-   mkdir -p "$H/otra/tmux"; echo 'set -g @origen otra' > "$H/otra/tmux/tmux.conf"
+   mkdir -p "$H/otra/tmux"; echo 'set -g @origin otra' > "$H/otra/tmux/tmux.conf"
    rm "$H/.tmux.conf"
-   env -i PATH="$PATH" HOME="$H" TERM="$TERM" XDG_CONFIG_HOME="$H/otra" tmux -L lab new -d \; display -p '#{config_files}' \; show -gv @origen
+   env -i PATH="$PATH" HOME="$H" TERM="$TERM" XDG_CONFIG_HOME="$H/otra" tmux -L lab new -d \; display -p '#{config_files}' \; show -gv @origin
    t kill-server
    t -f /dev/null new -d \; display -p '[#{config_files}]'
    t kill-server
@@ -73,9 +73,9 @@ Comprobar qué archivos de config carga tmux, en qué orden y cuándo, encontrar
    sesión:
    ```bash
    t new -d -s uno
-   echo 'set -g @origen cambiada' > "$H/.config/tmux/tmux.conf"
-   t new -d -s dos \; show -gv @origen
-   t source-file "$H/.config/tmux/tmux.conf" \; show -gv @origen
+   echo 'set -g @origin cambiada' > "$H/.config/tmux/tmux.conf"
+   t new -d -s dos \; show -gv @origin
+   t source-file "$H/.config/tmux/tmux.conf" \; show -gv @origin
    t kill-server
    ```
    ```
@@ -162,32 +162,32 @@ Comprobar qué archivos de config carga tmux, en qué orden y cuándo, encontrar
    (sin salida)
    ```
 
-6. **Instalar sin pisar nada.** `starter/instalar.sh DIR` enlaza `DIR` como
+6. **Instalar sin pisar nada.** `starter/install.sh DIR` enlaza `DIR` como
    `~/.config/tmux` (respetando `XDG_CONFIG_HOME`). Ábrelo con tu editor:
    arriba ya calcula `destino`; al final hay un `echo "sin implementar"` y
    un `exit 1` que **borras** al terminar el TODO 4. Para probarlo, siempre
    con el `HOME` falso y sin tu `XDG_CONFIG_HOME`:
    ```bash
-   env -u XDG_CONFIG_HOME HOME="$H" ./starter/instalar.sh starter/mi-config; echo $?
+   env -u XDG_CONFIG_HOME HOME="$H" ./starter/install.sh starter/my-config; echo $?
    ```
    Algo como, mientras no hayas hecho nada:
    ```
-   instalar.sh: sin implementar (starter/mi-config -> /tmp/tmp.YjbkDVD4sV/.config/tmux)
+   install.sh: sin implementar (starter/my-config -> /tmp/tmp.YjbkDVD4sV/.config/tmux)
    1
    ```
    Antes de empezar, si no lo tienes: `sudo apt install shellcheck` (macOS:
    `brew install shellcheck`). El laboratorio Docker ya lo trae.
 
    1. **TODO 1: el directorio.** Si `"$1/tmux.conf"` no existe
-      (`[[ ! -f ... ]]`), imprime por stderr `instalar.sh: DIR no tiene
+      (`[[ ! -f ... ]]`), imprime por stderr `install.sh: DIR no tiene
       tmux.conf` y `exit 2`. Después guarda la ruta absoluta:
       `dir=$(cd "$1" && pwd)`. Un enlace guarda la ruta tal cual: relativa,
       se resolvería desde `~/.config/`, no desde aquí.
       ```bash
-      env -u XDG_CONFIG_HOME HOME="$H" ./starter/instalar.sh /tmp; echo $?
+      env -u XDG_CONFIG_HOME HOME="$H" ./starter/install.sh /tmp; echo $?
       ```
       ```
-      instalar.sh: /tmp no tiene tmux.conf
+      install.sh: /tmp no tiene tmux.conf
       2
       ```
    2. **TODO 2: el destino ya existe.** Si `$destino` es un enlace
@@ -195,16 +195,16 @@ Comprobar qué archivos de config carga tmux, en qué orden y cuándo, encontrar
       `ya instalado: DESTINO -> DIR` y **no salgas**: el aviso del TODO 4
       tiene que verse también. Si existe y es otra cosa
       (`[[ -e "$destino" || -L "$destino" ]]`), imprime por stderr
-      `instalar.sh: ya existe DESTINO: muévelo tú antes` y `exit 1`, sin
+      `install.sh: ya existe DESTINO: muévelo tú antes` y `exit 1`, sin
       tocarlo. Una estructura `if ... elif ... else` encaja: el `else` es el
       TODO 3. Pruébalo ahora, que `$H/.config/tmux` sigue siendo el
       **directorio** del paso 1:
       ```bash
-      env -u XDG_CONFIG_HOME HOME="$H" ./starter/instalar.sh starter/mi-config; echo $?
+      env -u XDG_CONFIG_HOME HOME="$H" ./starter/install.sh starter/my-config; echo $?
       ```
       Algo como:
       ```
-      instalar.sh: ya existe /tmp/tmp.YjbkDVD4sV/.config/tmux: muévelo tú antes
+      install.sh: ya existe /tmp/tmp.YjbkDVD4sV/.config/tmux: muévelo tú antes
       1
       ```
    3. **TODO 3: enlazar.** En el `else`: `mkdir -p "$(dirname "$destino")"`,
@@ -212,14 +212,14 @@ Comprobar qué archivos de config carga tmux, en qué orden y cuándo, encontrar
       probarlo, primero quita el directorio del paso 1 (es del `HOME` falso):
       ```bash
       rm -r "$H/.config/tmux"
-      env -u XDG_CONFIG_HOME HOME="$H" ./starter/instalar.sh starter/mi-config; echo $?
-      env -u XDG_CONFIG_HOME HOME="$H" ./starter/instalar.sh starter/mi-config; echo $?
+      env -u XDG_CONFIG_HOME HOME="$H" ./starter/install.sh starter/my-config; echo $?
+      env -u XDG_CONFIG_HOME HOME="$H" ./starter/install.sh starter/my-config; echo $?
       ```
       Algo como (la segunda ruta es la de tu repositorio):
       ```
-      instalado: /tmp/tmp.YjbkDVD4sV/.config/tmux -> /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-01-donde-vive-la-config/starter/mi-config
+      instalado: /tmp/tmp.YjbkDVD4sV/.config/tmux -> /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-01-donde-vive-la-config/starter/my-config
       0
-      ya instalado: /tmp/tmp.YjbkDVD4sV/.config/tmux -> /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-01-donde-vive-la-config/starter/mi-config
+      ya instalado: /tmp/tmp.YjbkDVD4sV/.config/tmux -> /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-01-donde-vive-la-config/starter/my-config
       0
       ```
       La segunda vez no hace nada: es **idempotente**.
@@ -229,22 +229,22 @@ Comprobar qué archivos de config carga tmux, en qué orden y cuándo, encontrar
       implementar"` y el `exit 1`.
       ```bash
       touch "$H/.tmux.conf"
-      env -u XDG_CONFIG_HOME HOME="$H" ./starter/instalar.sh starter/mi-config; echo $?
+      env -u XDG_CONFIG_HOME HOME="$H" ./starter/install.sh starter/my-config; echo $?
       ```
       Algo como:
       ```
-      ya instalado: /tmp/tmp.YjbkDVD4sV/.config/tmux -> /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-01-donde-vive-la-config/starter/mi-config
+      ya instalado: /tmp/tmp.YjbkDVD4sV/.config/tmux -> /bc-tmux/bootcamp/week-05-configuracion_y_alcance_de_opciones/2-practicas/lab-01-donde-vive-la-config/starter/my-config
       aviso: /tmp/tmp.YjbkDVD4sV/.tmux.conf también se carga, antes que la tuya
       0
       ```
    5. **tmux la usa y el script está limpio.**
       ```bash
-      t new -d \; show -gv @origen
+      t new -d \; show -gv @origin
       t kill-server
-      shellcheck starter/instalar.sh; echo $?
+      shellcheck starter/install.sh; echo $?
       ```
       ```
-      mi-config
+      my-config
       0
       ```
 
@@ -258,15 +258,15 @@ Comprobar qué archivos de config carga tmux, en qué orden y cuándo, encontrar
 
 ## Criterios de éxito
 
-- [ ] Explicas por qué `@solo-legado` seguía activo en el paso 1
+- [ ] Explicas por qué `@legacy-only` seguía activo en el paso 1
 - [ ] Explicas por qué el paso 3 necesita `source-file` para ver el cambio
 - [ ] En el paso 4 recuperas los dos errores de `rota.conf` con su número de línea y explicas por qué `new -d` sale con 0
-- [ ] `instalar.sh /tmp` sale con 2 (paso 6.1) y, si `~/.config/tmux` ya es un directorio, sale con 1 sin tocarlo (paso 6.2)
-- [ ] `instalar.sh` crea el enlace y la segunda vez dice `ya instalado` (paso 6.3)
+- [ ] `install.sh /tmp` sale con 2 (paso 6.1) y, si `~/.config/tmux` ya es un directorio, sale con 1 sin tocarlo (paso 6.2)
+- [ ] `install.sh` crea el enlace y la segunda vez dice `ya instalado` (paso 6.3)
 - [ ] Con un `~/.tmux.conf` presente, avisa por stderr (paso 6.4)
-- [ ] `shellcheck starter/instalar.sh` sale con 0 sin avisos (paso 6.5)
+- [ ] `shellcheck starter/install.sh` sale con 0 sin avisos (paso 6.5)
 
 ## Reto extra
 
-Añade `--forzar` a `instalar.sh`: si el destino existe, lo renombra a
+Añade `--forzar` a `install.sh`: si el destino existe, lo renombra a
 `tmux.bak-FECHA` antes de enlazar. ¿Por qué renombrar y no borrar?

@@ -14,7 +14,7 @@ starter, adelante: los checks solo miran el comportamiento.
 |---|---|
 | 01 | Repositorio, `README.md`, `bin/check-version`, `bin/kit-tree` |
 | 02 | Layout de trabajo de 3 paneles documentado |
-| 03 | `bin/sesiones`: lista y salta entre sesiones |
+| 03 | `bin/kit-sessions`: lista y salta entre sesiones |
 | 04 | Copia al portapapeles en local y por SSH |
 | 05 | `tmux.conf` modular con `conf.d/` y recarga en caliente |
 | 06 | `conf.d/20-bindings.conf`: modo resize + navegación `C-h/j/k/l` agnóstica del editor |
@@ -33,7 +33,7 @@ tmux-kit/
 ├── README.md
 ├── tmux.conf            # punto de entrada: solo source-file de conf.d/
 ├── conf.d/
-│   ├── 10-opciones.conf
+│   ├── 10-options.conf
 │   ├── 20-bindings.conf
 │   ├── 30-status.conf
 │   ├── 40-terminal.conf

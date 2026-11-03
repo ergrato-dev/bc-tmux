@@ -6,12 +6,12 @@
 
 Tu `tmux.conf` de la semana 04 tiene veinte líneas. Dentro de tres semanas tendrá ciento cincuenta: status line, teclas de navegación, terminal. Si todo sigue en un archivo, cada cambio es buscar entre líneas que no recuerdas por qué están, y cada `prefix` `r` es rezar para no duplicar nada. Además, te has dado cuenta de que no sabes de dónde sale el valor de una opción cuando un panel se comporta distinto que los demás.
 
-Esta semana tu kit pasa a ser **modular**: un `tmux.conf` que solo carga `conf.d/`, opciones agrupadas por alcance, un prefix elegido por ti, una recarga que no duplica nada y **`bin/kit-opcion`**, que te dice qué valor tiene una opción y de qué nivel sale.
+Esta semana tu kit pasa a ser **modular**: un `tmux.conf` que solo carga `conf.d/`, opciones agrupadas por alcance, un prefix elegido por ti, una recarga que no duplica nada y **`bin/kit-option`**, que te dice qué valor tiene una opción y de qué nivel sale.
 
 ```bash
-$ kit-opcion remain-on-exit api:1.2
+$ kit-option remain-on-exit api:1.2
 on (panel)
-$ kit-opcion escape-time api
+$ kit-option escape-time api
 10 (servidor)
 ```
 
@@ -21,25 +21,25 @@ Se trabaja **sobre `3-proyecto/starter/`**: es lo que corrige el autograding.
 
 ```
 starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
-├── README.md            ← añade la estructura, tu prefix, kit-opcion y la bitácora
+├── README.md            ← añade la estructura, tu prefix, kit-option y la bitácora
 ├── .gitignore           ← local.conf
 ├── tmux.conf            ← hoy, la config de la semana 04 (TODO 1); al terminar, solo el punto de entrada
 ├── conf.d/
-│   ├── 10-opciones.conf ← TODOs 2-6
+│   ├── 10-options.conf ← TODOs 2-6
 │   └── 20-bindings.conf ← TODOs 7-9
 └── bin/
-    ├── check-version, kit-tree, kit-layout, sesiones, kit-copiar   (semanas 01-04)
-    └── kit-opcion       ← TODOs 10-12 (nuevo)
+    ├── check-version, kit-tree, kit-layout, sesiones, kit-copy   (semanas 01-04)
+    └── kit-option       ← TODOs 10-12 (nuevo)
 ```
 
 ## Lo que debes construir
 
 1. **`tmux.conf`**: solo el punto de entrada. Guarda su directorio en `@kit-dir`, carga `conf.d/*.conf` con `source-file -F` y, si existe, `local.conf` con `source-file -qF`. Ningún otro `set` ni `bind`: la config carga entera arranques tmux desde donde arranques.
-2. **`conf.d/10-opciones.conf`**: todas las opciones, agrupadas por alcance y con su flag explícito (`-s`, `-g`, `setw -g`). Lo que traías de la semana 04 (`mode-keys`, `history-limit`, `set-clipboard` y `copy-command`, ahora con `#{@kit-dir}/bin/kit-copiar`) y lo nuevo: `escape-time` de 20 ms o menos, `base-index`, `pane-base-index`, `renumber-windows`, `mouse` y `WAYLAND_DISPLAY` en `update-environment` sin que recargar lo duplique.
+2. **`conf.d/10-options.conf`**: todas las opciones, agrupadas por alcance y con su flag explícito (`-s`, `-g`, `setw -g`). Lo que traías de la semana 04 (`mode-keys`, `history-limit`, `set-clipboard` y `copy-command`, ahora con `#{@kit-dir}/bin/kit-copy`) y lo nuevo: `escape-time` de 20 ms o menos, `base-index`, `pane-base-index`, `renumber-windows`, `mouse` y `WAYLAND_DISPLAY` en `update-environment` sin que recargar lo duplique.
 3. **`conf.d/20-bindings.conf`**: tu prefix (no `C-b`) con un comentario del porqué; `C-b` liberada; tu prefix dos veces llega al programa del panel; `prefix` `r` recarga `#{@kit-dir}/tmux.conf` y muestra `config recargada`; las teclas de copy mode de la semana 04.
 4. **Recarga**: recargar dos veces deja exactamente las mismas opciones y teclas.
-5. **`bin/kit-opcion OPCION [TARGET]`**: imprime `VALOR (NIVEL)`, con `NIVEL` en `panel`, `ventana`, `sesión`, `global` o `servidor`: el primer nivel, del más concreto al más general, en el que la opción está fijada. `TARGET` es un panel; dentro de tmux, por defecto el actual (`$TMUX_PANE`). Sale con **1** si el target o la opción no existen y con **2** si el uso es incorrecto.
-6. **README del kit** con la nueva estructura, cómo probarlo sin instalarlo, tu prefix y por qué, `kit-opcion` en la tabla y la bitácora de la semana.
+5. **`bin/kit-option OPCION [TARGET]`**: imprime `VALOR (NIVEL)`, con `NIVEL` en `panel`, `ventana`, `sesión`, `global` o `servidor`: el primer nivel, del más concreto al más general, en el que la opción está fijada. `TARGET` es un panel; dentro de tmux, por defecto el actual (`$TMUX_PANE`). Sale con **1** si el target o la opción no existen y con **2** si el uso es incorrecto.
+6. **README del kit** con la nueva estructura, cómo probarlo sin instalarlo, tu prefix y por qué, `kit-option` en la tabla y la bitácora de la semana.
 
 ## Paso a paso
 
@@ -66,13 +66,13 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
    500
    ```
 
-2. **`conf.d/10-opciones.conf` (TODOs 2-6).** Escribe cada TODO debajo de
+2. **`conf.d/10-options.conf` (TODOs 2-6).** Escribe cada TODO debajo de
    su comentario. Las líneas que dicen "trae" se **mueven** de `tmux.conf`
    (bórralas allí; el TODO 1 lo deja vacío). Pruébalo solo, en un servidor
    sin config, con `@kit-dir` puesto a mano (lo que hará `tmux.conf`):
    ```bash
    tmux -L kit kill-server 2>/dev/null
-   tmux -L kit -f /dev/null new -d -s api \; set -g @kit-dir "$PWD" \; source-file "$PWD/conf.d/10-opciones.conf"; echo $?
+   tmux -L kit -f /dev/null new -d -s api \; set -g @kit-dir "$PWD" \; source-file "$PWD/conf.d/10-options.conf"; echo $?
    ```
    ```
    0
@@ -111,8 +111,8 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
    4. **TODO 5**, `update-environment`. Recarga el módulo dos veces más y
       mira el final de la lista:
       ```bash
-      tmux -L kit source-file "$PWD/conf.d/10-opciones.conf"
-      tmux -L kit source-file "$PWD/conf.d/10-opciones.conf"
+      tmux -L kit source-file "$PWD/conf.d/10-options.conf"
+      tmux -L kit source-file "$PWD/conf.d/10-options.conf"
       tmux -L kit show -g update-environment | tail -2
       ```
       ```
@@ -207,10 +207,10 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
    `C-a` `d`: `[detached (from session api)]`.
 
 6. **Recarga idempotente.** Con el script del lab 04 (el tuyo,
-   `../../2-practicas/lab-04-recarga-en-caliente/starter/comparar-recarga.sh`,
+   `../../2-practicas/lab-04-recarga-en-caliente/starter/compare-reload.sh`,
    o el de la solución):
    ```bash
-   TMUX_SOCKET=kit ../../2-practicas/lab-04-recarga-en-caliente/solucion/comparar-recarga.sh "$PWD/tmux.conf"; echo $?
+   TMUX_SOCKET=kit ../../2-practicas/lab-04-recarga-en-caliente/solucion/compare-reload.sh "$PWD/tmux.conf"; echo $?
    ```
    Algo como (la ruta es la de tu repositorio):
    ```
@@ -220,9 +220,9 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
    Si sale un `diff`, la línea marcada con `>` es la que se añade en cada
    recarga.
 
-7. **`bin/kit-opcion` (TODOs 10-12).** Es `nivel.sh` del lab 03 ampliado a
+7. **`bin/kit-option` (TODOs 10-12).** Es `scope.sh` del lab 03 ampliado a
    cinco niveles (referencia:
-   `../../2-practicas/lab-03-alcances-y-herencia/solucion/nivel.sh`). Al
+   `../../2-practicas/lab-03-alcances-y-herencia/solucion/scope.sh`). Al
    final hay un `echo "sin implementar"` y un `exit 1`: se borran en el
    TODO 12. Prepara una ventana con dos paneles y un valor en cada nivel:
    ```bash
@@ -238,18 +238,18 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
    (Desde aquí, el autograding y tus pruebas hablan con este servidor por
    `TMUX_SOCKET=kit`.)
    1. **TODO 10**, el target (pista: `list-panes -t "$target"`, como
-      `nivel.sh`):
+      `scope.sh`):
       ```bash
-      TMUX_SOCKET=kit bin/kit-opcion base-index api:nada; echo $?
-      TMUX_SOCKET=kit bin/kit-opcion base-index api; echo $?
+      TMUX_SOCKET=kit bin/kit-option base-index api:nada; echo $?
+      TMUX_SOCKET=kit bin/kit-option base-index api; echo $?
       ```
       ```
-      kit-opcion: no existe el panel api:nada
+      kit-option: no existe el panel api:nada
       1
-      kit-opcion: sin implementar (base-index en api)
+      kit-option: sin implementar (base-index en api)
       1
       ```
-   2. **TODO 11**, `valor`. La tubería es la de `nivel.sh`; pruébala suelta
+   2. **TODO 11**, `value`. La tubería es la de `scope.sh`; pruébala suelta
       con la lista del servidor:
       ```bash
       tmux -L kit show -s | awk -v o=escape-time '$1 == o { sub(/^[^ ]+ /, ""); print; f = 1; exit } END { exit !f }'; echo $?
@@ -261,19 +261,19 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
       En el script lleva `2>/dev/null` tras `show`: con `-p` o `-w`, un
       error no debe ensuciar la salida.
    3. **TODO 12**, los niveles. Pista: una cadena
-      `if v=$(valor -s); then nivel=servidor elif v=$(valor -p -t "$target"); then nivel=panel ...`
-      hasta `elif v=$(valor -gw) || v=$(valor -g); then nivel=global`, y al
-      final `echo "$v ($nivel)"`. `-s` va primero: una opción de servidor
+      `if v=$(value -s); then level=servidor elif v=$(value -p -t "$target"); then level=panel ...`
+      hasta `elif v=$(value -gw) || v=$(value -g); then level=global`, y al
+      final `echo "$v ($level)"`. `-s` va primero: una opción de servidor
       solo existe en ese nivel.
       ```bash
-      TMUX_SOCKET=kit bin/kit-opcion escape-time api
-      TMUX_SOCKET=kit bin/kit-opcion remain-on-exit api:1.2
-      TMUX_SOCKET=kit bin/kit-opcion automatic-rename api:1.1
-      TMUX_SOCKET=kit bin/kit-opcion base-index api
+      TMUX_SOCKET=kit bin/kit-option escape-time api
+      TMUX_SOCKET=kit bin/kit-option remain-on-exit api:1.2
+      TMUX_SOCKET=kit bin/kit-option automatic-rename api:1.1
+      TMUX_SOCKET=kit bin/kit-option base-index api
       tmux -L kit set -t api base-index 3
-      TMUX_SOCKET=kit bin/kit-opcion base-index api
-      TMUX_SOCKET=kit bin/kit-opcion no-existe api; echo $?
-      bin/kit-opcion base-index; echo $?
+      TMUX_SOCKET=kit bin/kit-option base-index api
+      TMUX_SOCKET=kit bin/kit-option no-existe api; echo $?
+      bin/kit-option base-index; echo $?
       ```
       ```
       10 (servidor)
@@ -281,19 +281,19 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
       off (ventana)
       1 (global)
       3 (sesión)
-      kit-opcion: la opción no-existe no existe o no tiene valor
+      kit-option: la opción no-existe no existe o no tiene valor
       1
-      kit-opcion: fuera de tmux, indica el TARGET
+      kit-option: fuera de tmux, indica el TARGET
       2
       ```
       Un límite conocido: las opciones de **lista** salen en `show` como
       `nombre[N]`, así que hay que pedirlas con el índice:
       ```bash
-      TMUX_SOCKET=kit bin/kit-opcion update-environment api; echo $?
-      TMUX_SOCKET=kit bin/kit-opcion 'update-environment[8]' api
+      TMUX_SOCKET=kit bin/kit-option update-environment api; echo $?
+      TMUX_SOCKET=kit bin/kit-option 'update-environment[8]' api
       ```
       ```
-      kit-opcion: la opción update-environment no existe o no tiene valor
+      kit-option: la opción update-environment no existe o no tiene valor
       1
       WAYLAND_DISPLAY (global)
       ```
@@ -308,7 +308,7 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
 8. **README del kit.** En `starter/README.md`: una sección `## Estructura`
    (qué contiene `tmux.conf`, cada `conf.d/` y `local.conf`), cómo probar
    el kit sin instalarlo (`tmux -L kit -f "$PWD/tmux.conf"`), una sección
-   `## Prefix` con el tuyo y por qué, la fila de `bin/kit-opcion` en la
+   `## Prefix` con el tuyo y por qué, la fila de `bin/kit-option` en la
    tabla de scripts y la fila `05` en la bitácora.
 
 9. **Cierra y verifica.** El `kill-server` expulsa a la B si seguía
@@ -322,7 +322,7 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
 
      ✅ tmux.conf carga sin errores
      ✅ tmux.conf no define opciones ni teclas: carga conf.d/
-     ✅ Las opciones viven en conf.d/10-opciones.conf
+     ✅ Las opciones viven en conf.d/10-options.conf
      ✅ Las teclas viven en conf.d/20-bindings.conf
      ✅ La config carga entera aunque arranques tmux desde otro directorio
      ✅ El prefix ya no es C-b
@@ -332,11 +332,11 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
      ✅ prefix r recarga la config del kit desde cualquier directorio
      ✅ Recargar la config dos veces no cambia ninguna opción ni tecla
      ✅ update-environment incluye WAYLAND_DISPLAY
-     ✅ copy-command sigue apuntando a bin/kit-copiar
-     ✅ kit-opcion dice que un valor viene del panel
-     ✅ kit-opcion dice que un valor viene de la ventana
-     ✅ kit-opcion dice que un valor heredado viene de global
-     ✅ kit-opcion reconoce las opciones de servidor
+     ✅ copy-command sigue apuntando a bin/kit-copy
+     ✅ kit-option dice que un valor viene del panel
+     ✅ kit-option dice que un valor viene de la ventana
+     ✅ kit-option dice que un valor heredado viene de global
+     ✅ kit-option reconoce las opciones de servidor
      ✅ tmux.conf, conf.d/ y bin/ no tienen TODOs y bin/ pasa shellcheck
 
    18/18 comprobaciones superadas.
@@ -351,7 +351,7 @@ Los comprueba `./scripts/verificar-semana.sh 05` desde la raíz del repositorio
 
 - [ ] tmux.conf carga sin errores
 - [ ] tmux.conf no define opciones ni teclas: carga conf.d/
-- [ ] Las opciones viven en conf.d/10-opciones.conf
+- [ ] Las opciones viven en conf.d/10-options.conf
 - [ ] Las teclas viven en conf.d/20-bindings.conf
 - [ ] La config carga entera aunque arranques tmux desde otro directorio
 - [ ] El prefix ya no es C-b
@@ -361,11 +361,11 @@ Los comprueba `./scripts/verificar-semana.sh 05` desde la raíz del repositorio
 - [ ] prefix r recarga la config del kit desde cualquier directorio
 - [ ] Recargar la config dos veces no cambia ninguna opción ni tecla
 - [ ] update-environment incluye WAYLAND_DISPLAY
-- [ ] copy-command sigue apuntando a bin/kit-copiar
-- [ ] kit-opcion dice que un valor viene del panel
-- [ ] kit-opcion dice que un valor viene de la ventana
-- [ ] kit-opcion dice que un valor heredado viene de global
-- [ ] kit-opcion reconoce las opciones de servidor
+- [ ] copy-command sigue apuntando a bin/kit-copy
+- [ ] kit-option dice que un valor viene del panel
+- [ ] kit-option dice que un valor viene de la ventana
+- [ ] kit-option dice que un valor heredado viene de global
+- [ ] kit-option reconoce las opciones de servidor
 - [ ] tmux.conf, conf.d/ y bin/ no tienen TODOs y bin/ pasa shellcheck
 
 ## Calidad
@@ -374,7 +374,7 @@ Además de los checks, se revisa (40 pts, ver la rúbrica):
 
 - Cada opción con su flag de alcance explícito y en el bloque de su alcance.
 - Comentarios del porqué: `@kit-dir` y `-F`, el orden de `conf.d/`, `escape-time`, `-gu` antes de `-ga`, tu prefix.
-- `kit-opcion` explica en un comentario por qué lista los niveles sin nombre de opción y el límite de las opciones de lista; mensajes de error por stderr con los códigos documentados.
+- `kit-option` explica en un comentario por qué lista los niveles sin nombre de opción y el límite de las opciones de lista; mensajes de error por stderr con los códigos documentados.
 - `shellcheck bin/*` sin avisos y ningún `TODO` pendiente.
 - `local.conf` en `.gitignore` y ninguna ruta a tu home dentro del kit.
 
@@ -382,5 +382,5 @@ Además de los checks, se revisa (40 pts, ver la rúbrica):
 
 Commit con el mensaje:
 ```
-feat(week-05): tmux.conf modular con conf.d/, recarga idempotente y kit-opcion
+feat(week-05): tmux.conf modular con conf.d/, recarga idempotente y kit-option
 ```
