@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# lab-git-branch — imprime la rama git de un directorio, para la status line.
+#
+# Uso: lab-git-branch DIR
+# Imprime la rama de DIR o nada si no es un repo. Sale con 0; 2 si el uso es incorrecto.
+set -euo pipefail
+
+# TODO 1a: sin exactamente un argumento, el uso a stderr y exit 2.
+#          Pista: (( $# == 1 )) || { echo "uso: lab-git-branch DIR" >&2; exit 2; }
+#          Prueba: ./starter/bin/lab-git-branch; echo $?
+
+# TODO 1b: la rama con git symbolic-ref (solo lee HEAD: es rápido). Fuera de
+#          un repo no imprime nada y sale con 0: lo que escribas en stderr
+#          o un fallo no deben llegar a la barra. Borra el echo.
+#          Pista: git -C "$1" symbolic-ref --short -q HEAD 2>/dev/null || true
+#          Prueba: ./starter/bin/lab-git-branch "$R"
+echo "sin implementar"

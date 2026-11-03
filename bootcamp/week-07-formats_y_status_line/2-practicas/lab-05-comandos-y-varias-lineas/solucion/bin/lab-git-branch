@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# lab-git-branch — imprime la rama git de un directorio, para la status line.
+#
+# Uso: lab-git-branch DIR
+# Imprime la rama de DIR o nada si no es un repo. Sale con 0; 2 si el uso es incorrecto.
+set -euo pipefail
+
+(( $# == 1 )) || { echo "uso: lab-git-branch DIR" >&2; exit 2; }
+
+# tmux lo lanza cada status-interval: fuera de un repo, sin rama y sin error.
+git -C "$1" symbolic-ref --short -q HEAD 2>/dev/null || true

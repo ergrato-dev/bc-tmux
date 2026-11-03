@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# lab-windows — lista las ventanas de una sesión, una por línea.
+#
+# Uso: lab-windows SESION
+# Imprime: índice nombre paneles activa(1/0). Sale con 1 si la sesión no existe.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+(( $# == 1 )) || { echo "uso: lab-windows SESION" >&2; exit 2; }
+session="$1"
+
+# Con = el nombre es exacto: -t api no encuentra api-vieja.
+tmx has-session -t "=$session" 2>/dev/null || { echo "no existe la sesión: $session" >&2; exit 1; }
+
+tmx list-windows -t "=$session" -F '#{window_index} #{window_name} #{window_panes} #{window_active}'

@@ -1,0 +1,125 @@
+{
+  "semana": "07",
+  "titulo": "Formats y status line",
+  "checks": [
+    {
+      "id": "conf-parsea",
+      "descripcion": "tmux.conf carga sin errores",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} source-file {proyecto}/tmux.conf",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 1"
+    },
+    {
+      "id": "status-modulo",
+      "descripcion": "La status line se define en conf.d/30-status.conf",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} source-file {proyecto}/conf.d/30-status.conf && {tmux} show -gv status-left",
+      "assert": "stdout~kit-color-accent",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-04-estilos-y-ventanas)"
+    },
+    {
+      "id": "paleta",
+      "descripcion": "La paleta define @kit-color-bg, -fg, -accent, -alert y -warn",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; for n in bg fg accent alert warn ; do v=$({tmux} show -gv @kit-color-$n 2>/dev/null) ; [ -n \"$v\" ] || { echo \"falta @kit-color-$n\" ; exit 1 ; } ; done",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 2"
+    },
+    {
+      "id": "paleta-en-caliente",
+      "descripcion": "Cambiar @kit-color-accent en caliente cambia el color de la sesión",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; {tmux} set -g @kit-color-accent colour99 ; {tmux} display -p -t kitdemo: '#{E:status-left}'",
+      "assert": "stdout~colour99.*kitdemo",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-01-formats-y-display)"
+    },
+    {
+      "id": "prefix-resalta",
+      "descripcion": "Con el prefix pulsado, la sesión usa @kit-color-alert",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t kitdemo' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; p=$({tmux} show -gv prefix) ; k() { {tmux} send-keys -K -c \"$c\" \"$@\" ; sleep 0.2 ; } ; al=$({tmux} show -gv @kit-color-alert 2>/dev/null) ; [ -n \"$al\" ] || exit 1 ; a=$({tmux} display -p -c \"$c\" '#{E:status-left}') ; k \"$p\" ; b=$({tmux} display -p -c \"$c\" '#{E:status-left}') ; case \"$a\" in *\"$al\"*) exit 3 ;; esac ; case \"$b\" in *\"$al\"*) echo ok ;; esac",
+      "assert": "stdout~^ok$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-02-condicionales-y-comparaciones)"
+    },
+    {
+      "id": "resize-indicador",
+      "descripcion": "En el modo resize, la izquierda muestra RESIZE",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t kitdemo' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; p=$({tmux} show -gv prefix) ; k() { {tmux} send-keys -K -c \"$c\" \"$@\" ; sleep 0.2 ; } ; a=$({tmux} display -p -c \"$c\" '#{E:status-left}') ; k \"$p\" R ; b=$({tmux} display -p -c \"$c\" '#{E:status-left}') ; case \"$a\" in *RESIZE*) exit 3 ;; esac ; echo \"$b\"",
+      "assert": "stdout~RESIZE",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3 (lab-02-condicionales-y-comparaciones)"
+    },
+    {
+      "id": "zoom-marca",
+      "descripcion": "Una ventana con zoom muestra ZOOM en la lista de ventanas",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; {tmux} split-window -t kitdemo: ; a=$({tmux} display -p -t kitdemo: '#{W:#{E:window-status-format},#{E:window-status-current-format}}') ; {tmux} resize-pane -Z -t kitdemo: ; b=$({tmux} display -p -t kitdemo: '#{W:#{E:window-status-format},#{E:window-status-current-format}}') ; {tmux} resize-pane -Z -t kitdemo: ; case \"$a\" in *ZOOM*) exit 3 ;; esac ; echo \"$b\"",
+      "assert": "stdout~ZOOM",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4 (lab-04-estilos-y-ventanas)"
+    },
+    {
+      "id": "sync-marca",
+      "descripcion": "Una ventana con synchronize-panes muestra SYNC en la lista de ventanas",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; {tmux} split-window -t kitdemo: ; a=$({tmux} display -p -t kitdemo: '#{W:#{E:window-status-format},#{E:window-status-current-format}}') ; {tmux} setw -t kitdemo: synchronize-panes on ; b=$({tmux} display -p -t kitdemo: '#{W:#{E:window-status-format},#{E:window-status-current-format}}') ; case \"$a\" in *SYNC*) exit 3 ;; esac ; echo \"$b\"",
+      "assert": "stdout~SYNC",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4 (lab-04-estilos-y-ventanas)"
+    },
+    {
+      "id": "ventana-actual-estilo",
+      "descripcion": "La ventana actual tiene un estilo propio, distinto del de las demás",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; a=$({tmux} show -gv window-status-current-style) ; b=$({tmux} show -gv window-status-style) ; echo \"$a | $b\" ; [ \"$a\" != default ] && [ \"$a\" != \"$b\" ]",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4 (lab-04-estilos-y-ventanas)"
+    },
+    {
+      "id": "git-uso",
+      "descripcion": "kit-git-branch sale con 2 sin argumentos",
+      "cmd": "{proyecto}/bin/kit-git-branch",
+      "assert": "exit=2",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5"
+    },
+    {
+      "id": "git-rama",
+      "descripcion": "kit-git-branch DIR imprime la rama de un repo",
+      "cmd": "d=$(mktemp -d) ; git init -q -b kit-rama \"$d\" ; {proyecto}/bin/kit-git-branch \"$d\"",
+      "assert": "stdout~^kit-rama$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5"
+    },
+    {
+      "id": "git-sin-repo",
+      "descripcion": "kit-git-branch no imprime nada y sale con 0 fuera de un repo",
+      "cmd": "d=$(mktemp -d) ; out=$({proyecto}/bin/kit-git-branch \"$d\" 2>&1) ; echo \"rc=$? n=${#out}\"",
+      "assert": "stdout~^rc=0 n=0$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5"
+    },
+    {
+      "id": "git-en-status",
+      "descripcion": "La derecha muestra la rama del panel aunque su ruta tenga espacios",
+      "cmd": "d=\"$(mktemp -d)/mi repo\" ; mkdir -p \"$d\" ; git init -q -b kit-rama \"$d\" ; ts=$(mktemp) ; {tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 -c \"$d\" ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t kitdemo' \"$ts\" ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; for i in $(seq 50) ; do grep -aq kit-rama \"$ts\" && break ; sleep 0.1 ; done ; grep -ao kit-rama \"$ts\" | head -1",
+      "assert": "stdout~^kit-rama$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6 (lab-05-comandos-y-varias-lineas)"
+    },
+    {
+      "id": "git-apagado",
+      "descripcion": "Con @kit-status-git off, la derecha deja de mostrar la rama",
+      "cmd": "d=\"$(mktemp -d)/mi repo\" ; mkdir -p \"$d\" ; git init -q -b kit-rama \"$d\" ; ts=$(mktemp) ; {tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 -c \"$d\" ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t kitdemo' \"$ts\" ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; for i in $(seq 50) ; do grep -aq kit-rama \"$ts\" && break ; sleep 0.1 ; done ; grep -aq kit-rama \"$ts\" || exit 1 ; n=$(wc -c < \"$ts\") ; {tmux} set -g @kit-status-git off ; {tmux} refresh-client -S -t \"$c\" ; sleep 0.5 ; tail -c +$((n + 1)) \"$ts\" > \"$ts.off\" ; grep -aq kitdemo \"$ts.off\" || exit 2 ; grep -ac kit-rama \"$ts.off\"",
+      "assert": "stdout~^0$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6 (lab-02-condicionales-y-comparaciones)"
+    },
+    {
+      "id": "nav-indicador",
+      "descripcion": "Con @kit-nav off, la derecha muestra NAV off",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; a=$({tmux} display -p -t kitdemo: '#{E:status-right}') ; {tmux} set -g @kit-nav off ; b=$({tmux} display -p -t kitdemo: '#{E:status-right}') ; case \"$a\" in *'NAV off'*) exit 3 ;; esac ; echo \"$b\"",
+      "assert": "stdout~NAV off",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6 (lab-02-condicionales-y-comparaciones)"
+    },
+    {
+      "id": "status-interval",
+      "descripcion": "status-interval vale entre 1 y 5 segundos",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s kitdemo -x 120 -y 24 ; {tmux} show -gv status-interval",
+      "assert": "stdout~^[1-5]$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 2 (lab-05-comandos-y-varias-lineas)"
+    },
+    {
+      "id": "bin-completo-y-limpio",
+      "descripcion": "tmux.conf, conf.d/ y bin/ no tienen TODOs y bin/ pasa shellcheck",
+      "cmd": "! grep -rn TODO {proyecto}/tmux.conf {proyecto}/conf.d {proyecto}/bin && shellcheck {proyecto}/bin/*",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Calidad"
+    }
+  ]
+}

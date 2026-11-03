@@ -1,0 +1,55 @@
+<svg viewBox="0 0 900 400" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Expansión de un format anidado de dentro hacia fuera: window_name se convierte en editor, la comparación con editor en 1, y el condicional elige la rama del sí; la rama del no nunca se expande</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect width="900" height="400" fill="#0d1117"/>
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <text x="30" y="32" fill="#d2a8ff" font-size="13">tmux resuelve primero el #{} más interno y usa su resultado en el que lo contiene</text>
+
+    <rect x="30" y="50" width="840" height="50" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="200.0" y="81" font-size="16" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#f0f6fc">#{?</text>
+    <text x="228.8" y="81" font-size="16" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#58a6ff">#{==:</text>
+    <text x="276.8" y="81" font-size="16" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#3fb950">#{window_name}</text>
+    <text x="411.2" y="81" font-size="16" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#58a6ff">,editor}</text>
+    <text x="488.0" y="81" font-size="16" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#f0f6fc">,en el editor,en otra}</text>
+
+    <!-- paso 1 -->
+    <circle cx="50" cy="155" r="14" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="50" y="160" text-anchor="middle" fill="#f0f6fc" font-size="13">1</text>
+    <rect x="80" y="130" width="330" height="50" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="245" y="161" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#3fb950">#{window_name}</text>
+    <line x1="410" y1="155" x2="520" y2="155" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="465" y="145" text-anchor="middle" fill="#8b949e" font-size="12">variable</text>
+    <rect x="530" y="130" width="200" height="50" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="630" y="161" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#f0f6fc">editor</text>
+
+    <!-- paso 2 -->
+    <circle cx="50" cy="235" r="14" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="50" y="240" text-anchor="middle" fill="#f0f6fc" font-size="13">2</text>
+    <rect x="80" y="210" width="330" height="50" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="245" y="241" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#79c0ff">#{==:editor,editor}</text>
+    <line x1="410" y1="235" x2="520" y2="235" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="465" y="225" text-anchor="middle" fill="#8b949e" font-size="12">compara texto</text>
+    <rect x="530" y="210" width="200" height="50" rx="6" fill="#161b22" stroke="#30363d" stroke-width="2"/>
+    <text x="630" y="241" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#f0f6fc">1</text>
+
+    <!-- paso 3 -->
+    <circle cx="50" cy="315" r="14" fill="#161b22" stroke="#f0f6fc" stroke-width="2"/>
+    <text x="50" y="320" text-anchor="middle" fill="#f0f6fc" font-size="13">3</text>
+    <rect x="80" y="290" width="330" height="50" rx="6" fill="#161b22" stroke="#f0f6fc" stroke-width="2"/>
+    <text x="245" y="313" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#f0f6fc">#{?…,en el editor,en otra}</text>
+    <text x="245" y="331" text-anchor="middle" fill="#8b949e" font-size="12">condición = 1: verdadera</text>
+    <line x1="410" y1="315" x2="520" y2="315" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="465" y="305" text-anchor="middle" fill="#8b949e" font-size="12">rama del sí</text>
+    <rect x="530" y="290" width="200" height="50" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="630" y="321" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#3fb950">en el editor</text>
+    <rect x="750" y="290" width="120" height="50" rx="6" fill="#0d1117" stroke="#30363d" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="810" y="313" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#8b949e">en otra</text>
+    <text x="810" y="331" text-anchor="middle" fill="#8b949e" font-size="12">no se expande</text>
+
+    <text x="30" y="380" fill="#8b949e" font-size="13">Por eso un #() en la rama que no se elige no se ejecuta, y una coma sin escapar dentro de una rama la parte en dos.</text>
+  </g>
+</svg>

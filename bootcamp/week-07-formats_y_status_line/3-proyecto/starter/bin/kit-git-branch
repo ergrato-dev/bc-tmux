@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# kit-git-branch — imprime la rama git de un directorio, para la status line.
+#
+# Uso: kit-git-branch DIR
+# Imprime la rama de DIR, el commit corto si HEAD está suelto o nada si no es un repo.
+# Salida: 0 aunque DIR no sea un repo o no exista, 2 uso incorrecto.
+set -euo pipefail
+
+usage() { sed -n '4,5s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+
+(( $# == 1 )) || usage
+[[ -n "$1" && "$1" != -* ]] || usage
+dir="$1"
+
+# TODO 7: sin git (command -v git) o si "$dir" no es un directorio, exit 0 sin
+#         imprimir nada: tmux lo lanza desde la status line y un error
+#         acabaría en la barra.
+# TODO 8: la rama con git -C "$dir" symbolic-ref --short -q HEAD; si falla
+#         (HEAD suelto), el commit con git -C "$dir" rev-parse --short HEAD;
+#         si tampoco, nada. Siempre exit 0. Borra las dos líneas de abajo.
+echo "kit-git-branch: sin implementar ($dir)" >&2
+exit 1

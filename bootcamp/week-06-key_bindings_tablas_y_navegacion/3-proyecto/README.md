@@ -219,7 +219,8 @@ starter/                 ← tu tmux-kit de la semana 05 + lo nuevo
       pantalla completa o la navegación está apagada, la tecla es para el
       programa; si no, cambia de panel". `pane_current_command` no sirve:
       con `seq 100 | less` dice `bash`. Y `#{!:...}` no existe en 3.4:
-      `#{!:0}` se expande a `!:0`, que cuenta como verdadero.
+      `#{!:0}` sale vacío y `#{!:#{==:#{@kit-nav},on}}` sale `!:1`, que
+      cuenta como verdadero: nunca niega.
       ```bash
       tmux -L kit source-file "$PWD/tmux.conf"
       tmux -L kit list-keys -T root C-h
