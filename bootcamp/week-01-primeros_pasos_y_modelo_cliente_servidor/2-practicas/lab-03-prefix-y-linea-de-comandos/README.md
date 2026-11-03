@@ -99,10 +99,10 @@ Necesitas dos terminales: **A** (conectada a tmux) y **B** (fuera de tmux).
    (separados por un espacio) son siempre `bind-key -T prefix <tecla>`; el
    comando empieza en el quinto.
 
-6. **TODO de `starter/atajos.sh`: tecla -> comando.** Ejecútalo antes de
+6. **TODO de `starter/shortcuts.sh`: tecla -> comando.** Ejecútalo antes de
    tocarlo, desde B:
    ```bash
-   ./starter/atajos.sh
+   ./starter/shortcuts.sh
    ```
    ```
    d -> TODO
@@ -110,16 +110,16 @@ Necesitas dos terminales: **A** (conectada a tmux) y **B** (fuera de tmux).
    ...
    ```
    Abre el archivo. Dentro del `for`, **borra** la línea
-   `echo "$tecla -> TODO"` y escribe en su lugar:
+   `echo "$key -> TODO"` y escribe en su lugar:
    ```bash
-   comando=$(tmx list-keys -T prefix "$tecla" | cut -d' ' -f5-)
-   echo "$tecla -> $comando"
+   cmd=$(tmx list-keys -T prefix "$key" | cut -d' ' -f5-)
+   echo "$key -> $cmd"
    ```
    `cut -d' ' -f5-` corta por espacios y se queda del quinto campo al final.
-   Se imprime `$tecla` y no la tecla del listado, que llega escapada (`\%`).
+   Se imprime `$key` y no la tecla del listado, que llega escapada (`\%`).
    Vuelve a ejecutarlo:
    ```bash
-   ./starter/atajos.sh
+   ./starter/shortcuts.sh
    ```
    ```
    d -> detach-client
@@ -148,7 +148,7 @@ Necesitas dos terminales: **A** (conectada a tmux) y **B** (fuera de tmux).
 
 - [ ] Encontraste `detach` en la lista de `C-b` `?` y saliste con `q` (paso 2)
 - [ ] Creaste una ventana con `C-b` `:` (paso 3) y otra con `tmux -L lab new-window` desde fuera (paso 4)
-- [ ] `./starter/atajos.sh` imprime las 7 líneas del paso 6
+- [ ] `./starter/shortcuts.sh` imprime las 7 líneas del paso 6
 - [ ] Desconectaste la terminal A con `detach-client` desde la B (paso 7)
 - [ ] Puedes explicar por qué no hace falta memorizar atajos para escribir scripts de tmux
 

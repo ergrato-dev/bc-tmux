@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Lab 01 — sesión "tres": paneles editor, shell y logs en el directorio dado.
-# Uso: tres.sh DIR
+# Uso: three.sh DIR
 set -euo pipefail
 
 tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
 
-dir="${1:?uso: tres.sh DIR}"
+dir="${1:?uso: three.sh DIR}"
 
 # TODO 1: crea la sesión "tres" en segundo plano en "$dir" y guarda el id de
 #         su primer panel:
@@ -20,4 +20,4 @@ dir="${1:?uso: tres.sh DIR}"
 
 # TODO 4: espera a que arranquen las shells (sleep 0.3) y lista los paneles de
 #         la sesión con -F '#{pane_id} #{pane_title} #{pane_current_path}'.
-echo "tres.sh: sin implementar ($dir)" >&2
+echo "three.sh: sin implementar ($dir)" >&2

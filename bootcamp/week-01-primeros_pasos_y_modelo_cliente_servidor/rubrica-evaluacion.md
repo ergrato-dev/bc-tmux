@@ -109,12 +109,12 @@ laboratorio.
 
 | Lab | Criterio | Puntos |
 |---|---|:--:|
-| [01 — Primera sesión](2-practicas/lab-01-primera-sesion/README.md) | tmux ≥ 3.4 comprobado; `primera.sh` crea `primera` con la ventana `inicio` sin conectarte; explicas el `duplicate session` y el fin del servidor | 10 |
-| [02 — Detach y attach](2-practicas/lab-02-detach-y-attach/README.md) | El contador siguió durante el detach; dos clientes en `list-clients`; `estado.sh` cuenta clientes por sesión | 10 |
-| [03 — Prefix y línea de comandos](2-practicas/lab-03-prefix-y-linea-de-comandos/README.md) | Ventana creada desde el prompt y desde fuera; `atajos.sh` imprime las 7 líneas; detach remoto con `detach-client` | 10 |
-| [04 — Sesión, ventana, panel](2-practicas/lab-04-sesion-ventana-panel/README.md) | Estructura construida a mano; ids listados; `construir.sh` imprime las 3 líneas exactas | 10 |
-| [05 — Servidores y sockets](2-practicas/lab-05-servidores-y-sockets/README.md) | Dos servidores aislados; error de anidado reproducido y explicado; `servidores.sh` distingue un socket vivo de uno huérfano | 10 |
-| [06 — Sobrevivir a una desconexión](2-practicas/lab-06-sobrevivir-a-una-desconexion/README.md) | Log sin tmux detenido y log con tmux avanzando; sesión recuperada; `lanzar.sh` deja la tarea corriendo sin clientes | 10 |
+| [01 — Primera sesión](2-practicas/lab-01-primera-sesion/README.md) | tmux ≥ 3.4 comprobado; `first.sh` crea `primera` con la ventana `inicio` sin conectarte; explicas el `duplicate session` y el fin del servidor | 10 |
+| [02 — Detach y attach](2-practicas/lab-02-detach-y-attach/README.md) | El contador siguió durante el detach; dos clientes en `list-clients`; `status.sh` cuenta clientes por sesión | 10 |
+| [03 — Prefix y línea de comandos](2-practicas/lab-03-prefix-y-linea-de-comandos/README.md) | Ventana creada desde el prompt y desde fuera; `shortcuts.sh` imprime las 7 líneas; detach remoto con `detach-client` | 10 |
+| [04 — Sesión, ventana, panel](2-practicas/lab-04-sesion-ventana-panel/README.md) | Estructura construida a mano; ids listados; `build.sh` imprime las 3 líneas exactas | 10 |
+| [05 — Servidores y sockets](2-practicas/lab-05-servidores-y-sockets/README.md) | Dos servidores aislados; error de anidado reproducido y explicado; `servers.sh` distingue un socket vivo de uno huérfano | 10 |
+| [06 — Sobrevivir a una desconexión](2-practicas/lab-06-sobrevivir-a-una-desconexion/README.md) | Log sin tmux detenido y log con tmux avanzando; sesión recuperada; `launch.sh` deja la tarea corriendo sin clientes | 10 |
 
 Dentro de cada lab: 10 puntos si se cumplen todos los criterios y explicas con
 tus palabras por qué funciona; 8 si se cumplen todos; 7 si falla uno; menos de

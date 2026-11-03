@@ -37,7 +37,7 @@ arranca con `-f /dev/null`: el prefix es `C-b`.
 1. **Sin tmux.** **Terminal A:** anota el pid de la shell y lanza la tarea:
    ```bash
    echo $$
-   ./starter/tarea-larga.sh /tmp/sin-tmux.log
+   ./starter/long-task.sh /tmp/sin-tmux.log
    ```
    Algo como (cambian el pid y la hora):
    ```
@@ -70,7 +70,7 @@ arranca con `-f /dev/null`: el prefix es `C-b`.
    ```
    Ya dentro de tmux:
    ```bash
-   ./starter/tarea-larga.sh /tmp/con-tmux.log
+   ./starter/long-task.sh /tmp/con-tmux.log
    ```
    **Terminal B:** desconecta el cliente de A **y mata la shell que lo lanzó**:
    ```bash
@@ -129,18 +129,18 @@ arranca con `-f /dev/null`: el prefix es `C-b`.
    `kill-session` cierra sus paneles y, con ellos, la tarea: el log se para.
    Era la última sesión, así que el servidor también terminó.
 
-5. **TODO 1 de `starter/lanzar.sh`: lanzar la tarea sin shell ni cliente.**
+5. **TODO 1 de `starter/launch.sh`: lanzar la tarea sin shell ni cliente.**
    Abre el archivo. Debajo del comentario `TODO 1` escribe:
    ```bash
-   tmx new-session -d -s larga "$tarea" "$log" "$segundos"
+   tmx new-session -d -s larga "$task" "$log" "$seconds"
    ```
    Lo que va después de las opciones es el programa de la ventana. Con varios
    argumentos separados, tmux lo ejecuta tal cual, sin pasar por una shell:
    una ruta con espacios no se rompe. **Borra** también las dos últimas
-   líneas del archivo (`echo "lanzar.sh: sin implementar ..."` y `exit 1`).
+   líneas del archivo (`echo "launch.sh: sin implementar ..."` y `exit 1`).
    **Terminal B:**
    ```bash
-   ./starter/lanzar.sh /tmp/lanzada.log
+   ./starter/launch.sh /tmp/lanzada.log
    tmux -L lab ls
    sleep 3; tail -n 1 /tmp/lanzada.log
    ```
@@ -159,7 +159,7 @@ arranca con `-f /dev/null`: el prefix es `C-b`.
    ```
    **Terminal B:**
    ```bash
-   ./starter/lanzar.sh /tmp/lanzada.log
+   ./starter/launch.sh /tmp/lanzada.log
    ```
    ```
    tarea lanzada en la sesión "larga"; vuelve con: tmux -L lab attach -t larga
@@ -171,10 +171,10 @@ arranca con `-f /dev/null`: el prefix es `C-b`.
    ```
    (sin salida)
 
-7. **Cuando el programa termina.** `tarea-larga.sh` acepta un segundo
+7. **Cuando el programa termina.** `long-task.sh` acepta un segundo
    argumento con los segundos que dura. **Terminal B:**
    ```bash
-   ./starter/lanzar.sh /tmp/corta.log 3
+   ./starter/launch.sh /tmp/corta.log 3
    sleep 5; tmux -L lab ls; echo $?
    ```
    ```
@@ -199,15 +199,15 @@ arranca con `-f /dev/null`: el prefix es `C-b`.
 - [ ] El log de `sin-tmux` se detiene tras el SIGHUP (paso 1) y el de `con-tmux` sigue avanzando (paso 2)
 - [ ] Recuperaste la sesión `larga` con `attach` después de que su terminal se cerrara (paso 3)
 - [ ] `detach-client` deja el log avanzando y `kill-session` lo para (paso 4)
-- [ ] `./starter/lanzar.sh` deja una sesión `larga` sin clientes y el log avanza (pasos 5 y 6)
+- [ ] `./starter/launch.sh` deja una sesión `larga` sin clientes y el log avanza (pasos 5 y 6)
 - [ ] Puedes explicar quién es el proceso padre de la tarea dentro y fuera de tmux
 
 ## Reto extra
 
 Repite el paso 2 sin desconectar y, desde B, mira el árbol de procesos:
 ```bash
-ps -o pid,ppid,comm -p "$(pgrep -f tarea-larga.sh | head -n1)"
+ps -o pid,ppid,comm -p "$(pgrep -f long-task.sh | head -n1)"
 tmux -L lab display-message -p '#{pid}'
 ```
 El `PPID` de la tarea es la shell del panel; sigue con `ps -o pid,ppid,comm -p <ese PPID>`
-hasta llegar al pid del servidor. ¿Y en el paso 1? ¿Y con `lanzar.sh`?
+hasta llegar al pid del servidor. ¿Y en el paso 1? ¿Y con `launch.sh`?

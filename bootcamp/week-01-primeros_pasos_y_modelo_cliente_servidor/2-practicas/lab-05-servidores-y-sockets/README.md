@@ -123,23 +123,23 @@ Este lab usa los servidores `alfa` y `beta`, arrancados con `-f /dev/null`
    la semana 12. Sal con `C-b` `d`:
    `[detached (from session tres)]`.
 
-6. **TODO de `starter/servidores.sh`: qué servidores están vivos.** Ahora
+6. **TODO de `starter/servers.sh`: qué servidores están vivos.** Ahora
    mismo hay un socket sin servidor (`alfa`) y otro vivo con dos sesiones
    (`beta`). Ejecuta el starter sin tocarlo:
    ```bash
-   ./starter/servidores.sh
+   ./starter/servers.sh
    ```
    ```
    alfa: TODO
    beta: TODO
    ```
    Abre el archivo. Dentro del `for`, **borra** la línea
-   `echo "$nombre: TODO"` y escribe en su lugar:
+   `echo "$name: TODO"` y escribe en su lugar:
    ```bash
-   if sesiones=$(tmux -S "$socket" list-sessions 2>/dev/null); then
-     echo "$nombre: $(wc -l <<<"$sesiones") sesiones"
+   if sessions=$(tmux -S "$socket" list-sessions 2>/dev/null); then
+     echo "$name: $(wc -l <<<"$sessions") sesiones"
    else
-     echo "$nombre: sin servidor"
+     echo "$name: sin servidor"
    fi
    ```
    - `-S "$socket"` habla con ese archivo exacto.
@@ -147,11 +147,11 @@ Este lab usa los servidores `alfa` y `beta`, arrancados con `-f /dev/null`
      fallo fuera de un `if` cortaría el script en el primer socket muerto.
    - `2>/dev/null` calla el `no server running on ...` que tmux escribe por
      stderr; sin él, se mezcla con tu salida.
-   - `wc -l <<<"$sesiones"` cuenta las líneas: una por sesión.
+   - `wc -l <<<"$sessions"` cuenta las líneas: una por sesión.
 
    Pruébalo:
    ```bash
-   ./starter/servidores.sh
+   ./starter/servers.sh
    ```
    ```
    alfa: sin servidor
@@ -171,7 +171,7 @@ Este lab usa los servidores `alfa` y `beta`, arrancados con `-f /dev/null`
 - [ ] Dos servidores con sesiones distintas conviven y `kill-server` con `-L` mata solo uno (pasos 1 y 3)
 - [ ] Puedes nombrar un comando que arranca un servidor y uno que no (paso 4)
 - [ ] Reprodujiste el mensaje `sessions should be nested with care` y saliste del paso con `switch-client` (paso 5)
-- [ ] `./starter/servidores.sh` imprime `alfa: sin servidor` y `beta: 2 sesiones` (paso 6)
+- [ ] `./starter/servers.sh` imprime `alfa: sin servidor` y `beta: 2 sesiones` (paso 6)
 
 ## Reto extra
 
@@ -182,5 +182,5 @@ TMUX_TMPDIR=/tmp/otro tmux -L alfa -f /dev/null new -d -s x
 TMUX_TMPDIR=/tmp/otro tmux -L alfa display-message -p '#{socket_path}'
 ```
 Imprime `/tmp/otro/tmux-1000/alfa` (sin el `mkdir`, tmux vuelve en silencio a
-`/tmp`). ¿Lo encuentra tu `servidores.sh`? Haz que respete `TMUX_TMPDIR` y
+`/tmp`). ¿Lo encuentra tu `servers.sh`? Haz que respete `TMUX_TMPDIR` y
 limpia con `TMUX_TMPDIR=/tmp/otro tmux -L alfa kill-server`.

@@ -104,25 +104,25 @@ Cambiar el tamaño de un panel con el teclado y con medidas exactas (celdas y po
    El `display-message` vuelve a imprimir `0`. Vuelve a `top` con `C-b` `→` y
    ciérralo con `q`.
 
-5. **El script.** `starter/ajustar.sh` recibe un panel y un porcentaje, ajusta
+5. **El script.** `starter/resize.sh` recibe un panel y un porcentaje, ajusta
    el **ancho** del panel a ese porcentaje y dice cuánto mide. Trabaja en la
    terminal B, con la sesión `medidas` viva.
 
    1. **TODO 1**: valida el porcentaje (número entre 10 y 90, ambos
       incluidos) y si no, mensaje por stderr y `exit 2`. La pista del starter
-      trae el `if`. Borra también la última línea, `echo "ajustar.sh: sin implementar ..."`.
+      trae el `if`. Borra también la última línea, `echo "resize.sh: sin implementar ..."`.
       ```bash
-      ./starter/ajustar.sh medidas:0.0 95; echo $?
-      ./starter/ajustar.sh medidas:0.0 25; echo $?
+      ./starter/resize.sh medidas:0.0 95; echo $?
+      ./starter/resize.sh medidas:0.0 25; echo $?
       ```
       ```
       el porcentaje debe ser un número entre 10 y 90: '95'
       2
       0
       ```
-   2. **TODO 2**: `tmx resize-pane -t "$panel" -x "${porcentaje}%"`.
+   2. **TODO 2**: `tmx resize-pane -t "$pane" -x "${percent}%"`.
       ```bash
-      ./starter/ajustar.sh medidas:0.0 25
+      ./starter/resize.sh medidas:0.0 25
       tmux -L lab list-panes -t medidas -F '#{pane_index} #{pane_width}'
       ```
       Algo como (con 80 columnas):
@@ -130,11 +130,11 @@ Cambiar el tamaño de un panel con el teclado y con medidas exactas (celdas y po
       0 20
       1 59
       ```
-   3. **TODO 3**: `tmx display-message -p -t "$panel" "$panel mide #{pane_width} de #{window_width} columnas ($porcentaje %)"`.
-      Las comillas dobles dejan que bash ponga `$panel` y `$porcentaje`; los
+   3. **TODO 3**: `tmx display-message -p -t "$pane" "$pane mide #{pane_width} de #{window_width} columnas ($percent %)"`.
+      Las comillas dobles dejan que bash ponga `$pane` y `$percent`; los
       `#{...}` los rellena tmux.
       ```bash
-      ./starter/ajustar.sh medidas:0.0 25
+      ./starter/resize.sh medidas:0.0 25
       ```
       Algo como (los números dependen del ancho de la terminal A):
       ```
@@ -158,11 +158,11 @@ Cambiar el tamaño de un panel con el teclado y con medidas exactas (celdas y po
 - [ ] Cambias el tamaño con `C-b` `Ctrl`+flecha repitiendo la flecha sin volver a pulsar el prefix (paso 2)
 - [ ] `resize-pane -x 30` deja el panel exactamente en 30 columnas (paso 3)
 - [ ] `#{window_zoomed_flag}` vale 1 con zoom y 0 sin él (paso 4)
-- [ ] `./starter/ajustar.sh medidas:0.0 25` deja el panel en el 25 % y `ajustar.sh medidas:0.0 95` sale con 2 (paso 5)
+- [ ] `./starter/resize.sh medidas:0.0 25` deja el panel en el 25 % y `resize.sh medidas:0.0 95` sale con 2 (paso 5)
 
 ## Reto extra
 
 Con dos clientes de tamaños distintos conectados a `medidas` (lab 02 de la
 semana 01), ¿los porcentajes se calculan sobre qué ancho? Pruébalo con
-`ajustar.sh` mientras cambias cuál de las dos terminales usaste por última vez
+`resize.sh` mientras cambias cuál de las dos terminales usaste por última vez
 (pista: `tmux -L lab show -gv window-size`).

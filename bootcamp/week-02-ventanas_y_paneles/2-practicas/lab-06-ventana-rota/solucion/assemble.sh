@@ -11,13 +11,13 @@ cpu=$(tmx new-session -d -P -F '#{pane_id}' -s monitor -n monitor)
 
 # Error 2: sin -t, split-window parte el panel activo de la sesión desde la que
 # corre el script (tmux la deduce de $TMUX), no la nueva. Siempre -t con un id.
-disco=$(tmx split-window -d -h -P -F '#{pane_id}' -t "$cpu")
-red=$(tmx split-window -d -v -P -F '#{pane_id}' -t "$disco")
+disk=$(tmx split-window -d -h -P -F '#{pane_id}' -t "$cpu")
+net=$(tmx split-window -d -v -P -F '#{pane_id}' -t "$disk")
 
 # Error 3: sin -t, select-pane -T titula el panel activo de esa sesión ajena.
 tmx select-pane -t "$cpu" -T cpu
-tmx select-pane -t "$disco" -T disco
-tmx select-pane -t "$red" -T red
+tmx select-pane -t "$disk" -T disco
+tmx select-pane -t "$net" -T red
 
 # Error 4: main-pane-width se lee al aplicar el layout: primero la opción,
 # después select-layout.

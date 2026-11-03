@@ -36,7 +36,7 @@ Necesitas dos terminales, **A** y **B**. El servidor `lab` arranca con
    ```
    Ya dentro de tmux (status line verde con `[trabajo]`):
    ```bash
-   ./starter/contador.sh
+   ./starter/counter.sh
    ```
    Algo como (cambia la hora):
    ```
@@ -93,7 +93,7 @@ Necesitas dos terminales, **A** y **B**. El servidor `lab` arranca con
    ventana a la última que usaste (opción `window-size latest`) y la otra
    rellena el sobrante con puntos.
 
-6. **TODO de `starter/estado.sh`: clientes por sesión.** Abre el archivo y,
+6. **TODO de `starter/status.sh`: clientes por sesión.** Abre el archivo y,
    debajo del comentario `TODO`, escribe:
    ```bash
    tmx list-sessions -F '#{session_name}: #{session_attached} clientes'
@@ -101,7 +101,7 @@ Necesitas dos terminales, **A** y **B**. El servidor `lab` arranca con
    `-F` cambia el formato de cada línea; `#{session_attached}` es el número
    de clientes conectados a la sesión. **Terminal A** (dentro de tmux):
    ```bash
-   ./starter/estado.sh
+   ./starter/status.sh
    ```
    ```
    trabajo: 2 clientes
@@ -113,7 +113,7 @@ Necesitas dos terminales, **A** y **B**. El servidor `lab` arranca con
    ```
    **Terminal A:**
    ```bash
-   ./starter/estado.sh
+   ./starter/status.sh
    ```
    ```
    trabajo: 1 clientes
@@ -134,7 +134,7 @@ Necesitas dos terminales, **A** y **B**. El servidor `lab` arranca con
 
 9. **Terminal A.** Desconéctate con `C-b` `d`. Ya no queda ningún cliente:
    ```bash
-   ./starter/estado.sh
+   ./starter/status.sh
    ```
    ```
    trabajo: 0 clientes
@@ -150,7 +150,7 @@ Necesitas dos terminales, **A** y **B**. El servidor `lab` arranca con
 
 - [ ] Tras un detach de 10 s, el contador muestra que siguió corriendo (paso 4)
 - [ ] `tmux -L lab list-clients` muestra dos clientes (paso 5)
-- [ ] `./starter/estado.sh` imprime `trabajo: 2 clientes`, `1 clientes` y `0 clientes` según quién esté conectado (pasos 6, 7 y 9)
+- [ ] `./starter/status.sh` imprime `trabajo: 2 clientes`, `1 clientes` y `0 clientes` según quién esté conectado (pasos 6, 7 y 9)
 - [ ] Desconectaste la terminal B desde la A con `C-b` `D` (paso 8)
 - [ ] Puedes explicar la diferencia entre cerrar una sesión (`exit`) y desconectarte de ella (`prefix` `d`)
 

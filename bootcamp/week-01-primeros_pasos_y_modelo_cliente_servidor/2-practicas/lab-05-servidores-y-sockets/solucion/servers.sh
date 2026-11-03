@@ -6,13 +6,13 @@ dir="${TMUX_TMPDIR:-/tmp}/tmux-$(id -u)"
 
 for socket in "$dir"/*; do
   [[ -S "$socket" ]] || continue
-  nombre=$(basename "$socket")
+  name=$(basename "$socket")
 
-  # -S habla con ese socket exacto. list-sessions no arranca un servidor, así
-  # que un socket huérfano no "revive" por preguntarle.
-  if sesiones=$(tmux -S "$socket" list-sessions 2>/dev/null); then
-    echo "$nombre: $(wc -l <<<"$sesiones") sesiones"
+  # list-sessions no arranca un servidor: un socket huérfano no "revive" por
+  # preguntarle, y el if evita que set -e corte el script cuando falla.
+  if sessions=$(tmux -S "$socket" list-sessions 2>/dev/null); then
+    echo "$name: $(wc -l <<<"$sessions") sesiones"
   else
-    echo "$nombre: sin servidor"
+    echo "$name: sin servidor"
   fi
 done

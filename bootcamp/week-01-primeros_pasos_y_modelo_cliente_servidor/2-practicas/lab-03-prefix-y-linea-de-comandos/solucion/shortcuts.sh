@@ -6,11 +6,11 @@ set -euo pipefail
 # -f /dev/null: si este script arranca el servidor, lo hace sin tu configuración.
 tmx() { tmux -L "${TMUX_SOCKET:-lab}" -f /dev/null "$@"; }
 
-teclas=(d c n p % '"' '?')
+keys=(d c n p % '"' '?')
 
-for tecla in "${teclas[@]}"; do
+for key in "${keys[@]}"; do
   # Los cuatro primeros campos son "bind-key -T prefix <tecla>". Se imprime la
   # tecla pedida y no la del listado, que llega escapada (\% y \").
-  comando=$(tmx list-keys -T prefix "$tecla" | cut -d' ' -f5-)
-  echo "$tecla -> $comando"
+  cmd=$(tmx list-keys -T prefix "$key" | cut -d' ' -f5-)
+  echo "$key -> $cmd"
 done

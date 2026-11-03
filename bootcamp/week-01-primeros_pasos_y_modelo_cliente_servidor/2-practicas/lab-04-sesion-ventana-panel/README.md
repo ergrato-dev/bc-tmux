@@ -92,7 +92,7 @@ El servidor `lab` arranca con `-f /dev/null`: el prefix es `C-b`
    tmux -L lab kill-server
    ```
    (sin salida en B). La terminal A recibe `[server exited]`: el servidor al
-   que estaba conectada ya no existe. Abre `starter/construir.sh`; cada TODO
+   que estaba conectada ya no existe. Abre `starter/build.sh`; cada TODO
    se prueba en B con el servidor vacío y se borra el servidor después.
 
    **TODO 1: la sesión.** Escribe debajo del comentario:
@@ -100,7 +100,7 @@ El servidor `lab` arranca con `-f /dev/null`: el prefix es `C-b`
    tmx new-session -d -s obra -n editor
    ```
    ```bash
-   ./starter/construir.sh
+   ./starter/build.sh
    tmux -L lab list-windows -t obra -F '#{window_index}:#{window_name} paneles=#{window_panes}'
    tmux -L lab kill-server
    ```
@@ -136,7 +136,7 @@ El servidor `lab` arranca con `-f /dev/null`: el prefix es `C-b`
    ```
    Esta vez ejecuta solo el script (sin `kill-server` después):
    ```bash
-   ./starter/construir.sh
+   ./starter/build.sh
    ```
    ```
    editor.0 %0
@@ -164,7 +164,7 @@ El servidor `lab` arranca con `-f /dev/null`: el prefix es `C-b`
 
 - [ ] Construiste a mano la ventana `editor` con dos paneles y la ventana `logs` (pasos 2 y 3)
 - [ ] El comando del paso 4 muestra tres paneles con ids `%` distintos y sin el `%2` que cerraste
-- [ ] `./starter/construir.sh` en un servidor vacío imprime exactamente las tres líneas del TODO 4 (paso 6)
+- [ ] `./starter/build.sh` en un servidor vacío imprime exactamente las tres líneas del TODO 4 (paso 6)
 - [ ] Puedes explicar qué cambia y qué no cambia si renombras una ventana: su nombre, su índice y su id
 
 ## Reto extra

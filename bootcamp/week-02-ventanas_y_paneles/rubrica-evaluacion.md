@@ -101,11 +101,11 @@ Diez puntos por lab. El Desempeño es la suma sobre 60, llevada a porcentaje.
 
 | Lab | Criterio | Puntos |
 |---|---|:--:|
-| [01 — Split y navegación](2-practicas/lab-01-split-y-navegacion/README.md) | Te mueves con flechas, `o`, `;` y `q`; muestras la diferencia con `-c`; títulos en el borde; `tres.sh` imprime las 3 líneas | 10 |
-| [02 — Resize y zoom](2-practicas/lab-02-resize-y-zoom/README.md) | Resize repetible; `-x 30` exacto; `window_zoomed_flag` comprobado; `ajustar.sh` ajusta y rechaza 95 con código 2 | 10 |
+| [01 — Split y navegación](2-practicas/lab-01-split-y-navegacion/README.md) | Te mueves con flechas, `o`, `;` y `q`; muestras la diferencia con `-c`; títulos en el borde; `three.sh` imprime las 3 líneas | 10 |
+| [02 — Resize y zoom](2-practicas/lab-02-resize-y-zoom/README.md) | Resize repetible; `-x 30` exacto; `window_zoomed_flag` comprobado; `resize.sh` ajusta y rechaza 95 con código 2 | 10 |
 | [03 — Layouts](2-practicas/lab-03-layouts/README.md) | Los cinco layouts; principal al 60 %; explicas la cadena de layout; `layout.sh` restaura un layout hecho a mano | 10 |
-| [04 — Mover paneles y ventanas](2-practicas/lab-04-mover-paneles-y-ventanas/README.md) | El contador sobrevive a `join-pane` y `break-pane`; panel marcado; `reorganizar.sh` imprime las 2 líneas | 10 |
-| [05 — Sincronizar paneles](2-practicas/lab-05-sincronizar-paneles/README.md) | Comando en los tres paneles con `synchronize-panes`; `difundir.sh` envía texto literal con `-l` | 10 |
+| [04 — Mover paneles y ventanas](2-practicas/lab-04-mover-paneles-y-ventanas/README.md) | El contador sobrevive a `join-pane` y `break-pane`; panel marcado; `rearrange.sh` imprime las 2 líneas | 10 |
+| [05 — Sincronizar paneles](2-practicas/lab-05-sincronizar-paneles/README.md) | Comando en los tres paneles con `synchronize-panes`; `broadcast.sh` envía texto literal con `-l` | 10 |
 | [06 — La ventana rota](2-practicas/lab-06-ventana-rota/README.md) | Los cuatro errores explicados; el script corre dentro de tmux sin tocar `otra`; ningún `-t` con índices | 10 |
 
 Dentro de cada lab: 10 puntos si se cumplen todos los criterios y explicas con

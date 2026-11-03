@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Simula un trabajo largo: escribe una línea por segundo en un log.
-# Uso: tarea-larga.sh <log> [segundos]   (sin segundos: hasta que la paren)
+# Uso: long-task.sh <log> [segundos]   (sin segundos: hasta que la paren)
 set -euo pipefail
 
-log="${1:?uso: tarea-larga.sh <log> [segundos]}"
+log="${1:?uso: long-task.sh <log> [segundos]}"
 total="${2:-0}"
 
 n=0

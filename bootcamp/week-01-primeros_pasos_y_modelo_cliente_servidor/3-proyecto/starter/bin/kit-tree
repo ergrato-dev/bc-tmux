@@ -12,24 +12,24 @@ set -euo pipefail
 tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
 
 # TODO 1: guarda los ids de sesión, uno por línea, dentro de un if:
-#           if ! sesiones=$(tmx list-sessions -F '#{session_id}' 2>/dev/null); then
+#           if ! sessions=$(tmx list-sessions -F '#{session_id}' 2>/dev/null); then
 #         Si falla, no hay servidor: mensaje por stderr (>&2) y exit 1.
 #         list-sessions solo pregunta; new-session arrancaría un servidor.
 #         Borra las tres líneas del final (echo, tmx -V y exit 99).
 
 # TODO 2: imprime "socket: <ruta>" con
 #           tmx display-message -p -t <id de la primera sesión> 'socket: #{socket_path}'
-#         La primera sesión: $(head -n1 <<<"$sesiones").
+#         La primera sesión: $(head -n1 <<<"$sessions").
 
-# TODO 3: recorre las sesiones con  while IFS= read -r sesion; do ... done <<<"$sesiones"
-#         y por cada una imprime con display-message -p -t "$sesion":
+# TODO 3: recorre las sesiones con  while IFS= read -r session; do ... done <<<"$sessions"
+#         y por cada una imprime con display-message -p -t "$session":
 #           'sesion #{session_name} ventanas=#{session_windows} clientes=#{session_attached}'
 
 # TODO 4: dentro del bucle anterior, recorre las ventanas de la sesión:
-#           done < <(tmx list-windows -t "$sesion" -F '#{window_id}')
-#         Por cada ventana, con display-message -p -t "$ventana":
+#           done < <(tmx list-windows -t "$session" -F '#{window_id}')
+#         Por cada ventana, con display-message -p -t "$window":
 #           '  ventana #{window_index}:#{window_name} paneles=#{window_panes}'
-#         y sus paneles con list-panes -t "$ventana" -F:
+#         y sus paneles con list-panes -t "$window" -F:
 #           '    panel #{pane_index} #{pane_id} #{pane_current_command}'
 
 echo "kit-tree: sin implementar" >&2

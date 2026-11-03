@@ -111,26 +111,26 @@ Enviar el mismo texto a todos los paneles de una ventana, primero con `synchroni
    un argumento que **sea** exactamente `C-c`, `C-d` o `Enter`, como el que
    un script recibe de fuera.
 
-5. **El script.** `starter/difundir.sh` recibe una ventana y un comando y lo
+5. **El script.** `starter/broadcast.sh` recibe una ventana y un comando y lo
    envía a cada panel por id, siempre con `-l`. Ejecútalo en la terminal B
    (fuera de tmux) con la sesión `flota` viva; el resultado se ve en la
    terminal A.
 
    1. **TODO 1**: guarda los ids con la línea de la pista. Borra también la
-      última línea, `echo "difundir.sh: sin implementar ..."`. Como no
+      última línea, `echo "broadcast.sh: sin implementar ..."`. Como no
       imprime nada, pruébalo con `bash -x`:
       ```bash
-      bash -x ./starter/difundir.sh flota:0 pwd 2>&1 | grep -A2 '^+ paneles='
+      bash -x ./starter/broadcast.sh flota:0 pwd 2>&1 | grep -A2 '^+ panes='
       ```
       ```
-      + paneles='%0
+      + panes='%0
       %1
       %2'
       ```
-   2. **TODO 2**: el bucle de la pista. `<<<"$paneles"` le da al `while` la
+   2. **TODO 2**: el bucle de la pista. `<<<"$panes"` le da al `while` la
       variable línea a línea.
       ```bash
-      ./starter/difundir.sh flota:0 'ls hora.txt && echo "ok en $PWD"'
+      ./starter/broadcast.sh flota:0 'ls hora.txt && echo "ok en $PWD"'
       ```
       ```
       (sin salida)
@@ -141,7 +141,7 @@ Enviar el mismo texto a todos los paneles de una ventana, primero con `synchroni
       **cada panel**.
    3. **TODO 3**: el `echo` de resumen.
       ```bash
-      ./starter/difundir.sh flota:0 'C-c'
+      ./starter/broadcast.sh flota:0 'C-c'
       ```
       ```
       enviado a 3 paneles de flota:0
@@ -165,10 +165,10 @@ Enviar el mismo texto a todos los paneles de una ventana, primero con `synchroni
 
 - [ ] Con `synchronize-panes on`, `date > hora.txt` crea los tres `hora.txt` (paso 2)
 - [ ] `#{pane_synchronized}` vale 1 en cada panel mientras está activa y 0 al desactivarla (pasos 2 y 3)
-- [ ] `./starter/difundir.sh flota:0 'C-c'` imprime `command not found` en los tres paneles, no un `^C` (paso 5.3)
+- [ ] `./starter/broadcast.sh flota:0 'C-c'` imprime `command not found` en los tres paneles, no un `^C` (paso 5.3)
 - [ ] Explicas por qué un script nunca debe pasar texto externo a `send-keys` sin `-l` (paso 4)
 
 ## Reto extra
 
-Haz que `difundir.sh` acepte `-x PANEL` para saltarse un panel (por ejemplo,
+Haz que `broadcast.sh` acepte `-x PANEL` para saltarse un panel (por ejemplo,
 el servidor de producción). ¿Por qué es mejor excluir por id que por índice?

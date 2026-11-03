@@ -14,29 +14,29 @@ if ! [[ "$min" =~ ^([0-9]+)\.([0-9]+)$ ]]; then
   echo "versión mínima inválida: '$min' (formato MAYOR.MENOR, p. ej. 3.4)" >&2
   exit 2
 fi
-min_mayor=${BASH_REMATCH[1]}
-min_menor=${BASH_REMATCH[2]}
+min_major=${BASH_REMATCH[1]}
+min_minor=${BASH_REMATCH[2]}
 
-if ! salida=$("$bin" -V 2>/dev/null); then
+if ! output=$("$bin" -V 2>/dev/null); then
   echo "tmux no está instalado o '$bin' no se puede ejecutar" >&2
   exit 2
 fi
 
 # tmux -V imprime "tmux 3.4", "tmux 3.5a" o "tmux next-3.9". Solo importan
 # mayor y menor: la letra es un parche y "next-" una versión de desarrollo.
-version=${salida#tmux }
+version=${output#tmux }
 version=${version#next-}
 if ! [[ "$version" =~ ^([0-9]+)\.([0-9]+) ]]; then
-  echo "no entiendo la versión: '$salida'" >&2
+  echo "no entiendo la versión: '$output'" >&2
   exit 2
 fi
-mayor=${BASH_REMATCH[1]}
-menor=${BASH_REMATCH[2]}
+major=${BASH_REMATCH[1]}
+minor=${BASH_REMATCH[2]}
 
 # Comparación numérica por partes: como texto, "3.10" sería menor que "3.9".
-if (( mayor > min_mayor || (mayor == min_mayor && menor >= min_menor) )); then
-  echo "$salida >= $min: ok"
+if (( major > min_major || (major == min_major && minor >= min_minor) )); then
+  echo "$output >= $min: ok"
 else
-  echo "$salida < $min: actualiza tmux (docs/setup-entorno.md)" >&2
+  echo "$output < $min: actualiza tmux (docs/setup-entorno.md)" >&2
   exit 1
 fi

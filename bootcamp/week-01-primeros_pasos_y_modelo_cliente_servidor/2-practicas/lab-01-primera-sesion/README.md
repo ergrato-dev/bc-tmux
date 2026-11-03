@@ -78,7 +78,7 @@ Comprobar que tienes tmux ≥ 3.4, abrir y cerrar sesiones a mano y crear una se
    1
    ```
 
-5. **TODO 1 de `starter/primera.sh`: crear la sesión sin conectarte.** Abre
+5. **TODO 1 de `starter/first.sh`: crear la sesión sin conectarte.** Abre
    el archivo con tu editor. Debajo del comentario `TODO 1` escribe:
    ```bash
    tmx new-session -d -s primera -n inicio
@@ -87,7 +87,7 @@ Comprobar que tienes tmux ≥ 3.4, abrir y cerrar sesiones a mano y crear una se
    ventana. `tmx` es la función del starter que añade `-L lab` por ti.
    Pruébalo:
    ```bash
-   ./starter/primera.sh
+   ./starter/first.sh
    tmux -L lab list-windows -t primera -F '#{window_name}'
    ```
    ```
@@ -104,7 +104,7 @@ Comprobar que tienes tmux ≥ 3.4, abrir y cerrar sesiones a mano y crear una se
 6. **TODO 2: listar las sesiones.** Debajo de `TODO 2` escribe `tmx ls`.
    Pruébalo con el servidor vacío:
    ```bash
-   ./starter/primera.sh
+   ./starter/first.sh
    ```
    Algo como (cambian la fecha y la hora):
    ```
@@ -124,7 +124,7 @@ Comprobar que tienes tmux ≥ 3.4, abrir y cerrar sesiones a mano y crear una se
 
 8. Ejecuta el script otra vez, con `primera` todavía viva:
    ```bash
-   ./starter/primera.sh; echo $?
+   ./starter/first.sh; echo $?
    ```
    ```
    duplicate session: primera
@@ -145,7 +145,7 @@ Comprobar que tienes tmux ≥ 3.4, abrir y cerrar sesiones a mano y crear una se
 - [ ] `tmux -V` imprime 3.4 o superior (paso 1)
 - [ ] `exit` en la última sesión deja `no server running` (paso 4)
 - [ ] Tras el TODO 1, `tmux -L lab list-windows -t primera -F '#{window_name}'` imprime `inicio` (paso 5)
-- [ ] `./starter/primera.sh` en un servidor vacío imprime una línea `primera: 1 windows` (paso 6)
+- [ ] `./starter/first.sh` en un servidor vacío imprime una línea `primera: 1 windows` (paso 6)
 - [ ] La segunda ejecución sale con `duplicate session: primera` y código 1, y puedes explicar por qué (paso 8)
 
 ## Reto extra

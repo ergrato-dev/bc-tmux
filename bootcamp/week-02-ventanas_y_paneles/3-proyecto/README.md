@@ -82,25 +82,25 @@ toca.
    99
    ```
 
-1. **TODO 1, `paneles_en_layout`.** Escribe la función en tres líneas,
-   `paneles_en_layout() {`, la línea de la pista y `}`. Cuenta las hojas del
+1. **TODO 1, `count_panes`.** Escribe la función en tres líneas,
+   `count_panes() {`, la línea de la pista y `}`. Cuenta las hojas del
    layout: `39x24,0,0,2` es un panel (cuatro números tras el tamaño);
    `40x24,40,0[` es un contenedor (dos números y después `{` o `[`). Pruébala
    sola, cargando solo esa función en una shell aparte:
    ```bash
-   bash -c 'source <(sed -n "/^paneles_en_layout()/,/^}/p" starter/bin/kit-layout); paneles_en_layout "1e56,80x24,0,0{39x24,0,0,2,40x24,40,0[40x7,40,0,0,40x4,40,8,1,40x11,40,13,3]}"'
+   bash -c 'source <(sed -n "/^count_panes()/,/^}/p" starter/bin/kit-layout); count_panes "1e56,80x24,0,0{39x24,0,0,2,40x24,40,0[40x7,40,0,0,40x4,40,8,1,40x11,40,13,3]}"'
    ```
    ```
    4
    ```
 
-2. **TODO 2, `exige_ventana`.** Una línea: la de la pista, dentro de
-   `exige_ventana() { ... }`. La probarás con `save` en el paso 7.
+2. **TODO 2, `require_window`.** Una línea: la de la pista, dentro de
+   `require_window() { ... }`. La probarás con `save` en el paso 7.
 
 3. **TODO 3, crear la ventana.** Borra la línea `echo "kit-layout new: sin implementar ..."; exit 99`
-   de `cmd_new`. La pista tiene las tres ramas. El `=` de `-t "=$sesion"` pide
+   de `cmd_new`. La pista tiene las tres ramas. El `=` de `-t "=$session"` pide
    el nombre exacto: sin él, `api` encontraría también `api2`. El `:` final de
-   `-t "=$sesion:"` le dice a `new-window` "en esa sesión, en el primer índice
+   `-t "=$session:"` le dice a `new-window` "en esa sesión, en el primer índice
    libre". Prueba las tres ramas:
    ```bash
    starter/bin/kit-layout new api /tmp; echo $?

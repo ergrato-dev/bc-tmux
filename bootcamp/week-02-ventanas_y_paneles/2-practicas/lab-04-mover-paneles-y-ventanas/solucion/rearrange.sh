@@ -6,11 +6,11 @@ set -euo pipefail
 tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
 
 tmx list-panes -t mover:logs >/dev/null   # falla si la ventana no existe
-panel=$(tmx display-message -p -t mover:logs '#{pane_id}')
+pane=$(tmx display-message -p -t mover:logs '#{pane_id}')
 
 # Tras el join la ventana "logs" deja de existir: solo el id sigue sirviendo.
-tmx join-pane -h -d -s "$panel" -t mover:codigo
+tmx join-pane -h -d -s "$pane" -t mover:codigo
 tmx display-message -p -t mover:codigo 'codigo tiene #{window_panes} paneles'
 
-tmx break-pane -d -s "$panel" -n logs
+tmx break-pane -d -s "$pane" -n logs
 echo "ventanas: $(tmx list-windows -t mover -F '#{window_name}' | paste -sd' ' -)"

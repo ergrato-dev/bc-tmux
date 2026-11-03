@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
 # Lab 05 — envía un comando a todos los paneles de una ventana.
-# Uso: difundir.sh VENTANA COMANDO
+# Uso: broadcast.sh VENTANA COMANDO
 set -euo pipefail
 
 tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
 
-ventana="${1:?uso: difundir.sh VENTANA COMANDO}"
-comando="${2:?uso: difundir.sh VENTANA COMANDO}"
+window="${1:?uso: broadcast.sh VENTANA COMANDO}"
+cmd="${2:?uso: broadcast.sh VENTANA COMANDO}"
 
 # TODO 1: guarda los ids de panel de la ventana (uno por línea):
-#         paneles=$(tmx list-panes -t "$ventana" -F '#{pane_id}')
+#         panes=$(tmx list-panes -t "$window" -F '#{pane_id}')
 
 # TODO 2: recorre los ids y en cada panel escribe el comando como texto
 #         literal (-l; "--" por si empieza por "-") y pulsa Enter aparte:
-#         while IFS= read -r panel; do
-#           tmx send-keys -t "$panel" -l -- "$comando"
-#           tmx send-keys -t "$panel" Enter
-#         done <<<"$paneles"
+#         while IFS= read -r pane; do
+#           tmx send-keys -t "$pane" -l -- "$cmd"
+#           tmx send-keys -t "$pane" Enter
+#         done <<<"$panes"
 
-# TODO 3: echo "enviado a $(wc -l <<<"$paneles") paneles de $ventana"
-echo "difundir.sh: sin implementar ($ventana: $comando)" >&2
+# TODO 3: echo "enviado a $(wc -l <<<"$panes") paneles de $window"
+echo "broadcast.sh: sin implementar ($window: $cmd)" >&2

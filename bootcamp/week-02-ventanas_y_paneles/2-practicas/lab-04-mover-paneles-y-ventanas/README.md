@@ -121,7 +121,7 @@ Sacar un panel a su propia ventana, meterlo en otra, e intercambiar paneles y ve
    5 codigo
    ```
 
-7. **El script.** `starter/reorganizar.sh` une el panel de `logs` a `codigo`,
+7. **El script.** `starter/rearrange.sh` une el panel de `logs` a `codigo`,
    cuenta los paneles y lo devuelve a su ventana, usando el id del panel: es
    lo único que no cambia durante el viaje. Necesita un escenario limpio:
    primero desconéctate en la terminal A con `C-b` `d`:
@@ -133,22 +133,22 @@ Sacar un panel a su propia ventana, meterlo en otra, e intercambiar paneles y ve
    vuelve antes, y un `new` inmediato choca con él (`server exited unexpectedly`).
 
    1. **TODO 1**: las dos líneas de la pista. Borra también la última línea,
-      `echo "reorganizar.sh: sin implementar"`. Como el TODO no imprime nada,
+      `echo "rearrange.sh: sin implementar"`. Como el TODO no imprime nada,
       pruébalo con `bash -x`, que muestra cada asignación:
       ```bash
       tmux -L lab kill-server; sleep 1
       tmux -L lab -f /dev/null new -d -s mover -n codigo \; new-window -d -n logs
-      bash -x ./starter/reorganizar.sh 2>&1 | grep '^+ panel='
+      bash -x ./starter/rearrange.sh 2>&1 | grep '^+ pane='
       ```
       ```
-      + panel=%1
+      + pane=%1
       ```
    2. **TODO 2**: `join-pane` con `-d` (el foco no se mueve) y el
       `display-message` que cuenta.
       ```bash
       tmux -L lab kill-server; sleep 1
       tmux -L lab -f /dev/null new -d -s mover -n codigo \; new-window -d -n logs
-      ./starter/reorganizar.sh
+      ./starter/rearrange.sh
       ```
       ```
       codigo tiene 2 paneles
@@ -158,7 +158,7 @@ Sacar un panel a su propia ventana, meterlo en otra, e intercambiar paneles y ve
       ```bash
       tmux -L lab kill-server; sleep 1
       tmux -L lab -f /dev/null new -d -s mover -n codigo \; new-window -d -n logs
-      ./starter/reorganizar.sh
+      ./starter/rearrange.sh
       ```
       ```
       codigo tiene 2 paneles
@@ -179,7 +179,7 @@ Sacar un panel a su propia ventana, meterlo en otra, e intercambiar paneles y ve
 - [ ] Usaste `C-b` `m` para marcar un panel y unirlo con `join-pane` sin `-s` (paso 4)
 - [ ] Explicas por qué el id de un panel no cambia al moverlo y su índice sí (paso 5)
 - [ ] Moviste una ventana de índice con `C-b` `.` y la intercambiaste con `C-b` `<` (paso 6)
-- [ ] `./starter/reorganizar.sh` imprime las dos líneas del paso 7.3
+- [ ] `./starter/rearrange.sh` imprime las dos líneas del paso 7.3
 
 ## Reto extra
 

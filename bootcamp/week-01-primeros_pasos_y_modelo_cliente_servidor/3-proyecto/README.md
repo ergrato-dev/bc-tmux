@@ -85,8 +85,8 @@ cree que tiene tmux 3.2a.
 
 ### Paso 1 — `check-version`, TODO 1: leer la versión
 
-Abre `starter/bin/check-version`. Guarda la salida de `"$bin" -V` en `salida`
-dentro de un `if ! salida=$(...); then`, con `2>/dev/null` para que el error
+Abre `starter/bin/check-version`. Guarda la salida de `"$bin" -V` en `output`
+dentro de un `if ! output=$(...); then`, con `2>/dev/null` para que el error
 del sistema no se mezcle con el tuyo. Si falla, escribe tu aviso con `>&2` y
 `exit 2`. Prueba:
 
@@ -101,7 +101,7 @@ tmux no está instalado o '/ruta/que/no/existe/tmux' no se puede ejecutar
 
 ### Paso 2 — TODO 2: extraer mayor y menor
 
-- `version=${salida#tmux }` quita `tmux ` del principio; repite con `next-`.
+- `version=${output#tmux }` quita `tmux ` del principio; repite con `next-`.
 - `[[ "$version" =~ ^([0-9]+)\.([0-9]+) ]]` casa y deja los números en
   `BASH_REMATCH[1]` y `BASH_REMATCH[2]`. Sin `$` al final, la `a` de `3.5a`
   no estorba.
@@ -120,7 +120,7 @@ no entiendo la versión: 'tmux rara'
 
 Lo mismo con `"$min"`, pero con `$` al final de la expresión
 (`^([0-9]+)\.([0-9]+)$`): la mínima es exactamente `MAYOR.MENOR`. Guarda los
-números en `min_mayor` y `min_menor`.
+números en `min_major` y `min_minor`.
 
 ```bash
 starter/bin/check-version 3; echo $?
@@ -134,9 +134,9 @@ versión mínima inválida: '3' (formato MAYOR.MENOR, p. ej. 3.4)
 ### Paso 4 — TODO 4: comparar
 
 Con `(( ))` bash compara números: cumple si
-`mayor > min_mayor || (mayor == min_mayor && menor >= min_menor)`. Imprime
-`"$salida >= $min: ok"` o, por stderr y con `exit 1`,
-`"$salida < $min: actualiza tmux (docs/setup-entorno.md)"`. **Borra** las dos
+`major > min_major || (major == min_major && minor >= min_minor)`. Imprime
+`"$output >= $min: ok"` o, por stderr y con `exit 1`,
+`"$output < $min: actualiza tmux (docs/setup-entorno.md)"`. **Borra** las dos
 últimas líneas del starter (`echo "check-version: sin implementar ..."` y
 `exit 99`). Prueba todos los casos:
 
@@ -167,7 +167,7 @@ rechazo salen por stderr: con `2>/dev/null` desaparecen, pero el código 1 sigue
 ### Paso 5 — `kit-tree`, TODO 1: sin servidor, salir con 1
 
 Abre `starter/bin/kit-tree`. Guarda los ids con
-`if ! sesiones=$(tmx list-sessions -F '#{session_id}' 2>/dev/null); then`,
+`if ! sessions=$(tmx list-sessions -F '#{session_id}' 2>/dev/null); then`,
 avisa por stderr y `exit 1`. **Borra** las tres últimas líneas del starter
 (`echo "kit-tree: sin implementar"`, `tmx -V >/dev/null` y `exit 99`).
 
@@ -199,7 +199,7 @@ tmux -L kit new -d -s notas
 ### Paso 7 — TODO 2: la ruta del socket
 
 `display-message -p` imprime un formato. Dale como target el primer id de
-sesión, `"$(head -n1 <<<"$sesiones")"`, y el formato
+sesión, `"$(head -n1 <<<"$sessions")"`, y el formato
 `'socket: #{socket_path}'`.
 
 ```bash
@@ -211,8 +211,8 @@ socket: /tmp/tmux-1000/kit
 
 ### Paso 8 — TODO 3: una línea por sesión
 
-Recorre `"$sesiones"` con `while IFS= read -r sesion; do ... done <<<"$sesiones"`
-y, por cada una, `tmx display-message -p -t "$sesion"` con el formato
+Recorre `"$sessions"` con `while IFS= read -r session; do ... done <<<"$sessions"`
+y, por cada una, `tmx display-message -p -t "$session"` con el formato
 `'sesion #{session_name} ventanas=#{session_windows} clientes=#{session_attached}'`.
 
 ```bash
@@ -227,13 +227,13 @@ sesion notas ventanas=1 clientes=0
 ### Paso 9 — TODO 4: ventanas y paneles
 
 Dentro del bucle de sesiones, un segundo bucle sobre las ventanas:
-`while IFS= read -r ventana; do ... done < <(tmx list-windows -t "$sesion" -F '#{window_id}')`.
+`while IFS= read -r window; do ... done < <(tmx list-windows -t "$session" -F '#{window_id}')`.
 Por cada ventana:
 
-- `tmx display-message -p -t "$ventana"` con
+- `tmx display-message -p -t "$window"` con
   `'  ventana #{window_index}:#{window_name} paneles=#{window_panes}'`
   (`#{window_panes}` es el número de paneles de la ventana).
-- `tmx list-panes -t "$ventana" -F` con
+- `tmx list-panes -t "$window" -F` con
   `'    panel #{pane_index} #{pane_id} #{pane_current_command}'`
   (`#{pane_current_command}` es el programa que corre en el panel).
 

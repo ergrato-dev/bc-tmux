@@ -132,14 +132,14 @@ Recorrer los cinco layouts predefinidos, ajustar el panel principal en porcentaj
    - `39x24,0,0,2`: un panel como `ANCHOxALTO,X,Y,ID`. El ID es el número de
      `%2`. Los contenedores (`40x24,40,0[...]`) no llevan ID.
 
-6. **Guardar y restaurar.** `starter/layout.sh guardar` escribe el layout en
-   un archivo y `restaurar` lo aplica. Trabaja en la terminal B.
+6. **Guardar y restaurar.** `starter/layout.sh save` escribe el layout en
+   un archivo y `load` lo aplica. Trabaja en la terminal B.
 
-   1. **TODO 1**: descomenta `tmx list-panes -t "$ventana" >/dev/null`. Con
+   1. **TODO 1**: descomenta `tmx list-panes -t "$window" >/dev/null`. Con
       `set -e`, si la ventana no existe el script se para ahí. Borra también
-      la última línea, `echo "layout.sh: $accion sin implementar ..."`.
+      la última línea, `echo "layout.sh: $action sin implementar ..."`.
       ```bash
-      ./starter/layout.sh guardar layouts:5 /tmp/mio.layout; echo $?
+      ./starter/layout.sh save layouts:5 /tmp/mio.layout; echo $?
       ```
       ```
       can't find window: 5
@@ -147,9 +147,9 @@ Recorrer los cinco layouts predefinidos, ajustar el panel principal en porcentaj
       ```
       Con `display-message -p -t layouts:5` no habría error: tmux cae en otra
       ventana y sale con 0.
-   2. **TODO 2** (`guardar`): las dos líneas de la pista.
+   2. **TODO 2** (`save`): las dos líneas de la pista.
       ```bash
-      ./starter/layout.sh guardar layouts:0 /tmp/mio.layout
+      ./starter/layout.sh save layouts:0 /tmp/mio.layout
       cat /tmp/mio.layout
       ```
       Algo como (el mismo texto que el paso 5):
@@ -157,13 +157,13 @@ Recorrer los cinco layouts predefinidos, ajustar el panel principal en porcentaj
       guardado en /tmp/mio.layout
       1e56,80x24,0,0{39x24,0,0,2,40x24,40,0[40x7,40,0,0,40x4,40,8,1,40x11,40,13,3]}
       ```
-   3. **TODO 3** (`restaurar`): `"$(<"$archivo")"` es el contenido del
+   3. **TODO 3** (`load`): `"$(<"$file")"` es el contenido del
       archivo como un solo argumento. Rompe el layout a propósito, restáuralo y
       compara con el `cat` de arriba:
       ```bash
       tmux -L lab select-layout -t layouts:0 tiled
       tmux -L lab display-message -p -t layouts:0 '#{window_layout}'
-      ./starter/layout.sh restaurar layouts:0 /tmp/mio.layout
+      ./starter/layout.sh load layouts:0 /tmp/mio.layout
       tmux -L lab display-message -p -t layouts:0 '#{window_layout}'
       ```
       Algo como:
@@ -192,7 +192,7 @@ Recorrer los cinco layouts predefinidos, ajustar el panel principal en porcentaj
 - [ ] Pasaste por los cinco layouts y sabes cuál es el principal en `main-*` (pasos 2 y 4)
 - [ ] Con `main-pane-width 60%` el panel principal ocupa el 60 % de la ventana, borde incluido (paso 3)
 - [ ] Explicas qué significan los números de un `#{window_layout}` (paso 5)
-- [ ] `layout.sh restaurar` devuelve la ventana al layout guardado con `layout.sh guardar` (paso 6.3)
+- [ ] `layout.sh load` devuelve la ventana al layout guardado con `layout.sh save` (paso 6.3)
 
 ## Reto extra
 

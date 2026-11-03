@@ -161,7 +161,7 @@ Vas a usar dos terminales, las dos **fuera de tmux**:
    (sin salida)
    ```
 
-7. **El script.** `starter/tres.sh` crea en segundo plano la sesión `tres`
+7. **El script.** `starter/three.sh` crea en segundo plano la sesión `tres`
    con tres paneles titulados, todos en el directorio que recibe, usando los
    ids que devuelve `-P -F '#{pane_id}'`, nunca índices. Trabaja en la
    **terminal B**. Cada prueba empieza con `kill-server` porque el script
@@ -173,9 +173,9 @@ Vas a usar dos terminales, las dos **fuera de tmux**:
    1. **TODO 1**: crea la sesión y guarda el id de su panel. Pista:
       `editor=$(tmx new-session -d -P -F '#{pane_id}' -s tres -c "$dir")`.
       `-d` la crea sin conectarte; `-P -F` imprime el id y `$(...)` lo
-      guarda. Borra también la última línea, `echo "tres.sh: sin implementar ..."`.
+      guarda. Borra también la última línea, `echo "three.sh: sin implementar ..."`.
       ```bash
-      tmux -L lab kill-server 2>/dev/null; sleep 1; ./starter/tres.sh /tmp; echo $?
+      tmux -L lab kill-server 2>/dev/null; sleep 1; ./starter/three.sh /tmp; echo $?
       tmux -L lab list-panes -t tres -F '#{pane_id} #{pane_current_path}'
       ```
       ```
@@ -186,7 +186,7 @@ Vas a usar dos terminales, las dos **fuera de tmux**:
       `-P -F '#{pane_id}'`, `-c "$dir"` y `-t` con el id del panel que partes:
       `-h -t "$editor"` para `shell`, `-v -t "$shell"` para `logs`.
       ```bash
-      tmux -L lab kill-server 2>/dev/null; sleep 1; ./starter/tres.sh /tmp
+      tmux -L lab kill-server 2>/dev/null; sleep 1; ./starter/three.sh /tmp
       tmux -L lab list-panes -t tres -F '#{pane_id} #{pane_left},#{pane_top} #{pane_current_path}'
       ```
       ```
@@ -199,7 +199,7 @@ Vas a usar dos terminales, las dos **fuera de tmux**:
    3. **TODO 3**: `tmx select-pane -t "$editor" -T editor`, y lo mismo con
       `$shell` y `$logs`.
       ```bash
-      tmux -L lab kill-server 2>/dev/null; sleep 1; ./starter/tres.sh /tmp
+      tmux -L lab kill-server 2>/dev/null; sleep 1; ./starter/three.sh /tmp
       tmux -L lab list-panes -t tres -F '#{pane_id} #{pane_title}'
       ```
       ```
@@ -210,7 +210,7 @@ Vas a usar dos terminales, las dos **fuera de tmux**:
    4. **TODO 4**: `sleep 0.3` (sin él, a veces la shell aún no arrancó) y
       `tmx list-panes -t tres -F '#{pane_id} #{pane_title} #{pane_current_path}'`.
       ```bash
-      tmux -L lab kill-server 2>/dev/null; sleep 1; ./starter/tres.sh /tmp
+      tmux -L lab kill-server 2>/dev/null; sleep 1; ./starter/three.sh /tmp
       ```
       ```
       %0 editor /tmp
@@ -231,7 +231,7 @@ Vas a usar dos terminales, las dos **fuera de tmux**:
 - [ ] Te mueves entre tres paneles con `C-b` y flechas (repitiendo sin prefix), `o`, `;` y `q` (paso 3)
 - [ ] El `list-panes` del paso 4 muestra un panel sin `-c` fuera de `/tmp` y uno con `-c '#{pane_current_path}'` en `/tmp`
 - [ ] El `list-panes` del paso 6 imprime `editor`, `shell` y `logs`, y se ven en el borde con `pane-border-status top`
-- [ ] `./starter/tres.sh /tmp` en un servidor vacío imprime las tres líneas del paso 7.4
+- [ ] `./starter/three.sh /tmp` en un servidor vacío imprime las tres líneas del paso 7.4
 
 ## Reto extra
 

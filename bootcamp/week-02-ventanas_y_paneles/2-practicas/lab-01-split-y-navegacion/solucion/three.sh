@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Lab 01 — sesión "tres": paneles editor, shell y logs en el directorio dado.
-# Uso: tres.sh DIR
+# Uso: three.sh DIR
 set -euo pipefail
 
 tmx() { tmux -L "${TMUX_SOCKET:-lab}" "$@"; }
 
-dir="${1:?uso: tres.sh DIR}"
+dir="${1:?uso: three.sh DIR}"
 
 editor=$(tmx new-session -d -P -F '#{pane_id}' -s tres -c "$dir")
 # -d: el panel nuevo no se vuelve el activo, así el siguiente split sabe

@@ -8,7 +8,7 @@ Encontrar y corregir los cuatro errores de un script que monta una ventana de mo
 
 ## Contexto
 
-Un compañero escribió `starter/montar.sh` para tener una ventana `monitor` con
+Un compañero escribió `starter/assemble.sh` para tener una ventana `monitor` con
 tres paneles: `cpu` a la izquierda ocupando media pantalla, y `disco` y `red`
 apilados a la derecha. Él lo ejecuta desde una terminal suelta y "le
 funciona". Tú lo ejecutas, como casi todo, **desde dentro de tmux**, y pasan
@@ -45,7 +45,7 @@ por no decirle a tmux sobre qué objeto actuar.
 
 2. **Error 1.** En la terminal A, ejecuta el script:
    ```bash
-   ./starter/montar.sh; echo $?
+   ./starter/assemble.sh; echo $?
    ```
    ```
    sessions should be nested with care, unset $TMUX to force
@@ -53,13 +53,13 @@ por no decirle a tmux sobre qué objeto actuar.
    ```
    Ya lo viste en la semana 01 (lab 05): sin `-d`, `new-session` intenta
    conectar tu cliente a la sesión nueva, y dentro de tmux se niega. Abre
-   `starter/montar.sh` en tu editor y añade `-d` a `new-session`. Encima de la
+   `starter/assemble.sh` en tu editor y añade `-d` a `new-session`. Encima de la
    línea, escribe un comentario con el síntoma y la causa:
    `# Error 1: ... — ...`. Harás lo mismo con cada error.
 
 3. **Errores 2 y 3.** Ejecútalo otra vez en la terminal A:
    ```bash
-   ./starter/montar.sh
+   ./starter/assemble.sh
    ```
    ```
    ventana monitor lista
@@ -99,13 +99,13 @@ por no decirle a tmux sobre qué objeto actuar.
    cpu=$(tmx new-session -d -P -F '#{pane_id}' -s monitor -n monitor)
    tmx select-pane -t "$cpu" -T cpu
 
-   disco=$(tmx split-window -h -P -F '#{pane_id}' -t "$cpu")
-   tmx select-pane -t "$disco" -T disco
+   disk=$(tmx split-window -h -P -F '#{pane_id}' -t "$cpu")
+   tmx select-pane -t "$disk" -T disco
    ```
-   Completa tú `red` (parte `$disco` con `-v`). No toques aún las dos líneas
+   Completa tú `net` (parte `$disk` con `-v`). No toques aún las dos líneas
    del layout. En la terminal A:
    ```bash
-   ./starter/montar.sh
+   ./starter/assemble.sh
    ```
    ```
    ventana monitor lista
@@ -150,7 +150,7 @@ por no decirle a tmux sobre qué objeto actuar.
    ```
    En la terminal A:
    ```bash
-   ./starter/montar.sh
+   ./starter/assemble.sh
    ```
    ```
    ventana monitor lista
@@ -184,7 +184,7 @@ por no decirle a tmux sobre qué objeto actuar.
 
 ## Criterios de éxito
 
-- [ ] `starter/montar.sh` tiene un comentario `# Error N:` encima de cada uno de los cuatro arreglos, con el síntoma y la causa (pasos 2-5)
+- [ ] `starter/assemble.sh` tiene un comentario `# Error N:` encima de cada uno de los cuatro arreglos, con el síntoma y la causa (pasos 2-5)
 - [ ] El script corre desde dentro de tmux sin errores y no toca la sesión `otra` (paso 4)
 - [ ] `list-panes` muestra `cpu` a la izquierda y `disco` sobre `red` a la derecha, con los títulos correctos (paso 6)
 - [ ] Ningún `-t` del script usa un índice de panel
