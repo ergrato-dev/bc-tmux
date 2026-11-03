@@ -1,0 +1,42 @@
+<svg viewBox="0 0 900 380" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Decisión de C-h en la tabla root: tmux evalúa alternate_on del panel activo; si vale 1, el panel muestra un programa a pantalla completa y recibe C-h con send-keys; si vale 0, el panel tiene la shell y select-pane -L mueve el foco a la izquierda</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect width="900" height="380" fill="#0d1117"/>
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <text x="20" y="30" fill="#d2a8ff" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">bind -n C-h if -F '#{alternate_on}' 'send-keys C-h' 'select-pane -L'</text>
+
+    <!-- tecla -->
+    <rect x="30" y="150" width="120" height="60" rx="6" fill="#161b22" stroke="#f78166" stroke-width="2"/>
+    <text x="90" y="178" fill="#f78166" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">C-h</text>
+    <text x="90" y="198" fill="#8b949e" text-anchor="middle" font-size="12">tabla root</text>
+    <line x1="150" y1="180" x2="226" y2="180" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- decision -->
+    <polygon points="340,110 450,180 340,250 230,180" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="340" y="176" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">#{alternate_on}</text>
+    <text x="340" y="196" fill="#8b949e" text-anchor="middle" font-size="12">panel activo</text>
+
+    <!-- rama 1 -->
+    <path d="M400,148 L520,92" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="456" y="98" fill="#3fb950" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">1</text>
+    <rect x="524" y="55" width="350" height="80" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="544" y="82" fill="#f0f6fc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">send-keys C-h</text>
+    <text x="544" y="104" fill="#79c0ff" font-size="13">la recibe el programa a pantalla completa</text>
+    <text x="544" y="123" fill="#8b949e" font-size="12">less, watch, un editor</text>
+
+    <!-- rama 0 -->
+    <path d="M400,212 L520,268" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="456" y="272" fill="#3fb950" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">0</text>
+    <rect x="524" y="225" width="350" height="80" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="544" y="252" fill="#f0f6fc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">select-pane -L</text>
+    <text x="544" y="274" fill="#f0f6fc" font-size="13">tmux mueve el foco a la izquierda</text>
+    <text x="544" y="293" fill="#8b949e" font-size="12">el panel tiene la shell</text>
+
+    <text x="30" y="345" fill="#e3b341" font-size="13">pane_current_command no sirve: con seq 100 | less, tmux 3.4 dice bash.</text>
+    <text x="30" y="366" fill="#8b949e" font-size="12">Un programa que no usa la pantalla alternativa (un REPL) recibe navegación, no la tecla.</text>
+  </g>
+</svg>

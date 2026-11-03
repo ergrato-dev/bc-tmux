@@ -24,7 +24,7 @@ está en construcción (sin enlace hasta que exista la carpeta).
 | Semana | Tema | Estado |
 |:--:|---|:--:|
 | [05](week-05-configuracion_y_alcance_de_opciones/README.md) | Configuración y alcance de opciones | ✅ |
-| 06 | Key bindings, tablas y navegación | ⬜ |
+| [06](week-06-key_bindings_tablas_y_navegacion/README.md) | Key bindings, tablas y navegación | ✅ |
 | 07 | Formats y status line | ⬜ |
 | 08 | Terminal, color y depuración | ⬜ |
 

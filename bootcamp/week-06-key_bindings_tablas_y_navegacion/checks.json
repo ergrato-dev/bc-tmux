@@ -1,0 +1,118 @@
+{
+  "semana": "06",
+  "titulo": "Key bindings, tablas y navegación",
+  "checks": [
+    {
+      "id": "conf-parsea",
+      "descripcion": "tmux.conf carga sin errores",
+      "cmd": "{tmux} -f /dev/null new-session -d ; {tmux} source-file {proyecto}/tmux.conf",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 2"
+    },
+    {
+      "id": "split-derecha",
+      "descripcion": "prefix | divide a la derecha en el directorio del panel",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; {tmux} list-keys -T prefix '|'",
+      "assert": "stdout~split-window -h .*pane_current_path",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3"
+    },
+    {
+      "id": "split-debajo",
+      "descripcion": "prefix - divide debajo en el directorio del panel",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; {tmux} list-keys -T prefix -",
+      "assert": "stdout~split-window -v .*pane_current_path",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 3"
+    },
+    {
+      "id": "resize-entra",
+      "descripcion": "prefix R mete al cliente en la tabla kit-resize",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t k' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; p=$({tmux} show -gv prefix) ; k() { {tmux} send-keys -K -c \"$c\" \"$@\" ; sleep 0.2 ; } ; k \"$p\" R ; {tmux} display -p -c \"$c\" '#{client_key_table}'",
+      "assert": "stdout~^kit-resize$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4 (lab-03-tablas-propias)"
+    },
+    {
+      "id": "resize-repite",
+      "descripcion": "En kit-resize, h redimensiona el panel y el cliente sigue en kit-resize",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t k' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; p=$({tmux} show -gv prefix) ; k() { {tmux} send-keys -K -c \"$c\" \"$@\" ; sleep 0.2 ; } ; {tmux} split-window -h -t k ; a=$({tmux} display -p '#{pane_width}') ; k \"$p\" R ; k h ; b=$({tmux} display -p '#{pane_width}') ; [ \"$a\" != \"$b\" ] && {tmux} display -p -c \"$c\" '#{client_key_table}'",
+      "assert": "stdout~^kit-resize$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4 (lab-03-tablas-propias)"
+    },
+    {
+      "id": "resize-sale",
+      "descripcion": "q y Escape devuelven el cliente a la tabla root",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t k' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; p=$({tmux} show -gv prefix) ; k() { {tmux} send-keys -K -c \"$c\" \"$@\" ; sleep 0.2 ; } ; k \"$p\" R ; r=$({tmux} display -p -c \"$c\" '#{client_key_table}') ; k q ; a=$({tmux} display -p -c \"$c\" '#{client_key_table}') ; k \"$p\" R ; k Escape ; b=$({tmux} display -p -c \"$c\" '#{client_key_table}') ; echo \"$r $a $b\"",
+      "assert": "stdout~^kit-resize root root$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 4 (lab-03-tablas-propias)"
+    },
+    {
+      "id": "nav-mueve",
+      "descripcion": "C-h sin prefix cambia al panel de la izquierda en la shell",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t k' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; p=$({tmux} show -gv prefix) ; k() { {tmux} send-keys -K -c \"$c\" \"$@\" ; sleep 0.2 ; } ; {tmux} split-window -h -t k ; k C-h ; {tmux} display -p '#{pane_index}'",
+      "assert": "stdout~^1$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5 (lab-05-navegacion-consciente)"
+    },
+    {
+      "id": "nav-pasa",
+      "descripcion": "C-l llega al programa cuando el panel está a pantalla completa",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t k' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; p=$({tmux} show -gv prefix) ; k() { {tmux} send-keys -K -c \"$c\" \"$@\" ; sleep 0.2 ; } ; {tmux} split-window -d -hb -t k 'seq 100 | less' ; for i in $(seq 30) ; do [ \"$({tmux} display -p -t k:1.1 '#{alternate_on}')\" = 1 ] && break ; sleep 0.1 ; done ; k C-h ; a=$({tmux} display -p '#{pane_index}') ; k C-l ; echo \"$a $({tmux} display -p '#{pane_index} #{alternate_on}')\"",
+      "assert": "stdout~^1 1 1$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5 (lab-05-navegacion-consciente)"
+    },
+    {
+      "id": "nav-desactivable",
+      "descripcion": "Con @kit-nav off, C-l ya no cambia de panel",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; { sleep 15 | TERM=xterm-256color script -qfc '{tmux} attach -t k' /dev/null ; } >/dev/null 2>&1 & for i in $(seq 50) ; do c=$({tmux} list-clients -F '#{client_name}') ; [ -n \"$c\" ] && break ; sleep 0.1 ; done ; p=$({tmux} show -gv prefix) ; k() { {tmux} send-keys -K -c \"$c\" \"$@\" ; sleep 0.2 ; } ; {tmux} split-window -h -t k ; k C-h ; a=$({tmux} display -p '#{pane_index}') ; {tmux} set -g @kit-nav off ; k C-l ; echo \"$a $({tmux} display -p '#{pane_index}')\"",
+      "assert": "stdout~^1 1$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5 (lab-05-navegacion-consciente)"
+    },
+    {
+      "id": "nav-limpiar",
+      "descripcion": "prefix C-l envía C-l al programa del panel",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; {tmux} list-keys -T prefix C-l",
+      "assert": "stdout~send-keys C-l$",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 5 (lab-05-navegacion-consciente)"
+    },
+    {
+      "id": "notas-kit",
+      "descripcion": "Todas las teclas que el kit añade o cambia tienen una nota kit:",
+      "cmd": "d=$(mktemp -d) ; {tmux} -f /dev/null new-session -d ; {tmux} list-keys | tr -s ' ' > $d/a ; {tmux} source-file {proyecto}/tmux.conf ; {tmux} list-keys | tr -s ' ' > $d/b ; grep -vxFf $d/a $d/b | awk '{ t = ($2 == \"-r\") ? 4 : 3 ; print $t, $(t + 1) }' > $d/k ; test -s $d/k || exit 1 ; n=0 ; while read -r t key ; do {tmux} list-keys -N -T \"$t\" \"$key\" 2>/dev/null | grep -q 'kit:' || { echo \"sin nota kit: -T $t $key\" ; n=1 ; } ; done < $d/k ; exit $n",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 7 (lab-01-bind-unbind-y-list-keys)"
+    },
+    {
+      "id": "kit-keys-uso",
+      "descripcion": "kit-keys sale con 2 si recibe más de una tabla",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-keys prefix root",
+      "assert": "exit=2",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6"
+    },
+    {
+      "id": "kit-keys-tabla",
+      "descripcion": "kit-keys kit-resize lista h con su nota",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-keys kit-resize",
+      "assert": "stdout~^kit-resize h  kit:",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6"
+    },
+    {
+      "id": "kit-keys-todas",
+      "descripcion": "kit-keys sin argumentos lista las teclas del kit de prefix y root",
+      "cmd": "{tmux} -f {proyecto}/tmux.conf new-session -d -s k -x 80 -y 24 ; TMUX_SOCKET=bc-check {proyecto}/bin/kit-keys | awk '{ print $1 }' | sort -u | paste -sd' ' -",
+      "assert": "stdout~prefix.* root",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6"
+    },
+    {
+      "id": "kit-keys-sin-servidor",
+      "descripcion": "kit-keys sale con 1 sin servidor y no arranca ninguno",
+      "cmd": "out=$(TMUX_SOCKET=bc-check {proyecto}/bin/kit-keys 2>&1) ; r=$? ; {tmux} list-sessions >/dev/null 2>&1 && exit 9 ; [ $r = 1 ] && echo \"$out\"",
+      "assert": "stdout~kit-keys: no hay servidor",
+      "pista": "3-proyecto/README.md, Paso a paso, paso 6"
+    },
+    {
+      "id": "bin-completo-y-limpio",
+      "descripcion": "tmux.conf, conf.d/ y bin/ no tienen TODOs y bin/ pasa shellcheck",
+      "cmd": "! grep -rn TODO {proyecto}/tmux.conf {proyecto}/conf.d {proyecto}/bin && shellcheck {proyecto}/bin/*",
+      "assert": "exit0",
+      "pista": "3-proyecto/README.md, sección Calidad"
+    }
+  ]
+}

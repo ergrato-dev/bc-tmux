@@ -1,0 +1,63 @@
+<svg viewBox="0 0 1000 440" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Recorrido de una tecla por las tablas: el cliente parte de root; el prefix lo lleva a prefix y R a la tabla propia resize; h y l ejecutan su comando y vuelven a entrar en resize; Escape o una tecla que resize no tiene devuelven el cliente a root; una tecla sin binding en root llega al programa del panel</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="440" fill="#0d1117"/>
+  <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="14">
+    <text x="20" y="30" fill="#d2a8ff" font-size="13">Tabla activa del cliente: tmux busca cada tecla solo en ella</text>
+
+    <!-- root -->
+    <rect x="40" y="180" width="200" height="70" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="2"/>
+    <text x="140" y="210" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">root</text>
+    <text x="140" y="232" fill="#8b949e" text-anchor="middle" font-size="12">por defecto · bind -n</text>
+
+    <!-- prefix -->
+    <rect x="380" y="50" width="200" height="70" rx="6" fill="#161b22" stroke="#f78166" stroke-width="2"/>
+    <text x="480" y="80" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">prefix</text>
+    <text x="480" y="102" fill="#8b949e" text-anchor="middle" font-size="12">una tecla · bind</text>
+
+    <!-- resize -->
+    <rect x="720" y="180" width="200" height="70" rx="6" fill="#161b22" stroke="#d2a8ff" stroke-width="2"/>
+    <text x="820" y="210" fill="#f0f6fc" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">resize</text>
+    <text x="820" y="232" fill="#8b949e" text-anchor="middle" font-size="12">tabla propia · bind -T resize</text>
+
+    <!-- programa -->
+    <rect x="40" y="350" width="200" height="60" rx="6" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
+    <text x="140" y="376" fill="#79c0ff" text-anchor="middle">programa del panel</text>
+    <text x="140" y="396" fill="#8b949e" text-anchor="middle" font-size="12">ninguna tabla la usó</text>
+
+    <!-- root -> prefix -->
+    <line x1="240" y1="195" x2="376" y2="102" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="292" y="134" fill="#f78166" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">prefix</text>
+
+    <!-- prefix -> resize -->
+    <line x1="580" y1="100" x2="716" y2="194" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="604" y="76" fill="#f78166" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">R</text>
+    <text x="622" y="76" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">switch-client -T resize</text>
+
+    <!-- prefix -> root: otra tecla -->
+    <path d="M470,120 Q440,222 246,222" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="478" y="176" fill="#8b949e" font-size="12">otra tecla: la ejecuta</text>
+    <text x="478" y="192" fill="#8b949e" font-size="12">y vuelve a root</text>
+
+    <!-- resize self loop -->
+    <path d="M920,198 C978,186 978,246 926,236" fill="none" stroke="#3fb950" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="820" y="274" fill="#f78166" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">h  resize-pane -L 5</text>
+    <text x="820" y="292" fill="#3fb950" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">\; switch-client -T resize</text>
+
+    <!-- resize -> root -->
+    <path d="M718,236 C640,330 320,330 204,256" fill="none" stroke="#8b949e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="404" y="338" fill="#f78166" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">Escape</text>
+    <text x="460" y="338" fill="#f0f6fc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">switch-client -T root</text>
+    <text x="470" y="358" fill="#e3b341" text-anchor="middle" font-size="12">Una tecla que resize no tiene también vuelve a root, y se busca allí</text>
+
+    <!-- root -> programa -->
+    <line x1="140" y1="250" x2="140" y2="346" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="152" y="306" fill="#8b949e" font-size="12">sin binding</text>
+
+    <text x="980" y="420" fill="#8b949e" text-anchor="end" font-size="12">#{client_key_table} dice en qué tabla está el cliente</text>
+  </g>
+</svg>

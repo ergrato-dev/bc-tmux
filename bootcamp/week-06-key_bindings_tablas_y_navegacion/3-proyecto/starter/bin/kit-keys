@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# kit-keys — lista las teclas del kit: las que tienen una nota "kit: ...".
+#
+# Uso: kit-keys [TABLA]
+# Sin TABLA, las de prefix, root, kit-resize y copy-mode-vi.
+# Imprime "TABLA TECLA  NOTA", una tecla por línea.
+# Salida: 0 bien, 1 no hay servidor o la tabla no existe, 2 uso incorrecto.
+set -euo pipefail
+
+tmx() { "${TMUX_BIN:-tmux}" ${TMUX_SOCKET:+-L "$TMUX_SOCKET"} "$@"; }
+
+usage() { sed -n '4,6s/^# \{0,1\}//p' "$0" >&2; exit 2; }
+die() { echo "kit-keys: $*" >&2; exit 1; }
+
+(( $# <= 1 )) || usage
+[[ "${1:-}" != -* ]] || usage
+
+# TODO 9: si no hay servidor, die "no hay servidor de tmux en este socket".
+#         Pregunta con tmx list-sessions: list-keys arrancaría uno.
+# TODO 10: función list_table TABLA: tmx list-keys -N -T "$table" (falla si la
+#          tabla no existe) y, con awk, solo las notas que empiezan por kit:,
+#          como "TABLA TECLA  NOTA". La tecla es la primera palabra.
+# TODO 11: con TABLA, list_table "$1" o die "no existe la tabla $1"; sin ella,
+#          list_table de prefix, root, kit-resize y copy-mode-vi, sin fallar
+#          si falta alguna. Borra las dos líneas de abajo.
+echo "kit-keys: sin implementar" >&2
+exit 1
