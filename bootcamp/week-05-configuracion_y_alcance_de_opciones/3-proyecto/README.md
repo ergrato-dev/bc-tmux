@@ -206,11 +206,9 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
    La tecla recargó el kit aunque el cliente esté en `/`. Sal de la B con
    `C-a` `d`: `[detached (from session api)]`.
 
-6. **Recarga idempotente.** Con el script del lab 04 (el tuyo,
-   `../../2-practicas/lab-04-recarga-en-caliente/starter/compare-reload.sh`,
-   o el de la solución):
+6. **Recarga idempotente.** Con tu script del lab 04:
    ```bash
-   TMUX_SOCKET=kit ../../2-practicas/lab-04-recarga-en-caliente/solucion/compare-reload.sh "$PWD/tmux.conf"; echo $?
+   TMUX_SOCKET=kit ../../2-practicas/lab-04-recarga-en-caliente/starter/compare-reload.sh "$PWD/tmux.conf"; echo $?
    ```
    Algo como (la ruta es la de tu repositorio):
    ```
@@ -221,8 +219,8 @@ starter/                 ← tu tmux-kit de la semana 04 + lo nuevo
    recarga.
 
 7. **`bin/kit-option` (TODOs 10-12).** Es `scope.sh` del lab 03 ampliado a
-   cinco niveles (referencia:
-   `../../2-practicas/lab-03-alcances-y-herencia/solucion/scope.sh`). Al
+   cinco niveles (el tuyo está en
+   `../../2-practicas/lab-03-alcances-y-herencia/starter/scope.sh`). Al
    final hay un `echo "sin implementar"` y un `exit 1`: se borran en el
    TODO 12. Prepara una ventana con dos paneles y un valor en cada nivel:
    ```bash

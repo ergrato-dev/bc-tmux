@@ -194,8 +194,8 @@ Instalar TPM fijado por versión, declarar e instalar tmux-resurrect sin teclado
    ```
    (sin salida)
    ```
-   Para repetir el lab, vuelve a dejar las líneas de resurrect como en
-   `solucion/tmux.conf`.
+   Para repetir el lab, vuelve a escribir las dos líneas de resurrect que
+   borraste en el paso 7.
 
 ## Criterios de éxito
 

@@ -86,9 +86,9 @@ bootcamp/week-NN-nombre_del_tema/
 | [08 — Terminal, color y depuración](bootcamp/week-08-terminal_color_y_depuracion/README.md) | `TERM`, terminfo, `terminal-features`, `extended-keys`, `tmux -vvv` | `conf.d/40-terminal.conf`, `bin/kit-doctor` y `docs/diagnostico.md` |
 | [09 — Scripting de tmux desde shell](bootcamp/week-09-scripting_de_tmux_desde_shell/README.md) | `new-session -d`, `has-session`, `send-keys`, `list-* -F`, `wait-for` | `bin/dev-up` y `bin/dev-down` idempotentes |
 | [10 — Hooks, popups y menús](bootcamp/week-10-hooks_popups_y_menus/README.md) | `set-hook`, `display-popup`, `display-menu`, `run-shell`, fzf | `bin/kit-projects` en popup, menú del kit, `bin/kit-log` y hooks |
-| 11 — Plugins y ecosistema | TPM, resurrect, continuum, escribir un plugin, tmuxp, sesh | Plugin propio + resurrect |
-| 12 — Remoto, colaboración y control mode | SSH, tmux anidado, sockets compartidos, `attach -r`, `-CC` | Pair programming seguro + toggle de anidado |
-| 13 — Proyecto integrador | Integración de todo lo aprendido | `tmux-kit` final con `install.sh` |
+| [11 — Plugins y ecosistema](bootcamp/week-11-plugins_y_ecosistema/README.md) | TPM, resurrect, continuum, escribir un plugin, tmuxp, sesh | Plugin propio `plugin/tmux-kit.tmux`, plugins fijados por tag y `bin/kit-plugins` |
+| [12 — Remoto, colaboración y control mode](bootcamp/week-12-remoto_colaboracion_y_control_mode/README.md) | SSH, tmux anidado, sockets compartidos, `attach -r`, `-CC` | Toggle de anidado, barra remota y `bin/kit-pair` para compartir sesión |
+| [13 — Proyecto integrador](bootcamp/week-13-proyecto_integrador/README.md) | Integración de todo lo aprendido | `tmux-kit` final con `install.sh` y checks propios en `tests/` |
 
 ### 🔑 Componentes Clave
 

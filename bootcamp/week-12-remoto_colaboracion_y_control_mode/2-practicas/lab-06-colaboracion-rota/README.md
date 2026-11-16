@@ -228,17 +228,13 @@ Encontrar y arreglar los cinco fallos de un compañero que comparte su tmux "en 
    ```
    `kill-server` cerró también el cliente de control mode del paso 3.
 
-7. **Compara y limpia** (terminal A). Tu arreglo frente a la solución de
-   referencia:
+7. **Limpia** (terminal A):
    ```bash
-   diff starter/share.sh solucion/share.sh
-   diff starter/fuera.conf solucion/fuera.conf
    tmux -L fuera kill-server; sleep 0.5
    tmux -L dentro kill-server
    rm -rf /tmp/lab-roto
    ```
-   Las diferencias que queden deberían ser solo comentarios. Para repetir
-   el lab: `git checkout starter/`.
+   Para repetir el lab: `git checkout starter/`.
 
 ## Criterios de éxito
 

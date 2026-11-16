@@ -288,7 +288,6 @@ Dividir una config en un punto de entrada y módulos de `conf.d/` que cargan en 
       1
       0
       ```
-   Referencia: `solucion/check-modules.sh`.
 
 9. **Limpia** (terminal A):
    ```bash

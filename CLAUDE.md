@@ -63,7 +63,7 @@ week-NN-nombre_del_tema/
 │   └── lab-NN-nombre/
 │       ├── README.md          # Enunciado, instrucciones, criterios de éxito
 │       ├── starter/           # tmux.conf y/o scripts con TODOs
-│       └── solucion/          # Solución de referencia (pasa a repo privado)
+│       └── solucion/          # Solución de referencia (repo privado, en .gitignore)
 ├── 3-proyecto/
 │   ├── README.md
 │   ├── starter/               # tmux-kit de la semana anterior + TODOs
@@ -264,7 +264,7 @@ Solo enlaces comprobados al escribir la semana; nada inventado.
 
 ## Notas para Claude al generar contenido
 
-- Las soluciones se moverán al repo privado `ergrato-dev/bc-tmux-instructor` (misma ruta relativa); hasta entonces viven aquí.
+- Las soluciones viven en el repo privado `ergrato-dev/bc-tmux-instructor` (misma ruta relativa). En este repo `solucion/` está en `.gitignore`: se generan aquí, se prueban con `ENTREGA=solucion` y se copian al repo privado con `(cd bootcamp && find . -type d -name solucion -prune -exec cp -a --parents {} ../../bc-tmux-instructor/bootcamp/ \;)` y se hace commit allí. Para traerlas: `cp -a ../bc-tmux-instructor/bootcamp/. bootcamp/`.
 - Cada semana nueva lleva `checks.json` escrito antes que el contenido y pasa `./scripts/verificar-enlaces.sh`.
 - Probar toda solución con tmux 3.4 y un servidor aislado; nunca ejecutar `kill-server` sin `-L`.
 - Al generar teoría, máximo 600 palabras. Preferir ejemplos concretos de config sobre explicaciones abstractas. Todo ejemplo de config se puede pegar y funciona en 3.4.

@@ -190,7 +190,6 @@ Fijar opciones en el servidor, en una sesión, en una ventana y en un panel, ver
       0
       ```
    El proyecto amplía esta idea a todos los niveles en `bin/kit-option`.
-   Referencia: `solucion/scope.sh`.
 
 7. **El `-g` olvidado.** Una config con una línea sin `-g`. El
    `kill-server` expulsa a la terminal B, que imprime `[server exited]`.

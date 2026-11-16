@@ -194,7 +194,6 @@ Recargar la config con `C-b` `r` sin cerrar nada y escribirla de forma que recar
       0
       ```
    El autograding del proyecto hace la misma comprobación con tu kit.
-   Referencia: `solucion/compare-reload.sh`.
 
 6. **Limpia** (terminal A):
    ```bash

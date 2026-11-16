@@ -248,9 +248,8 @@ Encontrar y arreglar los seis fallos de una config modular con TPM y un plugin p
    2
    ```
 
-7. **Comprueba y limpia** (terminal A). Compara tus archivos con
-   `solucion/` (los comentarios de la solución explican cada arreglo) y
-   cierra:
+7. **Comprueba y limpia** (terminal A). Comprueba que la config
+   carga sin errores y cierra:
    ```bash
    tmux -L lab source-file -n "$C"; echo $?
    tmux -L lab kill-server

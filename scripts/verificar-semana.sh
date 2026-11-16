@@ -7,6 +7,7 @@
 #   ./scripts/verificar-semana.sh --doctor  comprueba tu entorno
 #   ENTREGA=solucion ./scripts/verificar-semana.sh 03
 #                                           comprueba la solucion de referencia
+#                                           (repo privado, ver docs/autograding.md)
 #   ./scripts/verificar-semana.sh --host 04 usa el tmux de tu equipo
 #
 # Por defecto los checks corren dentro del laboratorio Docker (compose.yaml,
@@ -187,6 +188,14 @@ verificar_semana() {
   dir=$(find "$RAIZ/bootcamp" -maxdepth 1 -type d -name "week-${semana}-*" | head -1)
   if [[ -z "$dir" ]]; then
     rojo "No existe la carpeta de la Semana $semana."
+    exit 1
+  fi
+
+  if [[ ! -d "$dir/3-proyecto/${ENTREGA:-starter}" ]]; then
+    rojo "No existe $dir/3-proyecto/${ENTREGA:-starter}."
+    # Las soluciones viven en el repo privado; sin copiarlas no hay nada que corregir.
+    [[ "${ENTREGA:-starter}" == solucion ]] &&
+      gris "Las soluciones están en ergrato-dev/bc-tmux-instructor: ver docs/autograding.md"
     exit 1
   fi
 

@@ -28,3 +28,6 @@ resurrect/
 secrets/
 *.key
 *.pem
+
+# Soluciones de referencia: viven en el repo privado bc-tmux-instructor
+solucion/

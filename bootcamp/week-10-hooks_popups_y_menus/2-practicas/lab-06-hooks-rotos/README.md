@@ -152,16 +152,10 @@ Encontrar y arreglar los cinco fallos de una config de hooks, popups y prompts q
    En B, `C-b` `b` y `C-b` `c`: la ventana aparece al instante; a los 5 s,
    `copia hecha` en el modo vista; `q`.
 
-6. **Compara con la solución** (solo las líneas que no son comentarios):
-   ```bash
-   diff <(grep -v '^#' starter/tmux.conf | grep .) <(grep -v '^#' solucion/tmux.conf | grep .) && echo igual
-   ```
-   ```
-   igual
-   ```
-   Si `diff` muestra diferencias, revisa ese fallo: hay más de un arreglo
-   válido (por ejemplo `"%%%"` en una plantilla de texto en el fallo 4),
-   pero comprueba que el tuyo pasa la prueba de su paso.
+6. **Repasa.** Repite la prueba de cada fallo de los pasos anteriores con
+   el `starter/tmux.conf` final: todas tienen que dar su output esperado.
+   Hay más de un arreglo válido (por ejemplo `"%%%"` en una plantilla de
+   texto en el fallo 4); lo que cuenta es que pase la prueba de su paso.
 
 7. **Limpia** (terminal A):
    ```bash

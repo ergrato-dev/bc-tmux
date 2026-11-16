@@ -177,8 +177,7 @@ errores reales**, todos de esta semana.
    terminal B, `tmux -L lab attach -t s` y pulsa `C-a` `r`:
    `config recargada`. Sal con `C-a` `d`.
 
-   Si hiciste el lab 05, comprueba cada módulo por separado con tu script
-   (o con el de la solución, `../lab-05-config-modular/solucion/check-modules.sh`):
+   Si hiciste el lab 05, comprueba cada módulo por separado con tu script:
    ```bash
    ../lab-05-config-modular/starter/check-modules.sh starter; echo $?
    ```

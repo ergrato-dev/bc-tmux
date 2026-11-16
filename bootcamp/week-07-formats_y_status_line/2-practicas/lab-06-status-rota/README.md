@@ -10,7 +10,7 @@ Depurar una status line con cinco errores de formats, usando solo `source-file`,
 
 - `starter/tmux.conf` es la barra de un compañero y está **rota a propósito**. Su cabecera dice lo que quería que hiciera; este README te da los síntomas. No hay TODOs.
 - Un format mal escrito casi nunca da error: dibuja otra cosa. El método es siempre el mismo: aislar la opción con `show -gv`, expandirla con `display -p '#{E:opción}'` y comparar con lo que esperabas.
-- Arregla un error cada vez y recarga. Si dudas de lo que ves, `solucion/tmux.conf` es la referencia, pero ábrela solo al final.
+- Arregla un error cada vez y recarga. Cada paso tiene su prueba: si el output no coincide, ese fallo sigue sin arreglar.
 
 ## Instrucciones
 
@@ -155,12 +155,9 @@ Depurar una status line con cinco errores de formats, usando solo `source-file`,
    (el hueco del principio es el `#()`, que `display -p` deja vacío). La B
    termina en `main #hoy: 03/11 02:02`.
 
-8. **Compara con la solución.**
-   ```bash
-   diff starter/tmux.conf solucion/tmux.conf
-   ```
-   Las diferencias que quedan tienen que ser solo comentarios (y quizá el
-   sitio de `status-left-length`).
+8. **Repasa.** Repite la prueba de cada fallo de los pasos anteriores con
+   el `starter/tmux.conf` final: todas tienen que dar su output esperado,
+   no solo la última. Un arreglo puede romper otro que ya funcionaba.
 
 9. **Limpia.** Sal de la B con `C-b` `d`:
    ```

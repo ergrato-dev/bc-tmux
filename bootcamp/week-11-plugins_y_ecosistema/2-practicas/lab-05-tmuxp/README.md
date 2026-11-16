@@ -76,7 +76,7 @@ Declarar en un YAML de tmuxp la misma sesión de trabajo que crea `bin/dev-up`, 
    - TODO 3: lo mismo con la ventana `logs`.
 
    En YAML la sangría es la sintaxis: dos espacios por nivel, sin
-   tabuladores. Compara con `solucion/api.yaml` si algo no carga. tmuxp no
+   tabuladores: si algo no carga, revisa la sangría primero. tmuxp no
    recrea una sesión que existe; bórrala y carga:
    ```bash
    tmux -L lab kill-session -t =api; tmuxp load -L lab -d "$PWD/starter/api.yaml"; echo $?

@@ -53,19 +53,19 @@ By the end of the bootcamp you will be able to:
 
 | Week | Topic | Weekly project (`tmux-kit`) |
 |------|-------|-----------------|
-| 01 | First steps and the client-server model | `tmux-kit` with `bin/check-version` and `bin/kit-tree` |
-| 02 | Windows and panes | Reproducible 3-pane work layout |
-| 03 | Sessions, targets and sockets | Script to list and jump between sessions |
-| 04 | Copy mode, buffers and clipboard | Clipboard working locally and over SSH |
-| 05 | Configuration and option scopes | Modular `tmux.conf` + `conf.d/` with hot reload |
-| 06 | Key bindings, key tables and navigation | Custom resize mode + editor-agnostic `C-h/j/k/l` navigation |
-| 07 | Formats and the status line | Custom status line, no plugins |
-| 08 | Terminal, color and debugging | Color/keys test suite + troubleshooting guide |
-| 09 | Scripting tmux from the shell | Idempotent `bin/dev-up` |
-| 10 | Hooks, popups and menus | Project picker popup + action menu + hooks |
-| 11 | Plugins and ecosystem | Your own plugin + resurrect |
-| 12 | Remote, collaboration and control mode | Secure pair programming + nested-tmux toggle |
-| 13 | Capstone project | Final `tmux-kit` with `install.sh` |
+| [01 — First steps and the client-server model](bootcamp/week-01-primeros_pasos_y_modelo_cliente_servidor/README.md) | `tmux-kit` with `bin/check-version` and `bin/kit-tree` |
+| [02 — Windows and panes](bootcamp/week-02-ventanas_y_paneles/README.md) | Reproducible 3-pane work layout |
+| [03 — Sessions, targets and sockets](bootcamp/week-03-sesiones_targets_y_sockets/README.md) | Script to list and jump between sessions |
+| [04 — Copy mode, buffers and clipboard](bootcamp/week-04-copy_mode_buffers_y_portapapeles/README.md) | Clipboard working locally and over SSH |
+| [05 — Configuration and option scopes](bootcamp/week-05-configuracion_y_alcance_de_opciones/README.md) | Modular `tmux.conf` + `conf.d/` with hot reload |
+| [06 — Key bindings, key tables and navigation](bootcamp/week-06-key_bindings_tablas_y_navegacion/README.md) | Custom resize mode + editor-agnostic `C-h/j/k/l` navigation |
+| [07 — Formats and the status line](bootcamp/week-07-formats_y_status_line/README.md) | Custom status line, no plugins |
+| [08 — Terminal, color and debugging](bootcamp/week-08-terminal_color_y_depuracion/README.md) | Color/keys test suite + troubleshooting guide |
+| [09 — Scripting tmux from the shell](bootcamp/week-09-scripting_de_tmux_desde_shell/README.md) | Idempotent `bin/dev-up` |
+| [10 — Hooks, popups and menus](bootcamp/week-10-hooks_popups_y_menus/README.md) | Project picker popup + action menu + hooks |
+| [11 — Plugins and ecosystem](bootcamp/week-11-plugins_y_ecosistema/README.md) | Own plugin `plugin/tmux-kit.tmux`, tag-pinned plugins and `bin/kit-plugins` |
+| [12 — Remote, collaboration and control mode](bootcamp/week-12-remoto_colaboracion_y_control_mode/README.md) | Nested-tmux toggle, remote status bar and `bin/kit-pair` to share a session |
+| [13 — Capstone project](bootcamp/week-13-proyecto_integrador/README.md) | Final `tmux-kit` with `install.sh` and its own checks in `tests/` |
 
 Each week: minimal theory (≤ 45 min), 10 knowledge questions (15 min), 6 hands-on labs (6 h) and a weekly project (3 h). Assessment: Knowledge 30% / Performance 40% / Product 30%, with **at least 70% in each**.
 

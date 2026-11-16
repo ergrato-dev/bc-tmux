@@ -120,6 +120,17 @@ Apunta al proyecto siempre con `{proyecto}`, nunca con `3-proyecto/starter` lite
 así la misma comprobación valida la solución de referencia con
 `ENTREGA=solucion ./scripts/verificar-semana.sh NN`.
 
+Las carpetas `solucion/` no están en este repositorio: viven en el repo privado
+`ergrato-dev/bc-tmux-instructor`, con las mismas rutas relativas. Para validar
+una solución, cópialas encima de tu clon (`solucion/` está en `.gitignore`, así
+que no ensucian el árbol):
+
+```bash
+git clone git@github.com:ergrato-dev/bc-tmux-instructor.git ../bc-tmux-instructor
+cp -a ../bc-tmux-instructor/bootcamp/. bootcamp/
+ENTREGA=solucion ./scripts/verificar-semana.sh 03
+```
+
 ---
 
 ## Reglas de diseño

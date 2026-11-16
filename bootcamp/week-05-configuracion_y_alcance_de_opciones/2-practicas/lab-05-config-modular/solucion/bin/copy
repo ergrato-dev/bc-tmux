@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-# Lab 05 — copy-command de prueba: guarda la selección en un archivo.
-set -euo pipefail
-cat >/tmp/lab-copy.txt
