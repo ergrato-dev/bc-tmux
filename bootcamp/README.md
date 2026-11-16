@@ -3,8 +3,7 @@
 13 semanas · 10 h/semana · 130 horas. Autoestudio asincrónico, 100% práctico.
 
 La columna **Estado** dice la verdad sobre el repositorio: ✅ la semana está
-escrita al estándar actual (10 h, rúbrica 30/40/30, `checks.json`), ⬜ todavía
-está en construcción (sin enlace hasta que exista la carpeta).
+escrita al estándar actual (10 h, rúbrica 30/40/30, `checks.json`).
 
 ---
 
